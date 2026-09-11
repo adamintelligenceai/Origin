@@ -23,3 +23,9 @@ Decision: ship `@marginshield/ui` as TypeScript source with `moduleResolution: B
 Conflict: blueprint §67 targets ~1.1m transaction lines; full generation is too heavy for default CI/agent loops.
 
 Decision: `@marginshield/synthetic` generates ~42.5k lines while preserving T12M ≈ A$85m and exact planted economics (A$1.84m addressable). `ground_truth.json` remains authoritative. Full 1.1m-line scale-up is deferred behind an explicit high-volume flag.
+
+## 2026-09-11 — Ingest security before DuckDB-Wasm worker
+
+Conflict: blueprint §113 requires DuckDB-Wasm + Comlink + OPFS for local analytics.
+
+Decision: ship canonical DDL, synonym mapping, CSV parse, SHA-256 hashing, macro/external-link rejection, and `/app/scan` UI first so Harbourline messy headers map with no upload. DuckDB-Wasm materialisation remains the next hardening step and will consume the same ingest contracts.
