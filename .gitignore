@@ -10,4 +10,5 @@ test-results
 .env.*.local
 *.msproj
 data/synthetic/
+**/tsconfig.tsbuildinfo
 .DS_Store
