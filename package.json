@@ -1,0 +1,46 @@
+{
+  "name": "marginshield",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MarginShield by Evidence Room — commercial margin control for distributors.",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@10.33.3",
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "typecheck": "turbo typecheck",
+    "lint": "turbo lint && prettier --check .",
+    "lint:fix": "turbo lint -- --fix && prettier --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:golden": "vitest run tests/golden",
+    "test:privacy": "vitest run tests/privacy",
+    "test:security": "vitest run tests/security",
+    "e2e": "playwright test",
+    "synth": "pnpm --filter @marginshield/synthetic synth",
+    "audit:deps": "pnpm audit --prod",
+    "audit:licences": "node scripts/licence-audit.mjs",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.6",
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^22.18.8",
+    "axe-core": "^4.10.3",
+    "fast-check": "^4.3.0",
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.8",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "unrs-resolver",
+      "sharp"
+    ]
+  }
+}
