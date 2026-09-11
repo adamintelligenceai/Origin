@@ -14,6 +14,7 @@
     "lint": "echo \"lint: ui uses root prettier\""
   },
   "devDependencies": {
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
   }
 }

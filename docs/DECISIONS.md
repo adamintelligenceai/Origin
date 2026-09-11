@@ -20,4 +20,14 @@ Phase 0 does not load Geist or other runtime Google Fonts. Barlow Semi Condensed
 
 Phase 0 invoked Aikido SAST via MCP. The workspace is not signed in to Aikido, so the scan could not return findings. Repeat after authentication.
 
+## Phase 1
+
+### D1.1 Fonts
+
+Barlow Semi Condensed, Barlow Condensed and IBM Plex Sans Condensed are self-hosted with `next/font/local`. shadcn init injected Geist from `next/font/google`; that was removed.
+
+### D1.2 shadcn restyle
+
+shadcn CSS variables are mapped onto Ledger tokens. Radius is reduced to a ledger corner. Detected leakage is solid red ink; modelled opportunity uses a hatched treatment.
+
 The running-maximum sell-side allocator lives in `@marginshield/engine` in Phase 0 because it is a pure function with a property test and does not depend on DuckDB. Phase 5 will wire it to detectors; the algorithm is not deferred.
