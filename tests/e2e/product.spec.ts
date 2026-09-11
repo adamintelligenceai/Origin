@@ -4,8 +4,7 @@ test('demo scan reaches overview with live engine figures', async ({ page }) => 
   test.setTimeout(120_000);
   await page.goto('/demo');
   await expect(page.getByText('Fictional demonstration company')).toBeVisible({ timeout: 60_000 });
-  await expect(page.getByText('Detected leakage')).toBeVisible();
-  await expect(page.getByText('Modelled opportunity')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'The Bleed' })).toBeVisible();
   await expect(page.getByText('Adam Intelligence')).toHaveCount(0);
 });
 
