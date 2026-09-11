@@ -1,75 +1,66 @@
-# Origin
+# MarginShield
 
-Origin is a portfolio dashboard built on the [eToro Public API](https://public-api.etoro.com).
-It reads an account's full state from the eToro PnL endpoint
-(`GET /trading/info/{env}/pnl`) and presents equity, available cash, invested
-capital, profit/loss, open positions, and copy-trading mirrors in a modern web
-UI.
+**Protect every point of margin.**
 
-The app runs **end-to-end with zero credentials** thanks to a built-in demo
-mode, and connects to a real eToro account when credentials are supplied.
+MarginShield reconstructs transaction-level economics across a distributor's customers and products, identifies document-backed leakage and modelled margin opportunities, traces every finding to source evidence and turns the result into commercial actions.
 
-## Architecture
+by Evidence Room
 
-| Layer    | Tech                          | Location  |
-| -------- | ----------------------------- | --------- |
-| Frontend | React 18 + Vite + TypeScript  | `src/`    |
-| Backend  | Express + TypeScript (via tsx)| `server/` |
-| Tests    | Vitest + Supertest            | `**/__tests__/` |
+## What this is
 
-The backend exposes a small API:
+Commercial margin control for mid-market distributors. Files in, evidence-backed findings out. Transaction rows are processed locally in the browser — they are not uploaded to MarginShield servers.
 
-- `GET /api/health` — service status and mode.
-- `GET /api/portfolio` — the aggregated `AccountSnapshot`.
+## Repository
 
-In development the Vite dev server (`:5173`) proxies `/api` to the Express
-backend (`:8787`). In production the backend serves the built frontend from
-`dist/`.
+pnpm workspaces + Turborepo.
+
+| Path | Role |
+| --- | --- |
+| `apps/web` | Next.js marketing site, demo scan and authenticated application |
+| `packages/engine` | Deterministic calculation engine |
+| `packages/synthetic` | Harbourline Trade Supply generator |
+| `packages/schemas` | Canonical Zod schemas |
+| `packages/ui` | Ledger design system |
+| `packages/reports` | Board pack, action workbook, evidence ledger |
+| `packages/api-client` | Licence, billing and narrative client types |
+
+Authoritative specification: [`docs/BLUEPRINT.md`](docs/BLUEPRINT.md).
+
+## Prerequisites
+
+- Node.js 20+
+- pnpm 10
 
 ## Getting started
 
 ```bash
-npm install     # install dependencies
-npm run dev     # start API + web (http://localhost:5173)
+pnpm install
+pnpm synth -- --seed 42 --variant planted
+pnpm dev
 ```
 
-By default the app starts in **demo mode** and shows a deterministic sample
-portfolio, so it works immediately without any eToro credentials.
+Open [http://localhost:3000](http://localhost:3000).
+
+The demo scan uses the fictional company **Harbourline Trade Supply Pty Ltd**. It is not a real customer.
 
 ## Scripts
 
-| Command             | Description                                        |
-| ------------------- | -------------------------------------------------- |
-| `npm run dev`       | Run the API and web dev server together            |
-| `npm run build`     | Build the frontend to `dist/`                      |
-| `npm start`         | Serve the built app + API in production mode        |
-| `npm test`          | Run the Vitest unit/integration suite              |
-| `npm run typecheck` | Type-check the whole project                       |
-| `npm run lint`      | Lint with ESLint                                   |
+| Command | Description |
+| --- | --- |
+| `pnpm dev` | Next.js development server |
+| `pnpm build` | Production build |
+| `pnpm typecheck` | TypeScript across the workspace |
+| `pnpm lint` | ESLint |
+| `pnpm test` | Unit, property and golden tests |
+| `pnpm test:golden` | Harbourline detector accuracy |
+| `pnpm test:privacy` | Network isolation / payload tests |
+| `pnpm e2e` | Playwright |
+| `pnpm synth` | Generate Harbourline source files |
 
-## Connecting a real account
+## Privacy
 
-Copy `.env.example` to `.env` and provide **either** a Bearer token **or** an
-API-key pair (never both), then set `ETORO_DEMO_MODE=false`:
+Raw transaction rows never leave the browser in v1. Optional AI commentary uses aggregate fact tokens only, and is off by default for real scans.
 
-```bash
-ETORO_DEMO_MODE=false
-ETORO_ENV=real
-ETORO_ACCESS_TOKEN=<sso access token>
-# or
-ETORO_API_KEY=<partner key>
-ETORO_USER_KEY=<per-user key>
-```
+## Licence
 
-## eToro API conventions honored
-
-The client (`server/etoro/client.ts`) follows the platform rules:
-
-- **Auth is mutually exclusive** — Bearer *or* `x-api-key` + `x-user-key`,
-  never both.
-- **`x-request-id`** (UUID v4) is generated per request for tracing.
-- **Comma-separated ID lists** use a literal `,` (never `%2C`).
-- **Demo vs real** is encoded in the path segment (`/demo/` vs `/real/`).
-- **`unrealizedPnL?.pnL`** is optional-chained because it is absent for closed
-  positions.
-- **Retries** apply only to `429`/`5xx`; `4xx` errors surface immediately.
+Proprietary. See `docs/OPEN_SOURCE.md` for third-party notices.

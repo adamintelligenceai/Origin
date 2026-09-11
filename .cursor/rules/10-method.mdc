@@ -1,0 +1,28 @@
+---
+description: MarginShield analytical integrity rules
+alwaysApply: true
+---
+
+Do not call modelled pricing gaps "detected leakage".
+
+Every finding has:
+value_class
+basis_class
+evidence_grade
+status
+
+All money arithmetic occurs deterministically using DECIMAL in DuckDB.
+
+LLMs never authoritatively calculate financial values.
+
+Every dollar displayed must be traceable.
+
+Overlapping sell-side findings use tranche allocation.
+
+No opportunity is counted more than once.
+
+Never silently assume missing rebates, freight, duties, FX, agreements, floors or policies.
+
+Missing evidence reduces coverage or causes NOT ASSESSED.
+
+All assumptions are visible and versioned.

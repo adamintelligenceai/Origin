@@ -1,0 +1,20 @@
+{
+  "name": "@marginshield/reports",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./text": "./src/text.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "@marginshield/engine": "workspace:*",
+    "@marginshield/ui": "workspace:*",
+    "exceljs": "^4.4.0"
+  }
+}

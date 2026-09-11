@@ -1,0 +1,29 @@
+---
+description: MarginShield project-wide rules
+alwaysApply: true
+---
+
+docs/BLUEPRINT.md is authoritative.
+
+Public brand is MarginShield.
+Secondary brand attribution is "by Evidence Room".
+Never use Adam Intelligence.
+
+Never fabricate product functionality.
+
+Never hard-code analytical dashboard values.
+
+TypeScript strict.
+No any unless a documented third-party boundary absolutely requires it and wrapper restores typing.
+
+Australian English in user-facing copy.
+
+Use Harbourline synthetic data only in development, tests, screenshots and demos.
+
+At the end of every phase:
+typecheck
+lint
+tests
+visual check
+documentation
+commit

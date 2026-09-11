@@ -1,0 +1,25 @@
+---
+description: Privacy and data handling
+alwaysApply: true
+---
+
+Raw row-level client data never leaves the browser in v1.
+
+Never log:
+customer names
+SKU codes
+invoice numbers
+transaction rows
+uploaded file content
+
+No analytics on app/demo scan routes.
+
+AI payload is aggregate and tokenised.
+
+The engine must work with AI disabled.
+
+Uploaded content is untrusted input.
+
+Never execute macros, formulas or external workbook links.
+
+Never use dangerouslySetInnerHTML with uploaded content.

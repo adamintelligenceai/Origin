@@ -1,0 +1,69 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ledger: #eef1ea;
+  --color-folio: #fafbf8;
+  --color-ink: #16233b;
+  --color-ink-2: #3c4a60;
+  --color-ruling: #6f879f;
+  --color-ruling-soft: #d5dee7;
+  --color-red-ink: #b42318;
+  --color-bank: #1e6b47;
+  --color-manila: #d8c69a;
+  --color-buy: #2f5d7c;
+  --color-serve: #6b5344;
+  --color-sell: #7a3e2b;
+  --font-sans: 'Barlow Semi Condensed', 'IBM Plex Sans Condensed', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', 'Barlow Semi Condensed', ui-sans-serif, sans-serif;
+}
+
+html,
+body {
+  background: var(--color-ledger);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: 'tnum' 1, 'ss01' 0;
+}
+
+h1,
+h2,
+.display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+.ledger-rule {
+  border-bottom: 1px solid var(--color-ruling-soft);
+}
+
+.ledger-double {
+  border-bottom: 3px double var(--color-ink);
+}
+
+.hatched {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    color-mix(in srgb, var(--color-red-ink) 18%, transparent),
+    color-mix(in srgb, var(--color-red-ink) 18%, transparent) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,10 @@
+export { classifyUpload, FILE_LIMITS, ACCEPTED_EXTENSIONS, REJECTED_EXTENSIONS } from './limits';
+export { parseCsv, parseXlsx, detectExternalLinks } from './parse';
+export { suggestMapping, applyMapping } from './map';
+export { mapHeader, SYNONYMS, normaliseHeader } from './synonyms';
+export { parseAuDate, parseAuNumber, escapeSpreadsheetText, looksLikeFormula } from './normalise';
+export { isolateWorkerNetwork } from './worker-isolation';
+export { dataHealth } from './health';
+export type { HealthIssue } from './health';
+export type { ParsedTable } from './parse';
+export type { MappingSuggestion } from './map';

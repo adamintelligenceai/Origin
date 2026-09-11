@@ -1,10 +1,10 @@
 {
-  "name": "Origin — eToro dashboard",
-  "install": "npm ci",
+  "name": "MarginShield",
+  "install": "pnpm install",
   "terminals": [
     {
       "name": "dev",
-      "command": "npm run dev"
+      "command": "pnpm dev"
     }
   ]
 }
