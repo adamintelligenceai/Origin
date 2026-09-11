@@ -3,14 +3,18 @@
 import { useState } from 'react';
 import { useScan } from './ScanProvider';
 
-export function PrivacyProof() {
+export function PrivacyProof({ variant = 'inline' }: { variant?: 'inline' | 'mobile' }) {
   const { privacyLog, aiEnabled, wipe } = useScan();
   const [open, setOpen] = useState(false);
   return (
     <>
       <button
         type="button"
-        className="fixed bottom-4 right-4 z-20 border border-ink bg-folio px-3 py-2 text-sm shadow-sm"
+        className={
+          variant === 'mobile'
+            ? 'border border-ink bg-folio px-2 py-1 text-xs md:hidden'
+            : 'w-full border border-ink bg-folio px-3 py-2 text-left text-sm'
+        }
         onClick={() => setOpen(true)}
       >
         Privacy Proof

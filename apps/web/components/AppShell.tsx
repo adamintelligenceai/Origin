@@ -29,7 +29,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-ledger text-ink">
       <div className="flex min-h-screen">
-        <aside className="hidden w-56 shrink-0 border-r border-ruling-soft bg-folio md:block">
+        <aside className="hidden w-56 shrink-0 flex-col border-r border-ruling-soft bg-folio md:flex">
           <div className="px-4 py-5 font-display text-xl font-semibold">MarginShield</div>
           <nav className="flex flex-col gap-0.5 px-2 text-sm">
             {NAV.map(([href, label]) => {
@@ -45,6 +45,9 @@ export function AppShell({ children }: { children: ReactNode }) {
               );
             })}
           </nav>
+          <div className="mt-auto p-2">
+            <PrivacyProof />
+          </div>
         </aside>
         <div className="flex min-w-0 flex-1 flex-col">
           {demo ? (
@@ -54,14 +57,16 @@ export function AppShell({ children }: { children: ReactNode }) {
           ) : null}
           <header className="flex items-center justify-between border-b border-ruling-soft px-4 py-3 text-sm md:hidden">
             <span className="font-display text-lg font-semibold">MarginShield</span>
-            <Link href="/overview">Menu</Link>
+            <div className="flex items-center gap-2">
+              <PrivacyProof variant="mobile" />
+              <Link href="/overview">Menu</Link>
+            </div>
           </header>
-          <div className="flex-1 px-4 py-6 pb-20 md:px-8">{children}</div>
+          <div className="flex-1 px-4 py-6 md:px-8">{children}</div>
         </div>
       </div>
       <EvidenceDrawer />
       <CommandPalette />
-      <PrivacyProof />
     </div>
   );
 }
