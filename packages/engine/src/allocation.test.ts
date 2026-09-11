@@ -25,12 +25,12 @@ describe('allocateSellTranches', () => {
           { minLength: 0, maxLength: 6 },
         ),
         (gaps) => {
-          const map = new Map();
+          const map = new Map<string, number>();
           for (const g of gaps) {
             map.set(g.checkId, Math.max(map.get(g.checkId) ?? 0, g.gap));
           }
           const unique = [...map.entries()].map(([checkId, gap]) => ({
-            checkId,
+            checkId: checkId as 'P1' | 'P2' | 'P3' | 'P4' | 'P5' | 'P6',
             gap,
           }));
           const result = allocateSellTranches(unique);

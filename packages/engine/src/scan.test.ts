@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { generateHarbourline } from '@marginshield/synthetic';
 import { runScan } from './scan.js';
+import { findingsFromEconomics } from './checks/economic.js';
 
 describe('runScan', () => {
   it('recovers planted Harbourline addressable margin within tolerance', () => {
@@ -31,5 +32,18 @@ describe('runScan', () => {
     const ds = generateHarbourline({ seed: 3, variant: 'clean', mode: 'compact' });
     const result = runScan({ transactions: ds.transactions, rebates: ds.rebates });
     expect(result.headline.addressableMarginAud).toBe(0);
+  });
+
+  it('economic P1/B1 detectors fire on planted agreements and rebates', () => {
+    const ds = generateHarbourline({ seed: 42, variant: 'planted', mode: 'compact' });
+    const findings = findingsFromEconomics({
+      transactions: ds.transactions,
+      agreements: ds.agreements,
+      rebates: ds.rebates,
+      periodEnd: '2026-06-30',
+      engineMajor: '0',
+    });
+    expect(findings.some((f) => f.checkId === 'P1' && f.rawGapAud > 0)).toBe(true);
+    expect(findings.some((f) => f.checkId === 'B1' && f.rawGapAud > 0)).toBe(true);
   });
 });

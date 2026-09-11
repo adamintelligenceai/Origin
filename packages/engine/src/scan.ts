@@ -1,13 +1,15 @@
 import { ENGINE_VERSION } from '@marginshield/schemas';
 import { allocateSellTranches } from './allocation.js';
 import { bankableScenario } from './bankability/capture.js';
-import { findingsFromDataset } from './checks/from-plants.js';
+import { collectFindings } from './checks/merge.js';
+import { computeWaterfall } from './waterfall/compute.js';
 import { buildRunHash } from './hash/run-hash.js';
 import { computeMarginIntegrityIndex } from './mii.js';
 import type { Finding, ScanResult } from './types.js';
 
 export type ScanInput = {
   transactions: Array<Record<string, string | number>>;
+  agreements?: Array<Record<string, string | number>>;
   rebates?: Array<Record<string, string | number>>;
   sourceFingerprints?: string[];
   period?: string;
@@ -53,18 +55,12 @@ export function runScan(input: ScanInput): ScanResult {
   const currency = input.currency ?? 'AUD';
   const engineMajor = ENGINE_VERSION.split('.')[0] ?? '0';
 
-  const t12 = input.transactions.filter((t) => String(t.invoice_date) >= '2025-07-01');
-  const listValueAud = Math.round(
-    t12.reduce((s, t) => s + Number(t.list_price ?? 0) * Number(t.qty ?? 0), 0),
-  );
-  const invoiceRevenueAud = Math.round(t12.reduce((s, t) => s + Number(t.net_sales ?? 0), 0));
-  const trueLandedCostAud = Math.round(t12.reduce((s, t) => s + Number(t.direct_cost ?? 0), 0));
-  const pocketRevenueAud = invoiceRevenueAud;
-  const pocketContributionAud = pocketRevenueAud - trueLandedCostAud;
+  const waterfall = computeWaterfall(input.transactions, { periodStart: '2025-07-01' });
 
   const findings = allocateFindings(
-    findingsFromDataset({
+    collectFindings({
       transactions: input.transactions,
+      agreements: input.agreements,
       rebates: input.rebates ?? [],
       periodEnd: '2026-06-30',
       engineMajor,
@@ -123,7 +119,7 @@ export function runScan(input: ScanInput): ScanResult {
     ),
   );
 
-  const t12mNetSalesAud = invoiceRevenueAud;
+  const t12mNetSalesAud = waterfall.invoiceRevenueAud;
   const marginIntegrityIndex = computeMarginIntegrityIndex({
     verifiedOrDetectedLeakage: detectedLeakageAud,
     modelledMarginOpportunity: modelledOpportunityAud,
@@ -152,18 +148,18 @@ export function runScan(input: ScanInput): ScanResult {
       expectedBankableHighAud,
       cashEntitlementAud,
       marginIntegrityIndex,
-      economicCoverage: 0.82,
+      economicCoverage: waterfall.economicCoverage,
       t12mNetSalesAud,
       runHash,
       methodVersion: ENGINE_VERSION,
     },
     findings: findings.sort((a, b) => b.allocatedValueAud - a.allocatedValueAud),
     waterfall: {
-      listValueAud,
-      invoiceRevenueAud,
-      pocketRevenueAud,
-      trueLandedCostAud,
-      pocketContributionAud,
+      listValueAud: waterfall.listValueAud,
+      invoiceRevenueAud: waterfall.invoiceRevenueAud,
+      pocketRevenueAud: waterfall.pocketRevenueAud,
+      trueLandedCostAud: waterfall.trueLandedCostAud,
+      pocketContributionAud: waterfall.pocketContributionAud,
     },
     assumptions: {
       capture_profile: 'default-v1',
