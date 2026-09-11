@@ -16,6 +16,7 @@ test-results
 .pnpm-store
 apps/web/public/duckdb/
 data/generated/
+fixtures/harbourline/
 *.msproj
 .cursor/mcp.json
 node_modules

@@ -17,3 +17,9 @@ Decision: `runHarbourlineDemo()` plants blueprint economics (≈A$1.84m addressa
 Conflict: blueprint lists a built `@marginshield/ui` package; NodeNext resolution would require `.js` extensions on every relative import.
 
 Decision: ship `@marginshield/ui` as TypeScript source with `moduleResolution: Bundler`, transpiled by Next.js (`transpilePackages`). Tokens live in `styles.css`; marketing/app shells remain app-owned chrome wrappers around shared primitives.
+
+## 2026-09-11 — CI-scaled Harbourline transaction volume
+
+Conflict: blueprint §67 targets ~1.1m transaction lines; full generation is too heavy for default CI/agent loops.
+
+Decision: `@marginshield/synthetic` generates ~42.5k lines while preserving T12M ≈ A$85m and exact planted economics (A$1.84m addressable). `ground_truth.json` remains authoritative. Full 1.1m-line scale-up is deferred behind an explicit high-volume flag.
