@@ -12,6 +12,7 @@ export default tseslint.config(
       '**/coverage/**',
       '**/output/**',
       'apps/web/public/duckdb/**',
+      'apps/web/next-env.d.ts',
     ],
   },
   {

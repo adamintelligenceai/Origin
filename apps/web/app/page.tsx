@@ -16,6 +16,7 @@ export default function HomePage() {
             <Link href="/method">Method</Link>
             <Link href="/pricing">Pricing</Link>
             <Link href="/demo">Demo</Link>
+            <Link href="/styleguide">Styleguide</Link>
           </nav>
         </header>
 
