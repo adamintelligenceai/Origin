@@ -30,4 +30,10 @@ Barlow Semi Condensed, Barlow Condensed and IBM Plex Sans Condensed are self-hos
 
 shadcn CSS variables are mapped onto Ledger tokens. Radius is reduced to a ledger corner. Detected leakage is solid red ink; modelled opportunity uses a hatched treatment.
 
+## Phase 2
+
+### D2.1 Line volume in tests
+
+Unit tests generate a reduced line count and scale T12M sales to approximately A$85m. Planted dollar totals remain the blueprint amounts. `pnpm synth` defaults to the full 1.1m-line target.
+
 The running-maximum sell-side allocator lives in `@marginshield/engine` in Phase 0 because it is a pure function with a property test and does not depend on DuckDB. Phase 5 will wire it to detectors; the algorithm is not deferred.

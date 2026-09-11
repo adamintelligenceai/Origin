@@ -3,10 +3,12 @@ import {
   SYNTHETIC_VARIANTS,
   type SyntheticVariant,
 } from "@marginshield/schemas";
+import { generateHarbourline } from "./generate";
 
 export interface SynthOptions {
   seed: number;
   variant: SyntheticVariant;
+  lineTarget?: number;
 }
 
 export const DEFAULT_SYNTH_OPTIONS: SynthOptions = {
@@ -30,6 +32,11 @@ export function parseSynthArgs(argv: readonly string[]): SynthOptions {
       }
       options.variant = next as SyntheticVariant;
       index += 1;
+      continue;
+    }
+    if (arg === "--lines" && next) {
+      options.lineTarget = Number(next);
+      index += 1;
     }
   }
   return options;
@@ -38,3 +45,6 @@ export function parseSynthArgs(argv: readonly string[]): SynthOptions {
 export function describeHarbourline(): string {
   return `${HARBOURLINE_PROFILE.legalName} — ${HARBOURLINE_PROFILE.fictionalNotice}`;
 }
+
+export { generateHarbourline };
+export type { GeneratedFile, GroundTruth, PlantedCase, SynthResult } from "./generate";
