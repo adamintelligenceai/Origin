@@ -1,0 +1,421 @@
+customer_id,customer_name,segment,branch
+C-001,"Inland Supplies 1",Safety,Adelaide
+C-002,"Metro Supplies 2",Electrical,Perth
+C-003,"Pro Supplies 3",Electrical,Newcastle
+C-004,"Trade Plumbing 4",HVAC,Perth
+C-005,"Trade Services 5",HVAC,Brisbane
+C-006,"Pro HVAC 6",Plumbing,Sydney
+C-007,"Regional HVAC 7",HVAC,Adelaide
+C-008,"Inland HVAC 8",HVAC,Newcastle
+C-009,"Coastal Trade 9",Electrical,Brisbane
+C-010,"North Coast HVAC 10",Plumbing,Perth
+C-011,"Metro Services 11",Electrical,Melbourne
+C-012,"Trade Wholesale 12",Plumbing,Melbourne
+C-013,"Regional Plumbing 13",HVAC,Perth
+C-014,"Trade Services 14",Safety,Sydney
+C-015,"Alliance Supplies 15",Safety,Sydney
+C-016,"North Coast HVAC 16",Electrical,Brisbane
+C-017,"Inland Wholesale 17",HVAC,Adelaide
+C-018,"Alliance Electrical 18",Industrial,Melbourne
+C-019,"Inland Trade 19",HVAC,Newcastle
+C-020,"Inland Wholesale 20",Plumbing,Perth
+C-021,"Regional Services 21",Electrical,Adelaide
+C-022,"Regional Supplies 22",Safety,Adelaide
+C-023,"Alliance Wholesale 23",Plumbing,Perth
+C-024,"Regional HVAC 24",Industrial,Melbourne
+C-025,"Pro Wholesale 25",HVAC,Brisbane
+C-026,"Pro HVAC 26",Safety,Melbourne
+C-027,"Trade Services 27",Electrical,Brisbane
+C-028,"Metro Services 28",Electrical,Melbourne
+C-029,"Trade Wholesale 29",Electrical,Adelaide
+C-030,"Coastal HVAC 30",Safety,Brisbane
+C-031,"North Coast Trade 31",Industrial,Newcastle
+C-032,"Alliance Electrical 32",Industrial,Brisbane
+C-033,"Metro HVAC 33",Industrial,Adelaide
+C-034,"Regional Electrical 34",Electrical,Sydney
+C-035,"Metro Wholesale 35",Plumbing,Newcastle
+C-036,"Metro Electrical 36",Plumbing,Melbourne
+C-037,"Coastal Supplies 37",Plumbing,Adelaide
+C-038,"Coastal Plumbing 38",Safety,Melbourne
+C-039,"Coastal Services 39",Plumbing,Perth
+C-040,"Metro Plumbing 40",Electrical,Melbourne
+C-041,"Trade Electrical 41",HVAC,Adelaide
+C-042,"Regional HVAC 42",Electrical,Sydney
+C-043,"Inland Electrical 43",Plumbing,Brisbane
+C-044,"Trade Wholesale 44",Safety,Brisbane
+C-045,"Metro Wholesale 45",Plumbing,Newcastle
+C-046,"Alliance Supplies 46",HVAC,Perth
+C-047,"Pro Electrical 47",Electrical,Perth
+C-048,"Alliance Supplies 48",Safety,Newcastle
+C-049,"Trade HVAC 49",HVAC,Melbourne
+C-050,"Inland Services 50",Industrial,Newcastle
+C-051,"Pro Services 51",Safety,Newcastle
+C-052,"Inland Plumbing 52",Plumbing,Newcastle
+C-053,"Trade Plumbing 53",Safety,Perth
+C-054,"Regional Trade 54",HVAC,Brisbane
+C-055,"North Coast HVAC 55",Industrial,Adelaide
+C-056,"Alliance Wholesale 56",Plumbing,Adelaide
+C-057,"Metro Electrical 57",HVAC,Sydney
+C-058,"Regional Supplies 58",Plumbing,Adelaide
+C-059,"Pro Trade 59",HVAC,Perth
+C-060,"Inland Supplies 60",Plumbing,Brisbane
+C-061,"Coastal Plumbing 61",Electrical,Sydney
+C-062,"Inland Electrical 62",Plumbing,Perth
+C-063,"Trade Supplies 63",HVAC,Sydney
+C-064,"Metro Wholesale 64",HVAC,Newcastle
+C-065,"Coastal Supplies 65",HVAC,Adelaide
+C-066,"North Coast Plumbing 66",Electrical,Adelaide
+C-067,"Inland HVAC 67",Safety,Adelaide
+C-068,"Trade Trade 68",Plumbing,Adelaide
+C-069,"Inland Electrical 69",HVAC,Sydney
+C-070,"North Coast Electrical 70",Industrial,Adelaide
+C-071,"Inland Wholesale 71",HVAC,Brisbane
+C-072,"Regional Electrical 72",Safety,Perth
+C-073,"Metro Wholesale 73",Safety,Melbourne
+C-074,"Inland Wholesale 74",Safety,Adelaide
+C-075,"Inland Trade 75",Electrical,Brisbane
+C-076,"Pro Supplies 76",Industrial,Perth
+C-077,"Inland Wholesale 77",Safety,Adelaide
+C-078,"Regional Services 78",Industrial,Newcastle
+C-079,"Coastal Wholesale 79",Electrical,Newcastle
+C-080,"Coastal Plumbing 80",Plumbing,Newcastle
+C-081,"Inland Wholesale 81",Industrial,Sydney
+C-082,"Regional Wholesale 82",Plumbing,Melbourne
+C-083,"Trade Trade 83",Industrial,Adelaide
+C-084,"Metro Trade 84",Safety,Perth
+C-085,"Coastal HVAC 85",Plumbing,Newcastle
+C-086,"Trade Plumbing 86",Plumbing,Perth
+C-087,"Trade Supplies 87",HVAC,Melbourne
+C-088,"North Coast HVAC 88",Electrical,Adelaide
+C-089,"Pro Services 89",HVAC,Sydney
+C-090,"Regional Services 90",Electrical,Newcastle
+C-091,"Trade Wholesale 91",Safety,Brisbane
+C-092,"North Coast Services 92",Electrical,Brisbane
+C-093,"Regional Electrical 93",Industrial,Perth
+C-094,"Coastal Services 94",HVAC,Adelaide
+C-095,"Trade Wholesale 95",HVAC,Sydney
+C-096,"North Coast Plumbing 96",Electrical,Melbourne
+C-097,"Alliance Services 97",Safety,Brisbane
+C-098,"Trade HVAC 98",Industrial,Adelaide
+C-099,"Coastal Electrical 99",Industrial,Perth
+C-100,"Metro HVAC 100",Industrial,Brisbane
+C-101,"Pro Trade 101",Plumbing,Newcastle
+C-102,"Metro Electrical 102",Plumbing,Adelaide
+C-103,"Metro Trade 103",Electrical,Sydney
+C-104,"Trade Services 104",Plumbing,Melbourne
+C-105,"Alliance Supplies 105",Industrial,Sydney
+C-106,"Alliance Services 106",Electrical,Sydney
+C-107,"Regional Services 107",Industrial,Melbourne
+C-108,"Pro Supplies 108",HVAC,Perth
+C-109,"Inland Electrical 109",Safety,Sydney
+C-110,"Metro Wholesale 110",Electrical,Brisbane
+C-111,"Inland Services 111",Plumbing,Adelaide
+C-112,"Metro Wholesale 112",Safety,Brisbane
+C-113,"Metro Supplies 113",Industrial,Brisbane
+C-114,"Coastal Electrical 114",Plumbing,Sydney
+C-115,"Pro Plumbing 115",Plumbing,Melbourne
+C-116,"Inland HVAC 116",Industrial,Sydney
+C-117,"Alliance Trade 117",Industrial,Adelaide
+C-118,"North Coast Services 118",Plumbing,Brisbane
+C-119,"Inland Supplies 119",Plumbing,Perth
+C-120,"North Coast Services 120",HVAC,Adelaide
+C-121,"Metro Plumbing 121",Industrial,Newcastle
+C-122,"Regional Services 122",Safety,Brisbane
+C-123,"North Coast Supplies 123",Plumbing,Brisbane
+C-124,"Coastal Trade 124",HVAC,Adelaide
+C-125,"Inland Wholesale 125",Safety,Brisbane
+C-126,"North Coast Wholesale 126",HVAC,Perth
+C-127,"Coastal Services 127",Plumbing,Perth
+C-128,"Pro Services 128",Safety,Newcastle
+C-129,"Alliance Trade 129",Safety,Adelaide
+C-130,"Metro HVAC 130",Safety,Sydney
+C-131,"Coastal Wholesale 131",Industrial,Adelaide
+C-132,"Regional Trade 132",Plumbing,Newcastle
+C-133,"Trade Electrical 133",HVAC,Brisbane
+C-134,"Trade HVAC 134",HVAC,Melbourne
+C-135,"Inland Plumbing 135",Industrial,Newcastle
+C-136,"Coastal Trade 136",Industrial,Sydney
+C-137,"Trade Wholesale 137",Electrical,Perth
+C-138,"Alliance Supplies 138",Electrical,Newcastle
+C-139,"Trade Plumbing 139",Plumbing,Perth
+C-140,"Alliance Electrical 140",Plumbing,Sydney
+C-141,"Trade Trade 141",Plumbing,Perth
+C-142,"Pro Plumbing 142",Plumbing,Melbourne
+C-143,"Alliance Electrical 143",Industrial,Adelaide
+C-144,"Inland Supplies 144",Industrial,Newcastle
+C-145,"Pro HVAC 145",HVAC,Sydney
+C-146,"Alliance HVAC 146",HVAC,Perth
+C-147,"North Coast Trade 147",Industrial,Sydney
+C-148,"Coastal Trade 148",Electrical,Melbourne
+C-149,"Trade Services 149",HVAC,Perth
+C-150,"Inland Trade 150",Plumbing,Brisbane
+C-151,"Inland Plumbing 151",Plumbing,Melbourne
+C-152,"Metro Services 152",Industrial,Melbourne
+C-153,"Alliance Wholesale 153",Plumbing,Perth
+C-154,"Regional Services 154",Safety,Newcastle
+C-155,"Trade Plumbing 155",Safety,Perth
+C-156,"Alliance Electrical 156",HVAC,Melbourne
+C-157,"Alliance Supplies 157",Safety,Sydney
+C-158,"Trade Services 158",Safety,Melbourne
+C-159,"Alliance Electrical 159",Safety,Melbourne
+C-160,"Inland Plumbing 160",Electrical,Melbourne
+C-161,"Alliance Services 161",Electrical,Perth
+C-162,"Regional Supplies 162",HVAC,Perth
+C-163,"Alliance Services 163",Plumbing,Newcastle
+C-164,"Inland Trade 164",Plumbing,Perth
+C-165,"Coastal Services 165",Industrial,Perth
+C-166,"Coastal Electrical 166",HVAC,Adelaide
+C-167,"Coastal Plumbing 167",HVAC,Sydney
+C-168,"Trade Electrical 168",HVAC,Brisbane
+C-169,"Trade HVAC 169",Industrial,Melbourne
+C-170,"Regional Services 170",Electrical,Brisbane
+C-171,"Inland Supplies 171",Safety,Sydney
+C-172,"Metro Plumbing 172",Safety,Newcastle
+C-173,"Alliance Supplies 173",HVAC,Perth
+C-174,"Inland Trade 174",Safety,Brisbane
+C-175,"Coastal Electrical 175",Safety,Perth
+C-176,"Metro HVAC 176",Safety,Sydney
+C-177,"Inland Supplies 177",Plumbing,Newcastle
+C-178,"Inland Services 178",Plumbing,Newcastle
+C-179,"Alliance HVAC 179",Electrical,Newcastle
+C-180,"Coastal Services 180",Plumbing,Brisbane
+C-181,"Regional Plumbing 181",Electrical,Perth
+C-182,"Pro Wholesale 182",Electrical,Perth
+C-183,"Coastal Supplies 183",Industrial,Perth
+C-184,"Coastal Wholesale 184",Electrical,Brisbane
+C-185,"North Coast Electrical 185",HVAC,Sydney
+C-186,"Regional Trade 186",Plumbing,Brisbane
+C-187,"Coastal Wholesale 187",Industrial,Brisbane
+C-188,"Regional Trade 188",Electrical,Perth
+C-189,"Regional HVAC 189",Safety,Brisbane
+C-190,"North Coast Wholesale 190",HVAC,Adelaide
+C-191,"Inland HVAC 191",Industrial,Newcastle
+C-192,"Metro Trade 192",Electrical,Newcastle
+C-193,"Coastal Plumbing 193",HVAC,Brisbane
+C-194,"North Coast Plumbing 194",Plumbing,Brisbane
+C-195,"North Coast Wholesale 195",Industrial,Melbourne
+C-196,"North Coast Electrical 196",Industrial,Adelaide
+C-197,"Alliance Trade 197",Safety,Melbourne
+C-198,"Trade Supplies 198",Safety,Melbourne
+C-199,"North Coast Trade 199",Safety,Newcastle
+C-200,"Metro HVAC 200",HVAC,Newcastle
+C-201,"Trade Services 201",HVAC,Perth
+C-202,"Trade Trade 202",HVAC,Newcastle
+C-203,"Metro Supplies 203",Electrical,Sydney
+C-204,"Regional Wholesale 204",Safety,Perth
+C-205,"Metro HVAC 205",Safety,Sydney
+C-206,"Alliance Plumbing 206",Safety,Newcastle
+C-207,"Pro Electrical 207",Electrical,Melbourne
+C-208,"North Coast Services 208",Plumbing,Perth
+C-209,"Trade Services 209",HVAC,Newcastle
+C-210,"Trade Services 210",Plumbing,Adelaide
+C-211,"Metro Plumbing 211",HVAC,Newcastle
+C-212,"Metro Electrical 212",Industrial,Perth
+C-213,"Inland Plumbing 213",Plumbing,Brisbane
+C-214,"Coastal Trade 214",HVAC,Perth
+C-215,"Trade Services 215",Safety,Newcastle
+C-216,"Coastal Trade 216",HVAC,Brisbane
+C-217,"Trade Plumbing 217",HVAC,Newcastle
+C-218,"Alliance Supplies 218",Safety,Newcastle
+C-219,"North Coast Supplies 219",Safety,Melbourne
+C-220,"Coastal Trade 220",Electrical,Adelaide
+C-221,"Regional Wholesale 221",HVAC,Newcastle
+C-222,"Trade Supplies 222",Electrical,Melbourne
+C-223,"Regional Electrical 223",Electrical,Sydney
+C-224,"Trade Electrical 224",Electrical,Sydney
+C-225,"Pro HVAC 225",Industrial,Perth
+C-226,"Coastal Plumbing 226",Industrial,Perth
+C-227,"Regional Trade 227",Safety,Adelaide
+C-228,"Trade Supplies 228",Electrical,Perth
+C-229,"Alliance Plumbing 229",Plumbing,Brisbane
+C-230,"Regional Services 230",Electrical,Melbourne
+C-231,"Trade Trade 231",Plumbing,Newcastle
+C-232,"Pro Wholesale 232",Plumbing,Perth
+C-233,"Coastal Trade 233",Electrical,Sydney
+C-234,"Inland HVAC 234",HVAC,Adelaide
+C-235,"Metro Electrical 235",HVAC,Brisbane
+C-236,"Alliance Supplies 236",Industrial,Newcastle
+C-237,"Pro Electrical 237",Safety,Brisbane
+C-238,"Regional HVAC 238",Industrial,Adelaide
+C-239,"Alliance Supplies 239",Electrical,Perth
+C-240,"Trade Electrical 240",Safety,Adelaide
+C-241,"Trade Services 241",Plumbing,Newcastle
+C-242,"Coastal Wholesale 242",Safety,Sydney
+C-243,"Alliance Trade 243",Safety,Melbourne
+C-244,"North Coast Trade 244",Electrical,Perth
+C-245,"Pro Plumbing 245",Electrical,Perth
+C-246,"North Coast Plumbing 246",Safety,Newcastle
+C-247,"Inland Supplies 247",HVAC,Sydney
+C-248,"Alliance Plumbing 248",Electrical,Newcastle
+C-249,"Trade Electrical 249",Electrical,Melbourne
+C-250,"Metro Wholesale 250",Safety,Perth
+C-251,"Coastal Trade 251",HVAC,Perth
+C-252,"Coastal Services 252",Electrical,Brisbane
+C-253,"Coastal Supplies 253",Industrial,Melbourne
+C-254,"Trade Trade 254",Industrial,Sydney
+C-255,"Regional Electrical 255",Safety,Sydney
+C-256,"Inland Trade 256",Electrical,Sydney
+C-257,"Coastal HVAC 257",Industrial,Brisbane
+C-258,"Metro Services 258",Plumbing,Perth
+C-259,"Pro Wholesale 259",HVAC,Sydney
+C-260,"Pro Trade 260",Plumbing,Sydney
+C-261,"Regional Electrical 261",Safety,Brisbane
+C-262,"Metro Plumbing 262",Industrial,Adelaide
+C-263,"Trade Wholesale 263",Plumbing,Newcastle
+C-264,"Alliance Services 264",Safety,Brisbane
+C-265,"Metro HVAC 265",Plumbing,Perth
+C-266,"Regional Wholesale 266",Safety,Adelaide
+C-267,"Alliance Electrical 267",Industrial,Sydney
+C-268,"Regional Supplies 268",Industrial,Newcastle
+C-269,"Pro Trade 269",Safety,Newcastle
+C-270,"Pro Wholesale 270",Industrial,Newcastle
+C-271,"Regional Supplies 271",HVAC,Brisbane
+C-272,"Metro Trade 272",Electrical,Adelaide
+C-273,"Metro Trade 273",Electrical,Sydney
+C-274,"Metro Electrical 274",Safety,Newcastle
+C-275,"Regional Plumbing 275",Safety,Adelaide
+C-276,"Metro Plumbing 276",HVAC,Perth
+C-277,"Alliance Services 277",Safety,Newcastle
+C-278,"Trade Trade 278",Electrical,Melbourne
+C-279,"Coastal Electrical 279",Safety,Sydney
+C-280,"Inland Trade 280",Electrical,Newcastle
+C-281,"Alliance Trade 281",HVAC,Melbourne
+C-282,"Inland Wholesale 282",Plumbing,Adelaide
+C-283,"North Coast HVAC 283",Industrial,Brisbane
+C-284,"Metro Services 284",Safety,Melbourne
+C-285,"North Coast HVAC 285",HVAC,Melbourne
+C-286,"Alliance Wholesale 286",Electrical,Brisbane
+C-287,"Regional Supplies 287",Electrical,Melbourne
+C-288,"Trade Supplies 288",Plumbing,Newcastle
+C-289,"Inland HVAC 289",Safety,Perth
+C-290,"Trade HVAC 290",HVAC,Perth
+C-291,"Alliance Plumbing 291",Electrical,Melbourne
+C-292,"Coastal Plumbing 292",Electrical,Perth
+C-293,"Coastal HVAC 293",Plumbing,Adelaide
+C-294,"Metro HVAC 294",Electrical,Melbourne
+C-295,"Coastal Wholesale 295",Safety,Perth
+C-296,"Coastal Services 296",Electrical,Newcastle
+C-297,"Metro Services 297",Safety,Perth
+C-298,"Inland Plumbing 298",Industrial,Perth
+C-299,"Regional Supplies 299",Electrical,Brisbane
+C-300,"Coastal HVAC 300",Plumbing,Brisbane
+C-301,"Metro Plumbing 301",Electrical,Melbourne
+C-302,"Pro HVAC 302",Plumbing,Adelaide
+C-303,"Trade Supplies 303",HVAC,Perth
+C-304,"Metro Electrical 304",Safety,Melbourne
+C-305,"Inland Plumbing 305",Industrial,Perth
+C-306,"Coastal Trade 306",Industrial,Brisbane
+C-307,"Metro Services 307",Safety,Newcastle
+C-308,"Pro Trade 308",Industrial,Melbourne
+C-309,"Metro HVAC 309",Safety,Adelaide
+C-310,"Coastal Supplies 310",Electrical,Perth
+C-311,"Pro Plumbing 311",Plumbing,Newcastle
+C-312,"Alliance Trade 312",HVAC,Perth
+C-313,"Alliance Electrical 313",HVAC,Sydney
+C-314,"Coastal Electrical 314",Safety,Newcastle
+C-315,"Inland HVAC 315",Safety,Brisbane
+C-316,"Inland Plumbing 316",Plumbing,Adelaide
+C-317,"Trade Trade 317",Electrical,Melbourne
+C-318,"North Coast Supplies 318",Electrical,Adelaide
+C-319,"Inland Services 319",Safety,Perth
+C-320,"Trade Plumbing 320",HVAC,Sydney
+C-321,"North Coast Trade 321",HVAC,Sydney
+C-322,"North Coast Plumbing 322",Plumbing,Brisbane
+C-323,"North Coast Trade 323",Safety,Brisbane
+C-324,"Coastal Plumbing 324",HVAC,Newcastle
+C-325,"Inland HVAC 325",HVAC,Sydney
+C-326,"North Coast Electrical 326",Industrial,Adelaide
+C-327,"Coastal Electrical 327",Plumbing,Adelaide
+C-328,"North Coast Electrical 328",Plumbing,Newcastle
+C-329,"Coastal HVAC 329",HVAC,Newcastle
+C-330,"Inland Wholesale 330",Plumbing,Brisbane
+C-331,"Coastal HVAC 331",Industrial,Adelaide
+C-332,"Metro Wholesale 332",Safety,Perth
+C-333,"Coastal Electrical 333",Industrial,Melbourne
+C-334,"Metro Services 334",Safety,Brisbane
+C-335,"Alliance Electrical 335",Safety,Brisbane
+C-336,"Coastal Plumbing 336",Electrical,Perth
+C-337,"Alliance Trade 337",Plumbing,Sydney
+C-338,"Metro HVAC 338",Safety,Perth
+C-339,"North Coast Trade 339",Industrial,Adelaide
+C-340,"Coastal Services 340",Industrial,Newcastle
+C-341,"Metro Trade 341",Plumbing,Perth
+C-342,"Alliance Trade 342",Plumbing,Melbourne
+C-343,"Coastal Electrical 343",Safety,Newcastle
+C-344,"Inland Wholesale 344",Electrical,Melbourne
+C-345,"Trade Supplies 345",HVAC,Sydney
+C-346,"Inland Electrical 346",Safety,Newcastle
+C-347,"Inland Plumbing 347",Plumbing,Brisbane
+C-348,"Regional Electrical 348",Electrical,Sydney
+C-349,"Alliance HVAC 349",Plumbing,Sydney
+C-350,"Metro Wholesale 350",Plumbing,Perth
+C-351,"Trade Wholesale 351",Plumbing,Adelaide
+C-352,"Inland Supplies 352",HVAC,Melbourne
+C-353,"North Coast Wholesale 353",Industrial,Adelaide
+C-354,"Inland Electrical 354",Electrical,Perth
+C-355,"Trade Electrical 355",Safety,Newcastle
+C-356,"North Coast Plumbing 356",Safety,Perth
+C-357,"Metro HVAC 357",Safety,Newcastle
+C-358,"Pro Electrical 358",Electrical,Melbourne
+C-359,"Metro Electrical 359",Safety,Sydney
+C-360,"Regional HVAC 360",HVAC,Melbourne
+C-361,"Metro Wholesale 361",Electrical,Melbourne
+C-362,"Trade Electrical 362",Safety,Perth
+C-363,"Trade HVAC 363",Safety,Perth
+C-364,"Metro Trade 364",Industrial,Sydney
+C-365,"North Coast HVAC 365",Safety,Adelaide
+C-366,"Regional Trade 366",HVAC,Melbourne
+C-367,"North Coast Trade 367",Electrical,Melbourne
+C-368,"Trade Supplies 368",Electrical,Sydney
+C-369,"Inland Services 369",Industrial,Adelaide
+C-370,"North Coast Plumbing 370",Plumbing,Adelaide
+C-371,"North Coast Wholesale 371",Industrial,Adelaide
+C-372,"Inland Supplies 372",Safety,Melbourne
+C-373,"North Coast Trade 373",HVAC,Newcastle
+C-374,"Pro Supplies 374",HVAC,Newcastle
+C-375,"Pro Electrical 375",HVAC,Newcastle
+C-376,"Coastal Electrical 376",Industrial,Brisbane
+C-377,"Regional Electrical 377",Safety,Newcastle
+C-378,"North Coast Wholesale 378",Electrical,Melbourne
+C-379,"Pro Wholesale 379",Plumbing,Newcastle
+C-380,"Metro Trade 380",Safety,Adelaide
+C-381,"Metro Trade 381",Safety,Perth
+C-382,"Inland Plumbing 382",HVAC,Newcastle
+C-383,"Alliance HVAC 383",Industrial,Perth
+C-384,"Inland Services 384",HVAC,Perth
+C-385,"Regional Services 385",HVAC,Sydney
+C-386,"North Coast Supplies 386",HVAC,Brisbane
+C-387,"Pro HVAC 387",Industrial,Sydney
+C-388,"North Coast Wholesale 388",HVAC,Adelaide
+C-389,"Metro Electrical 389",Electrical,Perth
+C-390,"Inland Wholesale 390",Industrial,Adelaide
+C-391,"Coastal Services 391",Plumbing,Sydney
+C-392,"Trade Wholesale 392",HVAC,Sydney
+C-393,"Alliance Trade 393",Electrical,Sydney
+C-394,"Inland Services 394",Plumbing,Adelaide
+C-395,"North Coast Trade 395",Plumbing,Sydney
+C-396,"Alliance Wholesale 396",Industrial,Adelaide
+C-397,"Trade Plumbing 397",HVAC,Melbourne
+C-398,"Pro Electrical 398",Industrial,Adelaide
+C-399,"Trade Electrical 399",Safety,Perth
+C-400,"Pro Trade 400",Electrical,Newcastle
+C-401,"Inland HVAC 401",HVAC,Perth
+C-402,"Alliance Electrical 402",Plumbing,Melbourne
+C-403,"Trade HVAC 403",Electrical,Perth
+C-404,"North Coast HVAC 404",HVAC,Adelaide
+C-405,"Metro Electrical 405",Industrial,Brisbane
+C-406,"Regional HVAC 406",Industrial,Perth
+C-407,"Trade HVAC 407",Industrial,Adelaide
+C-408,"Metro Trade 408",HVAC,Brisbane
+C-409,"Regional Services 409",Electrical,Sydney
+C-410,"Coastal Plumbing 410",Industrial,Brisbane
+C-411,"Alliance Services 411",Industrial,Perth
+C-412,"Alliance Services 412",HVAC,Newcastle
+C-413,"Alliance HVAC 413",Electrical,Newcastle
+C-414,"Coastal Supplies 414",Plumbing,Melbourne
+C-415,"Inland Plumbing 415",Safety,Melbourne
+C-416,"Regional Trade 416",Plumbing,Melbourne
+C-417,"Trade Plumbing 417",Industrial,Perth
+C-418,"Alliance Plumbing 418",Electrical,Brisbane
+C-419,"Regional Trade 419",Industrial,Brisbane
+C-420,"Alliance Electrical 420",HVAC,Perth

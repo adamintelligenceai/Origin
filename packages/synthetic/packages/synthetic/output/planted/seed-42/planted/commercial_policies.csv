@@ -1,0 +1,4 @@
+policy_type,parameter,value
+minimum_order_value,aud,450
+freight_recovery,percent_of_cost,85
+restocking_fee,percent,15

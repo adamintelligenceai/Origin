@@ -19,10 +19,11 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --max-warnings 0",
     "test": "vitest run",
-    "synth": "node dist/cli.js"
+    "synth": "pnpm build && node dist/cli.js"
   },
   "dependencies": {
-    "@marginshield/schemas": "workspace:*"
+    "@marginshield/schemas": "workspace:*",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "typescript": "^5.8.2",

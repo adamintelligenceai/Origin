@@ -1,0 +1,146 @@
+{
+  "company": "Harbourline Trade Supply Pty Ltd",
+  "tag": "Fictional demonstration company",
+  "seed": 42,
+  "variant": "planted",
+  "generated_at": "1970-01-01T00:00:00.000Z",
+  "totals": {
+    "addressable_margin": 18400,
+    "detected_leakage": 7960,
+    "modelled_opportunity": 10440,
+    "cash_entitlement": 1240
+  },
+  "issues": [
+    {
+      "check_id": "P1",
+      "grain_keys": {
+        "customer_id": "C-001",
+        "sku": "SKU-00100"
+      },
+      "expected_value": 2860,
+      "value_class": "DETECTED_LEAKAGE",
+      "source_records": [
+        "p1_plant_1"
+      ]
+    },
+    {
+      "check_id": "P2",
+      "grain_keys": {
+        "customer_id": "C-002",
+        "sku": "SKU-00101"
+      },
+      "expected_value": 1960,
+      "value_class": "MODELLED_MARGIN_OPPORTUNITY",
+      "source_records": [
+        "p2_plant_2"
+      ]
+    },
+    {
+      "check_id": "P3",
+      "grain_keys": {
+        "customer_id": "C-003",
+        "sku": "SKU-00102"
+      },
+      "expected_value": 4110,
+      "value_class": "MODELLED_MARGIN_OPPORTUNITY",
+      "source_records": [
+        "p3_plant_3"
+      ]
+    },
+    {
+      "check_id": "P4",
+      "grain_keys": {
+        "customer_id": "C-004",
+        "sku": "SKU-00103"
+      },
+      "expected_value": 1880,
+      "value_class": "MODELLED_MARGIN_OPPORTUNITY",
+      "source_records": [
+        "p4_plant_4"
+      ]
+    },
+    {
+      "check_id": "P5",
+      "grain_keys": {
+        "customer_id": "C-005",
+        "sku": "SKU-00104"
+      },
+      "expected_value": 1510,
+      "value_class": "MODELLED_MARGIN_OPPORTUNITY",
+      "source_records": [
+        "p5_plant_5"
+      ]
+    },
+    {
+      "check_id": "P6",
+      "grain_keys": {
+        "customer_id": "C-006",
+        "sku": "SKU-00105"
+      },
+      "expected_value": 980,
+      "value_class": "MODELLED_MARGIN_OPPORTUNITY",
+      "source_records": [
+        "p6_plant_6"
+      ]
+    },
+    {
+      "check_id": "S1",
+      "grain_keys": {
+        "customer_id": "C-007",
+        "sku": "SKU-00106"
+      },
+      "expected_value": 2210,
+      "value_class": "DETECTED_LEAKAGE",
+      "source_records": [
+        "s1_plant_7"
+      ]
+    },
+    {
+      "check_id": "S2",
+      "grain_keys": {
+        "customer_id": "C-008",
+        "sku": "SKU-00107"
+      },
+      "expected_value": 640,
+      "value_class": "POLICY_LEAKAGE",
+      "source_records": [
+        "s2_plant_8"
+      ]
+    },
+    {
+      "check_id": "S3",
+      "grain_keys": {
+        "customer_id": "C-009",
+        "sku": "SKU-00108"
+      },
+      "expected_value": 570,
+      "value_class": "POLICY_LEAKAGE",
+      "source_records": [
+        "s3_plant_9"
+      ]
+    },
+    {
+      "check_id": "B1",
+      "grain_keys": {
+        "customer_id": "C-010",
+        "sku": "SKU-00109"
+      },
+      "expected_value": 1680,
+      "value_class": "DETECTED_LEAKAGE",
+      "source_records": [
+        "b1_plant_10"
+      ]
+    }
+  ],
+  "file_hashes": {
+    "transactions.csv": "77b182331ea6069aaaf896f81174409309c01b134166f2dba4295927c924a5f9",
+    "customers.csv": "d30fb78cd35570cc4a2c9e7c0c9064d357ea6f876f414c4a213105ba7326cef7",
+    "skus.csv": "ef4535bed36f4868554f01b073da57d774db47d77197d6ff6d80ed6e2331b19a",
+    "suppliers.csv": "f15a22e2e0c09b38581ec9e27486735e0a62d368f8a98d526b45bc60fa2284ed",
+    "customer_agreements.csv": "9b320c60fe0770d96ae863f4d0c310a73d2fa0550727c3faed7fff64f1630d86",
+    "supplier_costs.csv": "108b8fa7fac75a9a066b4274bd2e3d4058e2a8b749f74a0aea007ba3cdc9ba80",
+    "commercial_policies.csv": "f78cf129935d9cc43729d76589bcaa6f5066afdbd5c5c83f65afcd8e2f08ede8",
+    "supplier_rebates.csv": "44e38e60e6ae81c889b57e65a58a3afec57c9b65872576fc1b55a17d94931cb0",
+    "freight.csv": "3188363e759ef61079eaff5f192a730e45e7f7371111eb9830c3f3f034608104"
+  }
+}
