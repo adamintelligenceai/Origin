@@ -1,0 +1,24 @@
+/* Ledger design tokens — MarginShield (BLUEPRINT §72) */
+:root {
+  --ledger: #eef1ea;
+  --folio: #fafbf8;
+  --ink: #16233b;
+  --ink-2: #3c4a60;
+  --ruling: #6f879f;
+  --ruling-soft: #d5dee7;
+  --red-ink: #b42318;
+  --bank: #1e6b47;
+  --manila: #d8c69a;
+  --buy: #2f5d50;
+  --serve: #6b5a3e;
+  --sell: #3d4f6f;
+  --font-sans: var(--font-barlow), 'Barlow Semi Condensed', 'IBM Plex Sans Condensed', ui-sans-serif,
+    system-ui, sans-serif;
+  --font-display: var(--font-barlow-condensed), 'Barlow Condensed', 'Barlow Semi Condensed',
+    ui-sans-serif, system-ui, sans-serif;
+}
+
+.ms-ledger-bg {
+  background: var(--ledger);
+  color: var(--ink);
+}

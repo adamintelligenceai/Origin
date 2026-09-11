@@ -1,0 +1,22 @@
+---
+description: MarginShield security requirements
+alwaysApply: true
+---
+
+Never commit secrets.
+
+Never weaken CSP or privacy controls merely to make a dependency work without documenting why.
+
+Treat uploaded files as hostile.
+
+Sanitise exported spreadsheet text against formula injection.
+
+Use vetted cryptography libraries and standard algorithms only.
+
+Never implement custom crypto.
+
+No request-body logging on sensitive routes.
+
+Supabase RLS is mandatory.
+
+Security claims must describe implemented controls, not aspirations.

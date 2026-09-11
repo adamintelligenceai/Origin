@@ -1,0 +1,36 @@
+{
+  "name": "marginshield",
+  "private": true,
+  "version": "0.1.0",
+  "description": "MarginShield by Evidence Room — commercial margin control for distributors",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "turbo run dev --filter=@marginshield/web",
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "test:golden": "turbo run test:golden",
+    "test:privacy": "turbo run test:privacy",
+    "e2e": "turbo run e2e --filter=@marginshield/web",
+    "synth": "pnpm --filter @marginshield/synthetic synth",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "licence:audit": "node scripts/licence-audit.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/node": "^22.10.2",
+    "eslint": "^9.17.0",
+    "fast-check": "^3.23.2",
+    "prettier": "^3.4.2",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.2",
+    "vitest": "^2.1.8"
+  },
+  "type": "module"
+}

@@ -1,0 +1,16 @@
+---
+description: Test integrity
+globs: **/*.test.ts,tests/**
+alwaysApply: false
+---
+
+Never change expected outputs merely because implementation fails.
+
+If method changes intentionally:
+document the decision,
+update METHOD.md,
+then update ground truth with explicit rationale.
+
+Use only synthetic or hand-built fixture data.
+
+Privacy and golden tests are release blockers.
