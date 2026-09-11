@@ -3,6 +3,19 @@ import { formatAud } from '@marginshield/ui';
 import { harbourlineDemoScan } from '../lib/harbourline';
 import { MarketingShell } from '../components/MarketingShell';
 
+const STEPS = [
+  'Upload',
+  'Map',
+  'Reconcile',
+  'Calculate',
+  'Detect',
+  'Evidence',
+  'Model',
+  'Prioritise',
+  'Act',
+  'Report',
+];
+
 export default function HomePage() {
   const result = harbourlineDemoScan();
   return (
@@ -41,10 +54,32 @@ export default function HomePage() {
         </p>
       </section>
       <section className="mx-auto max-w-6xl px-6 py-12">
+        <h2 className="font-display text-4xl">How a scan runs</h2>
+        <ol className="mt-6 grid gap-3 md:grid-cols-5">
+          {STEPS.map((step, i) => (
+            <li key={step} className="border border-ruling-soft bg-folio p-3">
+              <div className="text-xs text-ink-2">{String(i + 1).padStart(2, '0')}</div>
+              <div className="font-display text-2xl">{step}</div>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <section className="mx-auto max-w-6xl px-6 py-12">
         <h2 className="font-display text-4xl">Revenue can grow while commercial economics quietly deteriorate.</h2>
         <p className="mt-4 max-w-2xl text-ink-2">
-          Your ERP recorded every transaction. MarginShield shows the commercial relationship that changed.
+          Your ERP recorded every transaction. MarginShield shows the commercial relationship that changed — cost shocks
+          not passed through, expired terms still honoured, freight under-recovered, rebates left unclaimed.
         </p>
+      </section>
+      <section className="mx-auto max-w-6xl px-6 py-12">
+        <h2 className="font-display text-4xl">Files stay on the machine that opened them.</h2>
+        <p className="mt-4 max-w-2xl text-ink-2">
+          Mapping, reconstruction and detection run in the browser. Optional AI commentary uses aggregate fact tokens,
+          never raw invoice rows. Encrypted `.msproj` bundles stay local unless you choose to move them.
+        </p>
+        <Link href="/privacy-by-design" className="mt-4 inline-block underline">
+          Privacy by design
+        </Link>
       </section>
     </MarketingShell>
   );

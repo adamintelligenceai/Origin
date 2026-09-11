@@ -10,11 +10,11 @@
 
 **Blueprint.** §67, §109, §112.
 
-## D002 — Decimal money in TypeScript; DuckDB-Wasm for browser ingestion
+## D002 — Decimal money in TypeScript; DuckDB-Wasm reserved for large-file load
 
-**Decision.** Authoritative check arithmetic uses `decimal.js` with 28-digit precision, bankers' rounding, money quantized to 4 decimal places and rates to 8. DuckDB-Wasm runs in the analysis worker for CSV/XLSX load, filtering and aggregation into the canonical record set. Shared SQL projections of the waterfall live in `packages/engine/src/sql/`.
+**Decision.** Authoritative check arithmetic uses `decimal.js` with 28-digit precision, bankers' rounding, money quantized to 4 decimal places and rates to 8. File parse, mapping and `runScan` run in-process (and in `apps/web/workers/scan.worker.ts` when the bundler can instantiate it). DuckDB-Wasm is not the money path in v1. SQL projections live in `packages/engine/src/sql/views.sql` for the future large-file loader.
 
-**Rationale.** Native DuckDB bindings are not portable across the browser worker and Vitest. The TypeScript engine is deterministic, testable and matches the DECIMAL discipline. The worker still uses DuckDB-Wasm for large-file handling as specified.
+**Rationale.** Native DuckDB bindings are not portable across the browser worker and Vitest. The TypeScript engine is deterministic, testable and matches the DECIMAL discipline. Shipping a second arithmetic engine before the golden tests are the single source of truth would create silent drift.
 
 **Blueprint.** §38, §40, §58, §59, `.cursor/rules/30-engine.mdc`.
 
@@ -47,3 +47,9 @@
 **Decision.** This repository previously hosted an eToro portfolio dashboard branded Origin. The product specified by `docs/BLUEPRINT.md` is MarginShield. No Origin/eToro dashboard code remains. The public brand is MarginShield; parent attribution is Evidence Room. Adam Intelligence must not appear in product copy.
 
 **Blueprint.** §1.3.
+
+## D008 — .msproj uses Argon2id via hash-wasm
+
+**Decision.** Local project encryption uses Argon2id (`hash-wasm`) with m=19456 KiB, t=2, p=1, then AES-256-GCM with a random 12-byte nonce. Default export omits raw tables.
+
+**Blueprint.** §45.

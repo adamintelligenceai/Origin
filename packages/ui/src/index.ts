@@ -1,1 +1,1 @@
-export { formatAud, formatPct, formatBps, formatRunHash, VALUE_CLASS_LABEL } from './format';
+export { formatAud, formatMoney, formatPct, formatBps, formatRunHash, formatFact, VALUE_CLASS_LABEL } from './format';

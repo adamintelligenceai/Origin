@@ -1,13 +1,15 @@
 'use client';
 
-import { formatAud, VALUE_CLASS_LABEL } from '@marginshield/ui';
+import { formatAud, formatFact, VALUE_CLASS_LABEL } from '@marginshield/ui';
+import Link from 'next/link';
 import { useScan } from './ScanProvider';
 
 export function EvidenceDrawer() {
-  const { selectedFinding, selectFinding, result } = useScan();
+  const { selectedFinding, selectFinding, result, addToRecovery, recovery } = useScan();
   if (!selectedFinding) return null;
   const evidence = result?.evidence.filter((row) => row.finding_id === selectedFinding.finding_id) ?? [];
   const facts = selectedFinding.facts_json;
+  const inPlan = recovery.some((row) => row.finding_id === selectedFinding.finding_id);
   return (
     <div className="fixed inset-0 z-40 flex justify-end bg-ink/40">
       <aside className="h-full w-full max-w-lg overflow-y-auto bg-folio p-6 shadow-xl">
@@ -26,7 +28,7 @@ export function EvidenceDrawer() {
           {Object.entries(facts).map(([key, value]) => (
             <div key={key} className="flex justify-between gap-4 ledger-rule py-1">
               <dt className="text-ink-2">{key.replaceAll('_', ' ')}</dt>
-              <dd className="tabular-nums">{String(value)}</dd>
+              <dd className="tabular-nums">{formatFact(key, value)}</dd>
             </div>
           ))}
         </dl>
@@ -44,9 +46,22 @@ export function EvidenceDrawer() {
             </li>
           ))}
         </ul>
-        <button type="button" className="mt-8 bg-ink px-4 py-2 text-folio">
-          Add to recovery plan
-        </button>
+        {inPlan ? (
+          <p className="mt-8 text-sm">
+            In recovery plan.{' '}
+            <Link href="/recovery" className="underline">
+              Open plan
+            </Link>
+          </p>
+        ) : (
+          <button
+            type="button"
+            className="mt-8 bg-ink px-4 py-2 text-folio"
+            onClick={() => addToRecovery(selectedFinding)}
+          >
+            Add to recovery plan
+          </button>
+        )}
       </aside>
     </div>
   );

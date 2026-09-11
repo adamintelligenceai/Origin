@@ -56,7 +56,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <span className="font-display text-lg font-semibold">MarginShield</span>
             <Link href="/overview">Menu</Link>
           </header>
-          <div className="flex-1 px-4 py-6 md:px-8">{children}</div>
+          <div className="flex-1 px-4 py-6 pb-20 md:px-8">{children}</div>
         </div>
       </div>
       <EvidenceDrawer />

@@ -10,7 +10,7 @@ export function PrivacyProof() {
     <>
       <button
         type="button"
-        className="fixed bottom-4 right-4 border border-ink bg-folio px-3 py-2 text-sm"
+        className="fixed bottom-4 right-4 z-20 border border-ink bg-folio px-3 py-2 text-sm shadow-sm"
         onClick={() => setOpen(true)}
       >
         Privacy Proof

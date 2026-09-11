@@ -6,7 +6,8 @@
   "main": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./text": "./src/text.ts"
+    "./text": "./src/text.ts",
+    "./pdf": "./src/pdf.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit -p tsconfig.json",
@@ -15,6 +16,7 @@
   "dependencies": {
     "@marginshield/engine": "workspace:*",
     "@marginshield/ui": "workspace:*",
-    "exceljs": "^4.4.0"
+    "exceljs": "^4.4.0",
+    "pdf-lib": "^1.17.1"
   }
 }

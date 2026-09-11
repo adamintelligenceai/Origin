@@ -2,12 +2,20 @@
 
 import { AppShell } from '../../components/AppShell';
 import { useEnsureScan } from '../../components/useEnsureScan';
-import { boardPackMarkdown, evidenceCsv } from '@marginshield/reports/text';
+import { boardPackMarkdown, evidenceCsv, actionWorkbook, boardPackPdf } from '@marginshield/reports';
 
 export default function ReportsPage() {
   const result = useEnsureScan();
-  const download = (name: string, body: string, type: string) => {
-    const blob = new Blob([body], { type });
+  const download = (name: string, body: BlobPart | Uint8Array, type: string) => {
+    let part: BlobPart;
+    if (body instanceof Uint8Array) {
+      const copy = new ArrayBuffer(body.byteLength);
+      new Uint8Array(copy).set(body);
+      part = copy;
+    } else {
+      part = body;
+    }
+    const blob = new Blob([part], { type });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -27,7 +35,17 @@ export default function ReportsPage() {
           className="bg-ink px-4 py-2 text-folio"
           onClick={() => download('board-pack.md', boardPackMarkdown(result), 'text/markdown')}
         >
-          Board pack
+          Board pack (markdown)
+        </button>
+        <button
+          type="button"
+          className="border border-ink px-4 py-2"
+          onClick={async () => {
+            const pdf = await boardPackPdf(result);
+            download('board-pack.pdf', pdf, 'application/pdf');
+          }}
+        >
+          Board pack (PDF)
         </button>
         <button
           type="button"
@@ -35,6 +53,16 @@ export default function ReportsPage() {
           onClick={() => download('evidence-ledger.csv', evidenceCsv(result), 'text/csv')}
         >
           Evidence ledger
+        </button>
+        <button
+          type="button"
+          className="border border-ink px-4 py-2"
+          onClick={async () => {
+            const xlsx = await actionWorkbook(result);
+            download('action-pack.xlsx', xlsx, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+          }}
+        >
+          Action workbook
         </button>
       </div>
     </AppShell>

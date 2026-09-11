@@ -11,7 +11,7 @@ Do not use real customer data until this list is green.
 - [ ] Stripe live configuration (not test keys)
 - [ ] AI provider data-processing terms reviewed if AI is enabled
 - [ ] Sample report published from Harbourline
-- [ ] Synthetic-demo tests green
+- [x] Synthetic-demo tests green
 - [ ] Security checklist in `docs/SECURITY.md` green
 - [ ] No employer data, devices, credentials, source systems or working time used
 

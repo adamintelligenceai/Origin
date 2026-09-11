@@ -2,6 +2,7 @@
 
 import { AppShell } from '../../components/AppShell';
 import { useEnsureScan } from '../../components/useEnsureScan';
+import { formatPct } from '@marginshield/ui';
 
 export default function DataHealthPage() {
   const result = useEnsureScan();
@@ -16,6 +17,24 @@ export default function DataHealthPage() {
         <li>Ambiguous duplicates {result.duplicates.length}</li>
         <li>Missing coverage components: {result.coverage.missing.join(', ') || 'none above 90%'}</li>
       </ul>
+      <table className="mt-8 w-full text-left text-sm">
+        <thead>
+          <tr className="ledger-rule">
+            <th>Component</th>
+            <th className="text-right">Weight</th>
+            <th className="text-right">Available</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.entries(result.coverage.components).map(([key, row]) => (
+            <tr key={key} className="ledger-rule">
+              <td>{key.replaceAll('_', ' ')}</td>
+              <td className="text-right tabular-nums">{row.weight}</td>
+              <td className="text-right tabular-nums">{formatPct(row.available)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </AppShell>
   );
 }

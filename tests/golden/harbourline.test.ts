@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { generateHarbourline, PLANTED_TARGETS } from '@marginshield/synthetic';
-import { runScan } from '@marginshield/engine';
+import { defaultMethodConfig, runScan } from '@marginshield/engine';
 
 function near(actual: number, expected: number, pct: number) {
   const delta = Math.abs(actual - expected) / expected;
@@ -52,5 +52,15 @@ describe('Harbourline golden scan', () => {
     const b1 = scanned.findings.filter((f) => f.check_id === 'B1');
     expect(p1.length).toBe(0);
     expect(b1.length).toBe(0);
+  });
+
+  it('recalculates cash when P1 back-billing is enabled', () => {
+    const off = result.headlines.cash_claimable;
+    const enabled = {
+      ...planted.dataset,
+      method_config: { ...defaultMethodConfig(), p1_back_billing_enabled: true },
+    };
+    const scanned = runScan(enabled);
+    expect(Number(scanned.headlines.cash_claimable)).toBeGreaterThan(Number(off));
   });
 });

@@ -6,18 +6,21 @@ Implemented and intended controls for MarginShield v1. Claims describe what the 
 
 Sales, cost, freight and agreement files are parsed in the browser. Canonical tables live in OPFS. Raw rows are not posted to MarginShield APIs.
 
+## Project encryption
+
+`.msproj` uses Argon2id (hash-wasm) key derivation and AES-256-GCM. Passphrase never leaves the device. Nonces are unique per encryption. Raw tables are opt-in.
+
 ## Headers (application routes)
 
 - Content-Security-Policy (strict `connect-src`)
 - Cross-Origin-Opener-Policy
-- Cross-Origin-Embedder-Policy (required for threaded Wasm)
 - Referrer-Policy: `no-referrer`
 - X-Content-Type-Options: `nosniff`
 - Permissions-Policy (camera, mic, geo disabled)
 - `frame-ancestors 'none'`
 - HSTS in production
 
-Marketing routes may relax `connect-src` for booking embeds. `/scan` is never weakened to make `/book` work.
+Cross-Origin-Embedder-Policy is not set globally (see `docs/DECISIONS.md` D007). Worker isolation still denies fetch/XHR/WebSocket after analysis-worker initialisation.
 
 ## File handling
 
@@ -26,10 +29,6 @@ Accepted: `.csv`, `.xlsx`. Rejected: `.xlsm`, `.xlsb`, `.xls`, executables, pass
 ## Exports
 
 Spreadsheet text fields beginning with `=`, `+`, `-`, `@` are escaped. Numeric negatives are not corrupted.
-
-## Project encryption
-
-`.msproj` uses Argon2id key derivation and AES-256-GCM. Passphrase never leaves the device. Nonces are unique per encryption. Raw tables are opt-in.
 
 ## Server
 

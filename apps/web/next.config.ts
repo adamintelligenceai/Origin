@@ -23,7 +23,7 @@ const nextConfig = {
     '@marginshield/reports',
     '@marginshield/api-client',
   ],
-  serverExternalPackages: ['exceljs'],
+  serverExternalPackages: ['exceljs', 'pdf-lib'],
   async headers() {
     return [
       {

@@ -8,13 +8,17 @@ MarginShield is proprietary software. It depends on third-party packages whose l
 
 SheetJS Community Edition is used to parse `.xlsx` workbooks in the browser. Use of SheetJS CE must remain within the terms of its licence. Macro-enabled and binary Excel formats are rejected before parse.
 
-### DuckDB-Wasm
+### hash-wasm
 
-Mozilla-style / MIT licensing. Wasm assets are served from the same origin. Remote extensions are not loaded.
+MIT. Argon2id key derivation for `.msproj` envelopes.
+
+### pdf-lib
+
+MIT. Board-pack PDF generation on the client.
 
 ### Other major components
 
-Next.js, React, Tailwind CSS, Zod, decimal.js, Papa Parse, ExcelJS, `@react-pdf/renderer`, Vitest, fast-check, Playwright, simple-statistics, Comlink, Apache Arrow, Motion, TanStack Table/Virtual, ECharts — see the generated inventory.
+Next.js, React, Tailwind CSS, Zod, decimal.js, Papa Parse, ExcelJS, Vitest, fast-check, Playwright, simple-statistics, `@noble/hashes` — see the generated inventory.
 
 ## Generating the inventory
 
