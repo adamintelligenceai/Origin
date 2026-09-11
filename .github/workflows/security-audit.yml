@@ -1,0 +1,31 @@
+name: Security audit
+
+on:
+  workflow_call:
+  schedule:
+    - cron: '0 7 * * 1'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Dependency audit
+        run: pnpm audit --audit-level=high
+      - name: Secret scan
+        run: |
+          if command -v gitleaks >/dev/null 2>&1; then
+            gitleaks detect --source . --no-banner
+          else
+            echo "gitleaks not installed; skipping"
+          fi
+      - name: Licence check placeholder
+        run: pnpm list --depth 0

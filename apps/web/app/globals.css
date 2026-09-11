@@ -1,0 +1,29 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ledger: #eef1ea;
+  --color-folio: #fafbf8;
+  --color-ink: #16233b;
+  --color-ink-2: #3c4a60;
+  --color-ruling: #6f879f;
+  --color-ruling-soft: #d5dee7;
+  --color-red-ink: #b42318;
+  --color-bank: #1e6b47;
+  --color-manila: #d8c69a;
+  --font-sans: 'Barlow Semi Condensed', system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    @apply bg-folio text-ink antialiased;
+    font-family: var(--font-sans);
+    font-feature-settings: 'tnum' 1;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+  }
+}

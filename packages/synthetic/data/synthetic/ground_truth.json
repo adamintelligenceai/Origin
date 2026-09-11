@@ -1,0 +1,22 @@
+{
+  "company": "Harbourline Trade Supply Pty Ltd",
+  "variant": "planted",
+  "seed": 42,
+  "t12m_sales_aud": 85000000,
+  "total_addressable_aud": 1840000,
+  "detected_leakage_aud": 796000,
+  "modelled_opportunity_aud": 1044000,
+  "cash_claimable_aud": 124000,
+  "planted_checks": {
+    "P1": 286000,
+    "P2": 196000,
+    "P3": 411000,
+    "P4": 188000,
+    "P5": 151000,
+    "P6": 98000,
+    "S1": 221000,
+    "S2": 64000,
+    "S3": 57000,
+    "B1": 168000
+  }
+}

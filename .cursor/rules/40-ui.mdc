@@ -1,0 +1,29 @@
+---
+description: MarginShield Ledger UI rules
+globs: apps/web/**/*.tsx,packages/ui/**
+alwaysApply: false
+---
+
+Use design tokens only.
+
+No raw component hex colours.
+
+Sentence case.
+
+Tabular numerals.
+
+Negatives use accounting parentheses.
+
+Detected leakage and modelled opportunity must be visually distinguishable.
+
+Do not use colour as the only indicator.
+
+One major orchestrated motion moment per screen maximum.
+
+Respect reduced motion.
+
+Tables use ledger rules and double-rule totals.
+
+Every action has loading, success, failure and disabled states.
+
+No fake buttons.

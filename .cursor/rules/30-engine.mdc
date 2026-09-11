@@ -1,0 +1,23 @@
+---
+description: Deterministic MarginShield engine rules
+globs: packages/engine/**
+alwaysApply: false
+---
+
+Use DuckDB DECIMAL for authoritative money calculations.
+
+Engine is deterministic.
+
+No randomness.
+No current-time dependence.
+No network during analytical execution.
+
+Same input + config + engine version = same output and run hash.
+
+Every finding writes generic evidence references.
+
+Every check has unit fixtures.
+
+Thresholds live in configuration.
+
+Do not weaken golden tests to hide methodology failures.
