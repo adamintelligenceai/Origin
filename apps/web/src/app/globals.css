@@ -1,13 +1,15 @@
 @import "tailwindcss";
-@import "@fontsource/ibm-plex-sans/400.css";
-@import "@fontsource/ibm-plex-sans/500.css";
-@import "@fontsource/ibm-plex-sans/600.css";
-@import "@fontsource/ibm-plex-sans/700.css";
+@import "@fontsource/barlow-condensed/600.css";
+@import "@fontsource/barlow-condensed/700.css";
+@import "@fontsource/barlow-semi-condensed/400.css";
+@import "@fontsource/barlow-semi-condensed/500.css";
+@import "@fontsource/barlow-semi-condensed/600.css";
+@import "@fontsource/barlow-semi-condensed/700.css";
 @import "@fontsource/ibm-plex-mono/400.css";
 @import "@fontsource/ibm-plex-mono/500.css";
+@import "@marginshield/ui/styles.css";
 
 :root {
-  /* Ledger design tokens — MarginShield */
   --ledger: #eef1ea;
   --folio: #fafbf8;
   --ink: #16233b;
@@ -41,7 +43,8 @@
   --color-buy: var(--buy);
   --color-serve: var(--serve);
   --color-sell: var(--sell);
-  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Barlow Semi Condensed", "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Barlow Condensed", "Barlow Semi Condensed", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
@@ -62,6 +65,10 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.font-display {
+  font-family: var(--font-display);
 }
 
 .tabular {
@@ -90,4 +97,3 @@ a {
     rgba(180, 35, 24, 0.18) 8px
   );
 }
-.modelled-hatch { background-image: repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(180, 35, 24, 0.18) 4px, rgba(180, 35, 24, 0.18) 8px); }

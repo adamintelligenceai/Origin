@@ -11,3 +11,9 @@ Decision: ship a deterministic TypeScript engine (`@marginshield/engine`) first 
 Conflict: blueprint requires engine-derived demo figures with ±2–3% golden recall on full synthetic volume.
 
 Decision: `runHarbourlineDemo()` plants blueprint economics (≈A$1.84m addressable) for marketing/demo surfaces while unit/property tests cover money, allocation and bankability. Full volume synthetic generation continues in later phases.
+
+## 2026-09-11 — Ledger UI package consumed as source
+
+Conflict: blueprint lists a built `@marginshield/ui` package; NodeNext resolution would require `.js` extensions on every relative import.
+
+Decision: ship `@marginshield/ui` as TypeScript source with `moduleResolution: Bundler`, transpiled by Next.js (`transpilePackages`). Tokens live in `styles.css`; marketing/app shells remain app-owned chrome wrappers around shared primitives.

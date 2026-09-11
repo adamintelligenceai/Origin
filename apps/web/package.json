@@ -9,10 +9,13 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "@fontsource/barlow-semi-condensed": "^5.3.0",
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/ibm-plex-sans": "^5.3.0",
     "@marginshield/engine": "workspace:*",
     "@marginshield/schemas": "workspace:*",
+    "@marginshield/ui": "workspace:*",
     "clsx": "^2.1.1",
     "framer-motion": "^13.2.0",
     "lucide-react": "^1.45.0",

@@ -1,0 +1,69 @@
+/* Ledger design tokens — @marginshield/ui */
+:root {
+  --ledger: #eef1ea;
+  --folio: #fafbf8;
+  --ink: #16233b;
+  --ink-2: #3c4a60;
+  --ruling: #6f879f;
+  --ruling-soft: #d5dee7;
+  --red-ink: #b42318;
+  --bank: #1e6b47;
+  --manila: #d8c69a;
+  --buy: #1f4e79;
+  --serve: #6b4f2a;
+  --sell: #5c2d2d;
+  --detected: #b42318;
+  --modelled: #8a4b2e;
+  --bankable: #1e6b47;
+  --surface: var(--folio);
+  --border: var(--ruling-soft);
+  --radius: 2px;
+  --font-display: 'Barlow Condensed', 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Barlow Semi Condensed', 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+.ms-tabular,
+.ms-tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+.ms-double-rule,
+.ms-double-rule {
+  border-top: 1px solid var(--ink);
+  border-bottom: 3px double var(--ink);
+}
+
+.ms-ledger-row,
+.ms-ledger-row {
+  border-bottom: 1px solid var(--ruling-soft);
+}
+
+.ms-bleed-band,
+.ms-bleed-band {
+  background: linear-gradient(180deg, var(--ink) 0%, #243552 100%);
+}
+
+.ms-modelled-hatch,
+.ms-modelled-hatch {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    rgba(180, 35, 24, 0.18) 4px,
+    rgba(180, 35, 24, 0.18) 8px
+  );
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
