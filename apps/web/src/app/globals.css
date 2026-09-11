@@ -1,0 +1,93 @@
+@import "tailwindcss";
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-sans/700.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+:root {
+  /* Ledger design tokens — MarginShield */
+  --ledger: #eef1ea;
+  --folio: #fafbf8;
+  --ink: #16233b;
+  --ink-2: #3c4a60;
+  --ruling: #6f879f;
+  --ruling-soft: #d5dee7;
+  --red-ink: #b42318;
+  --bank: #1e6b47;
+  --manila: #d8c69a;
+  --buy: #1f4e79;
+  --serve: #6b4f2a;
+  --sell: #5c2d2d;
+  --detected: #b42318;
+  --modelled: #8a4b2e;
+  --bankable: #1e6b47;
+  --surface: var(--folio);
+  --border: var(--ruling-soft);
+  --radius: 2px;
+}
+
+@theme inline {
+  --color-ledger: var(--ledger);
+  --color-folio: var(--folio);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ruling: var(--ruling);
+  --color-ruling-soft: var(--ruling-soft);
+  --color-red-ink: var(--red-ink);
+  --color-bank: var(--bank);
+  --color-manila: var(--manila);
+  --color-buy: var(--buy);
+  --color-serve: var(--serve);
+  --color-sell: var(--sell);
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--ledger);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "tnum" 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.double-rule {
+  border-top: 1px solid var(--ink);
+  border-bottom: 3px double var(--ink);
+}
+
+.ledger-row {
+  border-bottom: 1px solid var(--ruling-soft);
+}
+
+.bleed-band {
+  background: linear-gradient(180deg, var(--ink) 0%, #243552 100%);
+}
+
+.modelled-hatch {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    rgba(180, 35, 24, 0.18) 4px,
+    rgba(180, 35, 24, 0.18) 8px
+  );
+}
+.modelled-hatch { background-image: repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(180, 35, 24, 0.18) 4px, rgba(180, 35, 24, 0.18) 8px); }

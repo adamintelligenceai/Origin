@@ -1,0 +1,9 @@
+---
+description: Privacy and data handling
+alwaysApply: true
+---
+
+Raw row-level client data never leaves the browser in v1.
+No analytics on app/demo scan routes.
+AI payload is aggregate and tokenised.
+Never use dangerouslySetInnerHTML with uploaded content.

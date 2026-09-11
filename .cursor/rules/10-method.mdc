@@ -1,0 +1,9 @@
+---
+description: Analytical integrity
+alwaysApply: true
+---
+
+Do not call modelled pricing gaps "detected leakage".
+All money arithmetic uses scaled decimals — never IEEE floats for money.
+Overlapping sell-side findings use tranche allocation; no double counting.
+LLMs never authoritatively calculate financial values.
