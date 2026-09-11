@@ -50,6 +50,9 @@ importers:
       '@marginshield/schemas':
         specifier: workspace:*
         version: link:../../packages/schemas
+      '@marginshield/synthetic':
+        specifier: workspace:*
+        version: link:../../packages/synthetic
       '@marginshield/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -119,6 +122,9 @@ importers:
         specifier: workspace:*
         version: link:../schemas
     devDependencies:
+      '@marginshield/synthetic':
+        specifier: workspace:*
+        version: link:../synthetic
       fast-check:
         specifier: ^3.23.2
         version: 3.23.2
