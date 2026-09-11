@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
     '@marginshield/ui',
     '@marginshield/reports',
     '@marginshield/api-client',
+    '@marginshield/synthetic',
   ],
   webpack: (config) => {
     config.resolve.extensionAlias = {
