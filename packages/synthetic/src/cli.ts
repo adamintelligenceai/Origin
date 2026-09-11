@@ -18,7 +18,7 @@ async function main(): Promise<void> {
   const args = process.argv.slice(2);
   let seed = 42;
   let variant: SyntheticVariant = "planted";
-  let output = path.resolve("packages/synthetic/output/planted");
+  let output = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "output");
   let scale = 1;
 
   for (let i = 0; i < args.length; i++) {
