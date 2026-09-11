@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@import "@marginshield/ui/styles.css";
+
+@theme {
+  --color-ledger: var(--ledger);
+  --color-folio: var(--folio);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ruling: var(--ruling);
+  --color-ruling-soft: var(--ruling-soft);
+  --color-red-ink: var(--red-ink);
+  --color-bank: var(--bank);
+  --color-manila: var(--manila);
+  --font-sans: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-barlow-condensed), var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background-color: var(--folio);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
