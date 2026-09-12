@@ -40,6 +40,9 @@ await web.screenshot({ path: `${out}/web-home.png`, fullPage: true });
 await web.goto("http://localhost:3000/trust", { waitUntil: "networkidle" });
 await web.getByText("Trust architecture").waitFor();
 await web.screenshot({ path: `${out}/web-trust.png`, fullPage: true });
+await web.goto("http://localhost:3000/product", { waitUntil: "networkidle" });
+await web.getByText("Not another chatbot.").waitFor();
+await web.screenshot({ path: `${out}/web-product.png`, fullPage: true });
 
 await browser.close();
 console.log(`wrote screenshots to ${out}`);

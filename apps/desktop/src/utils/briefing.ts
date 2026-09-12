@@ -1,3 +1,4 @@
+import type { MeetingPrepView, WrittenRoutine } from "@project-chief/runtime";
 import type {
   SyntheticCommitment,
   SyntheticDecision,
@@ -15,7 +16,9 @@ export function answerChief(
   query: string,
   decisions: SyntheticDecision[],
   commitments: SyntheticCommitment[],
-  meetings: SyntheticMeeting[]
+  meetings: SyntheticMeeting[],
+  routines: WrittenRoutine[] = [],
+  meetingPrep: MeetingPrepView[] = []
 ): ChiefAnswer {
   const text = query.trim().toLowerCase();
   const ready = decisions.filter((item) => item.state === "ready");
@@ -52,17 +55,22 @@ export function answerChief(
     return {
       heading: "Routines stay written",
       summary: "Chief will not invent automation. Only routines you wrote down can run.",
-      items: ["Sunday board-pack reminder · written by you"],
+      items:
+        routines.length > 0
+          ? routines.map((item) => `${item.title} · written by ${item.writtenBy}`)
+          : ["No written routines remain."],
       route: "today"
     };
   }
 
+  const prep = meetingPrep[0];
   return {
     heading: "Prepared for tomorrow",
     summary: `${ready.length} decisions are waiting. ${conflicts.length} calendar conflict needs a choice.`,
     items: [
       ...ready.map((item) => item.title),
-      ...conflicts.map((item) => item.conflict ?? item.title)
+      ...conflicts.map((item) => item.conflict ?? item.title),
+      ...(prep ? [`${prep.eventTitle} needs ${prep.documents.join(", ")}`] : [])
     ],
     route: "decisions"
   };

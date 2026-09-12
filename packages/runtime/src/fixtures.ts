@@ -42,6 +42,19 @@ export const FIXTURE_OBSERVATIONS: RawObservation[] = [
     }
   },
   {
+    id: "mail-boardpack",
+    provider: "gmail",
+    providerId: "msg-boardpack",
+    kind: "email",
+    capturedAt: "2026-09-10T11:00:00.000Z",
+    payload: {
+      subject: "Board pack before Monday",
+      body: "I will share the board pack before Monday. Amina needs it Sunday 18:00.",
+      from: "you",
+      hash: "h-mail-boardpack"
+    }
+  },
+  {
     id: "cal-board",
     provider: "google_calendar",
     providerId: "evt-1841",
@@ -51,6 +64,7 @@ export const FIXTURE_OBSERVATIONS: RawObservation[] = [
       title: "Board prep with Amina",
       start: "2026-09-13T09:00:00.000Z",
       end: "2026-09-13T10:00:00.000Z",
+      attendees: ["Amina Shah"],
       hash: "h-cal-board"
     }
   },
@@ -107,5 +121,15 @@ export const FIXTURE_PEOPLE: Person[] = [
     relationship: "Counsel",
     confidence: 0.7,
     provenance: []
+  }
+];
+
+export const FIXTURE_ROUTINES = [
+  {
+    id: "rt1",
+    title: "Sunday board-pack reminder",
+    trigger: "Sundays at 16:00",
+    writtenBy: "You" as const,
+    status: "active" as const
   }
 ];

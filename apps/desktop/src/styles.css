@@ -275,6 +275,10 @@ dd {
   color: var(--amber);
 }
 
+.risk.low {
+  color: var(--sage);
+}
+
 .chips span,
 .chip,
 .badge {

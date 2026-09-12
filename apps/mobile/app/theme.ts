@@ -34,6 +34,14 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     marginTop: 16
   },
+  input: {
+    borderColor: colors.line,
+    borderWidth: 1,
+    borderRadius: 16,
+    padding: 16,
+    color: colors.ink,
+    marginBottom: 16
+  },
   ghost: {
     color: colors.ink,
     borderColor: "#3a3428",

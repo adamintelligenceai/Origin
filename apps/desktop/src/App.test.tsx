@@ -13,6 +13,7 @@ describe("desktop product loop", () => {
     render(<App />);
     await screen.findByText("Good morning.");
     expect(screen.getByText("Board prep with Amina")).toBeTruthy();
+    expect(screen.getByText(/Tomorrow's meeting needs these three documents/)).toBeTruthy();
     expect(screen.getAllByText(/Overlaps/).length).toBeGreaterThan(0);
     const approve = screen.getAllByRole("button", { name: "Approve" }).at(0);
     if (!approve) {

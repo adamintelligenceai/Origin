@@ -10,7 +10,7 @@ export function parseCalendarPayload(
     title: asText(observation.payload.title, "Untitled event"),
     startsAt: asText(observation.payload.start, ""),
     endsAt: asText(observation.payload.end, ""),
-    participants: [],
+    participants: attendeesFrom(observation.payload.attendees),
     sourceRef: {
       sourceId: observation.id,
       provider: observation.provider,
@@ -19,4 +19,11 @@ export function parseCalendarPayload(
     },
     signals: []
   };
+}
+
+function attendeesFrom(value: unknown): string[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+  return value.filter((item): item is string => typeof item === "string" && item.length > 0);
 }

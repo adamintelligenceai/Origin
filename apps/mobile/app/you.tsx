@@ -10,7 +10,7 @@ export default function Screen() {
       <View style={styles.card}>
         <Text style={styles.headline}>On device</Text>
         <Text style={styles.body}>
-          SecureStore holds only the small key. Private records stay in the encrypted store.
+          The database key stays on this phone. Private records never enter the service cloud.
         </Text>
       </View>
       <View style={styles.card}>
@@ -26,7 +26,7 @@ export default function Screen() {
       <View style={styles.card}>
         <Text style={styles.headline}>Billing</Text>
         <Text style={styles.body}>
-          Opens the content-blind web control plane. No source content leaves.
+          Opens the content-blind web control plane at /billing. No source content leaves.
         </Text>
       </View>
     </SafeAreaView>

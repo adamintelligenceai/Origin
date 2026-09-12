@@ -10,6 +10,7 @@
     "test": "vitest run --config vitest.config.ts"
   },
   "dependencies": {
+    "@project-chief/runtime": "workspace:*",
     "expo": "^57.0.22",
     "expo-constants": "^18.0.13",
     "expo-router": "^6.0.24",

@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { briefingLine } from "./present.js";
+import { resetRuntime } from "./session.js";
 
 type State = "ready" | "confirm" | "executing" | "verified";
 
@@ -26,5 +28,10 @@ describe("mobile approval", () => {
   it("does not treat swipe as approval", () => {
     expect(nextState("ready", "swipe")).toBe("ready");
     expect(nextState("ready", "tap")).toBe("confirm");
+  });
+
+  it("builds the morning briefing from the runtime snapshot", async () => {
+    const snapshot = await resetRuntime().boot();
+    expect(briefingLine(snapshot)).toContain("decisions need you");
   });
 });

@@ -50,4 +50,26 @@ describe("ChiefRuntime", () => {
     expect(next.workItems.find((item) => item.id === conflict.id)?.status).toBe("verified");
     expect(next.meetings.every((item) => !item.conflict)).toBe(true);
   });
+
+  it("prepares tomorrow's meeting and reverses a verified draft", async () => {
+    const runtime = new ChiefRuntime();
+    const boot = await runtime.boot();
+    expect(boot.meetingPrep[0]?.eventTitle).toContain("Board prep");
+    expect(boot.routines).toHaveLength(1);
+    const followUp = boot.workItems.find((item) => item.title.includes("Follow up"));
+    if (!followUp) {
+      throw new Error("expected follow-up work item");
+    }
+    const approved = await runtime.approve(followUp.id);
+    expect(approved.timeSavedMinutes).toBeGreaterThan(0);
+    const receipt = approved.receipts[0];
+    if (!receipt) {
+      throw new Error("expected a receipt");
+    }
+    const reversed = await runtime.reverse(receipt.id);
+    expect(reversed.receipts.some((item) => item.outcome === "reversed")).toBe(true);
+    expect(reversed.workItems.find((item) => item.id === followUp.id)?.status).toBe(
+      "needs_approval"
+    );
+  });
 });

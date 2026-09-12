@@ -7,6 +7,8 @@ export function proposeActionPlan(item: WorkItem): ActionPlan {
       : item.kind === "reply"
         ? "email.send"
         : "email.draft";
+  const consequence =
+    actionType === "email.send" ? "high" : actionType === "calendar.update" ? "medium" : "low";
   return {
     id: `plan-${item.id}`,
     workItemId: item.id,
@@ -14,9 +16,9 @@ export function proposeActionPlan(item: WorkItem): ActionPlan {
     actionType,
     payload: { synthetic: true },
     evidenceRefs: item.sourceRefs,
-    consequence: actionType === "calendar.update" ? "medium" : "low",
+    consequence,
     reversible: true,
-    requiredAutonomy: actionType === "calendar.update" ? 3 : 2,
+    requiredAutonomy: actionType === "email.draft" ? 2 : 3,
     expectedPostcondition: { prepared: true }
   };
 }

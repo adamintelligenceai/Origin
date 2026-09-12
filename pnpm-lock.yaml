@@ -93,6 +93,9 @@ importers:
       '@expo/metro-runtime':
         specifier: ^57.0.15
         version: 57.0.15(@expo/log-box@57.0.4)(expo@57.0.22)(react-dom@19.3.0(react@19.3.0))(react-native@0.81.6(@babel/core@7.29.7)(@types/react@19.3.0)(react@19.3.0))(react@19.3.0)
+      '@project-chief/runtime':
+        specifier: workspace:*
+        version: link:../../packages/runtime
       expo:
         specifier: ^57.0.22
         version: 57.0.22(@babel/core@7.29.7)(@expo/dom-webview@57.0.1)(@expo/metro-runtime@57.0.15)(expo-router@6.0.24)(react-dom@19.3.0(react@19.3.0))(react-native@0.81.6(@babel/core@7.29.7)(@types/react@19.3.0)(react@19.3.0))(react@19.3.0)(typescript@5.9.3)

@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import type { ChiefSnapshot } from "@project-chief/runtime";
+import { briefingLine } from "../src/present.js";
+import { resetRuntime } from "../src/session.js";
 import { styles } from "./theme.js";
 
 export default function Screen() {
   const [value, setValue] = useState("");
+  const [snapshot, setSnapshot] = useState<ChiefSnapshot | undefined>();
   const [answer, setAnswer] = useState<string | undefined>();
+
+  useEffect(() => {
+    void resetRuntime()
+      .boot()
+      .then(setSnapshot);
+  }, []);
 
   return (
     <SafeAreaView style={styles.root}>
@@ -17,21 +27,18 @@ export default function Screen() {
         placeholderTextColor="#6f6a61"
         value={value}
         onChangeText={setValue}
-        style={{
-          borderColor: "#2c2820",
-          borderWidth: 1,
-          borderRadius: 16,
-          padding: 16,
-          color: "#f3eee4",
-          marginBottom: 16
-        }}
+        style={styles.input}
       />
       <Pressable
         onPress={() => {
+          if (!snapshot) {
+            return;
+          }
+          const waiting = snapshot.commitments.filter((item) => item.direction === "other_owes");
           setAnswer(
             value.toLowerCase().includes("waiting")
-              ? "Jordan still owes the revised proposal."
-              : "3 decisions. 1 calendar conflict. No essays."
+              ? `${waiting.length} open commitments owed to you.`
+              : briefingLine(snapshot)
           );
         }}
       >

@@ -83,4 +83,25 @@ describe("proactive pipeline", () => {
     expect(related).toHaveLength(1);
     expect(related[0]?.kind).toBe("reply");
   });
+
+  it("emits meeting prep for upcoming calendar events", () => {
+    const result = runObservedPipeline([
+      {
+        id: "evt-1",
+        provider: "google_calendar",
+        providerId: "cal-1",
+        kind: "calendar_event",
+        capturedAt: "2026-09-12T08:00:00.000Z",
+        payload: {
+          title: "Board prep with Amina",
+          start: "2026-09-13T09:00:00.000Z",
+          end: "2026-09-13T10:00:00.000Z",
+          attendees: ["Amina Shah"],
+          hash: "h-cal-1"
+        }
+      }
+    ]);
+    expect(result.workItems.some((item) => item.kind === "meeting_prep")).toBe(true);
+    expect(result.meetingPrep).toContain("Prepare");
+  });
 });

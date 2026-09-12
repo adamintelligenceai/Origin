@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  routines,
-  type DecisionFilter,
-  type DecisionState,
-  type RouteName,
-  type SyntheticDecision,
-  type SyntheticMeeting,
-  type SyntheticReceipt
+import type {
+  DecisionFilter,
+  DecisionState,
+  RouteName,
+  SyntheticDecision,
+  SyntheticMeeting,
+  SyntheticReceipt
 } from "./fixtures/synthetic.js";
+import type { MeetingPrepView, WrittenRoutine } from "@project-chief/runtime";
 import { getRuntime, resetRuntime, wait } from "./runtime/session.js";
 import type { ChiefSnapshot } from "@project-chief/runtime";
 import {
@@ -15,6 +15,7 @@ import {
   commitmentsFromSnapshot,
   decisionsFromSnapshot,
   emptySnapshot,
+  formatTimeSaved,
   meetingsFromSnapshot,
   peopleFromSnapshot,
   receiptsFromSnapshot
@@ -51,6 +52,9 @@ export default function App() {
   const [commitments, setCommitments] = useState(commitmentsFromSnapshot(emptySnapshot()));
   const [people, setPeople] = useState(peopleFromSnapshot(emptySnapshot()));
   const [meetings, setMeetings] = useState(meetingsFromSnapshot(emptySnapshot()));
+  const [routines, setRoutines] = useState<WrittenRoutine[]>([]);
+  const [meetingPrep, setMeetingPrep] = useState<MeetingPrepView[]>([]);
+  const [timeSavedMinutes, setTimeSavedMinutes] = useState(0);
   const [openReceipt, setOpenReceipt] = useState<SyntheticReceipt | undefined>();
   const [filter, setFilter] = useState<DecisionFilter>("today");
   const [chief, setChief] = useState("");
@@ -73,6 +77,9 @@ export default function App() {
     const runtime = resetRuntime();
     void runtime.boot().then((snapshot) => {
       applySnapshot(snapshot, setDecisions, setReceipts, setCommitments, setPeople, setMeetings);
+      setRoutines(snapshot.routines);
+      setMeetingPrep(snapshot.meetingPrep);
+      setTimeSavedMinutes(snapshot.timeSavedMinutes);
       setLoading(false);
     });
   }, []);
@@ -88,6 +95,9 @@ export default function App() {
 
   const apply = useCallback((snapshot: ChiefSnapshot) => {
     applySnapshot(snapshot, setDecisions, setReceipts, setCommitments, setPeople, setMeetings);
+    setRoutines(snapshot.routines);
+    setMeetingPrep(snapshot.meetingPrep);
+    setTimeSavedMinutes(snapshot.timeSavedMinutes);
     setConnections(snapshot.connections);
     setExportNote(snapshot.exportNote);
     setWiped(snapshot.wiped);
@@ -167,12 +177,19 @@ export default function App() {
 
   const askChief = useCallback(
     (query: string) => {
-      const next = answerChief(query || "Prepare me for tomorrow", decisions, commitments, meetings);
+      const next = answerChief(
+        query || "Prepare me for tomorrow",
+        decisions,
+        commitments,
+        meetings,
+        routines,
+        meetingPrep
+      );
       setAnswer(next);
       setChief(query);
       setRoute("chief");
     },
-    [commitments, decisions, meetings]
+    [commitments, decisions, meetingPrep, meetings, routines]
   );
 
   const wipeDevice = useCallback(() => {
@@ -204,6 +221,7 @@ export default function App() {
             key={item.id}
             className={route === item.id ? "nav active" : "nav"}
             {...(route === item.id ? { "aria-current": "page" as const } : {})}
+            aria-label={item.label}
             onClick={() => {
               setRoute(item.id);
             }}
@@ -220,7 +238,7 @@ export default function App() {
         </p>
         {error ? <p className="banner">{error}</p> : null}
         {loading ? (
-          <Empty title="Preparing the morning." body="Reading local fixtures only." />
+          <Empty title="Preparing the morning." body="Reading the local node." />
         ) : null}
         {!loading && wiped && route === "today" ? (
           <Empty
@@ -232,10 +250,12 @@ export default function App() {
           <Today
             weekday={weekday}
             meetings={meetings}
+            meetingPrep={meetingPrep}
             decisions={decisions.filter((item) => item.state !== "dismissed")}
             needsYou={needsYou}
             atRiskCount={atRiskCount}
             verified={verifiedCount}
+            timeSaved={formatTimeSaved(timeSavedMinutes)}
             focus={focus}
             editingId={editingId}
             draftAction={draftAction}
@@ -282,7 +302,7 @@ export default function App() {
           <Activity receipts={receipts} onOpen={setOpenReceipt} />
         ) : null}
         {!loading && route === "people" ? <People wiped={wiped} people={people} /> : null}
-        {!loading && route === "routines" ? <Routines wiped={wiped} /> : null}
+        {!loading && route === "routines" ? <Routines wiped={wiped} routines={routines} /> : null}
         {!loading && route === "connections" ? (
           <Connections
             connections={connections}
@@ -337,8 +357,16 @@ export default function App() {
             setOpenReceipt(undefined);
           }}
           onUndo={() => {
-            setOpenReceipt(undefined);
-            setStatus("Reverse requested. External undo is verified, never assumed.");
+            void getRuntime()
+              .reverse(openReceipt.id)
+              .then((snapshot) => {
+                apply(snapshot);
+                setOpenReceipt(undefined);
+                setStatus("Reversed. External state was checked again.");
+              })
+              .catch((caught: unknown) => {
+                setError(caught instanceof Error ? caught.message : "Reverse failed");
+              });
           }}
         />
       ) : null}
@@ -349,10 +377,12 @@ export default function App() {
 function Today({
   weekday,
   meetings,
+  meetingPrep,
   decisions,
   needsYou,
   atRiskCount,
   verified,
+  timeSaved,
   focus,
   editingId,
   draftAction,
@@ -365,10 +395,12 @@ function Today({
 }: {
   weekday: string;
   meetings: SyntheticMeeting[];
+  meetingPrep: MeetingPrepView[];
   decisions: SyntheticDecision[];
   needsYou: number;
   atRiskCount: number;
   verified: number;
+  timeSaved: string;
   focus: number;
   editingId: string | undefined;
   draftAction: string;
@@ -407,7 +439,7 @@ function Today({
           ["Needs you", String(needsYou)],
           ["At risk", String(atRiskCount)],
           ["Verified", String(verified)],
-          ["Time saved", "1h 42m"]
+          ["Time saved", timeSaved]
         ].map(([label, value]) => (
           <div className="metric" key={label}>
             <span>{label}</span>
@@ -426,6 +458,17 @@ function Today({
               </p>
             </div>
             <span className="privacy">Calendar</span>
+          </article>
+        ))}
+        {meetingPrep.map((prep) => (
+          <article className="row" key={prep.eventTitle}>
+            <div>
+              <strong>Tomorrow's meeting needs these three documents</strong>
+              <p>
+                {prep.eventTitle} · {prep.when} · {prep.documents.join(", ")}
+              </p>
+            </div>
+            <span className="privacy">Prep</span>
           </article>
         ))}
       </section>
@@ -517,6 +560,8 @@ function Decisions({
         {FILTERS.map((item) => (
           <button
             key={item.id}
+            role="tab"
+            aria-selected={filter === item.id}
             className={filter === item.id ? "chip active" : "chip"}
             onClick={() => {
               setFilter(item.id);
@@ -589,7 +634,9 @@ function DecisionGrid({
           >
             <div className="card-meta">
               <span className="privacy">{decision.privacy}</span>
-              <span className={`risk ${decision.consequence}`}>{decision.consequence}</span>
+              <span className={`risk ${decision.consequence}`}>
+                {decision.consequence} risk
+              </span>
             </div>
             <h3>{decision.title}</h3>
             <p>{decision.detail}</p>
@@ -798,7 +845,7 @@ function Commitments({
                   <div>
                     <strong>{item.statement}</strong>
                     <p>
-                      {item.person} · {item.source} · {item.due}
+                      {item.person} · {item.source} · {item.due} · Follow up ready
                     </p>
                   </div>
                   <span className="privacy">{item.status}</span>
@@ -881,7 +928,7 @@ function People({ wiped, people }: { wiped: boolean; people: SyntheticPerson[] }
   );
 }
 
-function Routines({ wiped }: { wiped: boolean }) {
+function Routines({ wiped, routines }: { wiped: boolean; routines: WrittenRoutine[] }) {
   if (wiped) {
     return (
       <Empty title="No routines remain." body="Chief will only automate what you write down." />
@@ -937,7 +984,7 @@ function Connections({
       <article className="row">
         <div>
           <strong>Google Calendar</strong>
-          <p>calendar.readonly · synthetic fixture</p>
+          <p>calendar.readonly · on this device</p>
         </div>
         <ConnectionAction
           status={connections.calendar}
@@ -949,7 +996,7 @@ function Connections({
       <article className="row">
         <div>
           <strong>Gmail</strong>
-          <p>gmail.readonly · founder dogfood mode</p>
+          <p>gmail.readonly · on this device</p>
         </div>
         <ConnectionAction
           status={connections.gmail}

@@ -22,6 +22,7 @@ export class MockGoogleClient {
   ];
   drafts: { id: string; action: string }[] = [];
   sent: { id: string; action: string }[] = [];
+  private originals = new Map<string, string>();
 
   listEvents(): Promise<MockCalendarEvent[]> {
     return Promise.resolve(this.events.map((event) => ({ ...event })));
@@ -32,7 +33,21 @@ export class MockGoogleClient {
     if (!event) {
       return Promise.reject(new Error("Event not found"));
     }
+    if (!this.originals.has(event.id)) {
+      this.originals.set(event.id, event.end);
+    }
     event.end = end;
+    return Promise.resolve({ id: event.id });
+  }
+
+  restoreEvent(id: string): Promise<{ id: string }> {
+    const event = this.events.find((item) => item.id === id);
+    const previous = this.originals.get(id);
+    if (!event || !previous) {
+      return Promise.reject(new Error("Event not found"));
+    }
+    event.end = previous;
+    this.originals.delete(id);
     return Promise.resolve({ id: event.id });
   }
 
@@ -48,9 +63,18 @@ export class MockGoogleClient {
     return Promise.resolve({ id });
   }
 
+  removeDraft(id: string): void {
+    this.drafts = this.drafts.filter((item) => item.id !== id);
+  }
+
+  removeSent(id: string): void {
+    this.sent = this.sent.filter((item) => item.id !== id);
+  }
+
   reset(): void {
     this.events = [];
     this.drafts = [];
     this.sent = [];
+    this.originals.clear();
   }
 }

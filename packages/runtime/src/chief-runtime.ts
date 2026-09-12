@@ -1,9 +1,9 @@
-import { runObservedPipeline } from "@project-chief/core";
+import { runObservedPipeline, type NormalizedObservation } from "@project-chief/core";
 import { MemoryLedger, classifyVerification } from "@project-chief/ledger";
 import { hashActionPlan, issueApproval, PermissionEngine } from "@project-chief/permissions";
 import { EncryptedDatabase, MemorySecretStore } from "@project-chief/store";
 import type { ActionPlan, ActionReceipt, Commitment, Person, WorkItem } from "@project-chief/types";
-import { FIXTURE_OBSERVATIONS, FIXTURE_PEOPLE } from "./fixtures.js";
+import { FIXTURE_OBSERVATIONS, FIXTURE_PEOPLE, FIXTURE_ROUTINES } from "./fixtures.js";
 import { MockGoogleClient } from "./mock-google.js";
 
 export type ConnectionId = "calendar" | "gmail";
@@ -16,6 +16,21 @@ export interface MeetingView {
   conflict?: string;
 }
 
+export interface MeetingPrepView {
+  eventTitle: string;
+  when: string;
+  attendees: string[];
+  documents: string[];
+}
+
+export interface WrittenRoutine {
+  id: string;
+  title: string;
+  trigger: string;
+  writtenBy: "You";
+  status: "active" | "paused";
+}
+
 export interface ChiefSnapshot {
   workItems: WorkItem[];
   commitments: Commitment[];
@@ -23,7 +38,10 @@ export interface ChiefSnapshot {
   receipts: ActionReceipt[];
   people: Person[];
   meetings: MeetingView[];
+  meetingPrep: MeetingPrepView[];
+  routines: WrittenRoutine[];
   briefing: string;
+  timeSavedMinutes: number;
   connections: Record<ConnectionId, ConnectionStatus>;
   wiped: boolean;
   exportNote?: string;
@@ -43,6 +61,7 @@ export class ChiefRuntime {
   private plans: ActionPlan[] = [];
   private people: Person[] = FIXTURE_PEOPLE;
   private receipts: ActionReceipt[] = [];
+  private routines: WrittenRoutine[] = FIXTURE_ROUTINES;
   private briefing = "";
   private connections: Record<ConnectionId, ConnectionStatus> = {
     calendar: "connected",
@@ -59,12 +78,22 @@ export class ChiefRuntime {
     this.workItems = pipeline.workItems.map((item) =>
       item.status === "detected" ? { ...item, status: "needs_approval" } : item
     );
-    this.commitments = pipeline.commitments;
+    this.commitments = attachCounterparties(
+      pipeline.commitments,
+      this.people,
+      pipeline.observations
+    );
     this.plans = pipeline.plans.map((plan) => ({
       ...plan,
-      payload: { action: defaultAction(plan) }
+      payload: {
+        action: defaultAction(
+          plan,
+          this.workItems.find((item) => item.id === plan.workItemId)
+        )
+      }
     }));
     this.briefing = pipeline.briefing;
+    this.routines = FIXTURE_ROUTINES;
     this.wiped = false;
     this.exportNote = undefined;
     for (const item of this.workItems) {
@@ -84,7 +113,10 @@ export class ChiefRuntime {
       receipts: this.receipts,
       people: this.people,
       meetings: this.meetingsFromEvents(),
+      meetingPrep: this.meetingPrepFromEvents(),
+      routines: this.routines,
       briefing: this.briefing,
+      timeSavedMinutes: minutesSaved(this.receipts, this.plans),
       connections: this.connections,
       wiped: this.wiped,
       ...(this.exportNote ? { exportNote: this.exportNote } : {})
@@ -175,11 +207,30 @@ export class ChiefRuntime {
     this.plans = [];
     this.people = [];
     this.receipts = [];
+    this.routines = [];
     this.briefing = "";
     this.google.reset();
     this.connections = { calendar: "revoked", gmail: "revoked" };
     this.wiped = true;
     this.exportNote = undefined;
+    return this.current();
+  }
+
+  async reverse(receiptId: string): Promise<ChiefSnapshot> {
+    const existing = this.receipts.find((item) => item.id === receiptId);
+    const plan = this.plans.find((item) => item.id === existing?.actionPlanId);
+    if (!existing || !plan || existing.outcome !== "verified") {
+      throw new Error("Nothing reversible");
+    }
+    const detail =
+      typeof existing.verification.detail === "string" ? existing.verification.detail : "";
+    await this.undoMutation(plan, detail);
+    const receipt = this.receipt(plan, existing.inputHash, "reversed", detail);
+    await this.ledger.append(receipt);
+    await this.store.putReceipt(receipt);
+    this.workItems = this.workItems.map((item) =>
+      item.id === plan.workItemId ? { ...item, status: "needs_approval" } : item
+    );
     return this.current();
   }
 
@@ -204,6 +255,17 @@ export class ChiefRuntime {
         categoriesSent: []
       }
     };
+  }
+
+  private meetingPrepFromEvents(): MeetingPrepView[] {
+    return this.google.events
+      .filter((event) => !event.title.toLowerCase().includes("hold"))
+      .map((event) => ({
+        eventTitle: event.title,
+        when: formatMeetingWhen(event.start),
+        attendees: attendeesFor(event.title, this.people),
+        documents: ["Board pack", "Last proposal draft", "Amina's notes"]
+      }));
   }
 
   private meetingsFromEvents(): MeetingView[] {
@@ -269,6 +331,26 @@ export class ChiefRuntime {
       }
     }
   }
+
+  private undoMutation(plan: ActionPlan, id: string): Promise<void> {
+    switch (plan.actionType) {
+      case "email.draft":
+        this.google.removeDraft(id);
+        return Promise.resolve();
+      case "email.send":
+        this.google.removeSent(id);
+        return Promise.resolve();
+      case "calendar.update":
+        return this.google.restoreEvent("evt-1842").then(() => undefined);
+      case "calendar.create":
+      case "calendar.delete":
+        return Promise.reject(new Error("Action class is not enabled in the fixture runtime"));
+      default: {
+        const exhaustive: never = plan.actionType;
+        return Promise.reject(new Error(String(exhaustive)));
+      }
+    }
+  }
 }
 
 function rangesOverlap(startA: string, endA: string, startB: string, endB: string): boolean {
@@ -282,7 +364,13 @@ function formatMeetingWhen(iso: string): string {
   return `Tomorrow ${hours}:${minutes}`;
 }
 
-function defaultAction(plan: ActionPlan): string {
+function defaultAction(plan: ActionPlan, item: WorkItem | undefined): string {
+  if (item?.kind === "meeting_prep") {
+    return "Assemble the board pack, last proposal, and Amina's notes";
+  }
+  if (item?.kind === "commitment") {
+    return "Prepare the promised board pack";
+  }
   switch (plan.actionType) {
     case "email.draft":
       return "Prepare a follow-up draft to Jordan";
@@ -296,6 +384,67 @@ function defaultAction(plan: ActionPlan): string {
       return "Remove the hold";
     default: {
       const exhaustive: never = plan.actionType;
+      return exhaustive;
+    }
+  }
+}
+
+function attachCounterparties(
+  commitments: Commitment[],
+  people: Person[],
+  observations: readonly NormalizedObservation[]
+): Commitment[] {
+  return commitments.map((item) => {
+    if (item.counterpartyId) {
+      return item;
+    }
+    const observation = observations.find((entry) => entry.id === item.sourceRefs[0]?.sourceId);
+    const haystack =
+      `${item.statement} ${observation?.title ?? ""} ${observation?.participants.join(" ") ?? ""}`.toLowerCase();
+    const match = people.find(
+      (person) =>
+        haystack.includes(person.displayName.toLowerCase()) ||
+        person.aliases.some((alias) => haystack.includes(alias.toLowerCase()))
+    );
+    return match ? { ...item, counterpartyId: match.id } : item;
+  });
+}
+
+function attendeesFor(title: string, people: Person[]): string[] {
+  return people
+    .filter(
+      (person) =>
+        title.toLowerCase().includes(person.displayName.toLowerCase()) ||
+        person.aliases.some((alias) => title.toLowerCase().includes(alias.toLowerCase()))
+    )
+    .map((person) => person.displayName);
+}
+
+function minutesSaved(receipts: ActionReceipt[], plans: ActionPlan[]): number {
+  return receipts
+    .filter((item) => item.outcome === "verified")
+    .reduce((total, receipt) => {
+      const plan = plans.find((item) => item.id === receipt.actionPlanId);
+      return total + minutesFor(plan?.actionType);
+    }, 0);
+}
+
+function minutesFor(actionType: ActionPlan["actionType"] | undefined): number {
+  switch (actionType) {
+    case "email.draft":
+      return 12;
+    case "email.send":
+      return 8;
+    case "calendar.update":
+      return 18;
+    case "calendar.create":
+      return 10;
+    case "calendar.delete":
+      return 8;
+    case undefined:
+      return 0;
+    default: {
+      const exhaustive: never = actionType;
       return exhaustive;
     }
   }

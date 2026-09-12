@@ -17,7 +17,10 @@ export function emptySnapshot(): ChiefSnapshot {
     receipts: [],
     people: [],
     meetings: [],
+    meetingPrep: [],
+    routines: [],
     briefing: "",
+    timeSavedMinutes: 0,
     connections: { calendar: "connected", gmail: "connected" },
     wiped: false
   };
@@ -35,7 +38,7 @@ export function commitmentsFromSnapshot(snapshot: ChiefSnapshot): SyntheticCommi
     id: item.id,
     direction: item.direction,
     statement: item.statement,
-    person: item.counterpartyId ?? "Unknown",
+    person: personName(snapshot, item.counterpartyId, item.statement),
     source: item.sourceRefs[0]?.provider === "google_calendar" ? "Calendar" : "Gmail",
     due: item.dueAt ?? "Open",
     status: item.status === "uncertain" ? "uncertain" : "open"
@@ -92,7 +95,7 @@ function toDecision(item: WorkItem, plan: ActionPlan | undefined): SyntheticDeci
   return {
     id: item.id,
     title: item.title,
-    detail: item.title,
+    detail: item.summary ?? item.title,
     action,
     actionType:
       plan?.actionType === "email.send"
@@ -154,11 +157,42 @@ function stateFrom(status: WorkItem["status"]): DecisionState {
 }
 
 function filtersFor(item: WorkItem): SyntheticDecision["filter"] {
-  const filters: SyntheticDecision["filter"] = ["today"];
+  const filters: SyntheticDecision["filter"] = ["today", "week"];
   if (item.kind === "follow_up" || item.kind === "reply") filters.push("now");
   if (item.kind === "calendar_conflict" || item.kind === "reply") filters.push("consequential");
-  if (item.kind === "commitment" || item.kind === "follow_up") filters.push("low");
+  if (item.kind === "commitment" || item.kind === "follow_up" || item.kind === "meeting_prep") {
+    filters.push("low");
+  }
   return filters;
+}
+
+function personName(
+  snapshot: ChiefSnapshot,
+  counterpartyId: string | undefined,
+  statement: string
+): string {
+  const named = snapshot.people.find((person) => person.id === counterpartyId);
+  if (named) {
+    return named.displayName;
+  }
+  const match = snapshot.people.find(
+    (person) =>
+      statement.toLowerCase().includes(person.displayName.toLowerCase()) ||
+      person.aliases.some((alias) => statement.toLowerCase().includes(alias.toLowerCase()))
+  );
+  return match?.displayName ?? "Unknown";
+}
+
+export function formatTimeSaved(minutes: number): string {
+  if (minutes <= 0) {
+    return "0m";
+  }
+  const hours = Math.floor(minutes / 60);
+  const remainder = minutes % 60;
+  if (hours === 0) {
+    return `${remainder}m`;
+  }
+  return remainder === 0 ? `${hours}h` : `${hours}h ${remainder}m`;
 }
 
 function receiptDetail(receipt: ActionReceipt): string {

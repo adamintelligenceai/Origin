@@ -58,6 +58,7 @@ export const workItemSchema = z.object({
     "routine"
   ]),
   title: z.string().min(1),
+  summary: z.string().min(1).optional(),
   urgency: z.number().min(0).max(1),
   importance: z.number().min(0).max(1),
   confidence: z.number().min(0).max(1),
