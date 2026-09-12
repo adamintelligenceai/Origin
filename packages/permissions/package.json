@@ -15,6 +15,7 @@
     "vitest": "^3.2.4"
   },
   "dependencies": {
+    "@noble/hashes": "^1.8.0",
     "@project-chief/types": "workspace:*"
   }
 }

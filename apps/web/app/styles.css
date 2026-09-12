@@ -58,15 +58,21 @@ h1 {
   gap: 12px;
   margin-top: 38px;
 }
-button {
+button,
+.actions a {
   border: 0;
   border-radius: 999px;
   padding: 14px 20px;
   font: inherit;
   font-weight: 650;
   cursor: pointer;
+  text-decoration: none;
+  color: #0b0d10;
+  background: #f5f4ef;
+  display: inline-block;
 }
-button.secondary {
+button.secondary,
+.actions a.secondary {
   background: #1b1e22;
   color: #f5f4ef;
   border: 1px solid #31353b;
@@ -99,6 +105,21 @@ h2 {
 .privacy {
   margin-top: 120px;
   max-width: 760px;
+}
+form {
+  margin-top: 28px;
+  display: grid;
+  gap: 12px;
+  max-width: 360px;
+}
+input {
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #31353b;
+  background: #101317;
+  color: #f5f4ef;
 }
 @media (max-width: 760px) {
   .trust {

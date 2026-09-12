@@ -15,17 +15,17 @@ TypeScript stays on **5.9.x** during Phase 0. TypeScript 7.x is not adopted yet 
 
 ## Root devDependencies
 
-| Package                     | Version    | Purpose                         |
-| --------------------------- | ---------- | ------------------------------- |
-| `@eslint/js`                | `^10.0.1`  | ESLint 10 flat-config baseline  |
-| `eslint`                    | `^10.10.0` | Lint gate across all packages   |
+| Package                     | Version    | Purpose                                       |
+| --------------------------- | ---------- | --------------------------------------------- |
+| `@eslint/js`                | `^10.0.1`  | ESLint 10 flat-config baseline                |
+| `eslint`                    | `^10.10.0` | Lint gate across all packages                 |
 | `eslint-plugin-react-hooks` | `^7.1.1`   | React hook correctness (ESLint 10 compatible) |
-| `globals`                   | `^16.4.0`  | Browser/Node globals for ESLint |
-| `prettier`                  | `^3.9.6`   | Formatting gate                 |
-| `turbo`                     | `^2.10.12` | Task runner                     |
-| `typescript`                | `^5.9.2`   | Strict typechecking             |
-| `typescript-eslint`         | `^8.70.0`  | Type-aware ESLint rules         |
-| `vitest`                    | `^3.2.4`   | Unit test runner                |
+| `globals`                   | `^16.4.0`  | Browser/Node globals for ESLint               |
+| `prettier`                  | `^3.9.6`   | Formatting gate                               |
+| `turbo`                     | `^2.10.12` | Task runner                                   |
+| `typescript`                | `^5.9.2`   | Strict typechecking                           |
+| `typescript-eslint`         | `^8.70.0`  | Type-aware ESLint rules                       |
+| `vitest`                    | `^3.2.4`   | Unit test runner                              |
 
 ## Apps
 
@@ -72,16 +72,17 @@ Expo was upgraded from SDK 55 → 57 because the scaffold versions were stale re
 
 ## Packages
 
-| Package                       | Runtime deps           | Purpose                                 |
-| ----------------------------- | ---------------------- | --------------------------------------- |
-| `@project-chief/types`        | none                   | Canonical domain interfaces             |
-| `@project-chief/core`         | `@project-chief/types` | Detector/planner/executor interfaces    |
-| `@project-chief/permissions`  | `@project-chief/types` | Deterministic permission engine starter |
-| `@project-chief/ledger`       | `@project-chief/types` | Receipt/ledger placeholder              |
-| `@project-chief/privacy`      | `@project-chief/types` | Privacy gateway placeholder             |
-| `@project-chief/model-router` | none                   | Model routing placeholder               |
-
-No Zod, network, database, analytics, or OAuth libraries are added in Phase 0 by design.
+| Package                            | Runtime deps                                       | Purpose                         |
+| ---------------------------------- | -------------------------------------------------- | ------------------------------- |
+| `@project-chief/types`             | `zod`                                              | Canonical Zod schemas           |
+| `@project-chief/core`              | `@project-chief/types`                             | Proactive pipeline              |
+| `@project-chief/permissions`       | `@project-chief/types`                             | Deterministic permission engine |
+| `@project-chief/ledger`            | `@project-chief/types`                             | Receipt ledger                  |
+| `@project-chief/privacy`           | `@project-chief/types`                             | Privacy gateway                 |
+| `@project-chief/model-router`      | privacy, types, zod                                | Model gateway + cost ledger     |
+| `@project-chief/store`             | `@noble/ciphers`, `@noble/hashes`, types           | Encrypted local store           |
+| `@project-chief/connectors-google` | permissions, store, types, ledger                  | Calendar/Gmail + PKCE           |
+| `@project-chief/sync`              | `@noble/ciphers`, `@noble/curves`, `@noble/hashes` | E2EE envelopes                  |
 
 ## CI security tooling
 
@@ -95,12 +96,11 @@ No Zod, network, database, analytics, or OAuth libraries are added in Phase 0 by
 
 ## Explicitly excluded in Phase 0
 
-The following are **not** present and must not be added until their phase:
+Still excluded on purpose:
 
 - analytics SDKs
 - hosted database clients
-- OAuth / connector libraries
-- model provider SDKs
+- official Google/OpenAI SDKs (first-party fetch adapters only)
 - third-party connector aggregators
 
 ## Version verification date

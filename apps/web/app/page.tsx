@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const PRODUCT_NAME = "Project Chief";
 
 export default function HomePage() {
@@ -15,8 +17,10 @@ export default function HomePage() {
           carries approved work through.
         </p>
         <div className="actions">
-          <button>Join founding access</button>
-          <button className="secondary">See how it works</button>
+          <Link href="/waitlist">Join founding access</Link>
+          <Link href="/trust" className="secondary">
+            See how it works
+          </Link>
         </div>
       </section>
       <section className="trust">
@@ -35,14 +39,6 @@ export default function HomePage() {
           <h2>Proves the result</h2>
           <p>An action is not complete until the external system is checked again.</p>
         </article>
-      </section>
-      <section className="privacy">
-        <p className="eyebrow">Private by architecture</p>
-        <h2>Your service provider shouldn't need a copy of your life.</h2>
-        <p>
-          Personal context is designed to live on your devices by default. The service cloud is
-          intentionally limited to account, billing and encrypted routing metadata.
-        </p>
       </section>
     </main>
   );
