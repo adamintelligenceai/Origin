@@ -4,6 +4,7 @@ import type { NormalizedObservation } from "../types.js";
 const COMMITMENT_MARKERS = ["i will", "i'll", "i can send", "by friday", "due"];
 const OWED_MARKERS = ["you promised", "waiting on", "still outstanding"];
 const FOLLOW_UP_MARKERS = ["checking in", "any update", "follow up"];
+const REPLY_READY_MARKERS = ["reply is ready", "draft is ready"];
 
 export interface NormalizedSource {
   id: string;
@@ -42,7 +43,10 @@ export function detectFromSources(sources: NormalizedSource[]): {
       });
       workItems.push(workItem(`f-${source.id}`, "follow_up", source.text, source.ref, 0.82));
     }
-    if (FOLLOW_UP_MARKERS.some((marker) => text.includes(marker))) {
+    if (
+      FOLLOW_UP_MARKERS.some((marker) => text.includes(marker)) &&
+      !REPLY_READY_MARKERS.some((marker) => text.includes(marker))
+    ) {
       workItems.push(workItem(`u-${source.id}`, "follow_up", source.text, source.ref, 0.64));
     }
   }
@@ -92,7 +96,7 @@ export function detectFromNormalized(observations: readonly NormalizedObservatio
   }
   for (const observation of observations) {
     const haystack = `${observation.title} ${observation.body ?? ""}`.toLowerCase();
-    if (haystack.includes("reply is ready") || haystack.includes("draft is ready")) {
+    if (REPLY_READY_MARKERS.some((marker) => haystack.includes(marker))) {
       detected.workItems.push({
         id: `reply-${observation.id}`,
         kind: "reply",

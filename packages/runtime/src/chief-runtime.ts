@@ -9,12 +9,20 @@ import { MockGoogleClient } from "./mock-google.js";
 export type ConnectionId = "calendar" | "gmail";
 export type ConnectionStatus = "connected" | "revoked";
 
+export interface MeetingView {
+  id: string;
+  title: string;
+  when: string;
+  conflict?: string;
+}
+
 export interface ChiefSnapshot {
   workItems: WorkItem[];
   commitments: Commitment[];
   plans: ActionPlan[];
   receipts: ActionReceipt[];
   people: Person[];
+  meetings: MeetingView[];
   briefing: string;
   connections: Record<ConnectionId, ConnectionStatus>;
   wiped: boolean;
@@ -75,6 +83,7 @@ export class ChiefRuntime {
       plans: this.plans,
       receipts: this.receipts,
       people: this.people,
+      meetings: this.meetingsFromEvents(),
       briefing: this.briefing,
       connections: this.connections,
       wiped: this.wiped,
@@ -167,6 +176,7 @@ export class ChiefRuntime {
     this.people = [];
     this.receipts = [];
     this.briefing = "";
+    this.google.reset();
     this.connections = { calendar: "revoked", gmail: "revoked" };
     this.wiped = true;
     this.exportNote = undefined;
@@ -194,6 +204,21 @@ export class ChiefRuntime {
         categoriesSent: []
       }
     };
+  }
+
+  private meetingsFromEvents(): MeetingView[] {
+    return this.google.events.map((event) => {
+      const overlap = this.google.events.find(
+        (other) =>
+          other.id !== event.id && rangesOverlap(event.start, event.end, other.start, other.end)
+      );
+      return {
+        id: event.id,
+        title: event.title,
+        when: formatMeetingWhen(event.start),
+        ...(overlap ? { conflict: `Overlaps ${overlap.title}` } : {})
+      };
+    });
   }
 
   private mutate(plan: ActionPlan): Promise<{ id: string }> {
@@ -244,6 +269,17 @@ export class ChiefRuntime {
       }
     }
   }
+}
+
+function rangesOverlap(startA: string, endA: string, startB: string, endB: string): boolean {
+  return startA < endA && startB < endB && startA < endB && startB < endA;
+}
+
+function formatMeetingWhen(iso: string): string {
+  const date = new Date(iso);
+  const hours = String(date.getUTCHours()).padStart(2, "0");
+  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+  return `Tomorrow ${hours}:${minutes}`;
 }
 
 function defaultAction(plan: ActionPlan): string {

@@ -34,6 +34,20 @@ describe("ChiefRuntime", () => {
     const wiped = await runtime.wipe();
     expect(wiped.wiped).toBe(true);
     expect(wiped.workItems).toEqual([]);
+    expect(wiped.meetings).toEqual([]);
     expect(wiped.connections.gmail).toBe("revoked");
+  });
+
+  it("exposes overlapping fixture meetings and clears the conflict after approve", async () => {
+    const runtime = new ChiefRuntime();
+    const boot = await runtime.boot();
+    expect(boot.meetings.some((item) => item.conflict)).toBe(true);
+    const conflict = boot.workItems.find((item) => item.kind === "calendar_conflict");
+    if (!conflict) {
+      throw new Error("expected calendar conflict work item");
+    }
+    const next = await runtime.approve(conflict.id);
+    expect(next.workItems.find((item) => item.id === conflict.id)?.status).toBe("verified");
+    expect(next.meetings.every((item) => !item.conflict)).toBe(true);
   });
 });

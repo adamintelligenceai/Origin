@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  meetings,
   routines,
   type DecisionFilter,
   type DecisionState,
   type RouteName,
   type SyntheticDecision,
+  type SyntheticMeeting,
   type SyntheticReceipt
 } from "./fixtures/synthetic.js";
 import { getRuntime, resetRuntime, wait } from "./runtime/session.js";
@@ -15,6 +15,7 @@ import {
   commitmentsFromSnapshot,
   decisionsFromSnapshot,
   emptySnapshot,
+  meetingsFromSnapshot,
   peopleFromSnapshot,
   receiptsFromSnapshot
 } from "./runtime/view-model.js";
@@ -49,6 +50,7 @@ export default function App() {
   const [receipts, setReceipts] = useState<SyntheticReceipt[]>([]);
   const [commitments, setCommitments] = useState(commitmentsFromSnapshot(emptySnapshot()));
   const [people, setPeople] = useState(peopleFromSnapshot(emptySnapshot()));
+  const [meetings, setMeetings] = useState(meetingsFromSnapshot(emptySnapshot()));
   const [openReceipt, setOpenReceipt] = useState<SyntheticReceipt | undefined>();
   const [filter, setFilter] = useState<DecisionFilter>("today");
   const [chief, setChief] = useState("");
@@ -70,7 +72,7 @@ export default function App() {
   useEffect(() => {
     const runtime = resetRuntime();
     void runtime.boot().then((snapshot) => {
-      applySnapshot(snapshot, setDecisions, setReceipts, setCommitments, setPeople);
+      applySnapshot(snapshot, setDecisions, setReceipts, setCommitments, setPeople, setMeetings);
       setLoading(false);
     });
   }, []);
@@ -85,7 +87,10 @@ export default function App() {
   }, [visible.length]);
 
   const apply = useCallback((snapshot: ChiefSnapshot) => {
-    applySnapshot(snapshot, setDecisions, setReceipts, setCommitments, setPeople);
+    applySnapshot(snapshot, setDecisions, setReceipts, setCommitments, setPeople, setMeetings);
+    setConnections(snapshot.connections);
+    setExportNote(snapshot.exportNote);
+    setWiped(snapshot.wiped);
   }, []);
 
   const onApprove = useCallback(
@@ -162,12 +167,12 @@ export default function App() {
 
   const askChief = useCallback(
     (query: string) => {
-      const next = answerChief(query || "Prepare me for tomorrow", decisions);
+      const next = answerChief(query || "Prepare me for tomorrow", decisions, commitments, meetings);
       setAnswer(next);
       setChief(query);
       setRoute("chief");
     },
-    [decisions]
+    [commitments, decisions, meetings]
   );
 
   const wipeDevice = useCallback(() => {
@@ -177,16 +182,13 @@ export default function App() {
         apply(snapshot);
         setOpenReceipt(undefined);
         setAnswer(undefined);
-        setWiped(true);
         setConfirmWipe(false);
-        setExportNote(undefined);
-        setConnections(snapshot.connections);
         setStatus("Secure wipe completed. The database key is gone.");
       });
   }, [apply]);
 
   const needsYou = decisions.filter((item) => item.state === "ready").length;
-  const verifiedCount = decisions.filter((item) => item.state === "verified").length + 6;
+  const verifiedCount = decisions.filter((item) => item.state === "verified").length;
   const atRiskCount = decisions.filter((item) => item.atRisk && item.state !== "dismissed").length;
   const weekday = new Intl.DateTimeFormat("en-AU", { weekday: "long" }).format(new Date());
 
@@ -229,6 +231,7 @@ export default function App() {
         {!loading && !wiped && route === "today" ? (
           <Today
             weekday={weekday}
+            meetings={meetings}
             decisions={decisions.filter((item) => item.state !== "dismissed")}
             needsYou={needsYou}
             atRiskCount={atRiskCount}
@@ -287,7 +290,7 @@ export default function App() {
               void getRuntime()
                 .revoke(id)
                 .then((snapshot) => {
-                  setConnections(snapshot.connections);
+                  apply(snapshot);
                   setStatus("Connection revoked on this device.");
                 });
             }}
@@ -295,7 +298,7 @@ export default function App() {
               void getRuntime()
                 .revokeAll()
                 .then((snapshot) => {
-                  setConnections(snapshot.connections);
+                  apply(snapshot);
                   setStatus("Every connector token was dropped.");
                 });
             }}
@@ -320,7 +323,7 @@ export default function App() {
               void getRuntime()
                 .revokeAll()
                 .then((snapshot) => {
-                  setConnections(snapshot.connections);
+                  apply(snapshot);
                   setRoute("connections");
                 });
             }}
@@ -345,6 +348,7 @@ export default function App() {
 
 function Today({
   weekday,
+  meetings,
   decisions,
   needsYou,
   atRiskCount,
@@ -360,6 +364,7 @@ function Today({
   onAsk
 }: {
   weekday: string;
+  meetings: SyntheticMeeting[];
   decisions: SyntheticDecision[];
   needsYou: number;
   atRiskCount: number;
@@ -388,8 +393,9 @@ function Today({
           <p className="eyebrow">{weekday} · Private preview</p>
           <h1>Good morning.</h1>
           <p className="summary">
-            {needsYou} decisions need you. {atRiskCount} items are at risk. {verified} actions were
-            verified.
+            {needsYou} {needsYou === 1 ? "decision needs" : "decisions need"} you. {atRiskCount}{" "}
+            {atRiskCount === 1 ? "item is" : "items are"} at risk. {verified}{" "}
+            {verified === 1 ? "action was" : "actions were"} verified.
           </p>
         </div>
         <button className="ask" onClick={onAsk}>

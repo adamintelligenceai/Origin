@@ -47,4 +47,10 @@ export class MockGoogleClient {
     this.sent.push({ id, action });
     return Promise.resolve({ id });
   }
+
+  reset(): void {
+    this.events = [];
+    this.drafts = [];
+    this.sent = [];
+  }
 }

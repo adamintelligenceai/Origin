@@ -62,4 +62,25 @@ describe("proactive pipeline", () => {
     expect(result.workItems.some((item) => item.kind === "calendar_conflict")).toBe(true);
     expect(result.plans.some((plan) => plan.actionType === "calendar.update")).toBe(true);
   });
+
+  it("does not emit a second follow-up when a reply is already ready", () => {
+    const result = runObservedPipeline([
+      {
+        id: "mail-reply",
+        provider: "gmail",
+        providerId: "msg-reply",
+        kind: "email",
+        capturedAt: "2026-09-12T07:40:00.000Z",
+        payload: {
+          subject: "Reply is ready",
+          body: "Checking in — any update before send?",
+          from: "Jordan Blake",
+          hash: "h-mail-reply"
+        }
+      }
+    ]);
+    const related = result.workItems.filter((item) => item.title.includes("Reply is ready"));
+    expect(related).toHaveLength(1);
+    expect(related[0]?.kind).toBe("reply");
+  });
 });

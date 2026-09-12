@@ -2,7 +2,7 @@
   "name": "@project-chief/web",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -H 0.0.0.0 -p 3000",
     "build": "next build",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0",

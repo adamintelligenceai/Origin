@@ -1,4 +1,8 @@
-import { commitments, meetings, type SyntheticDecision } from "../fixtures/synthetic.js";
+import type {
+  SyntheticCommitment,
+  SyntheticDecision,
+  SyntheticMeeting
+} from "../fixtures/synthetic.js";
 
 export interface ChiefAnswer {
   heading: string;
@@ -7,7 +11,12 @@ export interface ChiefAnswer {
   route: "decisions" | "commitments" | "today";
 }
 
-export function answerChief(query: string, decisions: SyntheticDecision[]): ChiefAnswer {
+export function answerChief(
+  query: string,
+  decisions: SyntheticDecision[],
+  commitments: SyntheticCommitment[],
+  meetings: SyntheticMeeting[]
+): ChiefAnswer {
   const text = query.trim().toLowerCase();
   const ready = decisions.filter((item) => item.state === "ready");
   const waiting = commitments.filter((item) => item.direction === "other_owes");

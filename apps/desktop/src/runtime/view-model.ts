@@ -4,6 +4,7 @@ import type {
   DecisionState,
   SyntheticCommitment,
   SyntheticDecision,
+  SyntheticMeeting,
   SyntheticPerson,
   SyntheticReceipt
 } from "../fixtures/synthetic.js";
@@ -15,6 +16,7 @@ export function emptySnapshot(): ChiefSnapshot {
     plans: [],
     receipts: [],
     people: [],
+    meetings: [],
     briefing: "",
     connections: { calendar: "connected", gmail: "connected" },
     wiped: false
@@ -50,17 +52,28 @@ export function peopleFromSnapshot(snapshot: ChiefSnapshot): SyntheticPerson[] {
   }));
 }
 
+export function meetingsFromSnapshot(snapshot: ChiefSnapshot): SyntheticMeeting[] {
+  return snapshot.meetings.map((meeting) => ({
+    id: meeting.id,
+    title: meeting.title,
+    when: meeting.when,
+    ...(meeting.conflict ? { conflict: meeting.conflict } : {})
+  }));
+}
+
 export function applySnapshot(
   snapshot: ChiefSnapshot,
   setDecisions: (items: SyntheticDecision[]) => void,
   setReceipts: (items: SyntheticReceipt[]) => void,
   setCommitments: (items: SyntheticCommitment[]) => void,
-  setPeople: (items: SyntheticPerson[]) => void
+  setPeople: (items: SyntheticPerson[]) => void,
+  setMeetings: (items: SyntheticMeeting[]) => void
 ): void {
   setDecisions(decisionsFromSnapshot(snapshot));
   setReceipts(receiptsFromSnapshot(snapshot));
   setCommitments(commitmentsFromSnapshot(snapshot));
   setPeople(peopleFromSnapshot(snapshot));
+  setMeetings(meetingsFromSnapshot(snapshot));
 }
 
 export function receiptsFromSnapshot(snapshot: ChiefSnapshot): SyntheticReceipt[] {

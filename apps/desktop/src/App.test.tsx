@@ -12,6 +12,8 @@ describe("desktop product loop", () => {
   it("moves a decision from approve to verified and opens a receipt", async () => {
     render(<App />);
     await screen.findByText("Good morning.");
+    expect(screen.getByText("Board prep with Amina")).toBeTruthy();
+    expect(screen.getAllByText(/Overlaps/).length).toBeGreaterThan(0);
     const approve = screen.getAllByRole("button", { name: "Approve" }).at(0);
     if (!approve) {
       throw new Error("expected an approve button");
