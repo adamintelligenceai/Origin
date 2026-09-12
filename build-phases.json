@@ -1,0 +1,82 @@
+[
+  {
+    "phase": 0,
+    "name": "repo-foundation",
+    "status": "complete"
+  },
+  {
+    "phase": 1,
+    "name": "permissions-domain",
+    "status": "starter-created"
+  },
+  {
+    "phase": 2,
+    "name": "desktop-synthetic-ui",
+    "status": "starter-created"
+  },
+  {
+    "phase": 3,
+    "name": "local-encrypted-store",
+    "status": "not-started"
+  },
+  {
+    "phase": 4,
+    "name": "google-calendar-read",
+    "status": "not-started"
+  },
+  {
+    "phase": 5,
+    "name": "gmail-read",
+    "status": "not-started"
+  },
+  {
+    "phase": 6,
+    "name": "privacy-model-gateway",
+    "status": "not-started"
+  },
+  {
+    "phase": 7,
+    "name": "proactive-engine",
+    "status": "not-started"
+  },
+  {
+    "phase": 8,
+    "name": "approved-mutations",
+    "status": "not-started"
+  },
+  {
+    "phase": 9,
+    "name": "privacy-center",
+    "status": "not-started"
+  },
+  {
+    "phase": 10,
+    "name": "mobile-companion",
+    "status": "starter-created"
+  },
+  {
+    "phase": 11,
+    "name": "e2ee-sync",
+    "status": "not-started"
+  },
+  {
+    "phase": 12,
+    "name": "web-control-plane",
+    "status": "starter-created"
+  },
+  {
+    "phase": 13,
+    "name": "dogfood",
+    "status": "not-started"
+  },
+  {
+    "phase": 14,
+    "name": "alpha-hardening",
+    "status": "not-started"
+  },
+  {
+    "phase": 15,
+    "name": "paid-launch",
+    "status": "not-started"
+  }
+]

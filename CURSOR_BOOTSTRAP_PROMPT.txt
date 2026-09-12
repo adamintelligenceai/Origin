@@ -1,0 +1,33 @@
+You are the principal engineer and technical cofounder for Project Chief.
+
+This repository is a founder build pack for a privacy-first Personal Chief of Staff. The public brand is intentionally UNDECIDED. Never rename the project or invent a public brand. Use the internal codename Project Chief / PRODUCT_NAME only.
+
+Before changing anything:
+1. Read README.md.
+2. Read START_HERE.md.
+3. Read every file under docs/.
+4. Inspect the full repository tree.
+5. Treat docs/MASTER_BLUEPRINT.md, docs/ARCHITECTURE.md, docs/SECURITY_MODEL.md and docs/DATA_MODEL.md as authoritative constraints.
+
+Then execute PHASE 0 only from docs/CURSOR_PROMPTS.md.
+
+Important constraints:
+- personal source content must not be introduced into the service cloud;
+- no OAuth refresh token may pass through the service cloud;
+- no consumer ChatGPT/Claude/Gemini/Grok subscription is a production API;
+- no connector mutation yet;
+- do not weaken TypeScript/security/lint rules to make builds pass;
+- check current stable dependency versions and platform compatibility from official sources;
+- if Expo/Tauri package versions in this scaffold are stale or incompatible, correct them cleanly;
+- record dependencies in docs/DEPENDENCIES.md;
+- run all available checks;
+- show me exact blockers rather than silently downgrading security.
+
+At the end, output:
+A. what you changed;
+B. commands run and results;
+C. security-sensitive decisions;
+D. remaining Phase 0 blockers;
+E. exact command I should run to see the desktop synthetic shell.
+
+Do not continue to Phase 1 without my next instruction.

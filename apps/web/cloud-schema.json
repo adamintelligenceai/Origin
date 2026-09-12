@@ -1,0 +1,13 @@
+{
+  "account": ["account_id", "created_at", "plan", "stripe_customer_id"],
+  "device": [
+    "device_id",
+    "account_id",
+    "public_key",
+    "platform",
+    "app_version",
+    "push_routing_id",
+    "last_seen_at"
+  ],
+  "telemetry": ["event", "device_id_hash", "numeric", "flags"]
+}

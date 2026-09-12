@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Project Chief",
+    "slug": "project-chief",
+    "scheme": "projectchief",
+    "plugins": [["expo-sqlite", { "useSQLCipher": true }], "expo-secure-store", "expo-router"],
+    "ios": { "supportsTablet": true },
+    "android": { "package": "com.projectchief.mobile" }
+  }
+}
