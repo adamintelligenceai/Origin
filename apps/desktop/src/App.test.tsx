@@ -15,11 +15,12 @@ describe("desktop product loop", () => {
       throw new Error("expected an approve button");
     }
     fireEvent.click(approve);
-    expect(screen.getAllByText("Executing").length).toBeGreaterThan(0);
+    expect(screen.getAllByRole("button", { name: "Executing" }).length).toBeGreaterThan(0);
     await waitFor(() => {
-      expect(screen.getAllByText("Verified").length).toBeGreaterThan(0);
+      expect(screen.getByLabelText("Action receipt")).toBeTruthy();
     });
-    expect(screen.getByLabelText("Action receipt")).toBeTruthy();
+    expect(screen.getAllByRole("button", { name: "Verified" }).length).toBeGreaterThan(0);
+    expect(screen.getByText(/External state matched/)).toBeTruthy();
   });
 
   it("shows a distinctive privacy badge on the privacy route", async () => {
@@ -28,5 +29,37 @@ describe("desktop product loop", () => {
     fireEvent.click(screen.getByRole("button", { name: /Privacy/ }));
     expect(screen.getAllByText("On this device").length).toBeGreaterThan(0);
     expect(screen.getByText(/Email, calendar notes/)).toBeTruthy();
+  });
+
+  it("lets the user edit a proposed action before approval", async () => {
+    render(<App />);
+    await screen.findByText("Good morning.");
+    const edit = screen.getAllByRole("button", { name: "Edit" }).at(0);
+    if (!edit) {
+      throw new Error("expected an edit button");
+    }
+    fireEvent.click(edit);
+    const editor = screen.getByLabelText("Edit proposed action");
+    fireEvent.change(editor, { target: { value: "Prepare a shorter follow-up" } });
+    fireEvent.click(screen.getByRole("button", { name: "Save action" }));
+    expect(screen.getByText(/Prepare a shorter follow-up/)).toBeTruthy();
+  });
+
+  it("answers Chief with structured work items", async () => {
+    render(<App />);
+    await screen.findByText("Good morning.");
+    fireEvent.click(screen.getByRole("button", { name: "Ask Chief" }));
+    expect(screen.getByText("Prepared for tomorrow")).toBeTruthy();
+    expect(screen.getByText(/Structured work, not an essay/)).toBeTruthy();
+  });
+
+  it("wipes local state without offering cloud recovery", async () => {
+    render(<App />);
+    await screen.findByText("Good morning.");
+    fireEvent.click(screen.getByRole("button", { name: /Privacy/ }));
+    fireEvent.click(screen.getByRole("button", { name: "Wipe this device" }));
+    fireEvent.click(screen.getByRole("button", { name: "Confirm wipe" }));
+    fireEvent.click(screen.getByRole("button", { name: /Today/ }));
+    expect(screen.getByText("This device is empty.")).toBeTruthy();
   });
 });

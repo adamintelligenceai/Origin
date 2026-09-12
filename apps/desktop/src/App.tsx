@@ -3,12 +3,16 @@ import {
   commitments,
   initialDecisions,
   initialReceipts,
+  meetings,
   people,
+  routines,
+  type DecisionFilter,
   type DecisionState,
   type RouteName,
   type SyntheticDecision,
   type SyntheticReceipt
 } from "./fixtures/synthetic.js";
+import { answerChief, type ChiefAnswer } from "./utils/briefing.js";
 import { approveDecision } from "./utils/runtime.js";
 
 const ROUTES: { id: RouteName; label: string }[] = [
@@ -23,18 +27,37 @@ const ROUTES: { id: RouteName; label: string }[] = [
   { id: "privacy", label: "Privacy" }
 ];
 
-type Filter = "now" | "today" | "week" | "low" | "consequential";
+const FILTERS: { id: DecisionFilter; label: string }[] = [
+  { id: "now", label: "Now" },
+  { id: "today", label: "Today" },
+  { id: "week", label: "This week" },
+  { id: "low", label: "Low risk" },
+  { id: "consequential", label: "Consequential" }
+];
+
+type ConnectionId = "calendar" | "gmail";
 
 export default function App() {
   const [route, setRoute] = useState<RouteName>("today");
   const [decisions, setDecisions] = useState(initialDecisions);
   const [receipts, setReceipts] = useState(initialReceipts);
-  const [openReceipt, setOpenReceipt] = useState<SyntheticReceipt | undefined>(initialReceipts[0]);
-  const [filter, setFilter] = useState<Filter>("today");
+  const [openReceipt, setOpenReceipt] = useState<SyntheticReceipt | undefined>();
+  const [filter, setFilter] = useState<DecisionFilter>("today");
   const [chief, setChief] = useState("");
+  const [answer, setAnswer] = useState<ChiefAnswer | undefined>();
   const [focus, setFocus] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | undefined>();
+  const [status, setStatus] = useState("Personal node online");
+  const [editingId, setEditingId] = useState<string | undefined>();
+  const [draftAction, setDraftAction] = useState("");
+  const [wiped, setWiped] = useState(false);
+  const [confirmWipe, setConfirmWipe] = useState(false);
+  const [exportNote, setExportNote] = useState<string | undefined>();
+  const [connections, setConnections] = useState<Record<ConnectionId, "connected" | "revoked">>({
+    calendar: "connected",
+    gmail: "connected"
+  });
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -50,10 +73,15 @@ export default function App() {
     [decisions, filter]
   );
 
+  useEffect(() => {
+    setFocus((value) => Math.min(value, Math.max(visible.length - 1, 0)));
+  }, [visible.length]);
+
   const onApprove = useCallback(
     async (id: string) => {
       const current = decisions.find((item) => item.id === id);
       if (!current || current.state === "executing" || current.state === "verified") return;
+      setStatus("Executing");
       setDecisions((items) =>
         items.map((item) => (item.id === id ? { ...item, state: "executing" } : item))
       );
@@ -64,6 +92,7 @@ export default function App() {
         );
         setReceipts((items) => [result.receipt, ...items]);
         setOpenReceipt(result.receipt);
+        setStatus(result.state === "verified" ? "Verified" : "Needs attention");
       } catch (caught) {
         setError(caught instanceof Error ? caught.message : "Approval failed");
       }
@@ -75,10 +104,29 @@ export default function App() {
     setDecisions((items) =>
       items.map((item) => (item.id === id ? { ...item, state: "dismissed" } : item))
     );
+    setStatus("Dismissed");
   }, []);
+
+  const onEdit = useCallback((decision: SyntheticDecision) => {
+    setEditingId(decision.id);
+    setDraftAction(decision.action);
+  }, []);
+
+  const onSaveEdit = useCallback(() => {
+    if (!editingId) return;
+    setDecisions((items) =>
+      items.map((item) => (item.id === editingId ? { ...item, action: draftAction } : item))
+    );
+    setEditingId(undefined);
+    setStatus("Proposed action updated. Approval will bind to the new hash.");
+  }, [draftAction, editingId]);
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
+      const target = event.target;
+      if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) {
+        return;
+      }
       const index = Number(event.key) - 1;
       if (index >= 0 && index < ROUTES.length) {
         const next = ROUTES[index];
@@ -87,51 +135,102 @@ export default function App() {
       if (event.key === "j")
         setFocus((value) => Math.min(value + 1, Math.max(visible.length - 1, 0)));
       if (event.key === "k") setFocus((value) => Math.max(value - 1, 0));
-      if (event.key === "Escape") setOpenReceipt(undefined);
+      if (event.key === "Escape") {
+        setOpenReceipt(undefined);
+        setEditingId(undefined);
+      }
       const current = visible[focus];
       if (event.key === "a" && current) void onApprove(current.id);
       if (event.key === "d" && current) onDismiss(current.id);
+      if (event.key === "e" && current) onEdit(current);
     }
     window.addEventListener("keydown", onKey);
     return () => {
       window.removeEventListener("keydown", onKey);
     };
-  }, [focus, onApprove, onDismiss, visible]);
+  }, [focus, onApprove, onDismiss, onEdit, visible]);
+
+  const askChief = useCallback(
+    (query: string) => {
+      const next = answerChief(query || "Prepare me for tomorrow", decisions);
+      setAnswer(next);
+      setChief(query);
+      setRoute("chief");
+    },
+    [decisions]
+  );
+
+  const wipeDevice = useCallback(() => {
+    setDecisions([]);
+    setReceipts([]);
+    setOpenReceipt(undefined);
+    setAnswer(undefined);
+    setWiped(true);
+    setConfirmWipe(false);
+    setExportNote(undefined);
+    setConnections({ calendar: "revoked", gmail: "revoked" });
+    setStatus("Secure wipe completed. The database key is gone.");
+  }, []);
 
   const needsYou = decisions.filter((item) => item.state === "ready").length;
-  const verified = decisions.filter((item) => item.state === "verified").length + 6;
+  const verifiedCount = decisions.filter((item) => item.state === "verified").length + 6;
+  const atRiskCount = decisions.filter((item) => item.atRisk && item.state !== "dismissed").length;
+  const weekday = new Intl.DateTimeFormat("en-AU", { weekday: "long" }).format(new Date());
 
   return (
     <div className="shell">
+      <a className="skip" href="#content">
+        Skip to content
+      </a>
       <aside>
         <div className="brand">PROJECT CHIEF</div>
         {ROUTES.map((item, index) => (
           <button
             key={item.id}
             className={route === item.id ? "nav active" : "nav"}
+            {...(route === item.id ? { "aria-current": "page" as const } : {})}
             onClick={() => {
               setRoute(item.id);
             }}
           >
             <span className="hotkey">{index + 1}</span>
-            {item.label}
+            <span className="nav-label">{item.label}</span>
           </button>
         ))}
-        <div className="local">● Personal node online</div>
+        <div className="local">● {status}</div>
       </aside>
-      <main>
+      <main id="content">
+        <p className="sr-only" aria-live="polite">
+          {status}
+        </p>
         {error ? <p className="banner">{error}</p> : null}
         {loading ? (
           <Empty title="Preparing the morning." body="Reading local fixtures only." />
         ) : null}
-        {!loading && route === "today" ? (
+        {!loading && wiped && route === "today" ? (
+          <Empty
+            title="This device is empty."
+            body="The local key was deleted. Nothing private can be recovered from the service cloud."
+          />
+        ) : null}
+        {!loading && !wiped && route === "today" ? (
           <Today
+            weekday={weekday}
             decisions={decisions.filter((item) => item.state !== "dismissed")}
             needsYou={needsYou}
-            verified={verified}
+            atRiskCount={atRiskCount}
+            verified={verifiedCount}
             focus={focus}
+            editingId={editingId}
+            draftAction={draftAction}
+            onDraftAction={setDraftAction}
             onApprove={(id) => void onApprove(id)}
             onDismiss={onDismiss}
+            onEdit={onEdit}
+            onSaveEdit={onSaveEdit}
+            onAsk={() => {
+              askChief("Prepare me for tomorrow");
+            }}
           />
         ) : null}
         {!loading && route === "decisions" ? (
@@ -140,38 +239,74 @@ export default function App() {
             setFilter={setFilter}
             decisions={visible}
             focus={focus}
+            editingId={editingId}
+            draftAction={draftAction}
+            onDraftAction={setDraftAction}
             onApprove={(id) => void onApprove(id)}
             onDismiss={onDismiss}
+            onEdit={onEdit}
+            onSaveEdit={onSaveEdit}
           />
         ) : null}
         {!loading && route === "chief" ? (
           <Chief
             value={chief}
+            answer={answer}
             onChange={setChief}
             onAsk={() => {
-              setRoute("decisions");
+              askChief(chief || "Prepare me for tomorrow");
             }}
+            onPrompt={askChief}
           />
         ) : null}
-        {!loading && route === "commitments" ? <Commitments /> : null}
+        {!loading && route === "commitments" ? <Commitments wiped={wiped} /> : null}
         {!loading && route === "activity" ? (
           <Activity receipts={receipts} onOpen={setOpenReceipt} />
         ) : null}
-        {!loading && route === "people" ? <People /> : null}
-        {!loading && route === "routines" ? (
-          <Empty
-            title="No routines are running."
-            body="Chief will only automate what you write down."
+        {!loading && route === "people" ? <People wiped={wiped} /> : null}
+        {!loading && route === "routines" ? <Routines wiped={wiped} /> : null}
+        {!loading && route === "connections" ? (
+          <Connections
+            connections={connections}
+            onRevoke={(id) => {
+              setConnections((current) => ({ ...current, [id]: "revoked" }));
+              setStatus("Connection revoked on this device.");
+            }}
+            onRevokeAll={() => {
+              setConnections({ calendar: "revoked", gmail: "revoked" });
+              setStatus("Every connector token was dropped.");
+            }}
           />
         ) : null}
-        {!loading && route === "connections" ? <Connections /> : null}
-        {!loading && route === "privacy" ? <Privacy /> : null}
+        {!loading && route === "privacy" ? (
+          <Privacy
+            exportNote={exportNote}
+            confirmWipe={confirmWipe}
+            onExport={() => {
+              setExportNote(
+                "Encrypted bundle written locally. The service cloud never received it."
+              );
+            }}
+            onAskWipe={() => {
+              setConfirmWipe(true);
+            }}
+            onConfirmWipe={wipeDevice}
+            onRevokeAll={() => {
+              setConnections({ calendar: "revoked", gmail: "revoked" });
+              setRoute("connections");
+            }}
+          />
+        ) : null}
       </main>
       {openReceipt ? (
         <ReceiptDrawer
           receipt={openReceipt}
           onClose={() => {
             setOpenReceipt(undefined);
+          }}
+          onUndo={() => {
+            setOpenReceipt(undefined);
+            setStatus("Reverse requested. External undo is verified, never assumed.");
           }}
         />
       ) : null}
@@ -180,36 +315,62 @@ export default function App() {
 }
 
 function Today({
+  weekday,
   decisions,
   needsYou,
+  atRiskCount,
   verified,
   focus,
+  editingId,
+  draftAction,
+  onDraftAction,
   onApprove,
-  onDismiss
+  onDismiss,
+  onEdit,
+  onSaveEdit,
+  onAsk
 }: {
+  weekday: string;
   decisions: SyntheticDecision[];
   needsYou: number;
+  atRiskCount: number;
   verified: number;
   focus: number;
+  editingId: string | undefined;
+  draftAction: string;
+  onDraftAction: (value: string) => void;
   onApprove: (id: string) => void;
   onDismiss: (id: string) => void;
+  onEdit: (decision: SyntheticDecision) => void;
+  onSaveEdit: () => void;
+  onAsk: () => void;
 }) {
+  const ready = decisions.filter(
+    (item) => (item.state === "ready" || item.state === "executing") && !item.atRisk
+  );
+  const risk = decisions.filter(
+    (item) => item.atRisk && item.state !== "verified" && item.state !== "dismissed"
+  );
+  const done = decisions.filter((item) => item.state === "verified");
   return (
     <>
       <header>
         <div>
-          <p className="eyebrow">Sunday · Private preview</p>
+          <p className="eyebrow">{weekday} · Private preview</p>
           <h1>Good morning.</h1>
           <p className="summary">
-            {needsYou} decisions need you. 2 items are at risk. {verified} actions were verified.
+            {needsYou} decisions need you. {atRiskCount} items are at risk. {verified} actions were
+            verified.
           </p>
         </div>
-        <button className="ask">Ask Chief</button>
+        <button className="ask" onClick={onAsk}>
+          Ask Chief
+        </button>
       </header>
       <section className="metrics">
         {[
           ["Needs you", String(needsYou)],
-          ["At risk", "2"],
+          ["At risk", String(atRiskCount)],
           ["Verified", String(verified)],
           ["Time saved", "1h 42m"]
         ].map(([label, value]) => (
@@ -219,14 +380,63 @@ function Today({
           </div>
         ))}
       </section>
+      <section className="meetings">
+        {meetings.map((meeting) => (
+          <article className="row" key={meeting.id}>
+            <div>
+              <strong>{meeting.title}</strong>
+              <p>
+                {meeting.when}
+                {meeting.conflict ? ` · ${meeting.conflict}` : ""}
+              </p>
+            </div>
+            <span className="privacy">Calendar</span>
+          </article>
+        ))}
+      </section>
       <DecisionGrid
         title="Needs you"
         hint="Highest confidence first"
-        decisions={decisions}
+        decisions={ready}
         focus={focus}
+        editingId={editingId}
+        draftAction={draftAction}
+        onDraftAction={onDraftAction}
         onApprove={onApprove}
         onDismiss={onDismiss}
+        onEdit={onEdit}
+        onSaveEdit={onSaveEdit}
       />
+      {risk.length > 0 ? (
+        <DecisionGrid
+          title="At risk"
+          hint="Only high-confidence, time-relevant items"
+          decisions={risk}
+          focus={-1}
+          editingId={editingId}
+          draftAction={draftAction}
+          onDraftAction={onDraftAction}
+          onApprove={onApprove}
+          onDismiss={onDismiss}
+          onEdit={onEdit}
+          onSaveEdit={onSaveEdit}
+        />
+      ) : null}
+      {done.length > 0 ? (
+        <DecisionGrid
+          title="Completed"
+          hint="Verified external result, not model intention"
+          decisions={done}
+          focus={-1}
+          editingId={undefined}
+          draftAction={draftAction}
+          onDraftAction={onDraftAction}
+          onApprove={onApprove}
+          onDismiss={onDismiss}
+          onEdit={onEdit}
+          onSaveEdit={onSaveEdit}
+        />
+      ) : null}
     </>
   );
 }
@@ -236,15 +446,25 @@ function Decisions({
   setFilter,
   decisions,
   focus,
+  editingId,
+  draftAction,
+  onDraftAction,
   onApprove,
-  onDismiss
+  onDismiss,
+  onEdit,
+  onSaveEdit
 }: {
-  filter: Filter;
-  setFilter: (value: Filter) => void;
+  filter: DecisionFilter;
+  setFilter: (value: DecisionFilter) => void;
   decisions: SyntheticDecision[];
   focus: number;
+  editingId: string | undefined;
+  draftAction: string;
+  onDraftAction: (value: string) => void;
   onApprove: (id: string) => void;
   onDismiss: (id: string) => void;
+  onEdit: (decision: SyntheticDecision) => void;
+  onSaveEdit: () => void;
 }) {
   return (
     <>
@@ -259,15 +479,15 @@ function Decisions({
         </div>
       </header>
       <div className="filters" role="tablist">
-        {(["now", "today", "week", "low", "consequential"] as const).map((item) => (
+        {FILTERS.map((item) => (
           <button
-            key={item}
-            className={filter === item ? "chip active" : "chip"}
+            key={item.id}
+            className={filter === item.id ? "chip active" : "chip"}
             onClick={() => {
-              setFilter(item);
+              setFilter(item.id);
             }}
           >
-            {item}
+            {item.label}
           </button>
         ))}
       </div>
@@ -282,8 +502,13 @@ function Decisions({
           hint="A3 for anything that leaves the device"
           decisions={decisions}
           focus={focus}
+          editingId={editingId}
+          draftAction={draftAction}
+          onDraftAction={onDraftAction}
           onApprove={onApprove}
           onDismiss={onDismiss}
+          onEdit={onEdit}
+          onSaveEdit={onSaveEdit}
         />
       )}
     </>
@@ -295,15 +520,25 @@ function DecisionGrid({
   hint,
   decisions,
   focus,
+  editingId,
+  draftAction,
+  onDraftAction,
   onApprove,
-  onDismiss
+  onDismiss,
+  onEdit,
+  onSaveEdit
 }: {
   title: string;
   hint: string;
   decisions: SyntheticDecision[];
   focus: number;
+  editingId: string | undefined;
+  draftAction: string;
+  onDraftAction: (value: string) => void;
   onApprove: (id: string) => void;
   onDismiss: (id: string) => void;
+  onEdit: (decision: SyntheticDecision) => void;
+  onSaveEdit: () => void;
 }) {
   return (
     <section>
@@ -313,19 +548,42 @@ function DecisionGrid({
       </div>
       <div className="grid">
         {decisions.map((decision, index) => (
-          <article className={index === focus ? "card focused" : "card"} key={decision.id}>
+          <article
+            className={index === focus ? "card focused" : "card"}
+            key={`${title}-${decision.id}`}
+          >
             <div className="card-meta">
               <span className="privacy">{decision.privacy}</span>
               <span className={`risk ${decision.consequence}`}>{decision.consequence}</span>
             </div>
             <h3>{decision.title}</h3>
             <p>{decision.detail}</p>
+            <p className="proposed">Proposed: {decision.action}</p>
             <div className="chips">
               {decision.evidence.map((item) => (
                 <span key={item}>{item}</span>
               ))}
             </div>
-            <DecisionActions decision={decision} onApprove={onApprove} onDismiss={onDismiss} />
+            {editingId === decision.id ? (
+              <div className="edit-row">
+                <textarea
+                  aria-label="Edit proposed action"
+                  value={draftAction}
+                  onChange={(event) => {
+                    onDraftAction(event.target.value);
+                  }}
+                />
+                <button className="primary" onClick={onSaveEdit}>
+                  Save action
+                </button>
+              </div>
+            ) : null}
+            <DecisionActions
+              decision={decision}
+              onApprove={onApprove}
+              onDismiss={onDismiss}
+              onEdit={onEdit}
+            />
           </article>
         ))}
       </div>
@@ -336,13 +594,14 @@ function DecisionGrid({
 function DecisionActions({
   decision,
   onApprove,
-  onDismiss
+  onDismiss,
+  onEdit
 }: {
   decision: SyntheticDecision;
   onApprove: (id: string) => void;
   onDismiss: (id: string) => void;
+  onEdit: (decision: SyntheticDecision) => void;
 }) {
-  const label = actionLabel(decision.state);
   return (
     <div className="card-actions">
       <button
@@ -352,7 +611,16 @@ function DecisionActions({
           onApprove(decision.id);
         }}
       >
-        {label}
+        {actionLabel(decision.state)}
+      </button>
+      <button
+        className="ghost"
+        disabled={decision.state === "verified"}
+        onClick={() => {
+          onEdit(decision);
+        }}
+      >
+        Edit
       </button>
       <button
         className="ghost"
@@ -387,12 +655,16 @@ function actionLabel(state: DecisionState): string {
 
 function Chief({
   value,
+  answer,
   onChange,
-  onAsk
+  onAsk,
+  onPrompt
 }: {
   value: string;
+  answer: ChiefAnswer | undefined;
   onChange: (value: string) => void;
   onAsk: () => void;
+  onPrompt: (query: string) => void;
 }) {
   return (
     <>
@@ -406,8 +678,12 @@ function Chief({
         className="ask-input"
         value={value}
         placeholder="Prepare me for tomorrow"
+        aria-label="Ask Chief"
         onChange={(event) => {
           onChange(event.target.value);
+        }}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") onAsk();
         }}
       />
       <div className="chips">
@@ -415,18 +691,47 @@ function Chief({
           "Prepare me for tomorrow",
           "Who am I waiting on?",
           "What have I promised?",
+          "Clear routine follow-ups",
           "Find conflicts next week"
         ].map((item) => (
-          <button key={item} className="chip" onClick={onAsk}>
+          <button
+            key={item}
+            className="chip"
+            onClick={() => {
+              onPrompt(item);
+            }}
+          >
             {item}
           </button>
         ))}
       </div>
+      {answer ? (
+        <section className="brief">
+          <div className="section-title">
+            <h2>{answer.heading}</h2>
+            <span>Structured work, not an essay</span>
+          </div>
+          <p className="summary">{answer.summary}</p>
+          {answer.items.map((item) => (
+            <article className="row" key={item}>
+              <strong>{item}</strong>
+            </article>
+          ))}
+        </section>
+      ) : (
+        <Empty
+          title="Ask for the next useful move."
+          body="Replies become work items. Chief will not write a briefing novel."
+        />
+      )}
     </>
   );
 }
 
-function Commitments() {
+function Commitments({ wiped }: { wiped: boolean }) {
+  if (wiped) {
+    return <Empty title="No commitments remain." body="Local records were wiped with the key." />;
+  }
   return (
     <>
       <header>
@@ -508,7 +813,12 @@ function Activity({
   );
 }
 
-function People() {
+function People({ wiped }: { wiped: boolean }) {
+  if (wiped) {
+    return (
+      <Empty title="The local graph is gone." body="People records lived only on this device." />
+    );
+  }
   return (
     <>
       <header>
@@ -530,7 +840,45 @@ function People() {
   );
 }
 
-function Connections() {
+function Routines({ wiped }: { wiped: boolean }) {
+  if (wiped) {
+    return (
+      <Empty title="No routines remain." body="Chief will only automate what you write down." />
+    );
+  }
+  return (
+    <>
+      <header>
+        <div>
+          <p className="eyebrow">Written only</p>
+          <h1>Routines.</h1>
+          <p className="summary">Chief will only automate what you write down.</p>
+        </div>
+      </header>
+      {routines.map((routine) => (
+        <article className="row" key={routine.id}>
+          <div>
+            <strong>{routine.title}</strong>
+            <p>
+              {routine.trigger} · written by {routine.writtenBy}
+            </p>
+          </div>
+          <span className="privacy">{routine.status}</span>
+        </article>
+      ))}
+    </>
+  );
+}
+
+function Connections({
+  connections,
+  onRevoke,
+  onRevokeAll
+}: {
+  connections: Record<ConnectionId, "connected" | "revoked">;
+  onRevoke: (id: ConnectionId) => void;
+  onRevokeAll: () => void;
+}) {
   return (
     <>
       <header>
@@ -541,26 +889,70 @@ function Connections() {
             Read-only Google connectors stay on this device. Mutation is behind A3.
           </p>
         </div>
+        <button className="ghost" onClick={onRevokeAll}>
+          Revoke all
+        </button>
       </header>
       <article className="row">
         <div>
           <strong>Google Calendar</strong>
           <p>calendar.readonly · synthetic fixture</p>
         </div>
-        <span className="privacy">On device</span>
+        <ConnectionAction
+          status={connections.calendar}
+          onRevoke={() => {
+            onRevoke("calendar");
+          }}
+        />
       </article>
       <article className="row">
         <div>
           <strong>Gmail</strong>
           <p>gmail.readonly · founder dogfood mode</p>
         </div>
-        <span className="privacy">On device</span>
+        <ConnectionAction
+          status={connections.gmail}
+          onRevoke={() => {
+            onRevoke("gmail");
+          }}
+        />
       </article>
     </>
   );
 }
 
-function Privacy() {
+function ConnectionAction({
+  status,
+  onRevoke
+}: {
+  status: "connected" | "revoked";
+  onRevoke: () => void;
+}) {
+  if (status === "revoked") {
+    return <span className="privacy">Revoked</span>;
+  }
+  return (
+    <button className="ghost" onClick={onRevoke}>
+      Revoke
+    </button>
+  );
+}
+
+function Privacy({
+  exportNote,
+  confirmWipe,
+  onExport,
+  onAskWipe,
+  onConfirmWipe,
+  onRevokeAll
+}: {
+  exportNote: string | undefined;
+  confirmWipe: boolean;
+  onExport: () => void;
+  onAskWipe: () => void;
+  onConfirmWipe: () => void;
+  onRevokeAll: () => void;
+}) {
   return (
     <>
       <header>
@@ -591,10 +983,6 @@ function Privacy() {
           [
             "What our service cloud stores",
             "Account, plan, device public keys, push routing, content-free telemetry."
-          ],
-          [
-            "Export / wipe / revoke",
-            "Export writes an encrypted bundle. Wipe deletes the key. Revoke drops every token."
           ]
         ].map(([title, body]) => (
           <article className="card" key={title}>
@@ -602,12 +990,48 @@ function Privacy() {
             <p>{body}</p>
           </article>
         ))}
+        <article className="card">
+          <h3>Export</h3>
+          <p>Writes an encrypted bundle on this machine. Nothing is uploaded.</p>
+          <button className="ghost" onClick={onExport}>
+            Export encrypted bundle
+          </button>
+          {exportNote ? <p className="proposed">{exportNote}</p> : null}
+        </article>
+        <article className="card">
+          <h3>Wipe</h3>
+          <p>Deletes the database key. There is no server-held recovery copy.</p>
+          {confirmWipe ? (
+            <button className="primary" onClick={onConfirmWipe}>
+              Confirm wipe
+            </button>
+          ) : (
+            <button className="ghost" onClick={onAskWipe}>
+              Wipe this device
+            </button>
+          )}
+        </article>
+        <article className="card">
+          <h3>Revoke all connections</h3>
+          <p>Drops every connector token stored in the local vault.</p>
+          <button className="ghost" onClick={onRevokeAll}>
+            Revoke all
+          </button>
+        </article>
       </div>
     </>
   );
 }
 
-function ReceiptDrawer({ receipt, onClose }: { receipt: SyntheticReceipt; onClose: () => void }) {
+function ReceiptDrawer({
+  receipt,
+  onClose,
+  onUndo
+}: {
+  receipt: SyntheticReceipt;
+  onClose: () => void;
+  onUndo: () => void;
+}) {
   return (
     <aside className="drawer" aria-label="Action receipt">
       <p className="eyebrow">Receipt</p>
@@ -624,9 +1048,16 @@ function ReceiptDrawer({ receipt, onClose }: { receipt: SyntheticReceipt; onClos
         <dt>Model route</dt>
         <dd>{receipt.provider}</dd>
       </dl>
-      <button className="ghost" onClick={onClose}>
-        Close
-      </button>
+      <div className="card-actions">
+        {receipt.reversible ? (
+          <button className="ghost" onClick={onUndo}>
+            Undo
+          </button>
+        ) : null}
+        <button className="ghost" onClick={onClose}>
+          Close
+        </button>
+      </div>
     </aside>
   );
 }

@@ -23,8 +23,43 @@ body {
 }
 
 button,
-input {
+input,
+textarea {
   font: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+.receipt:focus-visible {
+  outline: 2px solid var(--sage);
+  outline-offset: 2px;
+}
+
+.skip {
+  position: absolute;
+  left: 12px;
+  top: -40px;
+  z-index: 30;
+  background: var(--ink);
+  color: #16130e;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.skip:focus {
+  top: 12px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
 .shell {
@@ -115,10 +150,15 @@ h1 {
 .card p,
 .receipt p,
 .empty p,
+.proposed,
 dd {
   color: var(--muted);
   line-height: 1.6;
   font-size: 16px;
+}
+
+.proposed {
+  font-size: 14px;
 }
 
 .ask,
@@ -141,14 +181,15 @@ dd {
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
-  margin: 42px 0 48px;
+  margin: 42px 0 32px;
 }
 
 .metric,
 .card,
 .row,
 .empty,
-.drawer {
+.drawer,
+.brief {
   background: var(--paper);
 }
 
@@ -168,6 +209,7 @@ dd {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+  gap: 16px;
 }
 
 .section-title h2,
@@ -185,20 +227,41 @@ dd {
 
 .card,
 .row,
-.empty {
+.empty,
+.brief {
   border: 1px solid var(--line);
   border-radius: 18px;
   padding: 22px;
+}
+
+.brief {
+  margin-top: 28px;
 }
 
 .card-meta,
 .card-actions,
 .filters,
 .chips,
-.split {
+.split,
+.edit-row {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+.edit-row {
+  margin: 12px 0;
+  flex-direction: column;
+}
+
+.edit-row textarea {
+  width: 100%;
+  min-height: 72px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #0f0d0a;
+  color: var(--ink);
+  padding: 10px 12px;
 }
 
 .risk {
@@ -207,7 +270,8 @@ dd {
   letter-spacing: 0.08em;
 }
 
-.risk.high {
+.risk.high,
+.risk.medium {
   color: var(--amber);
 }
 
@@ -299,8 +363,15 @@ dt {
   .shell {
     grid-template-columns: 76px 1fr;
   }
-  .drawer {
+  .nav-label {
     display: none;
+  }
+  .drawer {
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(380px, 100vw);
+    z-index: 20;
+    box-shadow: -24px 0 80px rgba(0, 0, 0, 0.45);
   }
   .grid,
   .metrics,
@@ -314,6 +385,9 @@ dt {
   .metrics,
   .split {
     grid-template-columns: 1fr;
+  }
+  main {
+    padding: 32px 20px 72px;
   }
 }
 

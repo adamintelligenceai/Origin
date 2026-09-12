@@ -1,14 +1,8 @@
 import Link from "next/link";
 
-const PRODUCT_NAME = "Project Chief";
-
 export default function HomePage() {
   return (
     <main>
-      <nav>
-        <strong>{PRODUCT_NAME}</strong>
-        <span>Private beta</span>
-      </nav>
       <section className="hero">
         <p className="eyebrow">Private Chief of Staff</p>
         <h1>Wake up with less to do.</h1>
