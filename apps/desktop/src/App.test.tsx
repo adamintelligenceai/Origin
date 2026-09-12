@@ -1,9 +1,11 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import App from "./App.js";
+import { resetRuntime } from "./runtime/session.js";
 
 afterEach(() => {
   cleanup();
+  resetRuntime();
 });
 
 describe("desktop product loop", () => {
@@ -60,6 +62,6 @@ describe("desktop product loop", () => {
     fireEvent.click(screen.getByRole("button", { name: "Wipe this device" }));
     fireEvent.click(screen.getByRole("button", { name: "Confirm wipe" }));
     fireEvent.click(screen.getByRole("button", { name: /Today/ }));
-    expect(screen.getByText("This device is empty.")).toBeTruthy();
+    expect(await screen.findByText("This device is empty.")).toBeTruthy();
   });
 });

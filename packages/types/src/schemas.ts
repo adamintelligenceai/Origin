@@ -27,6 +27,15 @@ export const sourceRefSchema = z.object({
   contentHash: z.string().min(1)
 });
 
+export const personSchema = z.object({
+  id: z.string().min(1),
+  displayName: z.string().min(1),
+  aliases: z.array(z.string()),
+  relationship: z.string().min(1).optional(),
+  confidence: z.number().min(0).max(1),
+  provenance: z.array(sourceRefSchema)
+});
+
 export const commitmentSchema = z.object({
   id: z.string().min(1),
   direction: z.enum(["user_owes", "other_owes"]),
@@ -123,34 +132,41 @@ export const cloudTelemetryEventSchema = z.enum([
   "action_failed"
 ]);
 
-export const cloudAccountSchema = z.object({
-  accountId: z.string().min(1),
-  createdAt: z.string().min(1),
-  plan: z.string().min(1),
-  stripeCustomerId: z.string().min(1).optional()
-});
+export const cloudAccountSchema = z
+  .object({
+    accountId: z.string().min(1),
+    createdAt: z.string().min(1),
+    plan: z.string().min(1),
+    stripeCustomerId: z.string().min(1).optional()
+  })
+  .strict();
 
-export const cloudDeviceSchema = z.object({
-  deviceId: z.string().min(1),
-  accountId: z.string().min(1),
-  publicKey: z.string().min(1),
-  platform: z.string().min(1),
-  appVersion: z.string().min(1),
-  pushRoutingId: z.string().min(1).optional(),
-  lastSeenAt: z.string().min(1).optional()
-});
+export const cloudDeviceSchema = z
+  .object({
+    deviceId: z.string().min(1),
+    accountId: z.string().min(1),
+    publicKey: z.string().min(1),
+    platform: z.string().min(1),
+    appVersion: z.string().min(1),
+    pushRoutingId: z.string().min(1).optional(),
+    lastSeenAt: z.string().min(1).optional()
+  })
+  .strict();
 
-export const cloudTelemetrySchema = z.object({
-  event: cloudTelemetryEventSchema,
-  deviceIdHash: z.string().min(1),
-  numeric: z.record(z.string(), z.number()),
-  flags: z.record(z.string(), z.boolean())
-});
+export const cloudTelemetrySchema = z
+  .object({
+    event: cloudTelemetryEventSchema,
+    deviceIdHash: z.string().min(1),
+    numeric: z.record(z.string(), z.number()),
+    flags: z.record(z.string(), z.boolean())
+  })
+  .strict();
 
 export type AutonomyLevel = z.infer<typeof autonomyLevelSchema>;
 export type Consequence = z.infer<typeof consequenceSchema>;
 export type ActionType = z.infer<typeof actionTypeSchema>;
 export type SourceRef = z.infer<typeof sourceRefSchema>;
+export type Person = z.infer<typeof personSchema>;
 export type Commitment = z.infer<typeof commitmentSchema>;
 export type WorkItem = z.infer<typeof workItemSchema>;
 export type ActionPlan = z.infer<typeof actionPlanSchema>;

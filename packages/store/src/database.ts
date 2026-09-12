@@ -1,5 +1,5 @@
 import type { ActionReceipt, Commitment, WorkItem } from "@project-chief/types";
-import { decryptJson, encodeKey, encryptJson, generateDatabaseKey } from "./crypto.js";
+import { decodeKey, decryptJson, encodeKey, encryptJson, generateDatabaseKey } from "./crypto.js";
 import { DATABASE_KEY_NAME, type SecretStore } from "./secrets.js";
 
 export interface EncryptedSnapshot {
@@ -48,7 +48,7 @@ export class EncryptedDatabase {
   async open(): Promise<void> {
     const existing = await this.secrets.get(DATABASE_KEY_NAME);
     if (existing) {
-      this.key = Uint8Array.from(Buffer.from(existing, "base64"));
+      this.key = decodeKey(existing);
       this.log.write("opened encrypted store");
       return;
     }

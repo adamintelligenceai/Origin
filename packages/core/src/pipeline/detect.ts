@@ -1,4 +1,5 @@
 import type { Commitment, SourceRef, WorkItem } from "@project-chief/types";
+import type { NormalizedObservation } from "../types.js";
 
 const COMMITMENT_MARKERS = ["i will", "i'll", "i can send", "by friday", "due"];
 const OWED_MARKERS = ["you promised", "waiting on", "still outstanding"];
@@ -47,6 +48,64 @@ export function detectFromSources(sources: NormalizedSource[]): {
   }
 
   return { commitments, workItems };
+}
+
+export function detectFromNormalized(observations: readonly NormalizedObservation[]): {
+  commitments: Commitment[];
+  workItems: WorkItem[];
+} {
+  const sources: NormalizedSource[] = observations.map((observation) => ({
+    id: observation.id,
+    text: `${observation.title} ${observation.body ?? ""}`,
+    ref: observation.sourceRef
+  }));
+  const detected = detectFromSources(sources);
+  const titles = new Map(observations.map((item) => [item.id, item.title]));
+  detected.workItems = detected.workItems.map((item) => ({
+    ...item,
+    title: titles.get(item.sourceRefs[0]?.sourceId ?? "") ?? item.title
+  }));
+  const events = observations
+    .filter((item) => item.kind === "calendar_event" && item.startsAt && item.endsAt)
+    .sort((left, right) => (left.startsAt ?? "").localeCompare(right.startsAt ?? ""));
+  for (let index = 1; index < events.length; index += 1) {
+    const previous = events[index - 1];
+    const current = events[index];
+    if (
+      previous?.endsAt &&
+      current?.startsAt &&
+      previous.endsAt > current.startsAt &&
+      previous.startsAt &&
+      previous.startsAt <= current.startsAt
+    ) {
+      detected.workItems.push({
+        id: `conflict-${previous.id}-${current.id}`,
+        kind: "calendar_conflict",
+        title: "Resolve tomorrow's calendar conflict",
+        urgency: 0.9,
+        importance: 0.85,
+        confidence: 0.88,
+        status: "needs_approval",
+        sourceRefs: [previous.sourceRef, current.sourceRef]
+      });
+    }
+  }
+  for (const observation of observations) {
+    const haystack = `${observation.title} ${observation.body ?? ""}`.toLowerCase();
+    if (haystack.includes("reply is ready") || haystack.includes("draft is ready")) {
+      detected.workItems.push({
+        id: `reply-${observation.id}`,
+        kind: "reply",
+        title: observation.title || "Reply is ready",
+        urgency: 0.7,
+        importance: 0.75,
+        confidence: 0.8,
+        status: "needs_approval",
+        sourceRefs: [observation.sourceRef]
+      });
+    }
+  }
+  return detected;
 }
 
 function workItem(

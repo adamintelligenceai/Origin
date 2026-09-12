@@ -35,6 +35,7 @@ TypeScript stays on **5.9.x** during Phase 0. TypeScript 7.x is not adopted yet 
 | ---------------------------- | --------- | ---------------------------- |
 | `@project-chief/types`       | workspace | Shared domain types          |
 | `@project-chief/permissions` | workspace | Permission engine (Phase 1+) |
+| `@project-chief/runtime`     | workspace | Observe→approve→verify loop  |
 | `@tauri-apps/api`            | `^2.11.1` | Desktop IPC bridge           |
 | `@tauri-apps/cli`            | `^2.11.1` | Tauri build/dev tooling      |
 | `react` / `react-dom`        | `^19.1.1` | Desktop UI                   |
@@ -83,6 +84,7 @@ Expo was upgraded from SDK 55 → 57 because the scaffold versions were stale re
 | `@project-chief/store`             | `@noble/ciphers`, `@noble/hashes`, types           | Encrypted local store           |
 | `@project-chief/connectors-google` | permissions, store, types, ledger                  | Calendar/Gmail + PKCE           |
 | `@project-chief/sync`              | `@noble/ciphers`, `@noble/curves`, `@noble/hashes` | E2EE envelopes                  |
+| `@project-chief/runtime`           | core, ledger, permissions, store, types            | Desktop composition root        |
 
 ## CI security tooling
 

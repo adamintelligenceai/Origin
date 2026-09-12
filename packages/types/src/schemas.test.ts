@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { actionPlanSchema, actionTypeSchema, autonomyLevelSchema } from "./schemas.js";
+import {
+  actionPlanSchema,
+  actionTypeSchema,
+  autonomyLevelSchema,
+  personSchema
+} from "./schemas.js";
 
 describe("canonical schemas", () => {
   it("keeps autonomy levels within the documented range", () => {
@@ -30,5 +35,16 @@ describe("canonical schemas", () => {
       expectedPostcondition: {}
     });
     expect(result.success).toBe(false);
+  });
+
+  it("models people as local graph records", () => {
+    const parsed = personSchema.parse({
+      id: "p1",
+      displayName: "Jordan Blake",
+      aliases: ["Jordan"],
+      confidence: 0.9,
+      provenance: []
+    });
+    expect(parsed.displayName).toBe("Jordan Blake");
   });
 });

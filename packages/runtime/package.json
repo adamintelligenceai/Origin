@@ -1,5 +1,5 @@
 {
-  "name": "@project-chief/ledger",
+  "name": "@project-chief/runtime",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -10,11 +10,15 @@
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run --config vitest.config.ts"
   },
+  "dependencies": {
+    "@project-chief/core": "workspace:*",
+    "@project-chief/ledger": "workspace:*",
+    "@project-chief/permissions": "workspace:*",
+    "@project-chief/store": "workspace:*",
+    "@project-chief/types": "workspace:*"
+  },
   "devDependencies": {
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
-  },
-  "dependencies": {
-    "@project-chief/types": "workspace:*"
   }
 }

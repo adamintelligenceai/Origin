@@ -41,6 +41,9 @@ importers:
       '@project-chief/permissions':
         specifier: workspace:*
         version: link:../../packages/permissions
+      '@project-chief/runtime':
+        specifier: workspace:*
+        version: link:../../packages/runtime
       '@project-chief/types':
         specifier: workspace:*
         version: link:../../packages/types
@@ -127,6 +130,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@project-chief/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       next:
         specifier: ^16.3.5
         version: 16.3.5(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@22.20.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -238,6 +244,31 @@ importers:
 
   packages/privacy:
     dependencies:
+      '@project-chief/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.7(@types/node@22.20.2)(jsdom@26.1.0)(lightningcss@1.33.0)(terser@5.51.2)(yaml@2.9.1)
+
+  packages/runtime:
+    dependencies:
+      '@project-chief/core':
+        specifier: workspace:*
+        version: link:../core
+      '@project-chief/ledger':
+        specifier: workspace:*
+        version: link:../ledger
+      '@project-chief/permissions':
+        specifier: workspace:*
+        version: link:../permissions
+      '@project-chief/store':
+        specifier: workspace:*
+        version: link:../store
       '@project-chief/types':
         specifier: workspace:*
         version: link:../types

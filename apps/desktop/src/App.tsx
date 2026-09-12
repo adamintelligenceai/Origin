@@ -1,10 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  commitments,
-  initialDecisions,
-  initialReceipts,
   meetings,
-  people,
   routines,
   type DecisionFilter,
   type DecisionState,
@@ -12,8 +8,18 @@ import {
   type SyntheticDecision,
   type SyntheticReceipt
 } from "./fixtures/synthetic.js";
+import { getRuntime, resetRuntime, wait } from "./runtime/session.js";
+import type { ChiefSnapshot } from "@project-chief/runtime";
+import {
+  applySnapshot,
+  commitmentsFromSnapshot,
+  decisionsFromSnapshot,
+  emptySnapshot,
+  peopleFromSnapshot,
+  receiptsFromSnapshot
+} from "./runtime/view-model.js";
+import type { SyntheticCommitment, SyntheticPerson } from "./fixtures/synthetic.js";
 import { answerChief, type ChiefAnswer } from "./utils/briefing.js";
-import { approveDecision } from "./utils/runtime.js";
 
 const ROUTES: { id: RouteName; label: string }[] = [
   { id: "today", label: "Today" },
@@ -39,8 +45,10 @@ type ConnectionId = "calendar" | "gmail";
 
 export default function App() {
   const [route, setRoute] = useState<RouteName>("today");
-  const [decisions, setDecisions] = useState(initialDecisions);
-  const [receipts, setReceipts] = useState(initialReceipts);
+  const [decisions, setDecisions] = useState<SyntheticDecision[]>([]);
+  const [receipts, setReceipts] = useState<SyntheticReceipt[]>([]);
+  const [commitments, setCommitments] = useState(commitmentsFromSnapshot(emptySnapshot()));
+  const [people, setPeople] = useState(peopleFromSnapshot(emptySnapshot()));
   const [openReceipt, setOpenReceipt] = useState<SyntheticReceipt | undefined>();
   const [filter, setFilter] = useState<DecisionFilter>("today");
   const [chief, setChief] = useState("");
@@ -60,12 +68,11 @@ export default function App() {
   });
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
+    const runtime = resetRuntime();
+    void runtime.boot().then((snapshot) => {
+      applySnapshot(snapshot, setDecisions, setReceipts, setCommitments, setPeople);
       setLoading(false);
-    }, 280);
-    return () => {
-      window.clearTimeout(timer);
-    };
+    });
   }, []);
 
   const visible = useMemo(
@@ -77,6 +84,10 @@ export default function App() {
     setFocus((value) => Math.min(value, Math.max(visible.length - 1, 0)));
   }, [visible.length]);
 
+  const apply = useCallback((snapshot: ChiefSnapshot) => {
+    applySnapshot(snapshot, setDecisions, setReceipts, setCommitments, setPeople);
+  }, []);
+
   const onApprove = useCallback(
     async (id: string) => {
       const current = decisions.find((item) => item.id === id);
@@ -86,26 +97,27 @@ export default function App() {
         items.map((item) => (item.id === id ? { ...item, state: "executing" } : item))
       );
       try {
-        const result = await approveDecision(current, 640);
-        setDecisions((items) =>
-          items.map((item) => (item.id === id ? { ...item, state: result.state } : item))
-        );
-        setReceipts((items) => [result.receipt, ...items]);
-        setOpenReceipt(result.receipt);
-        setStatus(result.state === "verified" ? "Verified" : "Needs attention");
+        await wait(80);
+        const snapshot = await getRuntime().approve(id);
+        apply(snapshot);
+        const nextReceipts = receiptsFromSnapshot(snapshot);
+        setOpenReceipt(nextReceipts[0]);
+        const next = decisionsFromSnapshot(snapshot).find((item) => item.id === id);
+        setStatus(next?.state === "verified" ? "Verified" : "Needs attention");
       } catch (caught) {
         setError(caught instanceof Error ? caught.message : "Approval failed");
       }
     },
-    [decisions]
+    [apply, decisions]
   );
 
-  const onDismiss = useCallback((id: string) => {
-    setDecisions((items) =>
-      items.map((item) => (item.id === id ? { ...item, state: "dismissed" } : item))
-    );
-    setStatus("Dismissed");
-  }, []);
+  const onDismiss = useCallback(
+    (id: string) => {
+      apply(getRuntime().dismiss(id));
+      setStatus("Dismissed");
+    },
+    [apply]
+  );
 
   const onEdit = useCallback((decision: SyntheticDecision) => {
     setEditingId(decision.id);
@@ -114,12 +126,10 @@ export default function App() {
 
   const onSaveEdit = useCallback(() => {
     if (!editingId) return;
-    setDecisions((items) =>
-      items.map((item) => (item.id === editingId ? { ...item, action: draftAction } : item))
-    );
+    apply(getRuntime().editAction(editingId, draftAction));
     setEditingId(undefined);
     setStatus("Proposed action updated. Approval will bind to the new hash.");
-  }, [draftAction, editingId]);
+  }, [apply, draftAction, editingId]);
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
@@ -161,16 +171,19 @@ export default function App() {
   );
 
   const wipeDevice = useCallback(() => {
-    setDecisions([]);
-    setReceipts([]);
-    setOpenReceipt(undefined);
-    setAnswer(undefined);
-    setWiped(true);
-    setConfirmWipe(false);
-    setExportNote(undefined);
-    setConnections({ calendar: "revoked", gmail: "revoked" });
-    setStatus("Secure wipe completed. The database key is gone.");
-  }, []);
+    void getRuntime()
+      .wipe()
+      .then((snapshot) => {
+        apply(snapshot);
+        setOpenReceipt(undefined);
+        setAnswer(undefined);
+        setWiped(true);
+        setConfirmWipe(false);
+        setExportNote(undefined);
+        setConnections(snapshot.connections);
+        setStatus("Secure wipe completed. The database key is gone.");
+      });
+  }, [apply]);
 
   const needsYou = decisions.filter((item) => item.state === "ready").length;
   const verifiedCount = decisions.filter((item) => item.state === "verified").length + 6;
@@ -259,22 +272,32 @@ export default function App() {
             onPrompt={askChief}
           />
         ) : null}
-        {!loading && route === "commitments" ? <Commitments wiped={wiped} /> : null}
+        {!loading && route === "commitments" ? (
+          <Commitments wiped={wiped} commitments={commitments} />
+        ) : null}
         {!loading && route === "activity" ? (
           <Activity receipts={receipts} onOpen={setOpenReceipt} />
         ) : null}
-        {!loading && route === "people" ? <People wiped={wiped} /> : null}
+        {!loading && route === "people" ? <People wiped={wiped} people={people} /> : null}
         {!loading && route === "routines" ? <Routines wiped={wiped} /> : null}
         {!loading && route === "connections" ? (
           <Connections
             connections={connections}
             onRevoke={(id) => {
-              setConnections((current) => ({ ...current, [id]: "revoked" }));
-              setStatus("Connection revoked on this device.");
+              void getRuntime()
+                .revoke(id)
+                .then((snapshot) => {
+                  setConnections(snapshot.connections);
+                  setStatus("Connection revoked on this device.");
+                });
             }}
             onRevokeAll={() => {
-              setConnections({ calendar: "revoked", gmail: "revoked" });
-              setStatus("Every connector token was dropped.");
+              void getRuntime()
+                .revokeAll()
+                .then((snapshot) => {
+                  setConnections(snapshot.connections);
+                  setStatus("Every connector token was dropped.");
+                });
             }}
           />
         ) : null}
@@ -283,8 +306,10 @@ export default function App() {
             exportNote={exportNote}
             confirmWipe={confirmWipe}
             onExport={() => {
+              const snapshot = getRuntime().exportEncrypted();
               setExportNote(
-                "Encrypted bundle written locally. The service cloud never received it."
+                snapshot.exportNote ??
+                  "Encrypted bundle written locally. The service cloud never received it."
               );
             }}
             onAskWipe={() => {
@@ -292,8 +317,12 @@ export default function App() {
             }}
             onConfirmWipe={wipeDevice}
             onRevokeAll={() => {
-              setConnections({ calendar: "revoked", gmail: "revoked" });
-              setRoute("connections");
+              void getRuntime()
+                .revokeAll()
+                .then((snapshot) => {
+                  setConnections(snapshot.connections);
+                  setRoute("connections");
+                });
             }}
           />
         ) : null}
@@ -712,8 +741,8 @@ function Chief({
             <span>Structured work, not an essay</span>
           </div>
           <p className="summary">{answer.summary}</p>
-          {answer.items.map((item) => (
-            <article className="row" key={item}>
+          {answer.items.map((item, index) => (
+            <article className="row" key={`${index}-${item}`}>
               <strong>{item}</strong>
             </article>
           ))}
@@ -728,7 +757,13 @@ function Chief({
   );
 }
 
-function Commitments({ wiped }: { wiped: boolean }) {
+function Commitments({
+  wiped,
+  commitments
+}: {
+  wiped: boolean;
+  commitments: SyntheticCommitment[];
+}) {
   if (wiped) {
     return <Empty title="No commitments remain." body="Local records were wiped with the key." />;
   }
@@ -813,7 +848,7 @@ function Activity({
   );
 }
 
-function People({ wiped }: { wiped: boolean }) {
+function People({ wiped, people }: { wiped: boolean; people: SyntheticPerson[] }) {
   if (wiped) {
     return (
       <Empty title="The local graph is gone." body="People records lived only on this device." />

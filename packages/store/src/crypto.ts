@@ -8,11 +8,28 @@ export function generateDatabaseKey(): Uint8Array {
 }
 
 export function encodeKey(key: Uint8Array): string {
-  return Buffer.from(key).toString("base64");
+  return bytesToBase64(key);
 }
 
 export function decodeKey(serialized: string): Uint8Array {
-  return new Uint8Array(Buffer.from(serialized, "base64"));
+  return base64ToBytes(serialized);
+}
+
+function bytesToBase64(bytes: Uint8Array): string {
+  let binary = "";
+  for (const byte of bytes) {
+    binary += String.fromCharCode(byte);
+  }
+  return btoa(binary);
+}
+
+function base64ToBytes(serialized: string): Uint8Array {
+  const binary = atob(serialized);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index += 1) {
+    bytes[index] = binary.charCodeAt(index);
+  }
+  return bytes;
 }
 
 export function encryptBytes(key: Uint8Array, plaintext: Uint8Array): Uint8Array {
@@ -32,11 +49,11 @@ export function decryptBytes(key: Uint8Array, packed: Uint8Array): Uint8Array {
 
 export function encryptJson(key: Uint8Array, value: unknown): string {
   const plaintext = new TextEncoder().encode(JSON.stringify(value));
-  return Buffer.from(encryptBytes(key, plaintext)).toString("base64");
+  return bytesToBase64(encryptBytes(key, plaintext));
 }
 
 export function decryptJson(key: Uint8Array, serialized: string): unknown {
-  const packed = new Uint8Array(Buffer.from(serialized, "base64"));
+  const packed = base64ToBytes(serialized);
   const plaintext = decryptBytes(key, packed);
   return JSON.parse(new TextDecoder().decode(plaintext));
 }

@@ -1,4 +1,5 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const forbidden = [
@@ -25,4 +26,27 @@ describe("cloud schema", () => {
       expect(raw.includes(token)).toBe(false);
     }
   });
+
+  it("keeps API route sources free of forbidden content fields", () => {
+    const root = new URL("../app/api", import.meta.url);
+    const files = collectTs(root.pathname);
+    const joined = files.map((file) => readFileSync(file, "utf8").toLowerCase()).join("\n");
+    for (const token of forbidden) {
+      expect(joined.includes(token)).toBe(false);
+    }
+  });
 });
+
+function collectTs(dir: string): string[] {
+  const entries = readdirSync(dir, { withFileTypes: true });
+  const files: string[] = [];
+  for (const entry of entries) {
+    const next = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...collectTs(next));
+    } else if (entry.name.endsWith(".ts")) {
+      files.push(next);
+    }
+  }
+  return files;
+}

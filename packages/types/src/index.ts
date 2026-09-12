@@ -11,6 +11,7 @@ export {
   commitmentSchema,
   consequenceSchema,
   permissionPolicySchema,
+  personSchema,
   privacyReceiptSchema,
   providerSchema,
   sourceRefSchema,
@@ -26,6 +27,7 @@ export {
   type Commitment,
   type Consequence,
   type PermissionPolicy,
+  type Person,
   type PrivacyReceipt,
   type SourceRef,
   type WorkItem
