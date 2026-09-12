@@ -1,0 +1,31 @@
+{
+  "name": "project-chief",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.14.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "security:cloud-schema": "node scripts/check-cloud-schema.mjs",
+    "quality": "pnpm typecheck && pnpm lint && pnpm test && pnpm security:cloud-schema",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.10.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^16.4.0",
+    "prettier": "^3.9.6",
+    "turbo": "^2.10.12",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.70.0",
+    "vitest": "^3.2.4"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@project-chief/mobile",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "dev": "expo start",
+    "build": "echo use EAS or local native build after prebuild",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --max-warnings 0",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "expo": "^57.0.22",
+    "expo-constants": "^18.0.13",
+    "expo-router": "^6.0.24",
+    "expo-secure-store": "^15.0.7",
+    "expo-sqlite": "^16.0.10",
+    "@expo/metro-runtime": "^57.0.15",
+    "react": "^19.1.1",
+    "react-native": "^0.81.6",
+    "react-native-safe-area-context": "^5.6.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.12",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
