@@ -33,5 +33,8 @@ describe("mobile approval", () => {
   it("builds the morning briefing from the runtime snapshot", async () => {
     const snapshot = await resetRuntime().boot();
     expect(briefingLine(snapshot)).toContain("decisions need you");
+    expect(snapshot.connections.phone).toBe("connected");
+    expect(snapshot.connections.sms).toBe("connected");
+    expect(snapshot.workItems.some((item) => item.kind === "missed_call")).toBe(true);
   });
 });

@@ -4,7 +4,9 @@ export function briefingLine(snapshot: ChiefSnapshot): string {
   const needsYou = snapshot.workItems.filter(
     (item) => item.status === "needs_approval" || item.status === "prepared"
   ).length;
-  const atRisk = snapshot.workItems.filter((item) => item.kind === "calendar_conflict").length;
+  const atRisk = snapshot.workItems.filter(
+    (item) => item.kind === "calendar_conflict" || item.kind === "missed_call"
+  ).length;
   const verified = snapshot.workItems.filter((item) => item.status === "verified").length;
   return `${needsYou} decisions need you. ${atRisk} ${atRisk === 1 ? "item is" : "items are"} at risk. ${verified} ${verified === 1 ? "action was" : "actions were"} verified.`;
 }

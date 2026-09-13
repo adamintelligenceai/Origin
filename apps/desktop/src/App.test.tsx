@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import App from "./App.js";
 import { resetRuntime } from "./runtime/session.js";
@@ -33,7 +33,34 @@ describe("desktop product loop", () => {
     await screen.findByText("Good morning.");
     fireEvent.click(screen.getByRole("button", { name: /Privacy/ }));
     expect(screen.getAllByText("On this device").length).toBeGreaterThan(0);
-    expect(screen.getByText(/Email, calendar notes/)).toBeTruthy();
+    expect(screen.getByText(/Phone, SMS, mail, calendar notes/)).toBeTruthy();
+  });
+
+  it("lists phone, SMS, missed calls and social as local connections", async () => {
+    render(<App />);
+    await screen.findByText("Good morning.");
+    fireEvent.click(screen.getByRole("button", { name: /Connections/ }));
+    expect(screen.getByRole("heading", { name: "Connections." })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "This phone" })).toBeTruthy();
+    expect(screen.getByText("Phone")).toBeTruthy();
+    expect(screen.getByText("SMS")).toBeTruthy();
+    expect(screen.getByText("Missed calls")).toBeTruthy();
+    expect(screen.getByText("LinkedIn")).toBeTruthy();
+    expect(screen.getByText("Instagram")).toBeTruthy();
+    expect(screen.getByText("Facebook")).toBeTruthy();
+    expect(screen.getByText("X")).toBeTruthy();
+    expect(screen.getByText("Drive")).toBeTruthy();
+    const phone = screen.getByText("Phone").closest("article");
+    if (!phone) {
+      throw new Error("expected the Phone card");
+    }
+    fireEvent.click(within(phone).getByRole("button", { name: "Revoke" }));
+    expect(await within(phone).findByText("Revoked")).toBeTruthy();
+    fireEvent.click(within(phone).getByRole("button", { name: "Pair" }));
+    await waitFor(() => {
+      expect(within(phone).queryByText("Revoked")).toBeNull();
+      expect(within(phone).getByText("Paired")).toBeTruthy();
+    });
   });
 
   it("lets the user edit a proposed action before approval", async () => {

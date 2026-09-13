@@ -11,7 +11,10 @@ export default function DocsPage() {
         <article>
           <span>Local</span>
           <h2>Personal node</h2>
-          <p>Desktop holds email, calendar notes, the Life Graph, receipts and the database key.</p>
+          <p>
+            Desktop holds phone, SMS, mail, calendar notes, the Life Graph, receipts and the
+            database key.
+          </p>
         </article>
         <article>
           <span>Approve</span>

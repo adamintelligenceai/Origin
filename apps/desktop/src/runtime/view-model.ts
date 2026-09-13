@@ -1,5 +1,5 @@
-import type { ChiefSnapshot } from "@project-chief/runtime";
-import type { ActionPlan, ActionReceipt, WorkItem } from "@project-chief/types";
+import { revokedConnections, type ChiefSnapshot } from "@project-chief/runtime";
+import type { ActionPlan, ActionReceipt, SourceRef, WorkItem } from "@project-chief/types";
 import type {
   DecisionState,
   SyntheticCommitment,
@@ -21,7 +21,7 @@ export function emptySnapshot(): ChiefSnapshot {
     routines: [],
     briefing: "",
     timeSavedMinutes: 0,
-    connections: { calendar: "connected", gmail: "connected" },
+    connections: revokedConnections(),
     wiped: false
   };
 }
@@ -39,7 +39,7 @@ export function commitmentsFromSnapshot(snapshot: ChiefSnapshot): SyntheticCommi
     direction: item.direction,
     statement: item.statement,
     person: personName(snapshot, item.counterpartyId, item.statement),
-    source: item.sourceRefs[0]?.provider === "google_calendar" ? "Calendar" : "Gmail",
+    source: sourceLabel(item.sourceRefs[0]?.provider),
     due: item.dueAt ?? "Open",
     status: item.status === "uncertain" ? "uncertain" : "open"
   }));
@@ -109,7 +109,7 @@ function toDecision(item: WorkItem, plan: ActionPlan | undefined): SyntheticDeci
     evidence: item.sourceRefs.map((ref) => `${ref.provider} · ${ref.providerId}`),
     filter: filtersFor(item),
     state: stateFrom(item.status),
-    atRisk: item.kind === "calendar_conflict"
+    atRisk: item.kind === "calendar_conflict" || item.kind === "missed_call"
   };
 }
 
@@ -158,12 +158,51 @@ function stateFrom(status: WorkItem["status"]): DecisionState {
 
 function filtersFor(item: WorkItem): SyntheticDecision["filter"] {
   const filters: SyntheticDecision["filter"] = ["today", "week"];
-  if (item.kind === "follow_up" || item.kind === "reply") filters.push("now");
-  if (item.kind === "calendar_conflict" || item.kind === "reply") filters.push("consequential");
+  if (item.kind === "follow_up" || item.kind === "reply" || item.kind === "missed_call") {
+    filters.push("now");
+  }
+  if (
+    item.kind === "calendar_conflict" ||
+    item.kind === "reply" ||
+    item.kind === "missed_call"
+  ) {
+    filters.push("consequential");
+  }
   if (item.kind === "commitment" || item.kind === "follow_up" || item.kind === "meeting_prep") {
     filters.push("low");
   }
   return filters;
+}
+
+function sourceLabel(provider: SourceRef["provider"] | undefined): string {
+  switch (provider) {
+    case "gmail":
+      return "Gmail";
+    case "google_calendar":
+      return "Calendar";
+    case "drive":
+      return "Drive";
+    case "manual":
+      return "Manual";
+    case "phone":
+      return "Phone";
+    case "sms":
+      return "SMS";
+    case "linkedin":
+      return "LinkedIn";
+    case "instagram":
+      return "Instagram";
+    case "facebook":
+      return "Facebook";
+    case "x":
+      return "X";
+    case undefined:
+      return "On device";
+    default: {
+      const exhaustive: never = provider;
+      return exhaustive;
+    }
+  }
 }
 
 function personName(

@@ -3,11 +3,16 @@ import { MemoryLedger, classifyVerification } from "@project-chief/ledger";
 import { hashActionPlan, issueApproval, PermissionEngine } from "@project-chief/permissions";
 import { EncryptedDatabase, MemorySecretStore } from "@project-chief/store";
 import type { ActionPlan, ActionReceipt, Commitment, Person, WorkItem } from "@project-chief/types";
+import {
+  connectionIds,
+  fixtureConnections,
+  revokedConnections,
+  tokenName,
+  type ConnectionId,
+  type ConnectionStatus
+} from "./connections.js";
 import { FIXTURE_OBSERVATIONS, FIXTURE_PEOPLE, FIXTURE_ROUTINES } from "./fixtures.js";
 import { MockGoogleClient } from "./mock-google.js";
-
-export type ConnectionId = "calendar" | "gmail";
-export type ConnectionStatus = "connected" | "revoked";
 
 export interface MeetingView {
   id: string;
@@ -47,9 +52,6 @@ export interface ChiefSnapshot {
   exportNote?: string;
 }
 
-const TOKEN_CALENDAR = "google.calendar.refresh";
-const TOKEN_GMAIL = "google.gmail.refresh";
-
 export class ChiefRuntime {
   private readonly secrets = new MemorySecretStore();
   private readonly store = new EncryptedDatabase(this.secrets);
@@ -63,17 +65,14 @@ export class ChiefRuntime {
   private receipts: ActionReceipt[] = [];
   private routines: WrittenRoutine[] = FIXTURE_ROUTINES;
   private briefing = "";
-  private connections: Record<ConnectionId, ConnectionStatus> = {
-    calendar: "connected",
-    gmail: "connected"
-  };
+  private connections: Record<ConnectionId, ConnectionStatus> = fixtureConnections();
   private wiped = false;
   private exportNote: string | undefined;
 
   async boot(): Promise<ChiefSnapshot> {
     await this.store.open();
-    await this.secrets.set(TOKEN_CALENDAR, "fixture-local-only");
-    await this.secrets.set(TOKEN_GMAIL, "fixture-local-only");
+    this.connections = fixtureConnections();
+    await this.writeConnectedTokens();
     const pipeline = runObservedPipeline(FIXTURE_OBSERVATIONS);
     this.workItems = pipeline.workItems.map((item) =>
       item.status === "detected" ? { ...item, status: "needs_approval" } : item
@@ -190,14 +189,23 @@ export class ChiefRuntime {
   }
 
   async revoke(id: ConnectionId): Promise<ChiefSnapshot> {
-    await this.secrets.delete(id === "calendar" ? TOKEN_CALENDAR : TOKEN_GMAIL);
+    await this.secrets.delete(tokenName(id));
     this.connections = { ...this.connections, [id]: "revoked" };
     return this.snapshot();
   }
 
+  async pair(id: ConnectionId): Promise<ChiefSnapshot> {
+    await this.secrets.set(tokenName(id), "fixture-local-only");
+    this.connections = { ...this.connections, [id]: "connected" };
+    return this.snapshot();
+  }
+
   async revokeAll(): Promise<ChiefSnapshot> {
-    await this.revoke("calendar");
-    return this.revoke("gmail");
+    for (const id of connectionIds()) {
+      await this.secrets.delete(tokenName(id));
+    }
+    this.connections = revokedConnections();
+    return this.snapshot();
   }
 
   async wipe(): Promise<ChiefSnapshot> {
@@ -210,7 +218,7 @@ export class ChiefRuntime {
     this.routines = [];
     this.briefing = "";
     this.google.reset();
-    this.connections = { calendar: "revoked", gmail: "revoked" };
+    await this.revokeAll();
     this.wiped = true;
     this.exportNote = undefined;
     return this.current();
@@ -332,6 +340,14 @@ export class ChiefRuntime {
     }
   }
 
+  private async writeConnectedTokens(): Promise<void> {
+    for (const id of connectionIds()) {
+      if (this.connections[id] === "connected") {
+        await this.secrets.set(tokenName(id), "fixture-local-only");
+      }
+    }
+  }
+
   private undoMutation(plan: ActionPlan, id: string): Promise<void> {
     switch (plan.actionType) {
       case "email.draft":
@@ -365,11 +381,24 @@ function formatMeetingWhen(iso: string): string {
 }
 
 function defaultAction(plan: ActionPlan, item: WorkItem | undefined): string {
+  const provider = item?.sourceRefs[0]?.provider;
+  if (item?.kind === "missed_call") {
+    return "Prepare a callback to Amina";
+  }
   if (item?.kind === "meeting_prep") {
     return "Assemble the board pack, last proposal, and Amina's notes";
   }
   if (item?.kind === "commitment") {
     return "Prepare the promised board pack";
+  }
+  if (provider === "sms") {
+    return "Prepare a text reply to Jordan";
+  }
+  if (provider === "linkedin") {
+    return "Prepare a LinkedIn reply to Chris";
+  }
+  if (provider === "x" || provider === "instagram" || provider === "facebook") {
+    return "Hold the public reply. Do not post.";
   }
   switch (plan.actionType) {
     case "email.draft":

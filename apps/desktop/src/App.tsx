@@ -7,9 +7,18 @@ import type {
   SyntheticMeeting,
   SyntheticReceipt
 } from "./fixtures/synthetic.js";
-import type { MeetingPrepView, WrittenRoutine } from "@project-chief/runtime";
+import {
+  CONNECTION_CATALOG,
+  CONNECTION_GROUPS,
+  connectionStatusLabel,
+  fixtureConnections,
+  type ChiefSnapshot,
+  type ConnectionId,
+  type ConnectionStatus,
+  type MeetingPrepView,
+  type WrittenRoutine
+} from "@project-chief/runtime";
 import { getRuntime, resetRuntime, wait } from "./runtime/session.js";
-import type { ChiefSnapshot } from "@project-chief/runtime";
 import {
   applySnapshot,
   commitmentsFromSnapshot,
@@ -43,8 +52,6 @@ const FILTERS: { id: DecisionFilter; label: string }[] = [
   { id: "consequential", label: "Consequential" }
 ];
 
-type ConnectionId = "calendar" | "gmail";
-
 export default function App() {
   const [route, setRoute] = useState<RouteName>("today");
   const [decisions, setDecisions] = useState<SyntheticDecision[]>([]);
@@ -68,21 +75,8 @@ export default function App() {
   const [wiped, setWiped] = useState(false);
   const [confirmWipe, setConfirmWipe] = useState(false);
   const [exportNote, setExportNote] = useState<string | undefined>();
-  const [connections, setConnections] = useState<Record<ConnectionId, "connected" | "revoked">>({
-    calendar: "connected",
-    gmail: "connected"
-  });
-
-  useEffect(() => {
-    const runtime = resetRuntime();
-    void runtime.boot().then((snapshot) => {
-      applySnapshot(snapshot, setDecisions, setReceipts, setCommitments, setPeople, setMeetings);
-      setRoutines(snapshot.routines);
-      setMeetingPrep(snapshot.meetingPrep);
-      setTimeSavedMinutes(snapshot.timeSavedMinutes);
-      setLoading(false);
-    });
-  }, []);
+  const [connections, setConnections] =
+    useState<Record<ConnectionId, ConnectionStatus>>(fixtureConnections);
 
   const visible = useMemo(
     () => decisions.filter((item) => item.filter.includes(filter) && item.state !== "dismissed"),
@@ -102,6 +96,14 @@ export default function App() {
     setExportNote(snapshot.exportNote);
     setWiped(snapshot.wiped);
   }, []);
+
+  useEffect(() => {
+    const runtime = resetRuntime();
+    void runtime.boot().then((snapshot) => {
+      apply(snapshot);
+      setLoading(false);
+    });
+  }, [apply]);
 
   const onApprove = useCallback(
     async (id: string) => {
@@ -312,6 +314,14 @@ export default function App() {
                 .then((snapshot) => {
                   apply(snapshot);
                   setStatus("Connection revoked on this device.");
+                });
+            }}
+            onPair={(id) => {
+              void getRuntime()
+                .pair(id)
+                .then((snapshot) => {
+                  apply(snapshot);
+                  setStatus("Paired on this device. Tokens stay in the local vault.");
                 });
             }}
             onRevokeAll={() => {
@@ -961,10 +971,12 @@ function Routines({ wiped, routines }: { wiped: boolean; routines: WrittenRoutin
 function Connections({
   connections,
   onRevoke,
+  onPair,
   onRevokeAll
 }: {
-  connections: Record<ConnectionId, "connected" | "revoked">;
+  connections: Record<ConnectionId, ConnectionStatus>;
   onRevoke: (id: ConnectionId) => void;
+  onPair: (id: ConnectionId) => void;
   onRevokeAll: () => void;
 }) {
   return (
@@ -974,56 +986,82 @@ function Connections({
           <p className="eyebrow">Sources</p>
           <h1>Connections.</h1>
           <p className="summary">
-            Read-only Google connectors stay on this device. Mutation is behind A3.
+            Phone, SMS, missed calls and social stay on the paired device. Work tokens never leave
+            the vault. Posting stays behind A3.
           </p>
         </div>
         <button className="ghost" onClick={onRevokeAll}>
           Revoke all
         </button>
       </header>
-      <article className="row">
-        <div>
-          <strong>Google Calendar</strong>
-          <p>calendar.readonly · on this device</p>
-        </div>
-        <ConnectionAction
-          status={connections.calendar}
-          onRevoke={() => {
-            onRevoke("calendar");
-          }}
-        />
-      </article>
-      <article className="row">
-        <div>
-          <strong>Gmail</strong>
-          <p>gmail.readonly · on this device</p>
-        </div>
-        <ConnectionAction
-          status={connections.gmail}
-          onRevoke={() => {
-            onRevoke("gmail");
-          }}
-        />
-      </article>
+      {CONNECTION_GROUPS.map((group) => (
+        <section className="connection-group" key={group.id}>
+          <h2>{group.label}</h2>
+          <p>{group.hint}</p>
+          <div className="connection-grid">
+            {CONNECTION_CATALOG.filter((item) => item.group === group.id).map((item) => (
+              <article className="connection-card" key={item.id}>
+                <div>
+                  <strong>{item.label}</strong>
+                  <p>{item.detail}</p>
+                </div>
+                <ConnectionAction
+                  group={group.id}
+                  status={connections[item.id]}
+                  onRevoke={() => {
+                    onRevoke(item.id);
+                  }}
+                  onPair={() => {
+                    onPair(item.id);
+                  }}
+                />
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
     </>
   );
 }
 
 function ConnectionAction({
+  group,
   status,
-  onRevoke
+  onRevoke,
+  onPair
 }: {
-  status: "connected" | "revoked";
+  group: (typeof CONNECTION_GROUPS)[number]["id"];
+  status: ConnectionStatus;
   onRevoke: () => void;
+  onPair: () => void;
 }) {
-  if (status === "revoked") {
-    return <span className="privacy">Revoked</span>;
+  const badge =
+    status === "connected" && group === "this_device" ? "Paired" : connectionStatusLabel(status);
+  switch (status) {
+    case "connected":
+      return (
+        <div className="connection-actions">
+          <span className="privacy">{badge}</span>
+          <button className="ghost" onClick={onRevoke}>
+            Revoke
+          </button>
+        </div>
+      );
+    case "revoked":
+    case "available":
+      return (
+        <div className="connection-actions">
+          <span className="privacy">{badge}</span>
+          <button className="ghost" onClick={onPair}>
+            Pair
+          </button>
+        </div>
+      );
+    default: {
+      const exhaustive: never = status;
+      return exhaustive;
+    }
   }
-  return (
-    <button className="ghost" onClick={onRevoke}>
-      Revoke
-    </button>
-  );
 }
 
 function Privacy({
@@ -1054,11 +1092,11 @@ function Privacy({
         {[
           [
             "On this device",
-            "Email, calendar notes, Life Graph, receipts and the database key stay local."
+            "Phone, SMS, mail, calendar notes, Life Graph, receipts and the database key stay local."
           ],
           [
             "Connected accounts",
-            "Calendar and Gmail use minimum scopes. Refresh tokens never leave the vault."
+            "Phone, SMS and social stay on this device. Work tokens never leave the vault."
           ],
           [
             "External AI routes",

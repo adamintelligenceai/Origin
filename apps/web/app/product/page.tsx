@@ -5,7 +5,8 @@ export default function ProductPage() {
       <h1>Not another chatbot.</h1>
       <p className="lede">
         You open the personal node and the work is already organised. Chief observes, prepares,
-        asks, then proves the result.
+        asks, then proves the result. Phone, SMS, missed calls and social stay on the paired
+        device — never in the service cloud.
       </p>
       <section className="trust">
         <article>

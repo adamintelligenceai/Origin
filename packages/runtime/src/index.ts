@@ -1,8 +1,19 @@
 export {
+  CONNECTION_CATALOG,
+  CONNECTION_GROUPS,
+  connectionIds,
+  connectionStatusLabel,
+  fixtureConnections,
+  revokedConnections,
+  tokenName,
+  type ConnectionDescriptor,
+  type ConnectionGroup,
+  type ConnectionId,
+  type ConnectionStatus
+} from "./connections.js";
+export {
   ChiefRuntime,
   type ChiefSnapshot,
-  type ConnectionId,
-  type ConnectionStatus,
   type MeetingPrepView,
   type MeetingView,
   type WrittenRoutine

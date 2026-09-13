@@ -123,8 +123,23 @@ export function detectFromNormalized(observations: readonly NormalizedObservatio
     });
   }
   for (const observation of observations) {
+    if (observation.kind === "missed_call") {
+      detected.workItems.push({
+        id: `call-${observation.id}`,
+        kind: "missed_call",
+        title: observation.title || "Missed call",
+        ...(observation.body ? { summary: observation.body.slice(0, 180) } : {}),
+        urgency: 0.92,
+        importance: 0.8,
+        confidence: 0.9,
+        status: "needs_approval",
+        sourceRefs: [observation.sourceRef]
+      });
+      continue;
+    }
     const haystack = `${observation.title} ${observation.body ?? ""}`.toLowerCase();
-    if (REPLY_READY_MARKERS.some((marker) => haystack.includes(marker))) {
+    const replyReady = REPLY_READY_MARKERS.some((marker) => haystack.includes(marker));
+    if (replyReady && observation.sourceRef.provider === "gmail") {
       detected.workItems.push({
         id: `reply-${observation.id}`,
         kind: "reply",
@@ -133,6 +148,20 @@ export function detectFromNormalized(observations: readonly NormalizedObservatio
         urgency: 0.7,
         importance: 0.75,
         confidence: 0.8,
+        status: "needs_approval",
+        sourceRefs: [observation.sourceRef]
+      });
+      continue;
+    }
+    if (replyReady && observation.kind === "social_message") {
+      detected.workItems.push({
+        id: `hold-${observation.id}`,
+        kind: "follow_up",
+        title: "Hold the social reply",
+        summary: "A public reply is waiting. Posting stays behind A3 and is off in this fixture.",
+        urgency: 0.68,
+        importance: 0.7,
+        confidence: 0.74,
         status: "needs_approval",
         sourceRefs: [observation.sourceRef]
       });

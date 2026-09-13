@@ -18,7 +18,18 @@ export const actionTypeSchema = z.enum([
   "calendar.delete"
 ]);
 
-export const providerSchema = z.enum(["gmail", "google_calendar", "drive", "manual"]);
+export const providerSchema = z.enum([
+  "gmail",
+  "google_calendar",
+  "drive",
+  "manual",
+  "phone",
+  "sms",
+  "linkedin",
+  "instagram",
+  "facebook",
+  "x"
+]);
 
 export const sourceRefSchema = z.object({
   sourceId: z.string().min(1),
@@ -55,7 +66,8 @@ export const workItemSchema = z.object({
     "meeting_prep",
     "calendar_conflict",
     "reply",
-    "routine"
+    "routine",
+    "missed_call"
   ]),
   title: z.string().min(1),
   summary: z.string().min(1).optional(),

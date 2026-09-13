@@ -1,8 +1,22 @@
+import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  CONNECTION_CATALOG,
+  CONNECTION_GROUPS,
+  type ChiefSnapshot,
+  type ConnectionStatus
+} from "@project-chief/runtime";
+import { resetRuntime } from "../src/session.js";
 import { styles } from "./theme.js";
 
 export default function Screen() {
+  const [snapshot, setSnapshot] = useState<ChiefSnapshot | undefined>();
+
+  useEffect(() => {
+    void resetRuntime().boot().then(setSnapshot);
+  }, []);
+
   return (
     <SafeAreaView style={styles.root}>
       <Text style={styles.eyebrow}>YOU</Text>
@@ -10,19 +24,22 @@ export default function Screen() {
       <View style={styles.card}>
         <Text style={styles.headline}>On device</Text>
         <Text style={styles.body}>
-          The database key stays on this phone. Private records never enter the service cloud.
+          Phone, SMS, mail and social stay on this phone. Private records never enter the service
+          cloud.
         </Text>
       </View>
-      <View style={styles.card}>
-        <Text style={styles.headline}>Connections</Text>
-        <Text style={styles.body}>
-          Calendar and Gmail stay read-only until you approve a mutation.
-        </Text>
-      </View>
-      <View style={styles.card}>
-        <Text style={styles.headline}>Paired devices</Text>
-        <Text style={styles.body}>New devices cannot read history unless you transfer it.</Text>
-      </View>
+      {CONNECTION_GROUPS.map((group) => (
+        <View style={styles.card} key={group.id}>
+          <Text style={styles.kicker}>{group.label.toUpperCase()}</Text>
+          <Text style={styles.headline}>{group.label}</Text>
+          <Text style={styles.body}>{group.hint}</Text>
+          {CONNECTION_CATALOG.filter((item) => item.group === group.id).map((item) => (
+            <Text key={item.id} style={styles.body}>
+              {item.label} · {snapshot ? statusCopy(snapshot.connections[item.id]) : "reading"}
+            </Text>
+          ))}
+        </View>
+      ))}
       <View style={styles.card}>
         <Text style={styles.headline}>Billing</Text>
         <Text style={styles.body}>
@@ -31,4 +48,19 @@ export default function Screen() {
       </View>
     </SafeAreaView>
   );
+}
+
+function statusCopy(status: ConnectionStatus): string {
+  switch (status) {
+    case "connected":
+      return "Paired on this phone";
+    case "revoked":
+      return "Revoked";
+    case "available":
+      return "Available";
+    default: {
+      const exhaustive: never = status;
+      return exhaustive;
+    }
+  }
 }

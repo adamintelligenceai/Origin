@@ -1,6 +1,12 @@
 import type { SourceRef, WorkItem } from "@project-chief/types";
 
-export type ObservationKind = "email" | "calendar_event" | "manual";
+export type ObservationKind =
+  | "email"
+  | "calendar_event"
+  | "manual"
+  | "sms"
+  | "missed_call"
+  | "social_message";
 
 export interface RawObservation {
   id: string;

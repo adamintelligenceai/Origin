@@ -21,7 +21,10 @@ export default function HomePage() {
         <article>
           <span>01</span>
           <h2>Sees what matters</h2>
-          <p>Turns email, meetings and commitments into a short decision queue.</p>
+          <p>
+            Turns mail, meetings, phone, SMS and social into a short decision queue. Bodies stay
+            on the paired device.
+          </p>
         </article>
         <article>
           <span>02</span>

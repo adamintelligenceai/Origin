@@ -36,6 +36,37 @@ describe("ChiefRuntime", () => {
     expect(wiped.workItems).toEqual([]);
     expect(wiped.meetings).toEqual([]);
     expect(wiped.connections.gmail).toBe("revoked");
+    expect(wiped.connections.phone).toBe("revoked");
+    expect(wiped.connections.sms).toBe("revoked");
+    expect(wiped.connections.linkedin).toBe("revoked");
+    expect(wiped.connections.x).toBe("revoked");
+  });
+
+  it("surfaces a missed call and refuses to send a public X reply", async () => {
+    const runtime = new ChiefRuntime();
+    const boot = await runtime.boot();
+    expect(boot.connections.phone).toBe("connected");
+    expect(boot.connections.sms).toBe("connected");
+    expect(boot.connections.linkedin).toBe("connected");
+    expect(boot.workItems.some((item) => item.kind === "missed_call")).toBe(true);
+    const socialHold = boot.workItems.find((item) => item.id === "hold-x-hold");
+    const socialPlan = boot.plans.find((plan) => plan.workItemId === socialHold?.id);
+    expect(socialHold?.kind).toBe("follow_up");
+    expect(socialPlan?.actionType).not.toBe("email.send");
+    expect(
+      boot.plans.some(
+        (plan) => plan.intent.toLowerCase().includes("password") && plan.actionType === "email.send"
+      )
+    ).toBe(false);
+  });
+
+  it("can pair a revoked local connection without sending tokens off device", async () => {
+    const runtime = new ChiefRuntime();
+    await runtime.boot();
+    const revoked = await runtime.revoke("sms");
+    expect(revoked.connections.sms).toBe("revoked");
+    const paired = await runtime.pair("sms");
+    expect(paired.connections.sms).toBe("connected");
   });
 
   it("exposes overlapping fixture meetings and clears the conflict after approve", async () => {
