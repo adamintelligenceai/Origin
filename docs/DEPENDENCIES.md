@@ -83,7 +83,7 @@ Expo was upgraded from SDK 55 → 57 because the scaffold versions were stale re
 | `@project-chief/model-router`      | privacy, types, zod                                | Model gateway + cost ledger     |
 | `@project-chief/store`             | `@noble/ciphers`, `@noble/hashes`, types           | Encrypted local store           |
 | `@project-chief/connectors-google` | permissions, store, types, ledger                  | Calendar/Gmail + PKCE           |
-| `@project-chief/connectors-social` | store                                              | LinkedIn/Instagram/Facebook/X local OAuth |
+| `@project-chief/connectors-social` | `@noble/hashes`, store                             | LinkedIn/Instagram/Facebook/X local OAuth |
 | `@project-chief/sync`              | `@noble/ciphers`, `@noble/curves`, `@noble/hashes` | E2EE envelopes                  |
 | `@project-chief/runtime`           | core, ledger, permissions, store, types, connectors-social | Desktop composition root |
 

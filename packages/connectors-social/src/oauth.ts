@@ -1,4 +1,5 @@
-import { createHash, randomBytes } from "node:crypto";
+import { sha256 } from "@noble/hashes/sha2.js";
+import { bytesToHex, randomBytes } from "@noble/hashes/utils.js";
 import type { SecretStore } from "@project-chief/store";
 
 export type SocialNetwork = "linkedin" | "instagram" | "facebook" | "x";
@@ -53,13 +54,21 @@ export function isSocialNetwork(id: string): id is SocialNetwork {
 }
 
 export function createPkceChallenge(): PkceChallenge {
-  const verifier = randomBytes(32).toString("base64url");
-  const challenge = createHash("sha256").update(verifier).digest("base64url");
+  const verifier = bytesToBase64Url(randomBytes(32));
+  const challenge = bytesToBase64Url(sha256(new TextEncoder().encode(verifier)));
   return {
-    state: randomBytes(16).toString("hex"),
+    state: bytesToHex(randomBytes(16)),
     verifier,
     challenge
   };
+}
+
+function bytesToBase64Url(bytes: Uint8Array): string {
+  let binary = "";
+  for (const byte of bytes) {
+    binary += String.fromCharCode(byte);
+  }
+  return btoa(binary).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/g, "");
 }
 
 export function authorizationUrl(
