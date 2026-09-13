@@ -5,8 +5,8 @@ export default function ProductPage() {
       <h1>Not another chatbot.</h1>
       <p className="lede">
         You open the personal node and the work is already organised. Chief observes, prepares,
-        asks, then proves the result. Phone, SMS, missed calls and social stay on the paired
-        device — never in the service cloud.
+        asks, then proves the result. LinkedIn, Instagram, Facebook and X use official local
+        OAuth on this device. There is no hosted aggregator.
       </p>
       <section className="trust">
         <article>

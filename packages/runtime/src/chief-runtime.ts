@@ -1,3 +1,10 @@
+import {
+  authorizationUrl,
+  createPkceChallenge,
+  isSocialNetwork,
+  persistRefreshToken,
+  type PkceChallenge
+} from "@project-chief/connectors-social";
 import { runObservedPipeline, type NormalizedObservation } from "@project-chief/core";
 import { MemoryLedger, classifyVerification } from "@project-chief/ledger";
 import { hashActionPlan, issueApproval, PermissionEngine } from "@project-chief/permissions";
@@ -13,6 +20,7 @@ import {
 } from "./connections.js";
 import { FIXTURE_OBSERVATIONS, FIXTURE_PEOPLE, FIXTURE_ROUTINES } from "./fixtures.js";
 import { MockGoogleClient } from "./mock-google.js";
+import { observationAllowed } from "./sources.js";
 
 export interface MeetingView {
   id: string;
@@ -68,33 +76,17 @@ export class ChiefRuntime {
   private connections: Record<ConnectionId, ConnectionStatus> = fixtureConnections();
   private wiped = false;
   private exportNote: string | undefined;
+  private readonly oauthChallenges = new Map<ConnectionId, PkceChallenge>();
 
   async boot(): Promise<ChiefSnapshot> {
     await this.store.open();
     this.connections = fixtureConnections();
     await this.writeConnectedTokens();
-    const pipeline = runObservedPipeline(FIXTURE_OBSERVATIONS);
-    this.workItems = pipeline.workItems.map((item) =>
-      item.status === "detected" ? { ...item, status: "needs_approval" } : item
-    );
-    this.commitments = attachCounterparties(
-      pipeline.commitments,
-      this.people,
-      pipeline.observations
-    );
-    this.plans = pipeline.plans.map((plan) => ({
-      ...plan,
-      payload: {
-        action: defaultAction(
-          plan,
-          this.workItems.find((item) => item.id === plan.workItemId)
-        )
-      }
-    }));
-    this.briefing = pipeline.briefing;
+    this.people = FIXTURE_PEOPLE;
     this.routines = FIXTURE_ROUTINES;
     this.wiped = false;
     this.exportNote = undefined;
+    this.ingest();
     for (const item of this.workItems) {
       await this.store.putWorkItem(item);
     }
@@ -190,21 +182,45 @@ export class ChiefRuntime {
 
   async revoke(id: ConnectionId): Promise<ChiefSnapshot> {
     await this.secrets.delete(tokenName(id));
+    this.oauthChallenges.delete(id);
     this.connections = { ...this.connections, [id]: "revoked" };
+    this.ingest();
     return this.snapshot();
   }
 
+  beginOAuth(
+    id: ConnectionId,
+    clientId = "project-chief-desktop"
+  ): { url: string; host: string } {
+    if (!isSocialNetwork(id)) {
+      throw new Error(`Local social OAuth is not defined for ${id}`);
+    }
+    const pkce = createPkceChallenge();
+    this.oauthChallenges.set(id, pkce);
+    const url = authorizationUrl(id, clientId, "http://127.0.0.1:1420/oauth/callback", pkce);
+    return { url, host: new URL(url).host };
+  }
+
   async pair(id: ConnectionId): Promise<ChiefSnapshot> {
-    await this.secrets.set(tokenName(id), "fixture-local-only");
+    if (isSocialNetwork(id)) {
+      const session = this.oauthChallenges.get(id) ?? createPkceChallenge();
+      this.oauthChallenges.delete(id);
+      await persistRefreshToken(this.secrets, tokenName(id), `local-${id}-${session.state}`);
+    } else {
+      await this.secrets.set(tokenName(id), "fixture-local-only");
+    }
     this.connections = { ...this.connections, [id]: "connected" };
+    this.ingest();
     return this.snapshot();
   }
 
   async revokeAll(): Promise<ChiefSnapshot> {
     for (const id of connectionIds()) {
       await this.secrets.delete(tokenName(id));
+      this.oauthChallenges.delete(id);
     }
     this.connections = revokedConnections();
+    this.ingest();
     return this.snapshot();
   }
 
@@ -338,6 +354,42 @@ export class ChiefRuntime {
         return exhaustive;
       }
     }
+  }
+
+  private ingest(): void {
+    const observations = FIXTURE_OBSERVATIONS.filter((item) =>
+      observationAllowed(item, this.connections)
+    );
+    const pipeline = runObservedPipeline(observations);
+    const previous = new Map(this.workItems.map((item) => [item.id, item]));
+    this.workItems = pipeline.workItems.map((item) => {
+      const prior = previous.get(item.id);
+      if (
+        prior &&
+        (prior.status === "verified" ||
+          prior.status === "dismissed" ||
+          prior.status === "failed" ||
+          prior.status === "running")
+      ) {
+        return { ...item, status: prior.status };
+      }
+      return item.status === "detected" ? { ...item, status: "needs_approval" } : item;
+    });
+    this.commitments = attachCounterparties(
+      pipeline.commitments,
+      this.people,
+      pipeline.observations
+    );
+    this.plans = pipeline.plans.map((plan) => ({
+      ...plan,
+      payload: {
+        action: defaultAction(
+          plan,
+          this.workItems.find((item) => item.id === plan.workItemId)
+        )
+      }
+    }));
+    this.briefing = pipeline.briefing;
   }
 
   private async writeConnectedTokens(): Promise<void> {

@@ -26,7 +26,8 @@ Receipts             device keys         provider routing
 Source index
     |
 First-party connectors
-Google Calendar / Gmail / later Drive & Microsoft
+Google Calendar / Gmail / Drive
+LinkedIn / Instagram / Facebook / X (local OAuth, no hosted aggregator)
 ```
 
 ## 2. Desktop responsibilities

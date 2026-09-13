@@ -14,12 +14,17 @@ export type ConnectionStatus = "connected" | "revoked" | "available";
 
 export type ConnectionGroup = "this_device" | "work" | "social";
 
+export type ConnectionAuth =
+  | { kind: "companion" }
+  | { kind: "local_oauth"; host: string };
+
 export interface ConnectionDescriptor {
   id: ConnectionId;
   group: ConnectionGroup;
   label: string;
   detail: string;
   tokenName: string;
+  auth: ConnectionAuth;
 }
 
 export interface ConnectionGroupView {
@@ -42,7 +47,7 @@ export const CONNECTION_GROUPS: readonly ConnectionGroupView[] = [
   {
     id: "social",
     label: "Social",
-    hint: "Read-only on this device. Posting is A3 and off until you approve a prepared reply."
+    hint: "Official local OAuth on this device. Tokens never enter the service cloud. There is no hosted aggregator."
   }
 ];
 
@@ -52,70 +57,80 @@ export const CONNECTION_CATALOG: readonly ConnectionDescriptor[] = [
     group: "this_device",
     label: "Phone",
     detail: "Paired companion · call audio never leaves the handset",
-    tokenName: "phone.companion"
+    tokenName: "phone.companion",
+    auth: { kind: "companion" }
   },
   {
     id: "sms",
     group: "this_device",
     label: "SMS",
     detail: "Local inbox · bodies stay on the paired phone",
-    tokenName: "sms.local"
+    tokenName: "sms.local",
+    auth: { kind: "companion" }
   },
   {
     id: "missed_calls",
     group: "this_device",
     label: "Missed calls",
     detail: "Read from the paired phone · no carrier relay through us",
-    tokenName: "calls.local"
+    tokenName: "calls.local",
+    auth: { kind: "companion" }
   },
   {
     id: "gmail",
     group: "work",
     label: "Gmail",
-    detail: "gmail.readonly · refresh token in the local vault",
-    tokenName: "google.gmail.refresh"
+    detail: "Live local OAuth · gmail.readonly · token in the vault",
+    tokenName: "google.gmail.refresh",
+    auth: { kind: "local_oauth", host: "accounts.google.com" }
   },
   {
     id: "calendar",
     group: "work",
     label: "Google Calendar",
-    detail: "calendar.readonly · refresh token in the local vault",
-    tokenName: "google.calendar.refresh"
+    detail: "Live local OAuth · calendar.readonly · token in the vault",
+    tokenName: "google.calendar.refresh",
+    auth: { kind: "local_oauth", host: "accounts.google.com" }
   },
   {
     id: "drive",
     group: "work",
     label: "Drive",
-    detail: "Available · files stay on this device once paired",
-    tokenName: "google.drive.refresh"
+    detail: "Live local OAuth · files stay on this device once connected",
+    tokenName: "google.drive.refresh",
+    auth: { kind: "local_oauth", host: "accounts.google.com" }
   },
   {
     id: "linkedin",
     group: "social",
     label: "LinkedIn",
-    detail: "Read-only messages · local token · no posting",
-    tokenName: "linkedin.refresh"
+    detail: "Live local OAuth · linkedin.com · PKCE · read-only · no posting",
+    tokenName: "linkedin.refresh",
+    auth: { kind: "local_oauth", host: "www.linkedin.com" }
   },
   {
     id: "instagram",
     group: "social",
     label: "Instagram",
-    detail: "Read-only · local token · comments are not replies",
-    tokenName: "instagram.refresh"
+    detail: "Live local OAuth · Meta · Instagram inbox stays on this device",
+    tokenName: "instagram.refresh",
+    auth: { kind: "local_oauth", host: "www.facebook.com" }
   },
   {
     id: "facebook",
     group: "social",
     label: "Facebook",
-    detail: "Read-only · local token · events are not purchases",
-    tokenName: "facebook.refresh"
+    detail: "Live local OAuth · facebook.com · PKCE · read-only",
+    tokenName: "facebook.refresh",
+    auth: { kind: "local_oauth", host: "www.facebook.com" }
   },
   {
     id: "x",
     group: "social",
     label: "X",
-    detail: "Read-only · public replies wait for A3",
-    tokenName: "x.refresh"
+    detail: "Live local OAuth · x.com · PKCE · public replies wait for A3",
+    tokenName: "x.refresh",
+    auth: { kind: "local_oauth", host: "x.com" }
   }
 ];
 
@@ -159,6 +174,19 @@ export function tokenName(id: ConnectionId): string {
 
 export function connectionIds(): ConnectionId[] {
   return CONNECTION_CATALOG.map((item) => item.id);
+}
+
+export function connectActionLabel(auth: ConnectionAuth): string {
+  switch (auth.kind) {
+    case "companion":
+      return "Pair";
+    case "local_oauth":
+      return "Connect";
+    default: {
+      const exhaustive: never = auth;
+      return exhaustive;
+    }
+  }
 }
 
 export function connectionStatusLabel(status: ConnectionStatus): string {

@@ -65,8 +65,31 @@ describe("ChiefRuntime", () => {
     await runtime.boot();
     const revoked = await runtime.revoke("sms");
     expect(revoked.connections.sms).toBe("revoked");
+    expect(revoked.workItems.some((item) => item.sourceRefs[0]?.provider === "sms")).toBe(false);
     const paired = await runtime.pair("sms");
     expect(paired.connections.sms).toBe("connected");
+    expect(paired.workItems.some((item) => item.sourceRefs[0]?.provider === "sms")).toBe(true);
+  });
+
+  it("runs live local OAuth for LinkedIn and drops its inbox when revoked", async () => {
+    const runtime = new ChiefRuntime();
+    const boot = await runtime.boot();
+    expect(boot.workItems.some((item) => item.title.includes("Chris messaged on LinkedIn"))).toBe(
+      true
+    );
+    const session = runtime.beginOAuth("linkedin");
+    expect(session.url.startsWith("https://www.linkedin.com/oauth/v2/authorization")).toBe(true);
+    expect(session.host).toContain("linkedin.com");
+    const revoked = await runtime.revoke("linkedin");
+    expect(revoked.connections.linkedin).toBe("revoked");
+    expect(revoked.workItems.some((item) => item.title.includes("Chris messaged on LinkedIn"))).toBe(
+      false
+    );
+    const connected = await runtime.pair("linkedin");
+    expect(connected.connections.linkedin).toBe("connected");
+    expect(
+      connected.workItems.some((item) => item.title.includes("Chris messaged on LinkedIn"))
+    ).toBe(true);
   });
 
   it("exposes overlapping fixture meetings and clears the conflict after approve", async () => {

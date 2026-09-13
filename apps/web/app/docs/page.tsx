@@ -12,8 +12,8 @@ export default function DocsPage() {
           <span>Local</span>
           <h2>Personal node</h2>
           <p>
-            Desktop holds phone, SMS, mail, calendar notes, the Life Graph, receipts and the
-            database key.
+            Desktop holds phone, SMS, mail, calendar, LinkedIn, Instagram, Facebook, X, the Life
+            Graph, receipts and the database key. Social uses local OAuth, not a hosted aggregator.
           </p>
         </article>
         <article>

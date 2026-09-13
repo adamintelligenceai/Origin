@@ -22,8 +22,8 @@ export default function HomePage() {
           <span>01</span>
           <h2>Sees what matters</h2>
           <p>
-            Turns mail, meetings, phone, SMS and social into a short decision queue. Bodies stay
-            on the paired device.
+            Turns mail, meetings, phone, SMS, LinkedIn, Instagram, Facebook and X into a short
+            decision queue. Social uses local OAuth. Bodies stay on this device.
           </p>
         </article>
         <article>

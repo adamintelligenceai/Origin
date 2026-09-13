@@ -1,5 +1,5 @@
 {
-  "name": "@project-chief/runtime",
+  "name": "@project-chief/connectors-social",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,12 +11,7 @@
     "test": "vitest run --config vitest.config.ts"
   },
   "dependencies": {
-    "@project-chief/connectors-social": "workspace:*",
-    "@project-chief/core": "workspace:*",
-    "@project-chief/ledger": "workspace:*",
-    "@project-chief/permissions": "workspace:*",
-    "@project-chief/store": "workspace:*",
-    "@project-chief/types": "workspace:*"
+    "@project-chief/store": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.9.2",

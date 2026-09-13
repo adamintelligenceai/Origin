@@ -12,8 +12,8 @@ export default function TrustPage() {
           <span>Local</span>
           <h2>On this device</h2>
           <p>
-            Phone, SMS, mail, calendar notes, Life Graph, receipts and the database key stay on
-            the personal node.
+            Phone, SMS, mail, calendar, LinkedIn, Instagram, Facebook, X, Life Graph, receipts
+            and the database key stay on the personal node. Social tokens use local OAuth.
           </p>
         </article>
         <article>

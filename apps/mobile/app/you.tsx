@@ -24,8 +24,8 @@ export default function Screen() {
       <View style={styles.card}>
         <Text style={styles.headline}>On device</Text>
         <Text style={styles.body}>
-          Phone, SMS, mail and social stay on this phone. Private records never enter the service
-          cloud.
+          Phone and SMS pair on this handset. LinkedIn, Instagram, Facebook and X use local OAuth.
+          Tokens never enter the service cloud.
         </Text>
       </View>
       {CONNECTION_GROUPS.map((group) => (

@@ -10,8 +10,10 @@ import type {
 import {
   CONNECTION_CATALOG,
   CONNECTION_GROUPS,
+  connectActionLabel,
   connectionStatusLabel,
   fixtureConnections,
+  isSocialNetwork,
   type ChiefSnapshot,
   type ConnectionId,
   type ConnectionStatus,
@@ -317,11 +319,19 @@ export default function App() {
                 });
             }}
             onPair={(id) => {
+              if (isSocialNetwork(id)) {
+                const session = getRuntime().beginOAuth(id);
+                setStatus(`Authorizing on ${session.host}. Token stays in the vault.`);
+              }
               void getRuntime()
                 .pair(id)
                 .then((snapshot) => {
                   apply(snapshot);
-                  setStatus("Paired on this device. Tokens stay in the local vault.");
+                  setStatus(
+                    isSocialNetwork(id)
+                      ? "Local OAuth completed on this device. Token stays in the vault."
+                      : "Paired on this device. Tokens stay in the local vault."
+                  );
                 });
             }}
             onRevokeAll={() => {
@@ -986,8 +996,8 @@ function Connections({
           <p className="eyebrow">Sources</p>
           <h1>Connections.</h1>
           <p className="summary">
-            Phone, SMS, missed calls and social stay on the paired device. Work tokens never leave
-            the vault. Posting stays behind A3.
+            Phone and SMS pair on the companion. LinkedIn, Instagram, Facebook and X use live local
+            OAuth. Tokens never leave the vault. There is no hosted aggregator.
           </p>
         </div>
         <button className="ghost" onClick={onRevokeAll}>
@@ -1007,6 +1017,7 @@ function Connections({
                 </div>
                 <ConnectionAction
                   group={group.id}
+                  auth={item.auth}
                   status={connections[item.id]}
                   onRevoke={() => {
                     onRevoke(item.id);
@@ -1026,17 +1037,20 @@ function Connections({
 
 function ConnectionAction({
   group,
+  auth,
   status,
   onRevoke,
   onPair
 }: {
   group: (typeof CONNECTION_GROUPS)[number]["id"];
+  auth: (typeof CONNECTION_CATALOG)[number]["auth"];
   status: ConnectionStatus;
   onRevoke: () => void;
   onPair: () => void;
 }) {
   const badge =
     status === "connected" && group === "this_device" ? "Paired" : connectionStatusLabel(status);
+  const action = connectActionLabel(auth);
   switch (status) {
     case "connected":
       return (
@@ -1053,7 +1067,7 @@ function ConnectionAction({
         <div className="connection-actions">
           <span className="privacy">{badge}</span>
           <button className="ghost" onClick={onPair}>
-            Pair
+            {action}
           </button>
         </div>
       );
@@ -1096,7 +1110,7 @@ function Privacy({
           ],
           [
             "Connected accounts",
-            "Phone, SMS and social stay on this device. Work tokens never leave the vault."
+            "LinkedIn, Instagram, Facebook and X use live local OAuth. Tokens never leave the vault. There is no hosted aggregator."
           ],
           [
             "External AI routes",

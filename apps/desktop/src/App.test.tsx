@@ -61,6 +61,34 @@ describe("desktop product loop", () => {
       expect(within(phone).queryByText("Revoked")).toBeNull();
       expect(within(phone).getByText("Paired")).toBeTruthy();
     });
+    expect(screen.getByText(/Live local OAuth · linkedin.com/)).toBeTruthy();
+    const linkedin = screen.getByText("LinkedIn").closest("article");
+    if (!linkedin) {
+      throw new Error("expected the LinkedIn card");
+    }
+    fireEvent.click(within(linkedin).getByRole("button", { name: "Revoke" }));
+    expect(await within(linkedin).findByText("Revoked")).toBeTruthy();
+    fireEvent.click(within(linkedin).getByRole("button", { name: "Connect" }));
+    await waitFor(() => {
+      expect(within(linkedin).queryByText("Revoked")).toBeNull();
+      expect(within(linkedin).getByText("Connected")).toBeTruthy();
+    });
+  });
+
+  it("drops LinkedIn work when that live OAuth connection is revoked", async () => {
+    render(<App />);
+    await screen.findByText("Good morning.");
+    expect(screen.getByText("Chris messaged on LinkedIn")).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: /Connections/ }));
+    const linkedin = screen.getByText("LinkedIn").closest("article");
+    if (!linkedin) {
+      throw new Error("expected the LinkedIn card");
+    }
+    fireEvent.click(within(linkedin).getByRole("button", { name: "Revoke" }));
+    fireEvent.click(screen.getByRole("button", { name: /Today/ }));
+    await waitFor(() => {
+      expect(screen.queryByText("Chris messaged on LinkedIn")).toBeNull();
+    });
   });
 
   it("lets the user edit a proposed action before approval", async () => {
