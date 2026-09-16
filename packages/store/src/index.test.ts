@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { WorkItem } from "@project-chief/types";
 import { decryptJson, encryptJson, generateDatabaseKey } from "./crypto.js";
 import { EncryptedDatabase, createMemoryLog } from "./database.js";
+import { MemorySnapshotStore } from "./persist.js";
 import { MemorySecretStore } from "./secrets.js";
 
 const item: WorkItem = {
@@ -55,5 +56,16 @@ describe("encrypted store", () => {
     await db.wipe();
     expect(await db.listWorkItems()).toEqual([]);
     expect(await secrets.get("project-chief.db-key")).toBeUndefined();
+  });
+
+  it("round-trips an encrypted snapshot through the snapshot store", async () => {
+    const secrets = new MemorySecretStore();
+    const snapshots = new MemorySnapshotStore();
+    const first = new EncryptedDatabase(secrets, createMemoryLog(), snapshots);
+    await first.open();
+    await first.putWorkItem(item);
+    const second = new EncryptedDatabase(secrets, createMemoryLog(), snapshots);
+    await second.open();
+    expect((await second.listWorkItems())[0]?.title).toBe(item.title);
   });
 });

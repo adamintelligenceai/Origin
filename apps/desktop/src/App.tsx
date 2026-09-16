@@ -13,14 +13,23 @@ import {
   connectActionLabel,
   connectionStatusLabel,
   fixtureConnections,
-  isSocialNetwork,
+  isOAuthConnection,
+  LOOPBACK_REDIRECT,
   type ChiefSnapshot,
   type ConnectionId,
   type ConnectionStatus,
   type MeetingPrepView,
   type WrittenRoutine
 } from "@project-chief/runtime";
-import { getRuntime, resetRuntime, wait } from "./runtime/session.js";
+import {
+  fetchControlPlaneFlags,
+  flagsFromControlPlane,
+  getRuntime,
+  startSession,
+  wait,
+  completeLoopback,
+  isTauriRuntime
+} from "./runtime/session.js";
 import {
   applySnapshot,
   commitmentsFromSnapshot,
@@ -79,6 +88,10 @@ export default function App() {
   const [exportNote, setExportNote] = useState<string | undefined>();
   const [connections, setConnections] =
     useState<Record<ConnectionId, ConnectionStatus>>(fixtureConnections);
+  const [onboardingComplete, setOnboardingComplete] = useState(true);
+  const [offline, setOffline] = useState(typeof navigator !== "undefined" ? !navigator.onLine : false);
+  const [killSwitch, setKillSwitch] = useState(false);
+  const [companionCode, setCompanionCode] = useState<string | undefined>();
 
   const visible = useMemo(
     () => decisions.filter((item) => item.filter.includes(filter) && item.state !== "dismissed"),
@@ -97,15 +110,52 @@ export default function App() {
     setConnections(snapshot.connections);
     setExportNote(snapshot.exportNote);
     setWiped(snapshot.wiped);
+    setOnboardingComplete(snapshot.onboardingComplete);
+    setKillSwitch(snapshot.flags.killSwitch);
+    setCompanionCode(snapshot.companionCode);
+    setOffline(!snapshot.online);
   }, []);
 
   useEffect(() => {
-    const runtime = resetRuntime();
+    const runtime = startSession();
     void runtime.boot().then((snapshot) => {
       apply(snapshot);
       setLoading(false);
     });
   }, [apply]);
+
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+    function syncOnline() {
+      apply(getRuntime().setOnline(navigator.onLine));
+    }
+    syncOnline();
+    window.addEventListener("online", syncOnline);
+    window.addEventListener("offline", syncOnline);
+    return () => {
+      window.removeEventListener("online", syncOnline);
+      window.removeEventListener("offline", syncOnline);
+    };
+  }, [apply, loading]);
+
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+    const base = import.meta.env.VITE_CONTROL_PLANE_URL;
+    if (!base || typeof base !== "string") {
+      return;
+    }
+    void fetchControlPlaneFlags(base)
+      .then((payload) => {
+        apply(getRuntime().applyFlags(flagsFromControlPlane(payload)));
+      })
+      .catch(() => {
+        setStatus("Control plane unreachable. Working offline.");
+      });
+  }, [apply, loading]);
 
   const onApprove = useCallback(
     async (id: string) => {
@@ -208,6 +258,40 @@ export default function App() {
       });
   }, [apply]);
 
+  const connectSource = useCallback(
+    async (id: ConnectionId) => {
+      const runtime = getRuntime();
+      try {
+        if (isOAuthConnection(id)) {
+          const session = runtime.beginOAuth(id);
+          setStatus(`Authorizing on ${session.host}. Token stays in the vault.`);
+          if (runtime.snapshot().oauthMode === "live") {
+            const pending = isTauriRuntime()
+              ? completeLoopback(session.state, loopbackPort())
+              : Promise.reject(new Error("Live OAuth needs the desktop loopback listener"));
+            const callback = await pending;
+            const snapshot = await runtime.completeOAuth(id, callback);
+            apply(snapshot);
+            setStatus("Local OAuth completed on this device. Token stays in the vault.");
+            return;
+          }
+        }
+        const snapshot = await runtime.pair(id);
+        apply(snapshot);
+        setStatus(
+          isOAuthConnection(id)
+            ? "Local OAuth completed on this device. Token stays in the vault."
+            : snapshot.companionCode
+              ? `Paired on this device. Companion code ${snapshot.companionCode}.`
+              : "Paired on this device. Tokens stay in the local vault."
+        );
+      } catch (caught) {
+        setError(caught instanceof Error ? caught.message : "Connection failed");
+      }
+    },
+    [apply]
+  );
+
   const needsYou = decisions.filter((item) => item.state === "ready").length;
   const verifiedCount = decisions.filter((item) => item.state === "verified").length;
   const atRiskCount = decisions.filter((item) => item.atRisk && item.state !== "dismissed").length;
@@ -241,6 +325,12 @@ export default function App() {
           {status}
         </p>
         {error ? <p className="banner">{error}</p> : null}
+        {offline ? (
+          <p className="banner">You're offline. The personal node keeps working on this device.</p>
+        ) : null}
+        {killSwitch ? (
+          <p className="banner">Mutations are paused by the control plane.</p>
+        ) : null}
         {loading ? (
           <Empty title="Preparing the morning." body="Reading the local node." />
         ) : null}
@@ -310,6 +400,7 @@ export default function App() {
         {!loading && route === "connections" ? (
           <Connections
             connections={connections}
+            companionCode={companionCode}
             onRevoke={(id) => {
               void getRuntime()
                 .revoke(id)
@@ -319,20 +410,7 @@ export default function App() {
                 });
             }}
             onPair={(id) => {
-              if (isSocialNetwork(id)) {
-                const session = getRuntime().beginOAuth(id);
-                setStatus(`Authorizing on ${session.host}. Token stays in the vault.`);
-              }
-              void getRuntime()
-                .pair(id)
-                .then((snapshot) => {
-                  apply(snapshot);
-                  setStatus(
-                    isSocialNetwork(id)
-                      ? "Local OAuth completed on this device. Token stays in the vault."
-                      : "Paired on this device. Tokens stay in the local vault."
-                  );
-                });
+              void connectSource(id);
             }}
             onRevokeAll={() => {
               void getRuntime()
@@ -367,9 +445,27 @@ export default function App() {
                   setRoute("connections");
                 });
             }}
+            onDiagnostics={() => {
+              const bundle = getRuntime().diagnostics();
+              setExportNote(
+                `Diagnostic bundle v${bundle.version} · ${bundle.workItemCount} items · ${bundle.receiptCount} receipts · oauth ${bundle.oauthMode}. No content or secrets.`
+              );
+            }}
           />
         ) : null}
       </main>
+      {!onboardingComplete ? (
+        <Onboarding
+          onAccept={() => {
+            void getRuntime()
+              .acceptOnboarding()
+              .then((snapshot) => {
+                apply(snapshot);
+                setStatus("Privacy terms accepted on this device.");
+              });
+          }}
+        />
+      ) : null}
       {openReceipt ? (
         <ReceiptDrawer
           receipt={openReceipt}
@@ -980,11 +1076,13 @@ function Routines({ wiped, routines }: { wiped: boolean; routines: WrittenRoutin
 
 function Connections({
   connections,
+  companionCode,
   onRevoke,
   onPair,
   onRevokeAll
 }: {
   connections: Record<ConnectionId, ConnectionStatus>;
+  companionCode: string | undefined;
   onRevoke: (id: ConnectionId) => void;
   onPair: (id: ConnectionId) => void;
   onRevokeAll: () => void;
@@ -999,6 +1097,9 @@ function Connections({
             Phone and SMS pair on the companion. LinkedIn, Instagram, Facebook and X use live local
             OAuth. Tokens never leave the vault. There is no hosted aggregator.
           </p>
+          {companionCode ? (
+            <p className="summary">Companion pairing code {companionCode}. It never leaves this device.</p>
+          ) : null}
         </div>
         <button className="ghost" onClick={onRevokeAll}>
           Revoke all
@@ -1084,7 +1185,8 @@ function Privacy({
   onExport,
   onAskWipe,
   onConfirmWipe,
-  onRevokeAll
+  onRevokeAll,
+  onDiagnostics
 }: {
   exportNote: string | undefined;
   confirmWipe: boolean;
@@ -1092,6 +1194,7 @@ function Privacy({
   onAskWipe: () => void;
   onConfirmWipe: () => void;
   onRevokeAll: () => void;
+  onDiagnostics: () => void;
 }) {
   return (
     <>
@@ -1137,6 +1240,13 @@ function Privacy({
             Export encrypted bundle
           </button>
           {exportNote ? <p className="proposed">{exportNote}</p> : null}
+        </article>
+        <article className="card">
+          <h3>Diagnostics</h3>
+          <p>Local counts and connection status only. Content and secrets are excluded.</p>
+          <button className="ghost" onClick={onDiagnostics}>
+            Export diagnostics
+          </button>
         </article>
         <article className="card">
           <h3>Wipe</h3>
@@ -1209,4 +1319,31 @@ function Empty({ title, body }: { title: string; body: string }) {
       <p>{body}</p>
     </section>
   );
+}
+
+function Onboarding({ onAccept }: { onAccept: () => void }) {
+  return (
+    <div className="overlay" role="dialog" aria-label="Privacy onboarding">
+      <section className="overlay-card">
+        <p className="eyebrow">Before mail is read</p>
+        <h2>This stays on the device.</h2>
+        <p>
+          Project Chief stores mail, calendar, SMS, the Life Graph, receipts and connector tokens
+          only in the local vault. Refresh tokens never enter the service cloud. Mutations wait for
+          your A3 approval. Models cannot grant permission.
+        </p>
+        <p>
+          There is no server-held recovery key. A wipe deletes the local database key. Signed-in
+          cloud account data is limited to billing, device public keys and content-free flags.
+        </p>
+        <button className="primary" onClick={onAccept}>
+          I understand — continue
+        </button>
+      </section>
+    </div>
+  );
+}
+
+function loopbackPort(): number {
+  return Number(new URL(LOOPBACK_REDIRECT).port);
 }

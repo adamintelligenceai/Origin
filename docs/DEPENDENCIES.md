@@ -36,6 +36,7 @@ TypeScript stays on **5.9.x** during Phase 0. TypeScript 7.x is not adopted yet 
 | `@project-chief/types`       | workspace | Shared domain types          |
 | `@project-chief/permissions` | workspace | Permission engine (Phase 1+) |
 | `@project-chief/runtime`     | workspace | Observe→approve→verify loop  |
+| `@project-chief/store`       | workspace | Vault and encrypted snapshot |
 | `@tauri-apps/api`            | `^2.11.1` | Desktop IPC bridge           |
 | `@tauri-apps/cli`            | `^2.11.1` | Tauri build/dev tooling      |
 | `react` / `react-dom`        | `^19.1.1` | Desktop UI                   |
@@ -82,7 +83,7 @@ Expo was upgraded from SDK 55 → 57 because the scaffold versions were stale re
 | `@project-chief/privacy`           | `@project-chief/types`                             | Privacy gateway                 |
 | `@project-chief/model-router`      | privacy, types, zod                                | Model gateway + cost ledger     |
 | `@project-chief/store`             | `@noble/ciphers`, `@noble/hashes`, types           | Encrypted local store           |
-| `@project-chief/connectors-google` | permissions, store, types, ledger                  | Calendar/Gmail + PKCE           |
+| `@project-chief/connectors-google` | `@noble/hashes`, permissions, store, types, ledger | Calendar/Gmail + PKCE           |
 | `@project-chief/connectors-social` | `@noble/hashes`, store                             | LinkedIn/Instagram/Facebook/X local OAuth |
 | `@project-chief/sync`              | `@noble/ciphers`, `@noble/curves`, `@noble/hashes` | E2EE envelopes                  |
 | `@project-chief/runtime`           | core, ledger, permissions, store, types, connectors-social | Desktop composition root |

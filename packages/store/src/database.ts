@@ -1,5 +1,6 @@
 import type { ActionReceipt, Commitment, WorkItem } from "@project-chief/types";
 import { decodeKey, decryptJson, encodeKey, encryptJson, generateDatabaseKey } from "./crypto.js";
+import { MemorySnapshotStore, type SnapshotStore } from "./persist.js";
 import { DATABASE_KEY_NAME, type SecretStore } from "./secrets.js";
 
 export interface EncryptedSnapshot {
@@ -42,7 +43,8 @@ export class EncryptedDatabase {
 
   constructor(
     private readonly secrets: SecretStore,
-    private readonly log: StoreLog = createMemoryLog()
+    private readonly log: StoreLog = createMemoryLog(),
+    private readonly snapshots: SnapshotStore = new MemorySnapshotStore()
   ) {}
 
   async open(): Promise<void> {
@@ -50,11 +52,33 @@ export class EncryptedDatabase {
     if (existing) {
       this.key = decodeKey(existing);
       this.log.write("opened encrypted store");
+      await this.restore();
       return;
     }
     this.key = generateDatabaseKey();
     await this.secrets.set(DATABASE_KEY_NAME, encodeKey(this.key));
     this.log.write("generated local database key");
+    await this.restore();
+  }
+
+  private async restore(): Promise<void> {
+    const snapshot = await this.snapshots.load();
+    if (!snapshot) {
+      return;
+    }
+    try {
+      this.importSnapshot(snapshot);
+      this.log.write("restored encrypted snapshot");
+    } catch {
+      throw new Error("Encrypted store could not be opened");
+    }
+  }
+
+  persist(): Promise<void> {
+    if (!this.key) {
+      return Promise.resolve();
+    }
+    return this.snapshots.save(this.exportSnapshot());
   }
 
   private requireKey(): Uint8Array {
@@ -64,30 +88,30 @@ export class EncryptedDatabase {
     return this.key;
   }
 
-  putWorkItem(item: WorkItem): Promise<void> {
+  async putWorkItem(item: WorkItem): Promise<void> {
     this.workItems.set(item.id, item);
     this.log.write(`stored work item ${item.id}`);
-    return Promise.resolve();
+    await this.persist();
   }
 
   listWorkItems(): Promise<WorkItem[]> {
     return Promise.resolve([...this.workItems.values()]);
   }
 
-  putCommitment(item: Commitment): Promise<void> {
+  async putCommitment(item: Commitment): Promise<void> {
     this.commitments.set(item.id, item);
     this.log.write(`stored commitment ${item.id}`);
-    return Promise.resolve();
+    await this.persist();
   }
 
   listCommitments(): Promise<Commitment[]> {
     return Promise.resolve([...this.commitments.values()]);
   }
 
-  putReceipt(item: ActionReceipt): Promise<void> {
+  async putReceipt(item: ActionReceipt): Promise<void> {
     this.receipts.set(item.id, item);
     this.log.write(`stored receipt ${item.id}`);
-    return Promise.resolve();
+    await this.persist();
   }
 
   listReceipts(): Promise<ActionReceipt[]> {
@@ -123,6 +147,7 @@ export class EncryptedDatabase {
     this.receipts.clear();
     this.key = undefined;
     await this.secrets.delete(DATABASE_KEY_NAME);
+    await this.snapshots.clear();
     this.log.write("secure wipe completed");
   }
 

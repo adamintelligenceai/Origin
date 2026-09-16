@@ -44,6 +44,9 @@ importers:
       '@project-chief/runtime':
         specifier: workspace:*
         version: link:../../packages/runtime
+      '@project-chief/store':
+        specifier: workspace:*
+        version: link:../../packages/store
       '@project-chief/types':
         specifier: workspace:*
         version: link:../../packages/types
@@ -164,6 +167,9 @@ importers:
 
   packages/connectors-google:
     dependencies:
+      '@noble/hashes':
+        specifier: ^1.8.0
+        version: 1.8.0
       '@project-chief/ledger':
         specifier: workspace:*
         version: link:../ledger
@@ -276,6 +282,9 @@ importers:
 
   packages/runtime:
     dependencies:
+      '@project-chief/connectors-google':
+        specifier: workspace:*
+        version: link:../connectors-google
       '@project-chief/connectors-social':
         specifier: workspace:*
         version: link:../connectors-social

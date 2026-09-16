@@ -14,4 +14,16 @@ export {
   type EncryptedSnapshot,
   type StoreLog
 } from "./database.js";
-export { DATABASE_KEY_NAME, MemorySecretStore, type SecretStore } from "./secrets.js";
+export {
+  BridgeSnapshotStore,
+  MemorySnapshotStore,
+  type SnapshotStore
+} from "./persist.js";
+export {
+  BridgeSecretStore,
+  DATABASE_KEY_NAME,
+  INITIALIZED_KEY_NAME,
+  MemorySecretStore,
+  ONBOARDING_KEY_NAME,
+  type SecretStore
+} from "./secrets.js";

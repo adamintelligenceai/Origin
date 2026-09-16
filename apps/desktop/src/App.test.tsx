@@ -122,4 +122,13 @@ describe("desktop product loop", () => {
     fireEvent.click(screen.getByRole("button", { name: /Today/ }));
     expect(await screen.findByText("This device is empty.")).toBeTruthy();
   });
+
+  it("exports a local diagnostic bundle from privacy", async () => {
+    render(<App />);
+    await screen.findByText("Good morning.");
+    fireEvent.click(screen.getByRole("button", { name: /Privacy/ }));
+    fireEvent.click(screen.getByRole("button", { name: "Export diagnostics" }));
+    expect(screen.getByText(/Diagnostic bundle v0.0.1/)).toBeTruthy();
+    expect(screen.getByText(/No content or secrets/)).toBeTruthy();
+  });
 });

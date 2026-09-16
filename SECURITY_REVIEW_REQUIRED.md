@@ -5,21 +5,24 @@ These decisions are implemented and must be reviewed before founder dogfood with
 ## Local store
 
 - Records are AES-256-GCM wrapped with a locally generated 256-bit key.
-- The key is stored only through the `SecretStore` interface. Production desktop must bind this to Tauri Stronghold or the OS credential manager.
-- Native SQLCipher is the preferred long-term engine. It is **not** silently replaced with plaintext. The current engine is an encrypted snapshot store so Phase 3 can ship without a plaintext fallback.
-- No `localStorage` / IndexedDB path exists for private records.
+- The key is stored only through the `SecretStore` interface.
+- Desktop binds secrets to `{appData}/vault` files with mode `0600` (directory `0700`). Linux CI has no D-Bus keyring; this is the documented fallback, not a plaintext database.
+- Encrypted snapshots persist under `{appData}/store/snapshot.json`. The file is ciphertext. Native SQLCipher remains the preferred long-term engine and is **not** replaced with plaintext.
+- No `localStorage` / IndexedDB path exists for private records. Onboarding consent is a vault flag.
 
 ## OAuth
 
-- Authorization Code + PKCE + loopback is implemented as a library.
-- Refresh tokens are written only to `SecretStore`.
+- Authorization Code + PKCE + loopback (`127.0.0.1:53682`) for Google, LinkedIn, Instagram, Facebook and X.
+- Live mode fails closed without a client ID. Fixture mode never calls the token host.
+- Refresh tokens are written only to `SecretStore`. The loopback listener returns `code` + `state` to the local runtime; it does not proxy tokens.
 - No Project Chief cloud proxy is present.
-- Live Google client IDs are not committed. Connectors run against fixtures until dogfood credentials exist.
+- Google onboarding scopes remain `gmail.readonly`, `calendar.readonly`, `drive.readonly`. Send/events scopes exist in the library for approved mutations only.
 
 ## Model route
 
 - Consumer ChatGPT/Claude/Gemini/Grok subscriptions are rejected as production APIs.
-- The OpenAI adapter requires an API product key and never logs prompts.
+- OpenAI and Anthropic adapters require API product keys and never log prompts.
+- High-sensitivity tasks cannot leave the device.
 
 ## Sync
 
@@ -29,5 +32,5 @@ These decisions are implemented and must be reviewed before founder dogfood with
 
 ## Tauri
 
-- Capabilities remain `core:default` only.
+- Capabilities remain `core:default` only. Vault/snapshot/OAuth loopback are explicit Rust commands, not `fs` permissions granted to the webview.
 - CSP still denies remote script origins.

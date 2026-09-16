@@ -1,14 +1,35 @@
 import {
-  authorizationUrl,
-  createPkceChallenge,
+  authorizationUrl as googleAuthorizationUrl,
+  createPkceChallenge as createGooglePkce,
+  exchangeAuthorizationCode as exchangeGoogleCode,
+  isGoogleWorkNetwork,
+  persistRefreshToken as persistGoogleRefresh,
+  refreshAccessToken as refreshGoogleToken,
+  scopesFor,
+  type PkceChallenge as GooglePkce
+} from "@project-chief/connectors-google";
+import {
+  authorizationUrl as socialAuthorizationUrl,
+  createPkceChallenge as createSocialPkce,
+  exchangeAuthorizationCode as exchangeSocialCode,
   isSocialNetwork,
-  persistRefreshToken,
-  type PkceChallenge
+  persistRefreshToken as persistSocialRefresh,
+  refreshAccessToken as refreshSocialToken,
+  type PkceChallenge as SocialPkce
 } from "@project-chief/connectors-social";
 import { runObservedPipeline, type NormalizedObservation } from "@project-chief/core";
 import { MemoryLedger, classifyVerification } from "@project-chief/ledger";
 import { hashActionPlan, issueApproval, PermissionEngine } from "@project-chief/permissions";
-import { EncryptedDatabase, MemorySecretStore } from "@project-chief/store";
+import {
+  EncryptedDatabase,
+  INITIALIZED_KEY_NAME,
+  MemorySecretStore,
+  MemorySnapshotStore,
+  ONBOARDING_KEY_NAME,
+  createMemoryLog,
+  type SecretStore,
+  type SnapshotStore
+} from "@project-chief/store";
 import type { ActionPlan, ActionReceipt, Commitment, Person, WorkItem } from "@project-chief/types";
 import {
   connectionIds,
@@ -18,9 +39,37 @@ import {
   type ConnectionId,
   type ConnectionStatus
 } from "./connections.js";
+import {
+  DEFAULT_FLAGS,
+  assertDiagnosticsAreContentFree,
+  type DiagnosticBundle,
+  type RuntimeFlags
+} from "./flags.js";
 import { FIXTURE_OBSERVATIONS, FIXTURE_PEOPLE, FIXTURE_ROUTINES } from "./fixtures.js";
 import { MockGoogleClient } from "./mock-google.js";
+import {
+  defaultOAuthConfig,
+  isOAuthConnection,
+  requireClientId,
+  type OAuthConfig
+} from "./oauth.js";
 import { observationAllowed } from "./sources.js";
+
+export type FetchLike = (
+  input: string,
+  init: { method: string; headers: Record<string, string>; body: string }
+) => Promise<Response>;
+
+export interface ChiefRuntimeOptions {
+  secrets?: SecretStore;
+  snapshots?: SnapshotStore;
+  oauth?: OAuthConfig;
+  flags?: RuntimeFlags;
+  fetchImpl?: FetchLike;
+  onboardingComplete?: boolean;
+}
+
+type OAuthPkce = GooglePkce | SocialPkce;
 
 export interface MeetingView {
   id: string;
@@ -58,14 +107,23 @@ export interface ChiefSnapshot {
   connections: Record<ConnectionId, ConnectionStatus>;
   wiped: boolean;
   exportNote?: string;
+  oauthMode: OAuthConfig["mode"];
+  flags: RuntimeFlags;
+  onboardingComplete: boolean;
+  companionCode?: string;
+  online: boolean;
+  storeCorrupt: boolean;
 }
 
 export class ChiefRuntime {
-  private readonly secrets = new MemorySecretStore();
-  private readonly store = new EncryptedDatabase(this.secrets);
+  private readonly secrets: SecretStore;
+  private readonly store: EncryptedDatabase;
   private readonly ledger = new MemoryLedger();
   private readonly engine = new PermissionEngine();
   private readonly google = new MockGoogleClient();
+  private readonly oauth: OAuthConfig;
+  private readonly fetchImpl: FetchLike;
+  private flags: RuntimeFlags;
   private workItems: WorkItem[] = [];
   private commitments: Commitment[] = [];
   private plans: ActionPlan[] = [];
@@ -76,17 +134,62 @@ export class ChiefRuntime {
   private connections: Record<ConnectionId, ConnectionStatus> = fixtureConnections();
   private wiped = false;
   private exportNote: string | undefined;
-  private readonly oauthChallenges = new Map<ConnectionId, PkceChallenge>();
+  private readonly oauthChallenges = new Map<ConnectionId, OAuthPkce>();
+  private onboardingComplete: boolean;
+  private companionCode: string | undefined;
+  private online = true;
+  private storeCorrupt = false;
+
+  constructor(options: ChiefRuntimeOptions = {}) {
+    this.secrets = options.secrets ?? new MemorySecretStore();
+    this.store = new EncryptedDatabase(
+      this.secrets,
+      createMemoryLog(),
+      options.snapshots ?? new MemorySnapshotStore()
+    );
+    this.oauth = options.oauth ?? defaultOAuthConfig();
+    this.flags = options.flags ?? { ...DEFAULT_FLAGS };
+    this.fetchImpl =
+      options.fetchImpl ?? ((input, init) => fetch(input, init));
+    this.onboardingComplete = options.onboardingComplete ?? true;
+  }
 
   async boot(): Promise<ChiefSnapshot> {
-    await this.store.open();
-    this.connections = fixtureConnections();
-    await this.writeConnectedTokens();
+    try {
+      await this.store.open();
+    } catch {
+      this.storeCorrupt = true;
+      this.exportNote = "Local store could not be opened. The key never left this device.";
+      return this.snapshot();
+    }
+    const accepted = await this.secrets.get(ONBOARDING_KEY_NAME);
+    if (accepted === "accepted") {
+      this.onboardingComplete = true;
+    }
+    const initialized = await this.secrets.get(INITIALIZED_KEY_NAME);
+    if (initialized) {
+      this.connections = await this.connectionsFromVault();
+    } else {
+      this.connections = fixtureConnections();
+      await this.writeConnectedTokens();
+      await this.secrets.set(INITIALIZED_KEY_NAME, "1");
+    }
     this.people = FIXTURE_PEOPLE;
     this.routines = FIXTURE_ROUTINES;
     this.wiped = false;
-    this.exportNote = undefined;
+    this.storeCorrupt = false;
+    if (!this.exportNote?.startsWith("Local store could not")) {
+      this.exportNote = undefined;
+    }
     this.ingest();
+    const storedItems = await this.store.listWorkItems();
+    if (storedItems.length > 0) {
+      const previous = new Map(storedItems.map((item) => [item.id, item]));
+      this.workItems = this.workItems.map((item) => {
+        const prior = previous.get(item.id);
+        return prior ? { ...item, status: prior.status } : item;
+      });
+    }
     for (const item of this.workItems) {
       await this.store.putWorkItem(item);
     }
@@ -110,6 +213,12 @@ export class ChiefRuntime {
       timeSavedMinutes: minutesSaved(this.receipts, this.plans),
       connections: this.connections,
       wiped: this.wiped,
+      oauthMode: this.oauth.mode,
+      flags: this.flags,
+      onboardingComplete: this.onboardingComplete,
+      online: this.online,
+      storeCorrupt: this.storeCorrupt,
+      ...(this.companionCode ? { companionCode: this.companionCode } : {}),
       ...(this.exportNote ? { exportNote: this.exportNote } : {})
     };
   }
@@ -127,6 +236,9 @@ export class ChiefRuntime {
   }
 
   async approve(workItemId: string): Promise<ChiefSnapshot> {
+    if (this.flags.killSwitch || !this.flags.mutationsEnabled) {
+      throw new Error("Mutations are paused by the control plane.");
+    }
     const plan = this.plans.find((item) => item.workItemId === workItemId);
     const workItem = this.workItems.find((item) => item.id === workItemId);
     if (!plan || !workItem) {
@@ -182,41 +294,176 @@ export class ChiefRuntime {
 
   async revoke(id: ConnectionId): Promise<ChiefSnapshot> {
     await this.secrets.delete(tokenName(id));
+    await this.secrets.delete(accessTokenName(id));
     this.oauthChallenges.delete(id);
     this.connections = { ...this.connections, [id]: "revoked" };
     this.ingest();
     return this.snapshot();
   }
 
-  beginOAuth(
-    id: ConnectionId,
-    clientId = "project-chief-desktop"
-  ): { url: string; host: string } {
-    if (!isSocialNetwork(id)) {
-      throw new Error(`Local social OAuth is not defined for ${id}`);
+  beginOAuth(id: ConnectionId): { url: string; host: string; state: string } {
+    if (!isOAuthConnection(id)) {
+      throw new Error(`Local OAuth is not defined for ${id}`);
     }
-    const pkce = createPkceChallenge();
+    if (isSocialNetwork(id) && !this.flags.socialOAuthEnabled) {
+      throw new Error("Social OAuth is paused by the control plane.");
+    }
+    const clientId = requireClientId(id, this.oauth);
+    if (isGoogleWorkNetwork(id)) {
+      const pkce = createGooglePkce();
+      this.oauthChallenges.set(id, pkce);
+      const url = googleAuthorizationUrl(
+        clientId,
+        this.oauth.redirectUri,
+        scopesFor(id),
+        pkce
+      );
+      return { url, host: new URL(url).host, state: pkce.state };
+    }
+    if (!isSocialNetwork(id)) {
+      throw new Error(`Local OAuth is not defined for ${id}`);
+    }
+    const pkce = createSocialPkce();
     this.oauthChallenges.set(id, pkce);
-    const url = authorizationUrl(id, clientId, "http://127.0.0.1:1420/oauth/callback", pkce);
-    return { url, host: new URL(url).host };
+    const url = socialAuthorizationUrl(id, clientId, this.oauth.redirectUri, pkce);
+    return { url, host: new URL(url).host, state: pkce.state };
+  }
+
+  async completeOAuth(
+    id: ConnectionId,
+    callback: { code: string; state: string }
+  ): Promise<ChiefSnapshot> {
+    if (!isOAuthConnection(id)) {
+      throw new Error(`Local OAuth is not defined for ${id}`);
+    }
+    const pkce = this.oauthChallenges.get(id);
+    if (pkce?.state !== callback.state) {
+      throw new Error("OAuth state did not match the local challenge");
+    }
+    this.oauthChallenges.delete(id);
+    if (this.oauth.mode === "fixture" || callback.code.startsWith("fixture")) {
+      await this.persistFixtureToken(id, pkce.state);
+      this.connections = { ...this.connections, [id]: "connected" };
+      this.ingest();
+      return this.snapshot();
+    }
+    const clientId = requireClientId(id, this.oauth);
+    const tokens = isGoogleWorkNetwork(id)
+      ? await exchangeGoogleCode(
+          clientId,
+          this.oauth.redirectUri,
+          callback.code,
+          pkce.verifier,
+          this.fetchImpl
+        )
+      : isSocialNetwork(id)
+        ? await exchangeSocialCode(
+            id,
+            clientId,
+            this.oauth.redirectUri,
+            callback.code,
+            pkce.verifier,
+            this.fetchImpl
+          )
+        : undefined;
+    if (!tokens) {
+      throw new Error(`Local OAuth is not defined for ${id}`);
+    }
+    await this.persistLiveTokens(id, tokens.refreshToken, tokens.accessToken);
+    this.connections = { ...this.connections, [id]: "connected" };
+    this.ingest();
+    return this.snapshot();
+  }
+
+  async refresh(id: ConnectionId): Promise<ChiefSnapshot> {
+    if (!isOAuthConnection(id)) {
+      throw new Error(`Token refresh is not defined for ${id}`);
+    }
+    if (this.oauth.mode === "fixture") {
+      return this.snapshot();
+    }
+    const stored = await this.secrets.get(tokenName(id));
+    if (!stored) {
+      throw new Error("No refresh token in the local vault");
+    }
+    const clientId = requireClientId(id, this.oauth);
+    try {
+      const tokens = isGoogleWorkNetwork(id)
+        ? await refreshGoogleToken(clientId, stored, this.fetchImpl)
+        : isSocialNetwork(id)
+          ? await refreshSocialToken(id, clientId, stored, this.fetchImpl)
+          : undefined;
+      if (!tokens) {
+        throw new Error(`Token refresh is not defined for ${id}`);
+      }
+      await this.persistLiveTokens(id, tokens.refreshToken, tokens.accessToken);
+      return this.snapshot();
+    } catch (caught) {
+      if (caught instanceof Error && caught.message === "invalid_grant") {
+        await this.secrets.delete(tokenName(id));
+        await this.secrets.delete(accessTokenName(id));
+        this.connections = { ...this.connections, [id]: "revoked" };
+        this.ingest();
+        return this.snapshot();
+      }
+      throw caught;
+    }
   }
 
   async pair(id: ConnectionId): Promise<ChiefSnapshot> {
-    if (isSocialNetwork(id)) {
-      const session = this.oauthChallenges.get(id) ?? createPkceChallenge();
+    if (isOAuthConnection(id) && this.oauth.mode === "live") {
+      throw new Error("Live OAuth must complete the loopback code exchange");
+    }
+    if (isOAuthConnection(id)) {
+      const session = this.oauthChallenges.get(id) ?? createSocialPkce();
       this.oauthChallenges.delete(id);
-      await persistRefreshToken(this.secrets, tokenName(id), `local-${id}-${session.state}`);
+      await this.persistFixtureToken(id, session.state);
     } else {
-      await this.secrets.set(tokenName(id), "fixture-local-only");
+      this.companionCode = this.companionCode ?? createCompanionCode();
+      await this.secrets.set(tokenName(id), `companion-${this.companionCode}`);
     }
     this.connections = { ...this.connections, [id]: "connected" };
     this.ingest();
     return this.snapshot();
   }
 
+  async acceptOnboarding(): Promise<ChiefSnapshot> {
+    await this.secrets.set(ONBOARDING_KEY_NAME, "accepted");
+    this.onboardingComplete = true;
+    return this.snapshot();
+  }
+
+  applyFlags(flags: RuntimeFlags): ChiefSnapshot {
+    this.flags = flags;
+    return this.snapshot();
+  }
+
+  setOnline(online: boolean): ChiefSnapshot {
+    this.online = online;
+    return this.snapshot();
+  }
+
+  diagnostics(): DiagnosticBundle {
+    const bundle: DiagnosticBundle = {
+      version: "0.0.1",
+      oauthMode: this.oauth.mode,
+      flags: this.flags,
+      connections: { ...this.connections },
+      workItemCount: this.workItems.length,
+      receiptCount: this.receipts.length,
+      wiped: this.wiped,
+      storeCorrupt: this.storeCorrupt,
+      online: this.online,
+      onboardingComplete: this.onboardingComplete
+    };
+    assertDiagnosticsAreContentFree(bundle);
+    return bundle;
+  }
+
   async revokeAll(): Promise<ChiefSnapshot> {
     for (const id of connectionIds()) {
       await this.secrets.delete(tokenName(id));
+      await this.secrets.delete(accessTokenName(id));
       this.oauthChallenges.delete(id);
     }
     this.connections = revokedConnections();
@@ -235,6 +482,8 @@ export class ChiefRuntime {
     this.briefing = "";
     this.google.reset();
     await this.revokeAll();
+    await this.secrets.delete(ONBOARDING_KEY_NAME);
+    this.companionCode = undefined;
     this.wiped = true;
     this.exportNote = undefined;
     return this.current();
@@ -400,6 +649,47 @@ export class ChiefRuntime {
     }
   }
 
+  private async persistFixtureToken(id: ConnectionId, state: string): Promise<void> {
+    const token = `local-${id}-${state}`;
+    if (isGoogleWorkNetwork(id)) {
+      await persistGoogleRefresh(this.secrets, tokenName(id), token);
+      return;
+    }
+    if (isSocialNetwork(id)) {
+      await persistSocialRefresh(this.secrets, tokenName(id), token);
+      return;
+    }
+    await this.secrets.set(tokenName(id), token);
+  }
+
+  private async persistLiveTokens(
+    id: ConnectionId,
+    refreshToken: string,
+    accessToken: string
+  ): Promise<void> {
+    if (isGoogleWorkNetwork(id)) {
+      await persistGoogleRefresh(this.secrets, tokenName(id), refreshToken);
+    } else if (isSocialNetwork(id)) {
+      await persistSocialRefresh(this.secrets, tokenName(id), refreshToken);
+    } else {
+      await this.secrets.set(tokenName(id), refreshToken);
+    }
+    await this.secrets.set(accessTokenName(id), accessToken);
+  }
+
+  private async connectionsFromVault(): Promise<Record<ConnectionId, ConnectionStatus>> {
+    const next = { ...revokedConnections() };
+    for (const id of connectionIds()) {
+      const token = await this.secrets.get(tokenName(id));
+      if (token) {
+        next[id] = "connected";
+      } else if (id === "drive") {
+        next[id] = "available";
+      }
+    }
+    return next;
+  }
+
   private undoMutation(plan: ActionPlan, id: string): Promise<void> {
     switch (plan.actionType) {
       case "email.draft":
@@ -508,6 +798,14 @@ function minutesSaved(receipts: ActionReceipt[], plans: ActionPlan[]): number {
       const plan = plans.find((item) => item.id === receipt.actionPlanId);
       return total + minutesFor(plan?.actionType);
     }, 0);
+}
+
+function accessTokenName(id: ConnectionId): string {
+  return `${tokenName(id)}.access`;
+}
+
+function createCompanionCode(): string {
+  return Math.random().toString(36).slice(2, 10).toUpperCase();
 }
 
 function minutesFor(actionType: ActionPlan["actionType"] | undefined): number {

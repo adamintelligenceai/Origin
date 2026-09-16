@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { canModelGrantAutonomy } from "@project-chief/permissions";
-import { ChiefRuntime } from "./chief-runtime.js";
+import { ChiefRuntime, type FetchLike } from "./chief-runtime.js";
+import { oauthConfigFromEnv } from "./oauth.js";
 
 describe("ChiefRuntime", () => {
   it("runs observe → plan → approve → mock verify → receipt", async () => {
@@ -125,5 +126,98 @@ describe("ChiefRuntime", () => {
     expect(reversed.workItems.find((item) => item.id === followUp.id)?.status).toBe(
       "needs_approval"
     );
+  });
+
+  it("runs live local OAuth for Gmail and exchanges a loopback code", async () => {
+    const runtime = new ChiefRuntime();
+    await runtime.boot();
+    const session = runtime.beginOAuth("gmail");
+    expect(session.url.startsWith("https://accounts.google.com/o/oauth2/v2/auth")).toBe(true);
+    expect(session.url).toContain("code_challenge_method=S256");
+    expect(session.url).not.toContain("gmail.send");
+    const completed = await runtime.completeOAuth("gmail", {
+      code: "fixture-loopback",
+      state: session.state
+    });
+    expect(completed.connections.gmail).toBe("connected");
+  });
+
+  it("exchanges live Google tokens on the official host and never stores them in the snapshot", async () => {
+    const fetchImpl: FetchLike = () =>
+      Promise.resolve(
+        new Response(
+          JSON.stringify({
+            access_token: "ya29.access",
+            refresh_token: "1//refresh",
+            expires_in: 3600
+          }),
+          { status: 200 }
+        )
+      );
+    const runtime = new ChiefRuntime({
+      oauth: {
+        mode: "live",
+        redirectUri: "http://127.0.0.1:53682/oauth/callback",
+        googleClientId: "live-google-client"
+      },
+      fetchImpl
+    });
+    await runtime.boot();
+    await runtime.revoke("gmail");
+    const session = runtime.beginOAuth("gmail");
+    const connected = await runtime.completeOAuth("gmail", {
+      code: "auth-code",
+      state: session.state
+    });
+    expect(connected.connections.gmail).toBe("connected");
+    expect(JSON.stringify(connected).includes("1//refresh")).toBe(false);
+    expect(JSON.stringify(runtime.diagnostics()).includes("1//refresh")).toBe(false);
+  });
+
+  it("fails closed when live OAuth has no client ID", async () => {
+    const runtime = new ChiefRuntime({
+      oauth: { mode: "live", redirectUri: "http://127.0.0.1:53682/oauth/callback" }
+    });
+    await runtime.boot();
+    expect(() => {
+      runtime.beginOAuth("linkedin");
+    }).toThrow(/client ID/);
+  });
+
+  it("blocks mutations when the kill switch is on", async () => {
+    const runtime = new ChiefRuntime();
+    const boot = await runtime.boot();
+    runtime.applyFlags({
+      mutationsEnabled: true,
+      billingEnabled: true,
+      socialOAuthEnabled: true,
+      modelRouteEnabled: true,
+      killSwitch: true
+    });
+    const followUp = boot.workItems.find((item) => item.title.includes("Follow up"));
+    if (!followUp) {
+      throw new Error("expected follow-up work item");
+    }
+    await expect(runtime.approve(followUp.id)).rejects.toThrow(/paused/);
+  });
+
+  it("exports diagnostics without content or secrets", async () => {
+    const runtime = new ChiefRuntime();
+    await runtime.boot();
+    const bundle = runtime.diagnostics();
+    expect(bundle.workItemCount).toBeGreaterThan(0);
+    expect(bundle.connections.gmail).toBe("connected");
+    expect(JSON.stringify(bundle)).not.toMatch(/Ask Jordan|ya29|1\/\//);
+  });
+
+  it("reads live OAuth client IDs from env and stays fixture otherwise", () => {
+    expect(oauthConfigFromEnv({}).mode).toBe("fixture");
+    expect(
+      oauthConfigFromEnv({
+        OAUTH_MODE: "live",
+        GOOGLE_CLIENT_ID: "google-live",
+        LINKEDIN_CLIENT_ID: "linkedin-live"
+      }).googleClientId
+    ).toBe("google-live");
   });
 });

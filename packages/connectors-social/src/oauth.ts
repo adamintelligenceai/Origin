@@ -90,6 +90,98 @@ export function authorizationUrl(
   return `${app.authorize}?${params.toString()}`;
 }
 
+export interface OAuthTokenSet {
+  accessToken: string;
+  refreshToken: string;
+  expiresIn?: number;
+}
+
+export type FetchLike = (
+  input: string,
+  init: { method: string; headers: Record<string, string>; body: string }
+) => Promise<Response>;
+
+export async function exchangeAuthorizationCode(
+  network: SocialNetwork,
+  clientId: string,
+  redirectUri: string,
+  code: string,
+  verifier: string,
+  fetchImpl: FetchLike = fetch
+): Promise<OAuthTokenSet> {
+  const app = SOCIAL_OAUTH[network];
+  return tokenRequest(
+    app.token,
+    {
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      grant_type: "authorization_code",
+      code,
+      code_verifier: verifier
+    },
+    fetchImpl
+  );
+}
+
+export async function refreshAccessToken(
+  network: SocialNetwork,
+  clientId: string,
+  refreshToken: string,
+  fetchImpl: FetchLike = fetch
+): Promise<OAuthTokenSet> {
+  const app = SOCIAL_OAUTH[network];
+  const next = await tokenRequest(
+    app.token,
+    {
+      client_id: clientId,
+      grant_type: "refresh_token",
+      refresh_token: refreshToken
+    },
+    fetchImpl
+  );
+  return {
+    accessToken: next.accessToken,
+    refreshToken: next.refreshToken || refreshToken,
+    ...(next.expiresIn === undefined ? {} : { expiresIn: next.expiresIn })
+  };
+}
+
+async function tokenRequest(
+  url: string,
+  body: Record<string, string>,
+  fetchImpl: FetchLike
+): Promise<OAuthTokenSet> {
+  const response = await fetchImpl(url, {
+    method: "POST",
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams(body).toString()
+  });
+  if (!response.ok) {
+    throw new Error("Social token endpoint refused the request");
+  }
+  const payload = (await response.json()) as {
+    access_token?: unknown;
+    refresh_token?: unknown;
+    expires_in?: unknown;
+    error?: unknown;
+  };
+  if (payload.error === "invalid_grant") {
+    throw new Error("invalid_grant");
+  }
+  if (typeof payload.access_token !== "string" || payload.access_token.length === 0) {
+    throw new Error("Social token response was missing an access token");
+  }
+  const refresh =
+    typeof payload.refresh_token === "string" && payload.refresh_token.length > 0
+      ? payload.refresh_token
+      : payload.access_token;
+  return {
+    accessToken: payload.access_token,
+    refreshToken: refresh,
+    ...(typeof payload.expires_in === "number" ? { expiresIn: payload.expires_in } : {})
+  };
+}
+
 export async function persistRefreshToken(
   secrets: SecretStore,
   name: string,

@@ -22,7 +22,18 @@ export function emptySnapshot(): ChiefSnapshot {
     briefing: "",
     timeSavedMinutes: 0,
     connections: revokedConnections(),
-    wiped: false
+    wiped: false,
+    oauthMode: "fixture",
+    flags: {
+      mutationsEnabled: true,
+      billingEnabled: true,
+      socialOAuthEnabled: true,
+      modelRouteEnabled: true,
+      killSwitch: false
+    },
+    onboardingComplete: true,
+    online: true,
+    storeCorrupt: false
   };
 }
 

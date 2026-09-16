@@ -11,6 +11,7 @@
     "test": "vitest run --config vitest.config.ts"
   },
   "dependencies": {
+    "@project-chief/connectors-google": "workspace:*",
     "@project-chief/connectors-social": "workspace:*",
     "@project-chief/core": "workspace:*",
     "@project-chief/ledger": "workspace:*",

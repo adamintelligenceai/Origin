@@ -12,6 +12,7 @@
   "dependencies": {
     "@project-chief/permissions": "workspace:*",
     "@project-chief/runtime": "workspace:*",
+    "@project-chief/store": "workspace:*",
     "@project-chief/types": "workspace:*",
     "@tauri-apps/api": "^2.11.1",
     "react": "^19.1.1",

@@ -3,11 +3,13 @@ import { MemorySecretStore } from "@project-chief/store";
 import {
   authorizationUrl,
   createPkceChallenge,
+  exchangeAuthorizationCode,
   isSocialNetwork,
   persistRefreshToken,
   revokeConnection,
   scrubAuth,
-  SOCIAL_OAUTH
+  SOCIAL_OAUTH,
+  type FetchLike
 } from "./index.js";
 
 describe("social connectors", () => {
@@ -42,5 +44,45 @@ describe("social connectors", () => {
     expect(scrubAuth("Authorization Bearer abcdefghijklmnopqrstuvwxyz0123")).toContain(
       "[redacted-access-token]"
     );
+  });
+
+  it("exchanges an authorization code on the official token host", async () => {
+    const fetchImpl: FetchLike = (url, init) => {
+      expect(url).toBe("https://www.linkedin.com/oauth/v2/accessToken");
+      expect(init.body).toContain("code_verifier=");
+      return Promise.resolve(
+        new Response(
+          JSON.stringify({
+            access_token: "linkedin-access",
+            refresh_token: "linkedin-refresh",
+            expires_in: 3600
+          }),
+          { status: 200 }
+        )
+      );
+    };
+    const tokens = await exchangeAuthorizationCode(
+      "linkedin",
+      "desktop-client",
+      "http://127.0.0.1:53682/oauth/callback",
+      "auth-code",
+      "verifier",
+      fetchImpl
+    );
+    expect(tokens.refreshToken).toBe("linkedin-refresh");
+  });
+
+  it("fails closed when the social token host refuses the grant", async () => {
+    const fetchImpl: FetchLike = () => Promise.resolve(new Response("{}", { status: 401 }));
+    await expect(
+      exchangeAuthorizationCode(
+        "x",
+        "desktop-client",
+        "http://127.0.0.1:53682/oauth/callback",
+        "auth-code",
+        "verifier",
+        fetchImpl
+      )
+    ).rejects.toThrow(/refused/);
   });
 });
