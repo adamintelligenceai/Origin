@@ -30,6 +30,16 @@ function jsonResponse(body: unknown): Response {
   });
 }
 
+function requestUrl(input: RequestInfo | URL): string {
+  if (typeof input === "string") {
+    return input;
+  }
+  if (input instanceof URL) {
+    return input.href;
+  }
+  return input.url;
+}
+
 describe("ModelGateway", () => {
   it("routes high-sensitivity extraction locally", () => {
     expect(routeModel("extraction", "high")).toBe("local");
@@ -135,10 +145,12 @@ describe("OpenAIAdapter", () => {
   });
 
   it("parses JSON from a mocked fetch", async () => {
-    const fetchImpl: typeof fetch = async () =>
-      jsonResponse({
-        choices: [{ message: { content: JSON.stringify({ title: "Follow up" }) } }]
-      });
+    const fetchImpl: typeof fetch = () =>
+      Promise.resolve(
+        jsonResponse({
+          choices: [{ message: { content: JSON.stringify({ title: "Follow up" }) } }]
+        })
+      );
     const adapter = new OpenAIAdapter(fetchImpl, "test-openai-key");
     await expect(adapter.complete("summarise", schema)).resolves.toEqual({ title: "Follow up" });
   });
@@ -151,16 +163,18 @@ describe("AnthropicAdapter", () => {
   });
 
   it("parses JSON from a mocked fetch", async () => {
-    const fetchImpl: typeof fetch = async (input, init) => {
-      expect(String(input)).toBe("https://api.anthropic.com/v1/messages");
+    const fetchImpl: typeof fetch = (input, init) => {
+      expect(requestUrl(input)).toBe("https://api.anthropic.com/v1/messages");
       expect(init?.method).toBe("POST");
       const headers = new Headers(init?.headers);
       expect(headers.get("x-api-key")).toBe("test-anthropic-key");
       expect(headers.get("anthropic-version")).toBe("2023-06-01");
       expect(headers.get("content-type")).toBe("application/json");
-      return jsonResponse({
-        content: [{ type: "text", text: JSON.stringify({ title: "Follow up" }) }]
-      });
+      return Promise.resolve(
+        jsonResponse({
+          content: [{ type: "text", text: JSON.stringify({ title: "Follow up" }) }]
+        })
+      );
     };
     const adapter = new AnthropicAdapter(fetchImpl, "test-anthropic-key");
     await expect(adapter.complete("summarise", schema)).resolves.toEqual({ title: "Follow up" });
@@ -171,10 +185,11 @@ describe("LocalModelAdapter", () => {
   it("does not fetch and fails closed without a local completion hook", async () => {
     let fetched = false;
     const originalFetch = globalThis.fetch;
-    globalThis.fetch = (async () => {
+    const fetchSpy: typeof fetch = () => {
       fetched = true;
-      return jsonResponse({});
-    }) as typeof fetch;
+      return Promise.resolve(jsonResponse({}));
+    };
+    globalThis.fetch = fetchSpy;
     try {
       const adapter = new LocalModelAdapter();
       await expect(adapter.complete("secret prompt", schema)).rejects.toThrow(
