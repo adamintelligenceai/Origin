@@ -36,19 +36,3 @@ export class OpenAIAdapter implements ModelAdapter {
     return schema.parse(JSON.parse(content));
   }
 }
-
-export class AnthropicAdapterStub implements ModelAdapter {
-  readonly name = "anthropic";
-
-  complete<T>(_prompt: string, _schema: ZodType<T>): Promise<T> {
-    return Promise.reject(new Error("Anthropic adapter is a Phase 6 interface stub"));
-  }
-}
-
-export class LocalModelAdapterStub implements ModelAdapter {
-  readonly name = "local";
-
-  complete<T>(_prompt: string, _schema: ZodType<T>): Promise<T> {
-    return Promise.reject(new Error("Local model adapter is a Phase 6 interface stub"));
-  }
-}
