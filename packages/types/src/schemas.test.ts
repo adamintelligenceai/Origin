@@ -3,6 +3,9 @@ import {
   actionPlanSchema,
   actionTypeSchema,
   autonomyLevelSchema,
+  cloudBillingEventSchema,
+  cloudCheckoutRequestSchema,
+  cloudFlagSchema,
   personSchema
 } from "./schemas.js";
 
@@ -46,5 +49,29 @@ describe("canonical schemas", () => {
       provenance: []
     });
     expect(parsed.displayName).toBe("Jordan Blake");
+  });
+
+  it("keeps cloud flag and billing schemas content-blind", () => {
+    expect(cloudFlagSchema.parse({ id: "kill_switch", enabled: false })).toEqual({
+      id: "kill_switch",
+      enabled: false
+    });
+    expect(
+      cloudFlagSchema.safeParse({ id: "kill_switch", enabled: false, prompt: "no" }).success
+    ).toBe(false);
+    expect(cloudBillingEventSchema.options).toEqual([
+      "checkout_created",
+      "portal_opened",
+      "subscription_active",
+      "subscription_canceled",
+      "invoice_paid"
+    ]);
+    expect(cloudBillingEventSchema.safeParse("prompt").success).toBe(false);
+    expect(
+      cloudCheckoutRequestSchema.safeParse({
+        email: "founder@example.com",
+        subject: "inbox"
+      }).success
+    ).toBe(false);
   });
 });

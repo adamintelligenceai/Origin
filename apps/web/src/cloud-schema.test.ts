@@ -8,6 +8,7 @@ const forbidden = [
   "calendar_title",
   "document_content",
   "prompt",
+  "refresh_token",
   "model_response",
   "oauth_refresh_token",
   "private_key",

@@ -175,6 +175,33 @@ export const cloudTelemetrySchema = z
   })
   .strict();
 
+export const cloudFlagSchema = z
+  .object({
+    id: z.string().min(1),
+    enabled: z.boolean()
+  })
+  .strict();
+
+export const cloudBillingEventSchema = z.enum([
+  "checkout_created",
+  "portal_opened",
+  "subscription_active",
+  "subscription_canceled",
+  "invoice_paid"
+]);
+
+export const cloudCheckoutRequestSchema = z
+  .object({
+    email: z.string().email()
+  })
+  .strict();
+
+export const cloudPortalRequestSchema = z
+  .object({
+    customerId: z.string().min(1)
+  })
+  .strict();
+
 export type AutonomyLevel = z.infer<typeof autonomyLevelSchema>;
 export type Consequence = z.infer<typeof consequenceSchema>;
 export type ActionType = z.infer<typeof actionTypeSchema>;
@@ -190,3 +217,7 @@ export type ActionReceipt = z.infer<typeof actionReceiptSchema>;
 export type CloudAccount = z.infer<typeof cloudAccountSchema>;
 export type CloudDevice = z.infer<typeof cloudDeviceSchema>;
 export type CloudTelemetry = z.infer<typeof cloudTelemetrySchema>;
+export type CloudFlag = z.infer<typeof cloudFlagSchema>;
+export type CloudBillingEvent = z.infer<typeof cloudBillingEventSchema>;
+export type CloudCheckoutRequest = z.infer<typeof cloudCheckoutRequestSchema>;
+export type CloudPortalRequest = z.infer<typeof cloudPortalRequestSchema>;

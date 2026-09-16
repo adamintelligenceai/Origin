@@ -9,5 +9,13 @@
     "push_routing_id",
     "last_seen_at"
   ],
-  "telemetry": ["event", "device_id_hash", "numeric", "flags"]
+  "telemetry": ["event", "device_id_hash", "numeric", "flags"],
+  "flag": ["id", "enabled"],
+  "billing_event": [
+    "checkout_created",
+    "portal_opened",
+    "subscription_active",
+    "subscription_canceled",
+    "invoice_paid"
+  ]
 }
