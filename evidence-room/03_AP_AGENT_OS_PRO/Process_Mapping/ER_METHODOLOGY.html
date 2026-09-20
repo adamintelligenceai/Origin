@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Evidence Room Methodology · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional</p>
+  </header>
+  <h1 id="evidence-room-methodology">Evidence Room Methodology</h1>
+<p><strong>Evidence Room · AP Agent OS Pro</strong><br>
+Version 1.0 · September 2026 · Licensed material · ERP-agnostic<br>
+Answers: <em>What should I do? How? Who owns it? What can go wrong?</em></p>
+<hr>
+<h2 id="purpose">Purpose</h2>
+<p>This is the operating method for introducing agents into accounts payable without pretending the process is already understood, already controlled, or already safe to automate.</p>
+<p>Use it when a finance leader wants agents in AP and cannot yet answer, in writing: what the process actually does, where judgement sits, which exceptions are common, and which actions must remain human.</p>
+<p>It is not a software implementation plan. It is not a guarantee of savings, fraud detection, compliance, accounting accuracy, autonomous payment safety, or ROI. It is a sequence for making those claims <em>testable</em> — or, more often, for discovering they should not be made.</p>
+<hr>
+<h2 id="design-principles">Design principles</h2>
+<ol>
+<li><strong>Observe before you agentise.</strong> If the map is a workshop reconstruction, it is a hypothesis. Treat it as such.</li>
+<li><strong>Prefer deterministic automation.</strong> Matching rules, duplicate keys, DOA tables, and tax matrices beat a model guessing the same thing. Use a model where language, judgement support, or unstructured documents are the work.</li>
+<li><strong>Authority is a design choice, not a feature.</strong> Every action is classified as Human / AI recommends / AI prepares / AI executes. Payment <em>authorisation</em> is always Human.</li>
+<li><strong>Evidence is the product.</strong> If a step cannot produce an artefact an auditor can pick up, it did not happen.</li>
+<li><strong>Expand responsibility last.</strong> Scope, accuracy, and controls come before volume and autonomy.</li>
+</ol>
+<hr>
+<h2 id="the-16-agent-reference-set">The 16-agent reference set</h2>
+<p>These codes are the product stack (<code>../Agent_Library/00_AGENT_STACK_OVERVIEW.md</code>). Do not invent a parallel numbering. Rename locally only as a display label; keep the code.</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Agent</th>
+<th>Default start (see Responsibility Model)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A01</td>
+<td>Invoice Intake</td>
+<td>Level 1 Recommend (capture, classify, extract, park)</td>
+</tr>
+<tr>
+<td>A02</td>
+<td>Invoice Validation</td>
+<td>Level 1 Recommend (completeness, tax, vendor, currency, coding readiness)</td>
+</tr>
+<tr>
+<td>A03</td>
+<td>Matching</td>
+<td>Level 1 Recommend; deterministic tolerances first</td>
+</tr>
+<tr>
+<td>A04</td>
+<td>Exception Triage</td>
+<td>Level 1 Recommend</td>
+</tr>
+<tr>
+<td>A05</td>
+<td>Goods Receipt</td>
+<td>Level 0 Observe (chase receivers; never create GR)</td>
+</tr>
+<tr>
+<td>A06</td>
+<td>PO Quality</td>
+<td>Level 0 Observe</td>
+</tr>
+<tr>
+<td>A07</td>
+<td>Approval</td>
+<td>Level 0 Observe (prepare routing; humans approve)</td>
+</tr>
+<tr>
+<td>A08</td>
+<td>Supplier Resolution</td>
+<td>Level 1 Recommend (draft queries and master-data <em>requests</em>)</td>
+</tr>
+<tr>
+<td>A09</td>
+<td>Internal Follow-Up</td>
+<td>Level 1 Recommend</td>
+</tr>
+<tr>
+<td>A10</td>
+<td>Duplicate &amp; Anomaly</td>
+<td>Level 1 Recommend; exact-key is deterministic</td>
+</tr>
+<tr>
+<td>A11</td>
+<td>Vendor Statement Reconciliation</td>
+<td>Level 0 Observe</td>
+</tr>
+<tr>
+<td>A12</td>
+<td>Payment Proposal Review</td>
+<td>Level 0 Observe. <strong>Never authorise, release, or transmit payment.</strong></td>
+</tr>
+<tr>
+<td>A13</td>
+<td>AP Close</td>
+<td>Level 0 Observe (checklist; humans sign the close)</td>
+</tr>
+<tr>
+<td>A14</td>
+<td>AP Reporting</td>
+<td>Level 1 Recommend (pack from ledger facts)</td>
+</tr>
+<tr>
+<td>A15</td>
+<td>Root Cause</td>
+<td>Level 0 Observe</td>
+</tr>
+<tr>
+<td>A16</td>
+<td>AP Manager / Orchestrator</td>
+<td>Level 1 Recommend (dispatch, SLA, autonomy gates — does not promote itself)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="decision-rules-apply-at-every-step">Decision rules (apply at every step)</h2>
+<p>Use this ladder. It is the same idea as Responsibility Model Levels 0–4. Do not skip rungs because a demo looked fluent.</p>
+<table>
+<thead>
+<tr>
+<th>Authority</th>
+<th>Responsibility Model</th>
+<th>Meaning</th>
+<th>Allowed examples</th>
+<th>Forbidden examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Human</strong></td>
+<td>Always human</td>
+<td>A named person decides and is accountable.</td>
+<td>Payment authorisation; bank-detail changes; override of a hard control; posting a master-data change; signing a tax position or the close.</td>
+<td>Delegating the same action to an agent “for speed.”</td>
+</tr>
+<tr>
+<td><strong>AI recommends</strong></td>
+<td>Level 1</td>
+<td>Agent proposes a labelled option with evidence. Human accepts, edits, or rejects.</td>
+<td>Exception class, tax flag, coding readiness, next-best owner, duplicate hold.</td>
+<td>Silent acceptance of a recommendation as a posting.</td>
+</tr>
+<tr>
+<td><strong>AI prepares</strong></td>
+<td>Level 2</td>
+<td>Agent assembles a complete packet. A human reviews and submits.</td>
+<td>Parked invoice, approval packet, payment-proposal <em>challenge</em>, supplier query, GR chase, close checklist.</td>
+<td>Submitting the packet to the ERP or bank without the human action.</td>
+</tr>
+<tr>
+<td><strong>AI executes</strong></td>
+<td>Level 3 (Level 4 = exception-only review)</td>
+<td>Agent performs a bounded action inside a written envelope, with logging and a kill-switch.</td>
+<td>File an invoice to a queue; match in certified tolerance; send an approved-template chase; write an evidence record.</td>
+<td>Anything that moves money, changes bank details, signs the close, or expands its own envelope.</td>
+</tr>
+<tr>
+<td><strong>Prefer deterministic</strong></td>
+<td>All levels</td>
+<td>Rules, keys, and tables — not generation.</td>
+<td>Exact invoice-number + supplier + amount + date duplicate key; 3-way match tolerances; DOA matrix; closed-PO status.</td>
+<td>Asking a model “does this look like a duplicate?” as the primary control.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hard rules (non-negotiable in this toolkit):</strong></p>
+<ul>
+<li>Payment authorisation remains human. A12 may challenge a proposal. It may not release a payment run, approve a payment, or transmit a file to a bank or payment provider.</li>
+<li>Bank-detail changes remain human, dual-controlled. A08 drafts the request only.</li>
+<li>Overrides of failed matches, failed duplicates, or failed SoD checks remain human and logged.</li>
+<li>Period-close sign-off remains human (A13 prepares).</li>
+<li>If a deterministic check can decide the case, do not ask a model to decide it.</li>
+<li>If the model is used, its output is validated against schema, policy, and (where material) a second method before any downstream execute step.</li>
+<li>Authority promotions are Step 10 / the Responsibility Model register — A16 does not promote agents.</li>
+</ul>
+<hr>
+<h2 id="method-at-a-glance">Method at a glance</h2>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Name</th>
+<th>Timebox</th>
+<th>Primary owner</th>
+<th>Exit criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Observe</td>
+<td>3–5 working days</td>
+<td>AP process owner + facilitator</td>
+<td>Observed path documented; shadow vs official SOP noted</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Transcribe</td>
+<td>2–3 days</td>
+<td>Facilitator</td>
+<td>Searchable transcript + timestamped clip index</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Extract</td>
+<td>2–4 days</td>
+<td>Facilitator + AP lead</td>
+<td>Structured extraction sheet complete</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Structure</td>
+<td>3–5 days</td>
+<td>Process owner + controls</td>
+<td>Signed process map, decision tree, exception taxonomy, control map, RACI</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Agentise</td>
+<td>3–5 days</td>
+<td>Process owner + AI product owner</td>
+<td>Agentisation canvas per in-scope agent; authority signed</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Test</td>
+<td>5–10 days</td>
+<td>QA + AP SMEs</td>
+<td>Golden set scored; fail cases written; go/no-go recorded</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Shadow</td>
+<td>10–20 working days</td>
+<td>AP lead</td>
+<td>Shadow vs human agreement measured; no production writes</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Controlled pilot</td>
+<td>20–40 working days</td>
+<td>AP Director + CFO sponsor</td>
+<td>Volume, entity, and authority caps held; incident log empty or closed</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Measure</td>
+<td>Continuous from day 1 of shadow</td>
+<td>FP&amp;A + AP + IA</td>
+<td>KPI pack on customer baseline; no vanity metrics</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Expand responsibility</td>
+<td>Quarterly, gated</td>
+<td>CFO + IA</td>
+<td>Written promotion of authority; never automatic</td>
+</tr>
+</tbody>
+</table>
+<p>Total elapsed time for a single process slice (e.g. PO invoices in one ERP company code) is typically 8–14 weeks. Do not compress Observe–Structure to “a workshop week.” That is how unofficial workarounds become encoded as policy.</p>
+<hr>
+<h2 id="step-1-observe">Step 1 — Observe</h2>
+<p><strong>What you should do.</strong> Sit with the people who actually process invoices. Watch a live day, not a rehearsed demo. Follow one invoice from arrival to posted (or parked), and one exception from raise to close.</p>
+<p><strong>How.</strong> Two facilitators. One watches the screen and the ERP; one watches the side channels (email, chat, shared drives, printouts, “just ask Maria”). Record with consent. Note every system, every unofficial spreadsheet, every pause while someone “just knows.”</p>
+<p><strong>Facilitation notes.</strong></p>
+<ul>
+<li>Ask for the <em>worst</em> Tuesday of the month, not the cleanest. Month-end and payment-run days are more truthful than mid-cycle.</li>
+<li>Do not correct the operator. You are not training them.</li>
+<li>When someone says “the system does that,” ask them to show the click. Often the system does not.</li>
+<li>Capture volume context while you watch: invoices on the desk, ageing, who is covering leave.</li>
+<li>Separate <em>official SOP</em> from <em>practised path</em>. Both go into the notes. Only the practised path is a candidate for agentisation — and only after controls review.</li>
+</ul>
+<p><strong>Who owns it.</strong> AP process owner books access and consent. Facilitator runs the observation. Information Security signs the recording method.</p>
+<p><strong>What can go wrong.</strong> The team performs the SOP because you are watching. Mitigate by pairing observation with a sample of last month’s tickets and a silent review of email folders.</p>
+<p><strong>How you control it.</strong> Written consent; recordings stored in the evidence room with retention and access list; no recordings leave the tenant.</p>
+<p><strong>How you measure it.</strong> Observation coverage: % of invoice types, entities, and channels seen. Target: every in-scope channel and at least one of each high-volume exception class.</p>
+<p><strong>Artefacts.</strong> Process walkthrough notes (see <code>TEMPLATES.md</code>). Recording index. System inventory. Informal-control list.</p>
+<p><strong>Timebox.</strong> 3–5 working days for one process slice. Add 2 days per extra ERP or shared-service site.</p>
+<h3 id="northline-observe-illustrative">Northline — Observe (illustrative)</h3>
+<p>Northline Industrial Group (fictional): 4,200 employees, ~18,000 invoices/month, SAP S/4HANA for core companies, NetSuite for acquired Northline Pacific Components; 14-person shared-services AP team (illustrative staffing, not a recommendation).</p>
+<p>The team observed SAP PO invoices (company NL10) and a sample of Pacific Components NetSuite bills. Official SOP said all invoices arrive via the AP inbox. Practised path: ~30% of NetSuite invoices arrived as forwards from buyers; utilities were processed from a shared mailbox that was not in the SOP; one plant still emailed scanned PDFs to a named clerk. Side channel discovered: a spreadsheet of “known price-variance suppliers” used to skip the mismatch workflow. That spreadsheet is an unofficial control and a SoD concern — it is logged, not agentised.</p>
+<hr>
+<h2 id="step-2-transcribe">Step 2 — Transcribe</h2>
+<p><strong>What you should do.</strong> Turn observation into a timestamped, searchable record. Do not summarise yet. Summaries hide the unofficial steps.</p>
+<p><strong>How.</strong> Human-reviewed transcript. Auto-transcription is acceptable as a draft; a person who understands AP corrects entity names, document numbers, and system labels. Index each clip: <code>HH:MM — action — system — actor — artefact</code>.</p>
+<p><strong>Facilitation notes.</strong></p>
+<ul>
+<li>Preserve exact phrases for decision points (“I always code this to 6400 because that’s what we did last year”).</li>
+<li>Tag every moment of hesitation. Hesitation is usually a missing rule or a missing data field.</li>
+<li>Redact personal gossip. Do not redact control-relevant shortcuts.</li>
+</ul>
+<p><strong>Who owns it.</strong> Facilitator. AP lead reviews for factual system names only — they do not “clean up” the story.</p>
+<p><strong>What can go wrong.</strong> A polished transcript that reads like the SOP. If it is smoother than the day you watched, it is wrong.</p>
+<p><strong>How you control it.</strong> Version the transcript. Reviewer name and date on the cover. Store with the recording.</p>
+<p><strong>How you measure it.</strong> Completeness: every observed invoice and exception has a transcript segment. Accuracy sample: AP lead spot-checks 10 timestamps.</p>
+<p><strong>Artefacts.</strong> Transcript file. Clip index. Redaction log.</p>
+<p><strong>Timebox.</strong> 2–3 days.</p>
+<h3 id="northline-transcribe-illustrative">Northline — Transcribe (illustrative)</h3>
+<p>Transcripts distinguished SAP MIR7 park / MIRO post language from NetSuite vendor-bill language. A 14-minute segment showed a clerk resolving a price mismatch by calling the buyer on mobile, then keying the buyer’s verbal “it’s fine” with no PO change and no written approval. That segment becomes a control finding before it becomes an agent story.</p>
+<hr>
+<h2 id="step-3-extract">Step 3 — Extract</h2>
+<p><strong>What you should do.</strong> Pull structured facts from the transcript: triggers, inputs, systems, decisions, exceptions, outputs, waits, and informal controls.</p>
+<p><strong>How.</strong> One extraction row per observed action, using the transcript extraction template. Map each exception mention to a code in <code>EXCEPTION_TAXONOMY.md</code>. If it does not fit, propose a new code — do not force-fit.</p>
+<p><strong>Facilitation notes.</strong></p>
+<ul>
+<li>Extract <em>waits</em> as first-class objects. Missing GR, missing approval, and supplier silence are most of the cycle time.</li>
+<li>Extract <em>data actually used</em>, not data the ERP could have used. Agents fail when they are given the data model instead of the data the clerk opened.</li>
+<li>Mark each decision: rule-like, judgement, or political (a named person always wins).</li>
+</ul>
+<p><strong>Who owns it.</strong> Facilitator drafts. AP lead and a controls analyst challenge.</p>
+<p><strong>What can go wrong.</strong> Extracting the happy path only. Require at least one row per taxonomy category that appeared in the last 90 days of tickets, even if it was not observed live.</p>
+<p><strong>How you control it.</strong> Dual review on a 20% sample. Disagreements go to the process owner, not the more senior facilitator.</p>
+<p><strong>How you measure it.</strong> Extraction coverage vs 90-day ticket sample. Target: 100% of ticket reasons mapped to a taxonomy code or an explicit “new code” proposal.</p>
+<p><strong>Artefacts.</strong> Transcript extraction sheet. Draft exception-frequency table.</p>
+<p><strong>Timebox.</strong> 2–4 days.</p>
+<h3 id="northline-extract-illustrative">Northline — Extract (illustrative)</h3>
+<p>90-day ticket sample (illustrative counts, not a benchmark): missing receipt 22%, price mismatch 14%, PO exhausted 9%, duplicate / potential duplicate 7%, coding missing 8%, invoice quality / extraction 6%, approval missing 5%, remainder fragmented. Informal control: Pacific Components buyers approved NetSuite bills in email; SAP NL10 used a formal release strategy. Two different approval realities — one group, two control designs.</p>
+<hr>
+<h2 id="step-4-structure">Step 4 — Structure</h2>
+<p><strong>What you should do.</strong> Convert extraction into objects other people can run: process map, decision tree, exception taxonomy (localised), control map, RACI, SOP header.</p>
+<p><strong>How.</strong> Workshop of 3–4 hours, not a day of redesign. The workshop <em>confirms</em> the practised path and decides which unofficial steps are retired, which become policy, and which become findings. Draw the map from the extraction sheet, not from memory.</p>
+<p><strong>Facilitation notes.</strong></p>
+<ul>
+<li>Start the map at <em>channel entry</em>, not at “invoice is in the ERP.” Intake is where duplicates and wrong entities begin.</li>
+<li>Put exception handling on the main page. A happy-path map with an “exceptions” box is a brochure.</li>
+<li>For each decision diamond, write the rule or write “judgement — owner: [role].”</li>
+<li>RACI the <em>control</em>, not just the task. Who is Accountable if a duplicate is paid?</li>
+</ul>
+<p><strong>Who owns it.</strong> Process owner signs the map. Internal Audit or Controls signs the control map. Do not proceed to Agentise without both signatures.</p>
+<p><strong>What can go wrong.</strong> A future-state map disguised as current-state. Label current vs target in the title. Current-state is what you agentise first; target-state is a later project.</p>
+<p><strong>How you control it.</strong> Sign-off page with date, version, and “this is current-state as practised on [dates].” Store in version control.</p>
+<p><strong>How you measure it.</strong> Completeness checklist: every extraction row appears on the map or is explicitly out of scope. Every in-scope exception code has a decision-tree branch.</p>
+<p><strong>Artefacts.</strong> Process map, decision tree, localised exception taxonomy, control map, RACI, SOP header — all from <code>TEMPLATES.md</code>.</p>
+<p><strong>Timebox.</strong> 3–5 days including sign-off.</p>
+<h3 id="northline-structure-illustrative">Northline — Structure (illustrative)</h3>
+<p>Two current-state maps, not one: SAP NL10 PO path and Pacific Components NetSuite path. A combined map hid the email-approval gap. Control map listed the unofficial price-variance spreadsheet as <em>detective, unowned, retire</em>. Decision tree for price mismatch: tolerance table first (deterministic), then buyer confirmation (human), then AP supervisor override (human, logged). No agent executes a price override.</p>
+<hr>
+<h2 id="step-5-agentise">Step 5 — Agentise</h2>
+<p><strong>What you should do.</strong> For each in-scope slice of work, decide whether an agent should exist, which of the 16 it is, what it may do, and what it must never do.</p>
+<p><strong>How.</strong> One canvas per agent (see <code>TEMPLATES.md</code>). Fill in: job, inputs, tools, authority, deterministic vs model, human owner, controls, evidence, KPIs, fallback. Then apply the decision ladder. If the work is a table lookup, do not create an “AI agent” for it — create a rule and give A16 the job of proving the rule fired.</p>
+<p><strong>Facilitation notes.</strong></p>
+<ul>
+<li>Agentise <em>jobs</em>, not job titles. “The AP clerk” is five agents and a lot of waiting.</li>
+<li>Start with A01–A04, A10, and A16. Do not start with A12. Payment-proposal review is last because it concentrates residual risk.</li>
+<li>Write the “never” list before the “does” list. If the never list is short, it is incomplete.</li>
+<li>Bind each agent to named systems and named fields. “Has ERP access” is not a design.</li>
+</ul>
+<p><strong>Who owns it.</strong> Process owner (accountable for the job). AI product owner (accountable for the agent configuration). Control owner (accountable for the boundary).</p>
+<p><strong>What can go wrong.</strong> Authority inflation: a recommend-agent quietly becomes execute because “the accuracy looked good.” Prevent this with a written authority field that only Step 10 can change.</p>
+<p><strong>How you control it.</strong> Canvas signed. Mapped into <code>AGENT_CONTROL_MATRIX.md</code> and <code>RISK_REGISTER.md</code> before any test data leaves the room.</p>
+<p><strong>How you measure it.</strong> % of in-scope jobs with a signed canvas. % of canvases where deterministic options were explicitly considered and accepted or rejected.</p>
+<p><strong>Artefacts.</strong> Agentisation canvas per agent. Authority register. Tool/permission request.</p>
+<p><strong>Timebox.</strong> 3–5 days for a first slice (typically A01–A04, A10, A16).</p>
+<h3 id="northline-agentise-illustrative">Northline — Agentise (illustrative)</h3>
+<p>First slice: SAP PO invoices, company NL10. Agents in scope: A01, A02, A03, A04, A05, A10, A16. Out of scope: A12 (payment proposal), A13 (close), A08 master-data posts. A03 is specified as deterministic 3-way match with Northline’s existing SAP tolerances; the model is used only to <em>explain</em> a mismatch and draft the buyer question (A04 + A09), not to decide the match. A10 uses a composite key plus a near-duplicate recommend queue. Authority for A01 extract: Level 1/2 (Recommend/Prepare). Clerks confirm extraction on a sample and on low-confidence fields.</p>
+<hr>
+<h2 id="step-6-test">Step 6 — Test</h2>
+<p><strong>What you should do.</strong> Prove the agent on a golden set <em>before</em> it sits next to a live clerk. Test the controls, not just the model’s fluency.</p>
+<p><strong>How.</strong> Build a golden set from real, redacted historical invoices: happy path, each high-volume exception, known duplicates, known wrong-entity cases, adversarial documents (prompt-like text in invoice headers, swapped bank details, lookalike suppliers). Score with the definitions in <code>KPI_FRAMEWORK.md</code>. Run schema validation, policy validation, and (for execute-class actions) a dry-run against a non-production environment.</p>
+<p><strong>Facilitation notes.</strong></p>
+<ul>
+<li>A “demo that impressed the CFO” is not a test.</li>
+<li>Include cases the current team <em>already gets wrong</em>. If the agent repeats the same error, you have automated the defect.</li>
+<li>Test the fallback: kill-switch, queue overflow, model-provider outage.</li>
+<li>Test SoD: the same identity must not extract, match, <em>and</em> prepare payment.</li>
+</ul>
+<p><strong>Who owns it.</strong> QA lead designs the set. AP SMEs label it. Controls reviews negative cases. AI product owner may not mark their own golden set.</p>
+<p><strong>What can go wrong.</strong> Training on the test set. Freeze the golden set. Version it. New cases go to a hold-out.</p>
+<p><strong>How you control it.</strong> Written go/no-go with thresholds agreed <em>before</em> scores are seen. Typical first-slice thresholds (illustrative, set locally): extraction field accuracy on required fields ≥ agreed floor; duplicate exact-key precision 100% on the exact-key definition; zero payment-direction actions in the log.</p>
+<p><strong>How you measure it.</strong> Classification / extraction / matching accuracy, FPR, FNR — see <code>KPI_FRAMEWORK.md</code>. Control tests pass/fail.</p>
+<p><strong>Artefacts.</strong> Golden-set register. Score sheet. Fail-case library. Go/no-go record.</p>
+<p><strong>Timebox.</strong> 5–10 days. Do not start Shadow on a failed go/no-go.</p>
+<h3 id="northline-test-illustrative">Northline — Test (illustrative)</h3>
+<p>Golden set: 400 SAP PO invoices, stratified, plus 40 adversarial. A10 exact-key test: 28 known duplicates, 0 misses on the defined key; 12 near-duplicates scored as recommend, 1 false exact (a legitimate credit-and-rebill with reused invoice number — rule refined to include document type). A01 line-level quantity misses on multi-page scans: below floor; extract remains Prepare, not Execute. Go/no-go: Shadow approved for A01 (file/class), A02, A03 (deterministic match), A10, A16; A01 extract shadow with mandatory field confirmation; A04 draft-only.</p>
+<hr>
+<h2 id="step-7-shadow">Step 7 — Shadow</h2>
+<p><strong>What you should do.</strong> Run the agent in parallel with the existing process. The agent writes to an evidence store and a comparison queue. It does not write to the ERP, does not email suppliers, does not touch payments.</p>
+<p><strong>How.</strong> Same invoices, same day. Human completes the work as today. Agent produces its output. A reviewer scores agreement daily for the first week, then on a sample. Disagreements become fail cases or rule changes — not silent overrides.</p>
+<p><strong>Facilitation notes.</strong></p>
+<ul>
+<li>Tell the team the agent is on trial, not that they are. Shadow fails if clerks stop doing the job “because the agent will catch it.”</li>
+<li>Review a sample of <em>agreements</em> as well as disagreements. Agreement can be two parties making the same mistake.</li>
+<li>Keep the never-list visible on the wall or the queue header.</li>
+</ul>
+<p><strong>Who owns it.</strong> AP lead operates the queue. QA maintains scores. Process owner decides rule changes.</p>
+<p><strong>What can go wrong.</strong> Quiet production writes “just to save a paste.” Technical control: read-only credentials in Shadow. A16 alerts on any write attempt.</p>
+<p><strong>How you control it.</strong> Read-only access. Daily exception of write-attempt logs. No supplier contact.</p>
+<p><strong>How you measure it.</strong> Agreement rate, FPR/FNR vs human (human is not ground truth — dual review a sample). Time the human still spends; do not claim hours-released in Shadow.</p>
+<p><strong>Artefacts.</strong> Shadow scorebook. Disagreement log. Credential review.</p>
+<p><strong>Timebox.</strong> 10–20 working days. Extend if volume is thin or scores move.</p>
+<h3 id="northline-shadow-illustrative">Northline — Shadow (illustrative)</h3>
+<p>NL10 SAP PO slice, 15 working days. A03 deterministic match agreed with posted outcomes on in-tolerance cases; residual mismatches were already human. A01 misclassified a small set of debit notes as invoices — rule added. Extract still required confirmation on line quantities. No ERP writes. No supplier mail. A16 recorded 0 write attempts.</p>
+<hr>
+<h2 id="step-8-controlled-pilot">Step 8 — Controlled pilot</h2>
+<p><strong>What you should do.</strong> Give the agent the <em>minimum</em> production authority that the signed canvas allows, on a capped population, with named humans on the hook.</p>
+<p><strong>How.</strong> Cap by entity, channel, invoice type, amount, and calendar. Example cap: one company code, PO invoices under a stated amount, inbound email channel only, two payment cycles. Execute-class actions only where Shadow scores and control tests held. Keep A12 out unless the CFO and IA have signed a Level-2 (prepare/challenge only) pilot with dual human release unchanged.</p>
+<p><strong>Facilitation notes.</strong></p>
+<ul>
+<li>Write the rollback in one paragraph before go-live: who turns it off, how work returns to the old queue, how in-flight items are finished.</li>
+<li>Brief suppliers only if they will receive agent-prepared mail. Most first pilots should not mail suppliers.</li>
+<li>Sit with the pod for the first two payment runs even if the agent does not pay.</li>
+</ul>
+<p><strong>Who owns it.</strong> AP Director (operational). CFO (sponsor). IA (control observer). AI product owner (configuration freeze except emergency).</p>
+<p><strong>What can go wrong.</strong> Scope creep mid-pilot (“just add NetSuite”). That is a new Observe cycle, not a toggle.</p>
+<p><strong>How you control it.</strong> Change freeze except Sev-1. Incident process from <code>AP_AGENT_GOVERNANCE_FRAMEWORK.md</code>. Dual control on any authority change.</p>
+<p><strong>How you measure it.</strong> Pilot KPIs from <code>KPI_FRAMEWORK.md</code> against the <em>same entity’s</em> baseline, not against a vendor blog. Control breaches = 0 tolerance for payment-direction and bank-detail events.</p>
+<p><strong>Artefacts.</strong> Pilot charter. Rollback note. Daily control digest. Incident log.</p>
+<p><strong>Timebox.</strong> 20–40 working days. One or two month-ends should fall inside the window if month-end is material to the process.</p>
+<h3 id="northline-controlled-pilot-illustrative">Northline — Controlled pilot (illustrative)</h3>
+<p>Charter (illustrative): SAP company NL10, PO invoices, inbound AP inbox, amount cap aligned to existing release strategy, 30 days. A01 files and classifies inside the validated class set with fallback to human; extract remains Prepare. A02 recommends validation. A03 executes in-tolerance match; out-of-tolerance to A04. A10 executes exact-key block; near-duplicates to human. A04 recommends. A05 prepares GR chases for named receivers, human sends. A16 dispatches and logs. A12 remains out of scope — payment release stays entirely human and unchanged. Rollback: disable A01 filing rule; mail drops to the pre-pilot inbox rule.</p>
+<hr>
+<h2 id="step-9-measure">Step 9 — Measure</h2>
+<p><strong>What you should do.</strong> Measure activity, operational outcomes, financial outcomes, and risk-control outcomes separately. Do not average them into a single “AI score.”</p>
+<p><strong>How.</strong> Use <code>KPI_FRAMEWORK.md</code>. Inputs are the customer’s own baseline. Ardent Partners 2024 Best-in-Class <em>relative</em> gaps (78% lower cost, 82% faster cycle, 59% lower exceptions, 9% BIC exception rate vs 22% for others) are independent context for ambition — not a forecast and not a substitute for Northline’s numbers.</p>
+<p><strong>Facilitation notes.</strong></p>
+<ul>
+<li>Hours-released is a measured residual, not a headcount announcement.</li>
+<li>Validated savings require a finance owner and a method (see business-case model). Unvalidated “could save” figures do not enter the KPI pack.</li>
+<li>If a metric cannot be wrong, it is a vanity metric. Drop it.</li>
+</ul>
+<p><strong>Who owns it.</strong> FP&amp;A designs the pack with AP. IA owns control metrics. AI product owner owns inference-cost metrics. No one owner reports their own success without a second signature.</p>
+<p><strong>What can go wrong.</strong> Measuring only STP and invoices handled — activity without outcome, or outcome without control.</p>
+<p><strong>How you control it.</strong> Metric dictionary frozen per quarter. Changes go through the same version control as the agents.</p>
+<p><strong>How you measure it.</strong> The pack itself is audited: source, formula, last refresh, owner.</p>
+<p><strong>Artefacts.</strong> KPI dictionary (local). Monthly pack. Data-lineage note.</p>
+<p><strong>Timebox.</strong> Continuous from Shadow day 1. First formal pack at pilot mid-point and pilot close.</p>
+<h3 id="northline-measure-illustrative">Northline — Measure (illustrative)</h3>
+<p>Baseline taken from NL10 SAP PO invoices for the prior two quarters (customer numbers, not industry averages). Pack reports STP, exception resolution, time-to-posting, FPR/FNR on duplicates, GR chase on-time, control breaches, inference cost, and cost per <em>correct</em> outcome. Cost-per-invoice is calculated from Northline’s loaded AP cost and volume — not from a $10–$15 vendor-blog figure. No ROI is claimed at pilot close; a <em>measured delta</em> is reported with caveats. A14 (Reporting) produces the pack from ledger facts; humans certify it.</p>
+<hr>
+<h2 id="step-10-expand-responsibility">Step 10 — Expand responsibility</h2>
+<p><strong>What you should do.</strong> Promote authority only by written decision: more volume, more entities, more exception classes, or a move up the ladder (Recommend → Prepare → Execute). Never auto-promote on a score threshold.</p>
+<p><strong>How.</strong> Quarterly gate. Evidence required: KPI pack, incident log, control certification, golden-set re-score on the current model/workflow versions, residual-risk review. A promotion of authority is a change record. A promotion of volume without authority change is a smaller change record.</p>
+<p><strong>Facilitation notes.</strong></p>
+<ul>
+<li>Expanding to a second ERP (NetSuite at Northline) is a new slice. Restart Observe for that slice. Reuse canvases only where the job is truly the same.</li>
+<li>Moving A12 from “out of scope” to Level 2 (challenge the proposal) is a CFO-level control decision, not a product increment. A12 never releases cash.</li>
+<li>If scores regress after a model change, authority steps <em>down</em> automatically to the last certified level until re-certified. That rule is written here so it is not negotiated in an incident.</li>
+</ul>
+<p><strong>Who owns it.</strong> CFO (authority promotions). AP Director (volume promotions within the same authority). IA (veto on control grounds).</p>
+<p><strong>What can go wrong.</strong> “The model got better” used as a reason to skip recertification. Model changes are in-scope events — see governance framework.</p>
+<p><strong>How you control it.</strong> Change record, recertification, updated control matrix, updated risk residual.</p>
+<p><strong>How you measure it.</strong> % of agents operating within signed authority. Count of unauthorised promotions (target: 0). Re-score delta vs last certification.</p>
+<p><strong>Artefacts.</strong> Promotion paper. Updated canvases. Updated <code>AGENT_CONTROL_MATRIX.md</code> instance. Recertification pack.</p>
+<p><strong>Timebox.</strong> Quarterly by default. Emergency restriction can happen same day; emergency expansion cannot.</p>
+<h3 id="northline-expand-illustrative">Northline — Expand (illustrative)</h3>
+<p>After one clean pilot month (illustrative), the gate approved: (a) lift the amount cap to the next release-strategy band, still SAP NL10 PO only; (b) keep A01 extract at Prepare; (c) allow A05 to <em>send</em> approved-template GR chases to a named receiver list. Rejected: NetSuite inclusion; A12 challenge privilege; A08 send-as-company. Pacific Components NetSuite scheduled as a new Observe in the following quarter.</p>
+<hr>
+<h2 id="facilitation-kit">Facilitation kit</h2>
+<p><strong>Room.</strong> One process owner, one AP SME who still touches invoices, one controls/IA person, one AI product owner, one facilitator. More people produce a future-state workshop.</p>
+<p><strong>Materials.</strong> Last 90 days of tickets, last two payment-run samples, current SOP, DOA table, duplicate policy, tax matrix if any, org chart, system list.</p>
+<p><strong>Questions that usually surface the real process.</strong></p>
+<ul>
+<li>Show me the last invoice you would not want your name on.</li>
+<li>What do you do when the buyer does not answer?</li>
+<li>Who can tell you to “just pay it”?</li>
+<li>Where do bank-detail change requests actually arrive?</li>
+<li>Which spreadsheet would break AP if it disappeared this afternoon?</li>
+</ul>
+<p><strong>Anti-patterns.</strong></p>
+<ul>
+<li>Starting with a vendor demo and reverse-engineering a process to fit it.</li>
+<li>Agentising month-end journals and AP in the same canvas.</li>
+<li>Calling a chatbot on the ERP “an AP agent operating system.”</li>
+<li>Using industry cost-per-invoice figures as the business case.</li>
+</ul>
+<hr>
+<h2 id="artefact-register-what-done-looks-like">Artefact register (what “done” looks like)</h2>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Artefact</th>
+<th>Template</th>
+<th>Signed by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Walkthrough notes + recording index</td>
+<td>Walkthrough notes</td>
+<td>Facilitator, AP owner</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Transcript + clip index</td>
+<td>—</td>
+<td>Facilitator</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Extraction sheet</td>
+<td>Transcript extraction</td>
+<td>Facilitator, AP lead</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Map, tree, taxonomy, controls, RACI, SOP header</td>
+<td>All structure templates</td>
+<td>Process owner, Controls/IA</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Agentisation canvases + authority register</td>
+<td>Agentisation canvas</td>
+<td>Process owner, AI owner, Controls</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Golden set + scores + go/no-go</td>
+<td>—</td>
+<td>QA, AP SME, Controls</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Shadow scorebook</td>
+<td>—</td>
+<td>AP lead, QA</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Pilot charter + rollback + incidents</td>
+<td>—</td>
+<td>AP Director, CFO, IA</td>
+</tr>
+<tr>
+<td>9</td>
+<td>KPI pack + dictionary</td>
+<td>See KPI framework</td>
+<td>FP&amp;A, AP, IA</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Promotion paper + recertification</td>
+<td>—</td>
+<td>CFO, IA</td>
+</tr>
+</tbody>
+</table>
+<p>Store every artefact in the client evidence room with version, date, and access list. If it is not there, the step is open.</p>
+<hr>
+<h2 id="using-the-northline-example">Using the Northline example</h2>
+<p>Northline Industrial Group is fictional. Figures in this document are labelled illustrative. They exist so a working team can see how a dual-ERP, high-volume AP organisation would <em>use</em> the method — not so anyone can quote a result.</p>
+<p>When you work a real client, replace Northline’s numbers with theirs. Do not keep the illustrative STP, exception mix, or FTE counts in a customer pack without relabelling.</p>
+<hr>
+<h2 id="related-documents">Related documents</h2>
+<ul>
+<li><code>TEMPLATES.md</code> — forms used at each step</li>
+<li><code>EXCEPTION_TAXONOMY.md</code> — exception codes and default owners</li>
+<li><code>../Agent_Library/00_AGENT_STACK_OVERVIEW.md</code> — the sixteen agents this method agentises</li>
+<li><code>../Agent_Library/RESPONSIBILITY_MODEL.md</code> — Levels 0–4</li>
+<li><code>../Governance/AP_AGENT_GOVERNANCE_FRAMEWORK.md</code> — accountability, privacy, incidents, certification</li>
+<li><code>../Controls/AGENT_CONTROL_MATRIX.md</code> — controls per agent</li>
+<li><code>../Controls/RISK_REGISTER.md</code> — inherent and residual risk</li>
+<li><code>../KPI_and_Measurement/KPI_FRAMEWORK.md</code> — what to measure</li>
+<li><code>../Business_Case/BUSINESS_CASE_MODEL.md</code> — how to cost a proposal without false precision</li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

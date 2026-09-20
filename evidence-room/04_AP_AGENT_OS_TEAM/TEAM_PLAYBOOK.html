@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Team Implementation Playbook · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Team · US$499</p>
+  </header>
+  <h1 id="ap-agent-os-team-playbook">AP Agent OS Team — playbook</h1>
+<p><strong>Evidence Room · Team licence · $499</strong><br>
+<strong>Version:</strong> 1.0 · September 2026<br>
+<strong>Licence:</strong> One organisation, up to eight named seats (draft — confirm before sale)<br>
+<strong>Contains:</strong> How a working group uses Professional plus the human system around it<br>
+<strong>Does not contain:</strong> Evidence Room in the room. We do not attend unless you bought a Custom Blueprint or a separately scoped session.<br>
+<strong>Worked example:</strong> Northline Industrial Group is fictional.</p>
+<p>Team is for a working group that has to design, govern, and implement AP agents together. If you are a single practitioner, Professional is enough. Do not buy Team to feel serious. Buy it because other people have to move.</p>
+<p>We do not promise savings, fraud detection, compliance, accounting accuracy, autonomous payments, or ROI.</p>
+<p><strong>Responsibility is earned.</strong></p>
+<hr>
+<h2 id="1-what-you-received">1. What you received</h2>
+<p>Everything in Professional, and then:</p>
+<table>
+<thead>
+<tr>
+<th>Folder</th>
+<th>Job</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Workshop/</code></td>
+<td>You facilitate. Timed. Not a keynote.</td>
+</tr>
+<tr>
+<td><code>Training/</code></td>
+<td>Four roles: steward, control owner, reviewer, executive reader</td>
+</tr>
+<tr>
+<td><code>Implementation/</code></td>
+<td>Tracker + benefits realisation (hours ≠ cash)</td>
+</tr>
+<tr>
+<td><code>Change_Management/</code></td>
+<td>Supervisor-grade notes + executive comms</td>
+</tr>
+<tr>
+<td><code>Executive/</code></td>
+<td>Steering templates + twelve-minute CFO brief</td>
+</tr>
+<tr>
+<td><code>SEATS.md</code></td>
+<td>Named humans, not a shared inbox</td>
+</tr>
+</tbody>
+</table>
+<p>Seats may hold working copies, run the workshop internally, and train non-seat colleagues <em>from the scripts</em>. Files stay with seats. No forwarding the zip to a vendor, a Big Four team, or another entity.</p>
+<hr>
+<h2 id="2-who-should-be-in-the-room">2. Who should be in the room</h2>
+<p>Eight seats is a ceiling, not a target. Four is enough.</p>
+<table>
+<thead>
+<tr>
+<th>Seat (recommended)</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AP Manager / process owner</td>
+<td>Owns A16 and the first fence</td>
+</tr>
+<tr>
+<td>Exception supervisor or matching lead</td>
+<td>Floor truth</td>
+</tr>
+<tr>
+<td>Control owner (IA or financial controls)</td>
+<td>Veto</td>
+</tr>
+<tr>
+<td>Systems / finance systems</td>
+<td>Adapter honesty</td>
+</tr>
+<tr>
+<td>Payments or Assistant Controller</td>
+<td>C01, close adjacency</td>
+</tr>
+<tr>
+<td>Optional: plant controller, procurement ops, receiving lead</td>
+<td>A05/A06 political load</td>
+</tr>
+<tr>
+<td>Optional: FP&amp;A</td>
+<td>F-family later, not week 1</td>
+</tr>
+<tr>
+<td>Executive reader</td>
+<td>May attend only the last 90 minutes of day 1, or the close of day 2</td>
+</tr>
+</tbody>
+</table>
+<p>Do not fill seats with “interested in AI.” Interest is not a role.</p>
+<p><strong>Northline (illustrative).</strong> Priya Menon (AP Manager), Diego Alvarez (matching), a plant controller, shared-services supervisor, Internal Audit reader. Receiving lead joins the A05 hour only. Treasury joins the A12 hour only. They refuse a vendor in the room for the fence-writing session.</p>
+<hr>
+<h2 id="3-operating-sequence-you-run-it">3. Operating sequence (you run it)</h2>
+<p>This is the Team compression of START HERE 01–12.</p>
+<table>
+<thead>
+<tr>
+<th>Window</th>
+<th>Work</th>
+<th>Primary files</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Week 0 (async, 90 min)</td>
+<td>Each seat takes the Diagnostic separately</td>
+<td><code>01_FREE_AP_AI_READINESS/</code></td>
+</tr>
+<tr>
+<td>Week 1 workshop</td>
+<td>Compare scores. Map live path. Write first brief and fence.</td>
+<td><code>Workshop/</code></td>
+</tr>
+<tr>
+<td>Week 1–2</td>
+<td>Controls, evidence, three measures. Historical-sample design.</td>
+<td>Professional packs + <code>Testing/</code></td>
+</tr>
+<tr>
+<td>Week 2–3</td>
+<td>Training modules for people who were not in every hour</td>
+<td><code>Training/</code></td>
+</tr>
+<tr>
+<td>Week 3–4</td>
+<td>Executive brief. Go / no-go. Tracker opened.</td>
+<td><code>Executive/</code> + <code>Implementation/</code></td>
+</tr>
+<tr>
+<td>After go</td>
+<td>Limited production fence. Change notes to the floor.</td>
+<td><code>Change_Management/</code></td>
+</tr>
+<tr>
+<td>After no-go</td>
+<td>You still have a designed system. File the stop.</td>
+<td>Decision log</td>
+</tr>
+</tbody>
+</table>
+<p>If Diagnostic hard gates trip (payment not human; no live map; unsafe business case), the workshop becomes a <strong>map-and-control</strong> day. You do not select agents.</p>
+<hr>
+<h2 id="4-decision-rights-in-the-working-group">4. Decision rights in the working group</h2>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Who</th>
+<th>Not</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Purpose sentence</td>
+<td>Process owner + executive reader</td>
+<td>Vendor</td>
+</tr>
+<tr>
+<td>Fence contents</td>
+<td>Process owner</td>
+<td>Steering by consensus fog</td>
+</tr>
+<tr>
+<td>Control design / veto</td>
+<td>Control owner</td>
+<td>Project manager</td>
+</tr>
+<tr>
+<td>Kill switch</td>
+<td>Named human</td>
+<td>A committee</td>
+</tr>
+<tr>
+<td>Limited production go</td>
+<td>Process owner + control owner</td>
+<td>“The room seemed happy”</td>
+</tr>
+<tr>
+<td>Level 2+ later</td>
+<td>Controller (Professional promotion pack)</td>
+<td>A16</td>
+</tr>
+<tr>
+<td>Payment release</td>
+<td>Payments / Treasury humans</td>
+<td>Any agent</td>
+</tr>
+</tbody>
+</table>
+<p>Agents are never Accountable on a RACI.</p>
+<hr>
+<h2 id="5-how-to-facilitate-without-us">5. How to facilitate without us</h2>
+<ol>
+<li>Read <code>Workshop/WORKSHOP_FACILITATION.md</code> twice. Once for timing, once for failure modes.</li>
+<li>Issue <code>PROCESS_OWNER_QUESTIONNAIRE.md</code> and <code>INTERVIEW_GUIDE.md</code> <strong>three working days</strong> before the workshop. Collect raw notes, not polished decks.</li>
+<li>Print <code>EXERCISES.md</code> for tables. No slides required. A whiteboard beats a theme.</li>
+<li>Appoint a <strong>scribe</strong> who is not the facilitator. Artefacts are the product.</li>
+<li>Appoint a <strong>timekeeper</strong> who is allowed to cut a vendor story.</li>
+<li>End each block with a written object: map, sentence, fence, RACI row, measure list, stop list.</li>
+</ol>
+<p>If the facilitator is also the AP Manager, that is allowed. If the facilitator is “transformation,” they may keep time; they may not own the fence.</p>
+<hr>
+<h2 id="6-what-implemented-means-for-team">6. What “implemented” means for Team</h2>
+<p>Not: sixteen agents, a model selected, a savings slide.</p>
+<p>Yes:</p>
+<ul>
+<li>Diagnostic compared, disagreements logged</li>
+<li>One live map the floor recognises</li>
+<li>One signed purpose sentence</li>
+<li>One fence and escalation list</li>
+<li>Three controls with owners and artefacts</li>
+<li>Three sourced measures</li>
+<li>Historical-sample plan dated</li>
+<li>CFO brief delivered</li>
+<li>Written go / hold / stop</li>
+<li>Tracker opened with named tasks</li>
+<li>Floor comms sent if go</li>
+</ul>
+<hr>
+<h2 id="7-non-promise-script-read-at-open-and-at-the-executive-hour">7. Non-promise script (read at open and at the executive hour)</h2>
+<blockquote>
+<p>We are not here to promise savings, fraud detection, compliance, accounting accuracy, autonomous payments, or ROI. We are here to design a governed agent layer on the stack we already have. Payment release stays human. Northline in the materials is fictional. Our numbers will be ours.</p>
+</blockquote>
+<p>If a sponsor needs a different script, they need a different product — and we still will not write that script.</p>
+<hr>
+<h2 id="8-when-to-stop-and-apply-for-custom">8. When to stop and apply for Custom</h2>
+<p>Apply only if you can write a paragraph on why this toolkit will be rewritten so heavily you would not use it as shipped. Multi-entity chaos is not automatically Custom. It is often “one entity first.”</p>
+<p>Decline is a normal Blueprint outcome. Team was the right buy for most groups.</p>
+<hr>
+<h2 id="9-support">9. Support</h2>
+<p>hello@evidenceroom.ai — product questions. Not “facilitate our Thursday.”<br>
+Seat and licence questions: same inbox, with the licence key.</p>
+<hr>
+<h2 id="document-control">Document control</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Related</td>
+<td>All Professional folders · <code>00_READ_ME/QUICK_START.md</code></td>
+</tr>
+<tr>
+<td>Advice</td>
+<td>Not legal, tax, accounting, or audit advice</td>
+</tr>
+</tbody>
+</table>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

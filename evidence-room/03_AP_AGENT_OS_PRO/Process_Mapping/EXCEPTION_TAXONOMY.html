@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AP Exception Taxonomy · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional</p>
+  </header>
+  <h1 id="exception-taxonomy">Exception taxonomy</h1>
+<p><strong>Evidence Room · AP Agent OS Pro</strong><br>
+Version 1.0 · September 2026 · Licensed material · ERP-agnostic<br>
+Answers: <em>What should I do? Who owns it? What can go wrong? How control? How measure?</em></p>
+<hr>
+<h2 id="how-to-use-this-taxonomy">How to use this taxonomy</h2>
+<p>Use these codes in tickets, extraction sheets, decision trees, agent canvases, and KPI packs. Local ERP reason codes map <em>to</em> these codes; they do not replace them.</p>
+<p>A local extract (see <code>TEMPLATES.md</code>) records frequency, ageing, and owners. This file is the definition. Do not delete a code because this month’s volume is zero.</p>
+<p><strong>Automation potential</strong> is a design hint, not a promise:</p>
+<table>
+<thead>
+<tr>
+<th>Label</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deterministic</td>
+<td>Rule, key, or table should do the work.</td>
+</tr>
+<tr>
+<td>Assist</td>
+<td>Agent recommends or prepares; human decides.</td>
+</tr>
+<tr>
+<td>Bounded execute</td>
+<td>Agent may act inside a signed policy (chase, file, log).</td>
+</tr>
+<tr>
+<td>None</td>
+<td>Human only. Usually money, identity, or legal position.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Risk level</strong> is inherent typical risk if the exception is mishandled — not residual after controls.</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>If mishandled</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>High</td>
+<td>Wrong payment, duplicate payment, wrong entity, control failure, or regulatory exposure.</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td>Material mis-posting, delayed payment, supplier dispute, weak audit trail.</td>
+</tr>
+<tr>
+<td>Low</td>
+<td>Rework and delay without a probable payment or entity error.</td>
+</tr>
+</tbody>
+</table>
+<p>Risk can be raised locally (e.g. a “low” invoice-quality issue on a high-value invoice).</p>
+<p>Payment authorisation is never an exception resolution. Closing an exception does not authorise a payment.</p>
+<hr>
+<h2 id="index">Index</h2>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Category</th>
+<th>Typical agent</th>
+<th>Library code (if used)</th>
+<th>Default risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E01</td>
+<td>Missing PO</td>
+<td>A04, A06, A09</td>
+<td><code>PO-MISS</code></td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>E02</td>
+<td>Invalid PO</td>
+<td>A03, A04, A06</td>
+<td><code>PO-MISS</code></td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>E03</td>
+<td>PO closed</td>
+<td>A03, A04, A06</td>
+<td><code>PO-MISS</code></td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>E04</td>
+<td>PO exhausted</td>
+<td>A03, A04, A06</td>
+<td><code>PO-QLTY</code></td>
+<td>High</td>
+</tr>
+<tr>
+<td>E05</td>
+<td>Price mismatch</td>
+<td>A03, A04, A09</td>
+<td><code>PRC-VAR</code></td>
+<td>High</td>
+</tr>
+<tr>
+<td>E06</td>
+<td>Quantity mismatch</td>
+<td>A03, A04, A05</td>
+<td><code>QTY-VAR</code></td>
+<td>High</td>
+</tr>
+<tr>
+<td>E07</td>
+<td>Missing receipt</td>
+<td>A05, A04</td>
+<td><code>GR-MISS</code></td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>E08</td>
+<td>Partial receipt</td>
+<td>A03, A05, A04</td>
+<td><code>GR-SPLIT</code></td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>E09</td>
+<td>Duplicate invoice</td>
+<td>A10</td>
+<td><code>DUP-SUS</code></td>
+<td>High</td>
+</tr>
+<tr>
+<td>E10</td>
+<td>Potential duplicate</td>
+<td>A10, A04</td>
+<td><code>DUP-SUS</code> / <code>ANOM-SUS</code></td>
+<td>High</td>
+</tr>
+<tr>
+<td>E11</td>
+<td>Wrong supplier</td>
+<td>A02, A08, A04</td>
+<td><code>VND-UNK</code></td>
+<td>High</td>
+</tr>
+<tr>
+<td>E12</td>
+<td>Incorrect legal entity</td>
+<td>A02, A04</td>
+<td><code>CUR-ERR</code> / entity check</td>
+<td>High</td>
+</tr>
+<tr>
+<td>E13</td>
+<td>Tax issue</td>
+<td>A02, A04</td>
+<td><code>TAX-ERR</code></td>
+<td>High</td>
+</tr>
+<tr>
+<td>E14</td>
+<td>Approval missing</td>
+<td>A07, A04</td>
+<td><code>APPR-PEND</code></td>
+<td>High</td>
+</tr>
+<tr>
+<td>E15</td>
+<td>DOA issue</td>
+<td>A07, A16</td>
+<td><code>CTRL-BRK</code></td>
+<td>High</td>
+</tr>
+<tr>
+<td>E16</td>
+<td>Coding missing</td>
+<td>A02, A04</td>
+<td><code>HDR-ERR</code> / coding</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>E17</td>
+<td>Invalid cost centre</td>
+<td>A02, A08</td>
+<td><code>PO-QLTY</code> / coding</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>E18</td>
+<td>Invoice quality</td>
+<td>A01, A08</td>
+<td><code>HDR-ERR</code></td>
+<td>Low–Medium</td>
+</tr>
+<tr>
+<td>E19</td>
+<td>OCR / extraction issue</td>
+<td>A01, A04</td>
+<td><code>LINE-ERR</code></td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>E20</td>
+<td>Master-data issue</td>
+<td>A08, A02</td>
+<td><code>VND-UNK</code> / <code>VND-BLK</code></td>
+<td>High</td>
+</tr>
+<tr>
+<td>E21</td>
+<td>Banking-change concern</td>
+<td>A08, A10, A12, A16</td>
+<td><code>ANOM-SUS</code> / <code>PAY-HOLD</code></td>
+<td>High</td>
+</tr>
+<tr>
+<td>E22</td>
+<td>Credit note required</td>
+<td>A04, A08, A11</td>
+<td><code>STMT-UNM</code> related</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>E23</td>
+<td>Statement discrepancy</td>
+<td>A11, A04</td>
+<td><code>STMT-UNM</code></td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>E24</td>
+<td>Payment hold</td>
+<td>A12 (flag only), A04</td>
+<td><code>PAY-HOLD</code></td>
+<td>High</td>
+</tr>
+<tr>
+<td>E25</td>
+<td>Disputed invoice</td>
+<td>A04, A08</td>
+<td>—</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>E26</td>
+<td>Aged unresolved item</td>
+<td>A04, A16</td>
+<td>SLA via A16</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>E27</td>
+<td>System / interface error</td>
+<td>A16, A04</td>
+<td><code>CTRL-BRK</code></td>
+<td>Medium</td>
+</tr>
+</tbody>
+</table>
+<p>This file is the <strong>operating taxonomy</strong> (E01–E27) required for process mapping and KPI packs. The Agent Library also publishes shorter reason codes (<code>PO-MISS</code>, <code>DUP-SUS</code>, …). Map local ERP reasons → <strong>E-code first</strong>, then to the library code if the stack needs one. Do not collapse E01–E04 into a single <code>PO-MISS</code> in the KPI pack — volume and treatment differ.</p>
+<hr>
+<h2 id="e01-missing-po">E01 — Missing PO</h2>
+<p><strong>Definition.</strong> Invoice claims or requires a purchase order, and no usable PO number is present or the number supplied does not exist in the system of record.</p>
+<p><strong>Probable root cause.</strong> Buyer purchased outside process; supplier omitted PO; wrong document sent; PO lives in a different ERP (common in dual-ERP groups).</p>
+<p><strong>Required data.</strong> Invoice image and extracted header; supplier ID; legal entity; amount; date; any referenced order; open PO list for that supplier/entity; buyer identity if known.</p>
+<p><strong>Suggested resolution.</strong> Confirm whether a PO should exist. If yes, locate or raise it before match. If the spend is genuinely non-PO, reclassify and send through the non-PO approval tree — do not invent a PO number.</p>
+<p><strong>Responsible party.</strong> Buyer / requestor to supply or raise the PO. AP owns triage. Procurement owns policy exceptions.</p>
+<p><strong>Escalation.</strong> Unresolved after the local chase SLA → AP supervisor → Procurement lead. High-value or repeat offenders → process owner (policy, not a one-off post).</p>
+<p><strong>Potential agent.</strong> A04 (classify and route), A06 (PO quality), A09 (internal chase for the number), A08 (if the PO exists but is invisible because of master-data / org mapping).</p>
+<p><strong>Automation potential.</strong> Assist. Bounded execute for a template chase. Not deterministic: “missing” can mean several things.</p>
+<p><strong>Risk level.</strong> Medium (High if posted as non-PO to bypass match).</p>
+<p><strong>Measure / evidence.</strong> Time-to-PO-identified; repeat rate by buyer/supplier; evidence of chase and response. KPI: missing-PO count, repeat exception rate.</p>
+<hr>
+<h2 id="e02-invalid-po">E02 — Invalid PO</h2>
+<p><strong>Definition.</strong> A PO number is present but is not valid for this invoice: wrong supplier on the PO, wrong company code / entity, wrong currency, deleted, or otherwise not usable for match.</p>
+<p><strong>Probable root cause.</strong> Supplier reused an old PO; buyer gave the wrong number; intercompany confusion; ERP change left stale numbers in circulation.</p>
+<p><strong>Required data.</strong> PO header (supplier, entity, currency, status, account assignment); invoice header; vendor master; entity calendar.</p>
+<p><strong>Suggested resolution.</strong> Match to the correct PO if the buyer confirms it. Otherwise return to supplier or convert to the correct path (new PO or non-PO). Do not overwrite PO supplier to force a match.</p>
+<p><strong>Responsible party.</strong> Buyer confirms intended PO. AP does not “fix” PO identity.</p>
+<p><strong>Escalation.</strong> Buyer silent → requester’s manager. Suspected misuse of another cost centre’s PO → Procurement + Controls.</p>
+<p><strong>Potential agent.</strong> A03 (deterministic validity checks), A04 (route), A06.</p>
+<p><strong>Automation potential.</strong> Deterministic for validity flags. Assist for choosing the replacement PO.</p>
+<p><strong>Risk level.</strong> Medium.</p>
+<p><strong>Measure / evidence.</strong> Invalid-PO rate by supplier; evidence that validity checks ran before any model suggestion.</p>
+<hr>
+<h2 id="e03-po-closed">E03 — PO closed</h2>
+<p><strong>Definition.</strong> Referenced PO is closed, finally invoiced, or otherwise blocked for further invoicing, and the invoice still cites it.</p>
+<p><strong>Probable root cause.</strong> Late invoice after close; supplier billing a residual; buyer closed the PO after a short-ship; credit-and-rebill using the old number.</p>
+<p><strong>Required data.</strong> PO status history; invoiced-to-date; GR history; close reason; invoice date vs close date.</p>
+<p><strong>Suggested resolution.</strong> Determine whether the close was correct. If residual is legitimate, reopen under policy or raise a new PO. If the invoice is late and unowed, return / credit.</p>
+<p><strong>Responsible party.</strong> Buyer / Procurement own reopen-or-refuse. AP parks the invoice.</p>
+<p><strong>Escalation.</strong> Reopen requests above a local threshold → Procurement controller. Pattern of late invoices after close → supplier performance, not a standing reopen.</p>
+<p><strong>Potential agent.</strong> A03 (status check), A04, A06, A08 (request credit or revised PO reference).</p>
+<p><strong>Automation potential.</strong> Deterministic detection. Assist on reopen vs refuse. Execute never reopens a PO.</p>
+<p><strong>Risk level.</strong> Medium.</p>
+<hr>
+<h2 id="e04-po-exhausted">E04 — PO exhausted</h2>
+<p><strong>Definition.</strong> PO is open but remaining value or quantity is insufficient for this invoice (after considering tolerances and prior invoices).</p>
+<p><strong>Probable root cause.</strong> Scope increase not reflected on the PO; duplicate billing against the same lines; tolerance abuse; original PO under-raised.</p>
+<p><strong>Required data.</strong> PO line remaining qty/value; tolerance table; prior invoices against the PO; contract if any; change-order policy.</p>
+<p><strong>Suggested resolution.</strong> Change order or new PO for legitimate extra spend. If the invoice exceeds what was received and ordered, treat as price/qty mismatch or dispute. Do not raise remaining value “to clear the queue.”</p>
+<p><strong>Responsible party.</strong> Buyer / Procurement for change order. AP for parking and evidence.</p>
+<p><strong>Escalation.</strong> Exhaustion above DOA of the original approver → new approval under current DOA, not a rubber stamp of the old PO.</p>
+<p><strong>Potential agent.</strong> A03 (remaining-value calc), A04, A06.</p>
+<p><strong>Automation potential.</strong> Deterministic detection and remaining-value arithmetic. Assist on treatment.</p>
+<p><strong>Risk level.</strong> High — this is a common path to paying unauthorised spend.</p>
+<p><strong>Control.</strong> A03 must not silently apply a tolerance that effectively creates budget. Tolerance tables are certified (see control matrix).</p>
+<hr>
+<h2 id="e05-price-mismatch">E05 — Price mismatch</h2>
+<p><strong>Definition.</strong> Invoice unit price or line/header amount differs from the PO (or contract) beyond the certified tolerance.</p>
+<p><strong>Probable root cause.</strong> Price change not on PO; tax/freight treated as price; UoM confusion; supplier error; unofficial “known variance” lists.</p>
+<p><strong>Required data.</strong> PO price, invoice price, currency and FX date, UoM, freight/tax split, tolerance table, contract price if governing.</p>
+<p><strong>Suggested resolution.</strong> Recalculate with tax and freight stripped to the comparison basis. If still out of tolerance, buyer confirms and a PO change or credit follows. Human override only, logged.</p>
+<p><strong>Responsible party.</strong> Buyer confirms commercial position. AP does not accept a verbal “it’s fine” as a price change.</p>
+<p><strong>Escalation.</strong> Override above local band → AP supervisor + documented buyer approval. Repeat supplier variances → Procurement.</p>
+<p><strong>Potential agent.</strong> A03 (deterministic compare), A04 (explain), A09 (draft the buyer question).</p>
+<p><strong>Automation potential.</strong> Deterministic compare. Assist for explanation. None for override.</p>
+<p><strong>Risk level.</strong> High.</p>
+<p><strong>Measure.</strong> Price-mismatch rate; override rate; $ value overridden (customer currency, customer baseline).</p>
+<hr>
+<h2 id="e06-quantity-mismatch">E06 — Quantity mismatch</h2>
+<p><strong>Definition.</strong> Invoice quantity differs from PO remaining quantity and/or received quantity beyond tolerance.</p>
+<p><strong>Probable root cause.</strong> Partial shipment invoiced in full; packing-slip vs PO UoM; services billed on a different unit; duplicate line.</p>
+<p><strong>Required data.</strong> PO qty, GR qty, previously invoiced qty, UoM conversion, service entry if used.</p>
+<p><strong>Suggested resolution.</strong> Align with receipts (E07/E08) or correct the invoice. Do not goods-receipt “to match” after the fact without the receiving policy allowing it.</p>
+<p><strong>Responsible party.</strong> Receiver / buyer for quantity truth. AP for the document.</p>
+<p><strong>Escalation.</strong> Negative GR remaining → treat as potential duplicate or overbill (E09/E10/E25).</p>
+<p><strong>Potential agent.</strong> A03, A04, A05.</p>
+<p><strong>Automation potential.</strong> Deterministic compare. Assist on treatment.</p>
+<p><strong>Risk level.</strong> High.</p>
+<hr>
+<h2 id="e07-missing-receipt">E07 — Missing receipt</h2>
+<p><strong>Definition.</strong> A receipt (goods receipt or service entry) is required for match and is not present.</p>
+<p><strong>Probable root cause.</strong> Goods at the dock unreceived; service delivered without entry; receipt in another plant/system; invoice arrived before goods.</p>
+<p><strong>Required data.</strong> PO, inbound delivery if any, receiver identity, invoice date vs promised date, prior chase history.</p>
+<p><strong>Suggested resolution.</strong> Chase the named receiver (A12). Do not auto-receipt. If policy allows a time-boxed wait, park — do not post.</p>
+<p><strong>Responsible party.</strong> Receiver / buyer. AP owns the chase clock.</p>
+<p><strong>Escalation.</strong> SLA breach → receiver’s manager. Repeat missing GR on a plant → operations, not AP overtime.</p>
+<p><strong>Potential agent.</strong> A05 (prepare/send approved-template chase), A04, A09.</p>
+<p><strong>Automation potential.</strong> Bounded execute for chases. None for creating the receipt.</p>
+<p><strong>Risk level.</strong> Medium (High if someone receipts without goods to clear ageing).</p>
+<p><strong>Measure.</strong> Missing-receipt reduction vs customer baseline; on-time chase; time-to-receipt after chase.</p>
+<hr>
+<h2 id="e08-partial-receipt">E08 — Partial receipt</h2>
+<p><strong>Definition.</strong> Receipt exists but covers only part of the invoiced quantity/value, and policy does not allow posting the unmatched remainder.</p>
+<p><strong>Probable root cause.</strong> Split deliveries; invoice for a full order after first drop; services milestone vs full bill.</p>
+<p><strong>Required data.</strong> Receipt lines vs invoice lines; policy on partial-bill posting; remaining expected receipts.</p>
+<p><strong>Suggested resolution.</strong> Post only what policy allows against received qty, or park pending further GR, or request a split invoice. Prefer a supplier split over a forced full post.</p>
+<p><strong>Responsible party.</strong> AP applies policy. Buyer/receiver confirm remaining goods.</p>
+<p><strong>Escalation.</strong> Supplier refuses to split → AP supervisor + Procurement.</p>
+<p><strong>Potential agent.</strong> A03 (partial-match arithmetic), A05, A04.</p>
+<p><strong>Automation potential.</strong> Deterministic arithmetic. Assist on whether to request a split.</p>
+<p><strong>Risk level.</strong> Medium.</p>
+<hr>
+<h2 id="e09-duplicate-invoice">E09 — Duplicate invoice</h2>
+<p><strong>Definition.</strong> The invoice is the same payable as one already parked, posted, or paid, under the organisation’s <em>exact</em> duplicate definition.</p>
+<p><strong>Probable root cause.</strong> Supplier re-sent; dual channels (portal + email); clerk re-entered after a park; credit-and-rebill without cancelling the first.</p>
+<p><strong>Required data.</strong> Composite key as certified (typically supplier + invoice number + amount + date + entity, plus document type). Existing documents in all in-scope ERPs. Payment status of the first document.</p>
+<p><strong>Suggested resolution.</strong> Block. Do not post. Notify supplier if a statement will otherwise re-claim it. If the first document is wrong and this is the correction, cancel/reverse under policy — do not keep both.</p>
+<p><strong>Responsible party.</strong> AP supervisor on confirmation of exact-key hit. Payments/Treasury informed if the first is already in a proposal.</p>
+<p><strong>Escalation.</strong> Exact-key hit after payment of the first → incident (possible duplicate payment). IA informed.</p>
+<p><strong>Potential agent.</strong> A10.</p>
+<p><strong>Automation potential.</strong> Deterministic block on the certified key. This is not a job for a model as the primary control.</p>
+<p><strong>Risk level.</strong> High.</p>
+<p><strong>Measure.</strong> Duplicates detected; duplicate payments prevented <em>where measurable</em> (first unpaid and blocked, or recovered). Do not count “potential” as prevented.</p>
+<hr>
+<h2 id="e10-potential-duplicate">E10 — Potential duplicate</h2>
+<p><strong>Definition.</strong> Similarity suggests a duplicate (near number, same amount/date/supplier, cross-ERP lookalike) but the exact key does not hit.</p>
+<p><strong>Probable root cause.</strong> Invoice-number formatting; OCR error on the number; two legal documents that look alike; legitimate rebill.</p>
+<p><strong>Required data.</strong> Near-key features; both images; PO/GR links; payment status; credit-note history.</p>
+<p><strong>Suggested resolution.</strong> Human decision with both documents on screen. Agent recommends and highlights diffs. Do not auto-block on near-key (false positives starve suppliers) and do not auto-post.</p>
+<p><strong>Responsible party.</strong> AP clerk / supervisor per DOA.</p>
+<p><strong>Escalation.</strong> Cross-entity or cross-ERP near-duplicate → A10 / A16 and supervisor.</p>
+<p><strong>Potential agent.</strong> A10 (recommend), A04.</p>
+<p><strong>Automation potential.</strong> Assist. Deterministic only for the features that feed the queue, not for the decision.</p>
+<p><strong>Risk level.</strong> High.</p>
+<p><strong>Measure.</strong> FPR and FNR on the near-duplicate queue vs a dual-reviewed sample. Human is not sole ground truth.</p>
+<hr>
+<h2 id="e11-wrong-supplier">E11 — Wrong supplier</h2>
+<p><strong>Definition.</strong> Invoice is billed by, or has been assigned to, a different supplier than the one that should be paid (including lookalikes and factoring without a recorded assignment).</p>
+<p><strong>Probable root cause.</strong> Similar names; shared VAT IDs; buyer selected the wrong vendor; factoring; master-data duplicate vendors.</p>
+<p><strong>Required data.</strong> Invoice legal name, address, tax ID, bank hint; vendor master candidates; PO supplier; assignment/factoring records.</p>
+<p><strong>Suggested resolution.</strong> Resolve identity before any match or payment proposal. Do not pay the “closest” vendor. Create or select the correct vendor under master-data policy.</p>
+<p><strong>Responsible party.</strong> AP + master-data steward. Buyer confirms commercial counterparty.</p>
+<p><strong>Escalation.</strong> Lookalike + bank-detail difference → treat as E21 as well. Suspected fraud pattern → Controls / Security, halt the document.</p>
+<p><strong>Potential agent.</strong> A02 / A08 (recommend), A04.</p>
+<p><strong>Automation potential.</strong> Assist. None for creating a vendor or changing the payee.</p>
+<p><strong>Risk level.</strong> High.</p>
+<hr>
+<h2 id="e12-incorrect-legal-entity">E12 — Incorrect legal entity</h2>
+<p><strong>Definition.</strong> Invoice is addressed to, or has been captured against, the wrong company / establishment / books.</p>
+<p><strong>Probable root cause.</strong> Dual ERP; shared brands; supplier bill-to list out of date; clerk defaulted the last entity used.</p>
+<p><strong>Required data.</strong> Bill-to name and address; tax registration; PO entity; contract entity; intercompany flags.</p>
+<p><strong>Suggested resolution.</strong> Recapture against the correct entity. If the supplier billed the wrong entity, request a correctly addressed invoice — posting to the “right” books on the wrong legal document is a policy decision, not a default.</p>
+<p><strong>Responsible party.</strong> AP. Tax consulted when registrations differ.</p>
+<p><strong>Escalation.</strong> Cross-border entity error → Tax + Controller. Repeat → A11 to correct supplier master bill-to.</p>
+<p><strong>Potential agent.</strong> A02, A04.</p>
+<p><strong>Automation potential.</strong> Assist (recommend entity). Deterministic checks on tax ID vs entity.</p>
+<p><strong>Risk level.</strong> High — wrong-entity postings distort all downstream controls.</p>
+<hr>
+<h2 id="e13-tax-issue">E13 — Tax issue</h2>
+<p><strong>Definition.</strong> VAT/GST/sales tax/withholding on the invoice is missing, wrong-rated, wrong-jurisdiction, or inconsistent with the entity and supply.</p>
+<p><strong>Probable root cause.</strong> Supplier error; reverse-charge missed; entity registration mismatch; freight taxed incorrectly; model or clerk guessed a code.</p>
+<p><strong>Required data.</strong> Entity tax registration, place of supply, material/service tax category, supplier tax status, invoice tax breakdown, local tax matrix.</p>
+<p><strong>Suggested resolution.</strong> Compare to the certified tax matrix (deterministic). Material uncertainty → Tax. Do not let A09 “pick a rate that posts.”</p>
+<p><strong>Responsible party.</strong> Tax on position. AP on capture. A09 recommends only.</p>
+<p><strong>Escalation.</strong> Material amount or new jurisdiction → Tax before post. Filing positions are never an agent action.</p>
+<p><strong>Potential agent.</strong> A02, A04.</p>
+<p><strong>Automation potential.</strong> Deterministic matrix. Assist on residual. None for filing or for overriding the matrix.</p>
+<p><strong>Risk level.</strong> High.</p>
+<hr>
+<h2 id="e14-approval-missing">E14 — Approval missing</h2>
+<p><strong>Definition.</strong> Required approval has not been recorded in the system of record.</p>
+<p><strong>Probable root cause.</strong> Email approval not transcribed; approver left; workflow never started; non-PO path skipped; agent prepared a packet that nobody submitted.</p>
+<p><strong>Required data.</strong> DOA table, document amount (in approval currency), account assignment, current approver, evidence of any off-system approval.</p>
+<p><strong>Suggested resolution.</strong> Start or resume the formal workflow. Off-system approvals are re-entered as evidence, not treated as sufficient on their own unless policy explicitly allows and A16 stores the artefact.</p>
+<p><strong>Responsible party.</strong> Approver. AP monitors the clock. A10 prepares the packet only.</p>
+<p><strong>Escalation.</strong> SLA breach → approver’s delegate, then their manager. Pattern of email-only approvals → control finding.</p>
+<p><strong>Potential agent.</strong> A07 (prepare), A04 (ageing).</p>
+<p><strong>Automation potential.</strong> Bounded execute for reminders. None for the approval itself.</p>
+<p><strong>Risk level.</strong> High.</p>
+<hr>
+<h2 id="e15-doa-issue">E15 — DOA issue</h2>
+<p><strong>Definition.</strong> An approval exists but is invalid: approver lacks limit, is the requestor, is the vendor contact, is terminated, or the split was engineered to stay under a limit.</p>
+<p><strong>Probable root cause.</strong> Stale DOA table; self-approval; invoice splitting; acting-up not updated; agent routed to the last person who approved a similar bill.</p>
+<p><strong>Required data.</strong> Current DOA, HR status, requestor identity, related invoices in the split window, SoD matrix.</p>
+<p><strong>Suggested resolution.</strong> Re-route to a valid approver. Splits that appear designed to avoid DOA → Controls. Do not “find someone who will click.”</p>
+<p><strong>Responsible party.</strong> AP supervisor + Controls. DOA table owner (usually Finance) for table errors.</p>
+<p><strong>Escalation.</strong> Self-approval or split pattern → IA. Terminated approver still active in workflow → access-termination incident.</p>
+<p><strong>Potential agent.</strong> A07 (detect and re-route recommendation), A16 (dispatch / log).</p>
+<p><strong>Automation potential.</strong> Deterministic checks on limits, HR status, self-approval. None for granting a limit.</p>
+<p><strong>Risk level.</strong> High.</p>
+<hr>
+<h2 id="e16-coding-missing">E16 — Coding missing</h2>
+<p><strong>Definition.</strong> Required GL / account assignment / tax code / project / intercompany fields are absent.</p>
+<p><strong>Probable root cause.</strong> Non-PO invoice; incomplete PO account assignment; new spend type; clerk waiting on the buyer.</p>
+<p><strong>Required data.</strong> Coding policy, historical postings for the supplier/entity (as <em>suggestion only</em>), PO account assignment, requestor.</p>
+<p><strong>Suggested resolution.</strong> A08 proposes from policy and PO first, history second. Human accepts. Do not execute coding on a new supplier or new GL without confirmation.</p>
+<p><strong>Responsible party.</strong> Requestor / buyer for non-PO. AP for completeness. Controller for policy.</p>
+<p><strong>Escalation.</strong> No policy for this spend → Controller, not a creative clerk or model.</p>
+<p><strong>Potential agent.</strong> A02, A04.</p>
+<p><strong>Automation potential.</strong> Assist. Bounded execute only on a <em>locked</em> policy (signed canvas).</p>
+<p><strong>Risk level.</strong> Medium.</p>
+<hr>
+<h2 id="e17-invalid-cost-centre">E17 — Invalid cost centre</h2>
+<p><strong>Definition.</strong> Cost centre (or equivalent: profit centre, internal order, project WBS) is present but closed, wrong entity, or not allowed for this account / user.</p>
+<p><strong>Probable root cause.</strong> Stale default on a vendor or PO; reorganisation; copied coding.</p>
+<p><strong>Required data.</strong> CO master, entity mapping, allowed combinations, requestor’s org.</p>
+<p><strong>Suggested resolution.</strong> Replace with a valid combination confirmed by the budget owner. A15 if the master itself is wrong.</p>
+<p><strong>Responsible party.</strong> Budget owner. AP does not substitute a “parking” cost centre as policy unless one is formally designated.</p>
+<p><strong>Escalation.</strong> Reorg orphans → Finance operations / CO master owner.</p>
+<p><strong>Potential agent.</strong> A02, A08.</p>
+<p><strong>Automation potential.</strong> Deterministic validity. Assist on replacement.</p>
+<p><strong>Risk level.</strong> Medium.</p>
+<hr>
+<h2 id="e18-invoice-quality">E18 — Invoice quality</h2>
+<p><strong>Definition.</strong> The document is not processable as a legal or operational invoice: missing legal fields, unreadable pages, statement sent as invoice, missing lines, wrong currency symbol, etc.</p>
+<p><strong>Probable root cause.</strong> Photo of a screen; supplier template failure; statement/reminder mis-filed (see A02); multi-invoice PDF.</p>
+<p><strong>Required data.</strong> Image, classification (A02), required-field checklist for the entity’s jurisdiction (local list — not invented here as legal advice).</p>
+<p><strong>Suggested resolution.</strong> Reject or query with a specific defect list. Do not key from a statement and call it an invoice.</p>
+<p><strong>Responsible party.</strong> Supplier to reissue. A11 sends the defect list. AP does not “make it good enough.”</p>
+<p><strong>Escalation.</strong> Repeat quality failures → Procurement / supplier performance. Suspected constructed document → Controls.</p>
+<p><strong>Potential agent.</strong> A01, A08 (quality flags and supplier defect list).</p>
+<p><strong>Automation potential.</strong> Deterministic completeness checks. Bounded execute for a reject/query template.</p>
+<p><strong>Risk level.</strong> Low–Medium (High if someone keys a payment from a statement).</p>
+<hr>
+<h2 id="e19-ocr-extraction-issue">E19 — OCR / extraction issue</h2>
+<p><strong>Definition.</strong> Capture failed or is below the confirmation floor: wrong header fields, missed lines, split amounts, header/line disagreement.</p>
+<p><strong>Probable root cause.</strong> Poor scan; unusual layout; multi-page tables; model hallucination of a PO or tax number that looks plausible.</p>
+<p><strong>Required data.</strong> Image, raw extraction, confidence by field, schema, prior confirmed invoice from same supplier (as a check, not a copy-forward of amounts).</p>
+<p><strong>Suggested resolution.</strong> Human confirmation on failed fields. Never silently fill a PO number, bank IBAN, or tax ID from a model guess. Prefer re-scan over creative extraction.</p>
+<p><strong>Responsible party.</strong> AP clerk for confirmation. AI product owner for recurring layout failures.</p>
+<p><strong>Escalation.</strong> Hallucinated identity or bank fields → treat as a control event, not a quality nit.</p>
+<p><strong>Potential agent.</strong> A01, A04, A16 (log the hallucination).</p>
+<p><strong>Automation potential.</strong> Assist (prepare fields). Deterministic schema validation. Execute only on fields that passed confirmation policy.</p>
+<p><strong>Risk level.</strong> Medium (High for identity/bank/tax fields).</p>
+<p><strong>Measure.</strong> Extraction accuracy by field class; confirmation rate; hallucination incidents.</p>
+<hr>
+<h2 id="e20-master-data-issue">E20 — Master-data issue</h2>
+<p><strong>Definition.</strong> Vendor, bank, tax, or org master is missing, duplicate, stale, or internally inconsistent, and that defect is blocking a correct post.</p>
+<p><strong>Probable root cause.</strong> Acquisition (two ERPs, two vendor numbers); never-cleaned duplicates; unmaintained withholding flags.</p>
+<p><strong>Required data.</strong> Master records in all in-scope systems, evidence of the commercial relationship, change history.</p>
+<p><strong>Suggested resolution.</strong> A15 recommends a change pack. Humans post. Dual control on bank and tax fields. Do not work around with a “one-time vendor” unless that is a written policy.</p>
+<p><strong>Responsible party.</strong> Master-data steward. AP raises the defect. Procurement/Tax/Treasury as field owners.</p>
+<p><strong>Escalation.</strong> Duplicate vendors with different bank details → E21 + Controls.</p>
+<p><strong>Potential agent.</strong> A08, A02.</p>
+<p><strong>Automation potential.</strong> Assist. None for posting master-data.</p>
+<p><strong>Risk level.</strong> High.</p>
+<hr>
+<h2 id="e21-banking-change-concern">E21 — Banking-change concern</h2>
+<p><strong>Definition.</strong> The invoice, an email, or a portal message asks for, or implies, a change to payment instructions, or the extracted bank details disagree with the master.</p>
+<p><strong>Probable root cause.</strong> Legitimate change; supplier error; invoice template leftover; social engineering / invoice fraud attempt.</p>
+<p><strong>Required data.</strong> Current master bank details, requested details, channel of the request, callback policy, recent similar attempts.</p>
+<p><strong>Suggested resolution.</strong> Stop payment-path processing. Follow the organisation’s out-of-band verification. Dual human control to change the master. A08 drafts the request only. A10 / A12 flag. A16 logs. This toolkit does not claim fraud detection — it requires the change to be treated as high-risk until verified.</p>
+<p><strong>Responsible party.</strong> Treasury / master-data + AP supervisor. Never the same person who received the email.</p>
+<p><strong>Escalation.</strong> Immediate to the bank-change procedure. If payment is in a current proposal, Treasury pulls it (human).</p>
+<p><strong>Potential agent.</strong> A08 (prepare a change pack <em>after</em> verification), A10 (flag), A12 (hold), A16.</p>
+<p><strong>Automation potential.</strong> Deterministic flag on disagreement. None for changing or using the new details.</p>
+<p><strong>Risk level.</strong> High.</p>
+<p><strong>Control.</strong> See payment-authorisation and bank-change hard controls. Agent never updates bank details.</p>
+<hr>
+<h2 id="e22-credit-note-required">E22 — Credit note required</h2>
+<p><strong>Definition.</strong> The payable should be reduced or cancelled by a credit note that has not been received or has not been linked.</p>
+<p><strong>Probable root cause.</strong> Returns; price correction; duplicate billing acknowledged by supplier; over-receipt correction.</p>
+<p><strong>Required data.</strong> Original invoice, correspondence, returns/GR reversal, statement.</p>
+<p><strong>Suggested resolution.</strong> Request and link the credit. Do not net informally on a later invoice unless policy allows documented netting. Do not pay the original in full while “waiting for the credit” without a hold (E24).</p>
+<p><strong>Responsible party.</strong> AP + buyer. Supplier issues the credit.</p>
+<p><strong>Escalation.</strong> Promised credit not received by SLA → A11 + hold.</p>
+<p><strong>Potential agent.</strong> A04, A08, A11.</p>
+<p><strong>Automation potential.</strong> Assist + bounded execute for the request template.</p>
+<p><strong>Risk level.</strong> Medium (High if the original is paid with no hold).</p>
+<hr>
+<h2 id="e23-statement-discrepancy">E23 — Statement discrepancy</h2>
+<p><strong>Definition.</strong> Supplier statement does not agree with open items: missing invoices, missing credits, unrecorded payments, or timing differences.</p>
+<p><strong>Probable root cause.</strong> Intake failure; unapplied payment; supplier books a duplicate AP does not have; period cut-off.</p>
+<p><strong>Required data.</strong> Statement, open items, payment history, parked documents, both ERPs if the supplier spans them.</p>
+<p><strong>Suggested resolution.</strong> Reconcile line by line. A13 proposes matches and residuals. Humans accept. Missing invoices go to intake (A01), not to a manually keyed payable from the statement.</p>
+<p><strong>Responsible party.</strong> AP reconciler. Treasury on unapplied payments.</p>
+<p><strong>Escalation.</strong> Residual above threshold → AP supervisor. Persistent unrecorded invoices → channel/intake review.</p>
+<p><strong>Potential agent.</strong> A11, A04.</p>
+<p><strong>Automation potential.</strong> Deterministic matching of exact open items. Assist on residuals.</p>
+<p><strong>Risk level.</strong> Medium.</p>
+<hr>
+<h2 id="e24-payment-hold">E24 — Payment hold</h2>
+<p><strong>Definition.</strong> The item must not enter, or must be removed from, a payment proposal for a stated reason (dispute, missing credit, audit, bank-change, legal, cash).</p>
+<p><strong>Probable root cause.</strong> Any high-risk exception; Treasury cash stop; legal hold.</p>
+<p><strong>Required data.</strong> Hold reason code, owner, expiry or review date, linked exception codes, proposal ID if already selected.</p>
+<p><strong>Suggested resolution.</strong> Apply hold in the payment system of record. A12 may <em>flag</em> “should not be proposed.” A12 may not lift a hold. Lifting is human.</p>
+<p><strong>Responsible party.</strong> Hold owner (AP supervisor, Treasury, Legal — as coded). Payments operator executes the hold.</p>
+<p><strong>Escalation.</strong> Hold expired without review → A16 alert to owner + AP Director.</p>
+<p><strong>Potential agent.</strong> A12 (flag only), A04, A16.</p>
+<p><strong>Automation potential.</strong> Deterministic flag from linked high-risk codes. None for release.</p>
+<p><strong>Risk level.</strong> High.</p>
+<hr>
+<h2 id="e25-disputed-invoice">E25 — Disputed invoice</h2>
+<p><strong>Definition.</strong> The organisation contests that the amount, supply, or terms are owed, and the item is not a routine mismatch still in query.</p>
+<p><strong>Probable root cause.</strong> Quality/service dispute; contract interpretation; unauthorised purchase; supplier claims delivery that operations deny.</p>
+<p><strong>Required data.</strong> Contract, correspondence, receiving records, prior credits, legal flags.</p>
+<p><strong>Suggested resolution.</strong> Park, hold (E24), assign a dispute owner. Agent drafts a factual pack. Humans decide commercial settlement. Do not “split the difference” in the ERP without authority.</p>
+<p><strong>Responsible party.</strong> Buyer / commercial owner. AP administers the document. Legal if named.</p>
+<p><strong>Escalation.</strong> Age + value thresholds → commercial lead, then Legal.</p>
+<p><strong>Potential agent.</strong> A04, A08 (prepare), A16.</p>
+<p><strong>Automation potential.</strong> Assist. None for settlement.</p>
+<p><strong>Risk level.</strong> Medium (High when a payment run is close).</p>
+<hr>
+<h2 id="e26-aged-unresolved-item">E26 — Aged unresolved item</h2>
+<p><strong>Definition.</strong> An exception (any other code) has exceeded the ageing threshold and lacks a current owner action.</p>
+<p><strong>Probable root cause.</strong> Chase fatigue; leavers; unclear owner; parked-and-forgotten; waiting on a supplier who has been paid anyway.</p>
+<p><strong>Required data.</strong> Age, last action, owner, linked codes, payment status, value.</p>
+<p><strong>Suggested resolution.</strong> Re-assign, escalate, or write a close plan (credit, write-off policy, return). A04 surfaces. A16 escalates. A14 may report ageing. Do not silently post to clear ageing.</p>
+<p><strong>Responsible party.</strong> AP supervisor for the queue. Original exception owner still R until reassigned.</p>
+<p><strong>Escalation.</strong> Threshold 1 → owner’s manager. Threshold 2 → AP Director. Items in a payment proposal → Treasury same day.</p>
+<p><strong>Potential agent.</strong> A04, A16.</p>
+<p><strong>Automation potential.</strong> Deterministic ageing reports. Bounded execute for escalation notices. None for close.</p>
+<p><strong>Risk level.</strong> Medium.</p>
+<p><strong>Measure.</strong> Ageing reduction vs customer baseline; % aged items with a current owner and next action date.</p>
+<hr>
+<h2 id="e27-system-interface-error">E27 — System / interface error</h2>
+<p><strong>Definition.</strong> The process cannot proceed because a system, interface, or environment failed: intake drop, ERP dump, workflow hang, model-provider outage, clock-skewed posting periods.</p>
+<p><strong>Probable root cause.</strong> Integration defect; period close; credential expiry; vendor outage; change deployed without recertification.</p>
+<p><strong>Required data.</strong> Error payload, correlation IDs, last successful job, change calendar, fallback state.</p>
+<p><strong>Suggested resolution.</strong> Fallback in the canvas: manual queue, delayed run, or halt. Do not “retry payment-adjacent jobs” as a reflex. Treat model outage as degrade-to-human, not as skip-the-control.</p>
+<p><strong>Responsible party.</strong> AI product owner / IT for the system. AP for the business queue. A16 for the incident record.</p>
+<p><strong>Escalation.</strong> Sev per governance framework. Payment-day outages → AP Director + Treasury immediately.</p>
+<p><strong>Potential agent.</strong> A16, A04 (requeue).</p>
+<p><strong>Automation potential.</strong> Deterministic health checks. Bounded execute for requeue of <em>non-payment</em> jobs. None for unattended replay of payment-adjacent jobs.</p>
+<p><strong>Risk level.</strong> Medium (High on payment days or if retries can duplicate).</p>
+<hr>
+<h2 id="cross-cutting-rules">Cross-cutting rules</h2>
+<ol>
+<li><strong>One primary code per ticket</strong>, plus secondary codes. A missing receipt that is also aged is E07 primary, E26 secondary. A bank-detail email on an invoice is E21 primary regardless of match status.</li>
+<li><strong>Do not invent a code for “AI unsure.”</strong> That is a confidence failure on an existing code, or E19, or E27.</li>
+<li><strong>Do not use E24 as a junk drawer.</strong> Holds need a reason that is another code or a Treasury/Legal code in the local extract.</li>
+<li><strong>Cross-ERP groups</strong> (Northline-style SAP + NetSuite) run A10 and A02/A08 across both systems or they will pay the same invoice twice, once in each ledger.</li>
+<li><strong>Closing an exception is not paying.</strong> A12 never takes an exception close as authority to include an item in a run.</li>
+</ol>
+<hr>
+<h2 id="northline-local-extract-illustrative">Northline local extract (illustrative)</h2>
+<p>Fictional group, 18,000 invoices/month, SAP + NetSuite. Illustrative 90-day mix for the SAP PO slice only — not a benchmark.</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Illustrative mix</th>
+<th>Local owner</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E07</td>
+<td>22%</td>
+<td>Plant receivers</td>
+<td>A05 first agent after match</td>
+</tr>
+<tr>
+<td>E05</td>
+<td>14%</td>
+<td>Buyers</td>
+<td>Unofficial variance spreadsheet to be retired</td>
+</tr>
+<tr>
+<td>E04</td>
+<td>9%</td>
+<td>Procurement</td>
+<td>Change-order discipline</td>
+</tr>
+<tr>
+<td>E16</td>
+<td>8%</td>
+<td>Requestors (non-PO leaks into PO queue)</td>
+<td></td>
+</tr>
+<tr>
+<td>E09+E10</td>
+<td>7%</td>
+<td>AP supervisor</td>
+<td>Must run across SAP and NetSuite</td>
+</tr>
+<tr>
+<td>E19</td>
+<td>6%</td>
+<td>AP + AI owner</td>
+<td>Multi-page scans</td>
+</tr>
+<tr>
+<td>E14</td>
+<td>5%</td>
+<td>Approvers</td>
+<td>NetSuite email-approval gap is a <em>different</em> slice</td>
+</tr>
+<tr>
+<td>Other</td>
+<td>29%</td>
+<td>Mixed</td>
+<td>Including E12 between manufacturing and acquired entities</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="related-documents">Related documents</h2>
+<ul>
+<li><code>ER_METHODOLOGY.md</code> — when to localise this list</li>
+<li><code>TEMPLATES.md</code> — taxonomy extract form</li>
+<li><code>../Controls/AGENT_CONTROL_MATRIX.md</code></li>
+<li><code>../KPI_and_Measurement/KPI_FRAMEWORK.md</code> — exception resolution rate, repeat rate, ageing</li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

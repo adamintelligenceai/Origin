@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A15 Root Cause · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional · Agent Library</p>
+  </header>
+  <h1 id="a15-root-cause-agent">A15 — Root Cause Agent</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent ID</td>
+<td>A15</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Root Cause Agent</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Invoice-to-pay / AP</td>
+</tr>
+<tr>
+<td>Forrester (Mar 2025) map</td>
+<td>Evidence Room extension (process quality)</td>
+</tr>
+<tr>
+<td>Starting autonomy</td>
+<td>Level 0</td>
+</tr>
+<tr>
+<td>Human owner (role)</td>
+<td>AP Manager / Process Excellence</td>
+</tr>
+<tr>
+<td>Backup owner (role)</td>
+<td>AP Exception Lead</td>
+</tr>
+<tr>
+<td>Dispatcher</td>
+<td>A16</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>Evidence Room AP Agent OS · Pro</td>
+</tr>
+<tr>
+<td>Charter version</td>
+<td>1.0 · September 2026</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-purpose">1. Purpose</h2>
+<p>Cluster closed exceptions by taxonomy, vendor, PO type, plant, and channel, and propose process fixes — without posting journals, rewriting policy, or treating a cluster as proven cause until a human agrees.</p>
+<hr>
+<h2 id="2-job-description">2. Job description</h2>
+<p>A15 is the after-action reviewer. A04 keeps the pile moving. A15 asks why the pile exists. It reads <em>closed</em> objects (and only those) after a minimum history window so it does not invent stories from a quiet week.</p>
+<p><strong>In population:</strong> closed exceptions with a primary reason code; A06 defect codes; A01 not-invoice and misroute incidents; A10 confirmed duplicates (process dups, not fraud essays).<br>
+<strong>Out of population:</strong> open items (still A04), individual invoice matching, payment release, and HR performance management.</p>
+<p><strong>Done at Level 0:</strong> a monthly cluster pack Priya can recognise as true on a sample of 25 underlying objects. <strong>Done at Level 1:</strong> recommended causes and <em>owners of fixes</em> (procurement, master data, supplier comms) — still proposals.</p>
+<p>Clusters without a quarter of coded exceptions are fiction. That is why this agent starts at Observe and why Wave 6 in the overview is last.</p>
+<hr>
+<h2 id="3-inputs-required-data">3. Inputs / required data</h2>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Required?</th>
+<th>Source</th>
+<th>If missing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Closed exception extract (≥ window)</td>
+<td>Yes</td>
+<td>A04</td>
+<td>Do not run</td>
+</tr>
+<tr>
+<td>Taxonomy version history</td>
+<td>Yes</td>
+<td>A16</td>
+<td>Codes drift = stop</td>
+</tr>
+<tr>
+<td>Vendor / PO type / plant / channel dimensions</td>
+<td>Yes</td>
+<td>Objects</td>
+<td>Cluster only what exists</td>
+</tr>
+<tr>
+<td>A06 / A01 / A10 closed feeds</td>
+<td>Optional</td>
+<td>Those agents</td>
+<td>Section omitted</td>
+</tr>
+<tr>
+<td>Minimum-n rules</td>
+<td>Yes</td>
+<td>Policy (illustrative: 30 objects per cluster)</td>
+<td>Suppress small clusters</td>
+</tr>
+<tr>
+<td>Prior packs (to see persistence)</td>
+<td>Optional</td>
+<td>A15 store</td>
+<td>First pack labelled immature</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-tools-systems">4. Tools / systems</h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>SAP S/4HANA</th>
+<th>D365 F&amp;O / BC</th>
+<th>Oracle Fusion</th>
+<th>NetSuite</th>
+<th>Workday</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dimensions</td>
+<td>Company, plant, PO type</td>
+<td>Same</td>
+<td>Same</td>
+<td>Subsidiary, location</td>
+<td>Company</td>
+<td></td>
+</tr>
+<tr>
+<td>Analysis</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>A15 store</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read:</strong> closed objects, dimensions.<br>
+<strong>Write at Level 0:</strong> pack.<br>
+<strong>Write at Level 1:</strong> <code>cause_hypothesis</code> objects.<br>
+<strong>Write-never:</strong> ERP, policy tables (may <em>request</em> a change), payment, vendor block, buyer scorecards published as control packs.</p>
+<hr>
+<h2 id="5-responsibilities">5. Responsibilities</h2>
+<ol>
+<li>Enforce the window (Evidence Room framework: do not issue a cause pack until 60 operating days of coded exceptions, or the first quarter — whichever the register says).</li>
+<li>Cluster by primary code × one dimension at a time (vendor, then PO type, then plant, then channel). Multi-dimension only if n still clears minimum-n.</li>
+<li>Rank by count, $, and persistence (appeared in prior packs).</li>
+<li>Propose a <em>hypothesis</em> and a <em>test</em> (“if we fix receipt-required flag on service POs, <code>PO-RCPT-FLG</code> should fall — measure in 30 days”).</li>
+<li>Sample 25 objects per top cluster for the human to confirm “this really is the same defect”.</li>
+<li>Hand accepted fixes to the owning agent/role (A06 checklist, A01 channel, A08 template). A15 does not implement.</li>
+<li>At Level 0, stop at the pack. No tasks to buyers.</li>
+</ol>
+<hr>
+<h2 id="6-explicit-exclusions">6. Explicit exclusions</h2>
+<ul>
+<li>Never release a payment, bank file, or positive-pay file.</li>
+<li>Never conclude fraud or name individual employees in the control pack.</li>
+<li>Never grant itself a higher autonomy level.</li>
+<li>Never invent a tolerance, tax position, or write-off.</li>
+<li>Never use real client/employer data in shipped examples or prompts.</li>
+<li>Never post a journal “to correct root cause”.</li>
+<li>Never change the taxonomy to make clusters prettier.</li>
+<li>Never publish a buyer shame board.</li>
+<li>Never treat correlation as implemented cause.</li>
+<li>Never run on open exceptions to “predict” a person will fail.</li>
+</ul>
+<hr>
+<h2 id="7-human-owner">7. Human owner</h2>
+<p><strong>AP Manager</strong> (or Process Excellence if that role exists) owns which hypotheses become projects. Backup: <strong>AP Exception Lead</strong>.</p>
+<p>Greta (A06) and Owen (A05) own their fixes when accepted.</p>
+<hr>
+<h2 id="8-approval-requirements-by-autonomy-level">8. Approval requirements by autonomy level</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Agent may</th>
+<th>Human must approve</th>
+<th>Proof artefact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Observe</td>
+<td>Cluster pack + samples</td>
+<td>Priya signs “seen”; samples scored</td>
+<td><code>A15_cluster_pack</code></td>
+</tr>
+<tr>
+<td>1 Recommend</td>
+<td>Hypotheses + fix owners</td>
+<td>Accept / reject each</td>
+<td><code>cause_decision</code></td>
+</tr>
+<tr>
+<td>2 Prepare</td>
+<td>Draft project briefs / A06 checklist edits</td>
+<td>Human publishes</td>
+<td>Change request + user</td>
+</tr>
+<tr>
+<td>3 Execute within guardrails</td>
+<td>Auto-open briefs for recurring clusters inside envelope</td>
+<td>Sample</td>
+<td>Envelope</td>
+</tr>
+<tr>
+<td>4 Managed autonomy</td>
+<td>Named defect codes</td>
+<td>Recertify</td>
+<td>Register + IA ack</td>
+</tr>
+</tbody>
+</table>
+<p>Policy edits remain human.</p>
+<hr>
+<h2 id="9-escalation-criteria">9. Escalation criteria</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Escalate to</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cluster $ ≥ materiality and persistent 3 packs</td>
+<td>AP Manager + process owner</td>
+<td>process</td>
+</tr>
+<tr>
+<td>Taxonomy drift detected</td>
+<td>A16</td>
+<td><code>CTRL-BRK</code></td>
+</tr>
+<tr>
+<td>Confirmed duplicate cluster growing</td>
+<td>A10 + A01</td>
+<td>risk</td>
+</tr>
+<tr>
+<td>Sample true-rate below band</td>
+<td>Do not escalate — <em>demote use</em> of the pack</td>
+<td>quality</td>
+</tr>
+<tr>
+<td>Request to name employees</td>
+<td>Refuse</td>
+<td>policy</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not escalate:</strong> a one-week spike under minimum-n. Do not escalate every <code>PRC-VAR</code> as “procurement is broken”.</p>
+<hr>
+<h2 id="10-output-standard">10. Output standard</h2>
+<h3 id="101-a15_cluster_pack">10.1 <code>A15_cluster_pack</code></h3>
+<pre><code>window
+taxonomy_version
+clusters[].key
+clusters[].n
+clusters[].amount
+clusters[].persistence
+clusters[].sample_ids[]
+clusters[].hypothesis      # Level 1+
+clusters[].test
+immature                   # bool if window short
+</code></pre>
+<h3 id="102-sample-sheet">10.2 Sample sheet</h3>
+<p>25 object IDs, human true/false, comments.</p>
+<p><strong>Done at Level 0:</strong> pack issued and sample scored. <strong>Done at Level 1:</strong> decisions on hypotheses.</p>
+<hr>
+<h2 id="11-control-requirements">11. Control requirements</h2>
+<ol>
+<li><strong>Minimum-n and window</strong> enforced.</li>
+<li><strong>No employee league tables</strong> in the control pack.</li>
+<li><strong>Taxonomy lock</strong> shared with A04/A16.</li>
+<li><strong>Sample</strong> every top cluster.</li>
+<li><strong>Fixes through change control</strong>, not silent prompt edits.</li>
+<li><strong>Immature flag</strong> if someone insists on an early pack.</li>
+</ol>
+<hr>
+<h2 id="12-audit-evidence-to-retain">12. Audit evidence to retain</h2>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Pull from</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Packs + samples + decisions</td>
+<td>A15 store</td>
+<td>Local financial-record policy</td>
+</tr>
+<tr>
+<td>Resulting change requests</td>
+<td>Change control</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Window/minimum-n policy</td>
+<td>Policy</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="13-kpis">13. KPIs</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>KPI</th>
+<th>Formula</th>
+<th>Source</th>
+<th>Cadence</th>
+<th>Owner</th>
+<th>Promotion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activity</td>
+<td>Window compliance</td>
+<td>Packs issued only when window met (Y/N)</td>
+<td>Register</td>
+<td>Monthly</td>
+<td>AP Manager</td>
+<td></td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Sample true-rate</td>
+<td>True / sampled</td>
+<td>Sample</td>
+<td>Monthly</td>
+<td>AP Manager</td>
+<td>0→1</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Hypothesis accept rate</td>
+<td>Accepted / offered (L1+)</td>
+<td>Decision</td>
+<td>Quarterly</td>
+<td>AP Manager</td>
+<td>Not vanity — pair with test outcomes</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Test outcome hit</td>
+<td>Tests that moved the cluster / tests due</td>
+<td>Follow-up</td>
+<td>Quarterly</td>
+<td>Process</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>$ in persistent top-5 clusters</td>
+<td>Sum</td>
+<td>Pack</td>
+<td>Monthly</td>
+<td>AP Manager</td>
+<td>Local</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Packs on open items</td>
+<td>Count (0)</td>
+<td>Audit</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Employee-named packs</td>
+<td>Count (0)</td>
+<td>Sample</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Taxonomy edits by A15</td>
+<td>Count (0)</td>
+<td>A16</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td>Auto Level 0</td>
+</tr>
+</tbody>
+</table>
+<p>Ardent’s 59% lower exceptions is context for <em>whether</em> a cluster matters to leadership — not a promised reduction from A15.</p>
+<hr>
+<h2 id="14-performance-history-fields">14. Performance history fields</h2>
+<p>Common fields, plus:</p>
+<pre><code>window_days
+clusters_emitted
+sample_true_rate
+hypotheses_accepted
+tests_due
+tests_hit
+immature_packs
+</code></pre>
+<hr>
+<h2 id="15-starting-autonomy-level">15. Starting autonomy level</h2>
+<p><strong>Level 0 — Observe.</strong> Do not start at Level 1 in Wave 1. Earn Level 1 after two mature packs with sample true-rate inside band.</p>
+<hr>
+<h2 id="16-failure-handling">16. Failure handling</h2>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Detect</th>
+<th>Degrade</th>
+<th>Notify</th>
+<th>Resume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Window too short</td>
+<td>Count</td>
+<td><code>immature</code> or refuse</td>
+<td>Priya</td>
+<td>Wait</td>
+</tr>
+<tr>
+<td>Taxonomy version mix</td>
+<td>Versions</td>
+<td>Stop</td>
+<td>A16</td>
+<td>Rebuild</td>
+</tr>
+<tr>
+<td>n &lt; minimum</td>
+<td>Rule</td>
+<td>Suppress cluster</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Model writes “buyer X is the problem”</td>
+<td>Guardrail</td>
+<td>Strip</td>
+<td>Controls</td>
+<td>Role-level only</td>
+</tr>
+<tr>
+<td>Fix implemented without test</td>
+<td>Review</td>
+<td>Flag in next pack</td>
+<td>Process</td>
+<td>Add test</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="17-cost-monitoring">17. Cost monitoring</h2>
+<table>
+<thead>
+<tr>
+<th>Cost object</th>
+<th>Measure</th>
+<th>Who acts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cluster jobs</td>
+<td>Compute</td>
+<td>Systems</td>
+</tr>
+<tr>
+<td>Sample review minutes</td>
+<td>Time</td>
+<td>AP Manager</td>
+</tr>
+<tr>
+<td>Projects opened on false clusters</td>
+<td>Process time</td>
+<td>Process Excellence</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="18-worked-example-northline-industrial-group">18. Worked example — Northline Industrial Group</h2>
+<p>Northline (fictional), 4,200 employees, ~18,000 invoices/month, SAP + NetSuite NPC. After 70 operating days of A04 codes, Priya asks for the first mature pack.</p>
+<p><strong>Level 0 pack.</strong> Top cluster: <code>GR-MISS</code> × plant NL10-P01, n=420, $2.1m invoiced-not-received in the window (illustrative local counts). Sample 25: 18 true <code>received_not_posted</code> (QC hold), 5 true not-received, 2 miscodes that were <code>PO-RCPT-FLG</code>. Persistence: second pack in a row. Hypothesis is <em>not</em> printed at Level 0; the sample sheet is enough for Owen to see QC posting delay.</p>
+<p><strong>Level 1 later.</strong> Hypothesis: “SES-required service lines are flagged receipt-required — fix A06 checklist + master data; test = <code>PO-RCPT-FLG</code> and false GR chases down in 30 days.” Greta accepts the A06 part. A15 does not change EKPO.</p>
+<p><strong>Illegal.</strong> Posting a $2.1m accrual from the cluster pack (that is A13 + Elena). Publishing “Jordan Hale causes price variance”. Running the pack in week two of go-live.</p>
+<p><strong>Control.</strong> <code>immature=false</code>. Taxonomy <code>2026-09</code>. Sample sheet signed. No journal IDs originated by A15.</p>
+<hr>
+<h2 id="19-cluster-method-implementation">19. Cluster method (implementation)</h2>
+<p>Use this order. Do not jump to a 4-way cube.</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Dimension</th>
+<th>Keep cluster if</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>primary_reason_code</code> only</td>
+<td>n ≥ minimum-n</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Code × plant</td>
+<td>n ≥ minimum-n</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Code × PO type / item category</td>
+<td>n ≥ minimum-n</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Code × vendor</td>
+<td>n ≥ minimum-n <strong>and</strong> vendor is not a proxy for one plant</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Code × channel (A01)</td>
+<td>n ≥ minimum-n</td>
+</tr>
+</tbody>
+</table>
+<p>Persistence score (illustrative): 1 if the same key appeared last pack; 2 if last two. Rank = <code>amount × (1 + 0.5 × persistence)</code> — a local ranking aid, not a scientific claim.</p>
+<h3 id="hypothesis-template-level-1">Hypothesis template (Level 1+)</h3>
+<pre><code>Because [sample-confirmed mechanism]
+on [population],
+if [owner] does [fix]
+then [metric] should [direction]
+within [days],
+measured by [A14 kpi_id].
+</code></pre>
+<p>Reject hypotheses that name a person, invent a %, or require a journal.</p>
+<h3 id="northline-second-cluster-illustrative">Northline second cluster (illustrative)</h3>
+<p><code>PRC-VAR</code> × vendor Helion, n=55, mostly fastener index increases billed before the PO info-record update. Sample 25: 22 true commercial, 3 A01 UoM errors miscoded. A15 sends the 3 back to A01 quality — it does not tell Greta to “negotiate harder” as a control finding. Commercial price is a buyer topic outside this pack’s <em>structural</em> list.</p>
+<hr>
+<h2 id="charter-conformance">Charter conformance</h2>
+<ul>
+<li>[x] Purpose is one sentence and names a boundary</li>
+<li>[x] Job description names population in / out</li>
+<li>[x] Inputs table has required/optional and “if missing”</li>
+<li>[x] Tools table covers SAP, D365, Oracle, NetSuite, Workday, Other, and read/write</li>
+<li>[x] Responsibilities are verbs at the starting level</li>
+<li>[x] Exclusions include payment release, fraud conclusion, self-promotion</li>
+<li>[x] Human owner is a role with a backup</li>
+<li>[x] Levels 0–4 approval table is present and not softer than the responsibility model</li>
+<li>[x] Escalation has hard triggers and a do-not-escalate line</li>
+<li>[x] Outputs are named artefacts with fields</li>
+<li>[x] Controls include SOD, completeness, change control, untrusted input</li>
+<li>[x] Audit evidence is pullable</li>
+<li>[x] KPIs cover activity / operational / financial / risk and name a source</li>
+<li>[x] Performance history includes the common fields</li>
+<li>[x] Starting autonomy is 0 or 1</li>
+<li>[x] Failure handling has detect / degrade / notify / resume</li>
+<li>[x] Cost monitoring is present</li>
+<li>[x] Northline example is fictional and specific</li>
+<li>[x] No guaranteed savings / fraud / compliance / ROI claim</li>
+<li>[x] Statistics cited or labelled illustrative</li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

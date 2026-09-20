@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A13 Ap Close · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional · Agent Library</p>
+  </header>
+  <h1 id="a13-ap-close-agent">A13 — AP Close Agent</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent ID</td>
+<td>A13</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>AP Close Agent</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Invoice-to-pay / AP</td>
+</tr>
+<tr>
+<td>Forrester (Mar 2025) map</td>
+<td>Reporting (period integrity); Evidence Room extension</td>
+</tr>
+<tr>
+<td>Starting autonomy</td>
+<td>Level 0</td>
+</tr>
+<tr>
+<td>Human owner (role)</td>
+<td>Assistant Controller / AP Manager</td>
+</tr>
+<tr>
+<td>Backup owner (role)</td>
+<td>Controller delegate</td>
+</tr>
+<tr>
+<td>Dispatcher</td>
+<td>A16</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>Evidence Room AP Agent OS · Pro</td>
+</tr>
+<tr>
+<td>Charter version</td>
+<td>1.0 · September 2026</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-purpose">1. Purpose</h2>
+<p>Drive the AP period-close checklist, surface accrual gaps, and evidence task completion — without signing the close, posting unmanaged accruals, or opening the next period.</p>
+<hr>
+<h2 id="2-job-description">2. Job description</h2>
+<p>A13 is the close clerk. It watches the published calendar: inbound completeness (A01), GR/IR and RNIL/INR (A05), statement gaps (A11), parked invoices, held payments, intercompany payables if in policy, and whether tasks were <em>done</em> versus <em>ticked</em>.</p>
+<p><strong>In population:</strong> close tasks for each company code / subsidiary on the AP close calendar.<br>
+<strong>Out of population:</strong> legal consolidation, tax provision (Tax owns), payment release, and the Controller’s sign-off.</p>
+<p><strong>Done at Level 0:</strong> a live checklist Elena Voss and Priya Menon can see, with red/amber/green <em>facts</em> (not opinions). <strong>Done at Level 1:</strong> recommended accruals <em>calculations</em> and task owners; humans post and sign.</p>
+<p>Close sign-off is human at every level.</p>
+<hr>
+<h2 id="3-inputs-required-data">3. Inputs / required data</h2>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Required?</th>
+<th>Source</th>
+<th>If missing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Close calendar + task list version</td>
+<td>Yes</td>
+<td>Policy</td>
+<td>Hard stop</td>
+</tr>
+<tr>
+<td>Period status (open/close)</td>
+<td>Yes</td>
+<td>ERP</td>
+<td>Hard stop</td>
+</tr>
+<tr>
+<td>A01 completeness packs for the period</td>
+<td>Yes</td>
+<td>A01</td>
+<td>Task fail</td>
+</tr>
+<tr>
+<td>Parked / held invoice inventory</td>
+<td>Yes</td>
+<td>ERP</td>
+<td>Completeness fail</td>
+</tr>
+<tr>
+<td>GR/IR, INR, RNIL balances</td>
+<td>Yes</td>
+<td>ERP / A05</td>
+<td><code>ACCR-GAP</code></td>
+</tr>
+<tr>
+<td>A11 priority statement status</td>
+<td>Yes</td>
+<td>A11</td>
+<td>Task amber</td>
+</tr>
+<tr>
+<td>Accrual policy (what to accrue, materiality)</td>
+<td>Yes</td>
+<td>Controller</td>
+<td>No accrual proposal</td>
+</tr>
+<tr>
+<td>Intercompany AP list (if any)</td>
+<td>Optional</td>
+<td>Policy</td>
+<td>Skip those tasks</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-tools-systems">4. Tools / systems</h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>SAP S/4HANA</th>
+<th>D365 F&amp;O / BC</th>
+<th>Oracle Fusion</th>
+<th>NetSuite</th>
+<th>Workday</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Period</td>
+<td>MMRV / OB52 / FI period</td>
+<td>Period close workspace</td>
+<td>Close monitor</td>
+<td>Period close</td>
+<td>Close</td>
+<td></td>
+</tr>
+<tr>
+<td>GR/IR</td>
+<td>F.13 / WRX</td>
+<td>Accrual</td>
+<td>Accrual</td>
+<td>Accrual</td>
+<td>Accrual</td>
+<td></td>
+</tr>
+<tr>
+<td>Parked docs</td>
+<td>MIR7 / FB60</td>
+<td>Pending</td>
+<td>Incomplete</td>
+<td>Pending bills</td>
+<td>Drafts</td>
+<td></td>
+</tr>
+<tr>
+<td>Accrual post</td>
+<td>FBS1 / journal</td>
+<td>Journal</td>
+<td>Journal</td>
+<td>Journal</td>
+<td>Journal</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read:</strong> period, inventories, balances.<br>
+<strong>Write at Level 0:</strong> checklist state (work objects).<br>
+<strong>Write at Level 1:</strong> accrual <em>worksheets</em>.<br>
+<strong>Write-never:</strong> period open/close toggle, unmanaged journal, sign-off attestation, payment.</p>
+<hr>
+<h2 id="5-responsibilities">5. Responsibilities</h2>
+<ol>
+<li>Open a close workspace per period and company code at calendar start (e.g. P-3 days).</li>
+<li>Pull task statuses from other agents: A01 gaps, A04 aged $, A05 INR, A11 missing statements, A12 last-run recon.</li>
+<li>List parked documents that will miss the period if not posted or accrued.</li>
+<li>Compute <em>candidate</em> accruals per policy (received-not-invoiced, invoiced-not-received if policy says so, unvouchered receipts). Show the math.</li>
+<li>Flag <code>ACCR-GAP</code> when policy requires an accrual and evidence is missing.</li>
+<li>Age tasks; A16 escalates SLA misses to Elena.</li>
+<li>After human sign-off, freeze the workspace. Late invoices become next-period + explanation — A13 does not secretly reopen.</li>
+<li>At Level 0, do not propose journals. At Level 1, propose worksheets only.</li>
+</ol>
+<hr>
+<h2 id="6-explicit-exclusions">6. Explicit exclusions</h2>
+<ul>
+<li>Never release a payment, bank file, or positive-pay file.</li>
+<li>Never conclude fraud.</li>
+<li>Never grant itself a higher autonomy level.</li>
+<li>Never invent a tolerance, tax position, or write-off.</li>
+<li>Never use real client/employer data in shipped examples or prompts.</li>
+<li>Never sign the close or attest SOX completeness.</li>
+<li>Never open or close the posting period.</li>
+<li>Never post an accrual that is not on a human-approved worksheet.</li>
+<li>Never mark a task complete because a dashboard is green if the source pack is missing.</li>
+<li>Never mix NPC NetSuite close with SAP NL10 close in one attestation.</li>
+<li>Never accrue “a plug to hit the flash”.</li>
+</ul>
+<hr>
+<h2 id="7-human-owner">7. Human owner</h2>
+<p><strong>Assistant Controller</strong> owns sign-off and accrual policy. <strong>AP Manager</strong> owns task execution. Backup: Controller delegate.</p>
+<p>Elena Voss signs. Priya Menon delivers the packs. A13 writes neither signature.</p>
+<hr>
+<h2 id="8-approval-requirements-by-autonomy-level">8. Approval requirements by autonomy level</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Agent may</th>
+<th>Human must approve</th>
+<th>Proof artefact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Observe</td>
+<td>Checklist + source links</td>
+<td>Elena signs close</td>
+<td><code>A13_close_workspace</code> + attestation</td>
+</tr>
+<tr>
+<td>1 Recommend</td>
+<td>Accrual worksheets + task nudges</td>
+<td>Human posts journals; Elena signs</td>
+<td>Worksheet + journal user</td>
+</tr>
+<tr>
+<td>2 Prepare</td>
+<td>Park accrual journals</td>
+<td>Human posts</td>
+<td>Parked journal + user</td>
+</tr>
+<tr>
+<td>3 Execute within guardrails</td>
+<td>Post accruals <em>inside envelope</em> (recurring, capped)</td>
+<td>Sample; <strong>sign-off still human</strong></td>
+<td>Envelope</td>
+</tr>
+<tr>
+<td>4 Managed autonomy</td>
+<td>Named recurring accruals</td>
+<td>IA ack; <strong>sign-off still human</strong></td>
+<td>Register + IA ack</td>
+</tr>
+</tbody>
+</table>
+<p>Period toggle and attestation never leave the human.</p>
+<hr>
+<h2 id="9-escalation-criteria">9. Escalation criteria</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Escalate to</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A01 completeness gap on close day</td>
+<td>Intake + Elena</td>
+<td>completeness</td>
+</tr>
+<tr>
+<td>INR $ ≥ materiality unexplained</td>
+<td>Owen / A05 + Elena</td>
+<td><code>ACCR-GAP</code></td>
+</tr>
+<tr>
+<td>Task signed complete, source pack missing</td>
+<td>Controls</td>
+<td><code>CTRL-BRK</code></td>
+</tr>
+<tr>
+<td>Period still open after deadline</td>
+<td>Assistant Controller</td>
+<td>calendar</td>
+</tr>
+<tr>
+<td>Plug requested</td>
+<td>Refuse + Controls</td>
+<td><code>CTRL-BRK</code></td>
+</tr>
+<tr>
+<td>NPC and SAP out of sequence vs policy</td>
+<td>Systems + Elena</td>
+<td>process</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not escalate:</strong> a single parked utility invoice under accrual materiality if policy says ignore. Do not escalate flash vs final timing that the calendar already allows.</p>
+<hr>
+<h2 id="10-output-standard">10. Output standard</h2>
+<h3 id="101-a13_close_workspace">10.1 <code>A13_close_workspace</code></h3>
+<pre><code>period_id
+company_code
+calendar_version
+tasks[].id
+tasks[].owner
+tasks[].state              # not_started | in_progress | evidence_attached | complete | waived
+tasks[].evidence_refs[]
+tasks[].completed_by_human
+accrual_candidates[]
+gaps[]
+attestation_uri            # human
+frozen_at
+</code></pre>
+<h3 id="102-accrual-worksheet-a13_accr_cc_period">10.2 Accrual worksheet <code>A13_ACCR_&lt;cc&gt;_&lt;period&gt;</code></h3>
+<p>Line-level: source doc, qty, $ , policy row, proposed account. Not a journal until a human says so.</p>
+<h3 id="103-exception-memo">10.3 Exception memo</h3>
+<p>Late invoices after freeze: ID, $, why missed, period they will hit.</p>
+<p><strong>Done at Level 0:</strong> every required task has evidence or a <em>written</em> waiver by Elena.</p>
+<hr>
+<h2 id="11-control-requirements">11. Control requirements</h2>
+<ol>
+<li><strong>Calendar and task list versioned.</strong></li>
+<li><strong>Evidence or waiver</strong> — no empty completes.</li>
+<li><strong>No period toggle</strong> on <code>ER_A13_*</code>.</li>
+<li><strong>Separate workspace per ledger.</strong></li>
+<li><strong>Accrual policy</strong> dated; materiality stated (local, not invented industry %).</li>
+<li><strong>Sample</strong> last period’s waivers: still valid?</li>
+<li><strong>Freeze</strong> after sign-off.</li>
+</ol>
+<hr>
+<h2 id="12-audit-evidence-to-retain">12. Audit evidence to retain</h2>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Pull from</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Workspaces + attestations</td>
+<td>Store</td>
+<td>Local financial-record policy</td>
+</tr>
+<tr>
+<td>Accrual worksheets vs journals</td>
+<td>Store + ledger</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Waivers</td>
+<td>Controller file</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Completeness packs cited</td>
+<td>A01/A11/A05</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Security (no OB52)</td>
+<td>GRC</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="13-kpis">13. KPIs</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>KPI</th>
+<th>Formula</th>
+<th>Source</th>
+<th>Cadence</th>
+<th>Owner</th>
+<th>Promotion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activity</td>
+<td>Task coverage</td>
+<td>Tasks with evidence or waiver / required</td>
+<td>Workspace</td>
+<td>Each close</td>
+<td>AP Manager</td>
+<td>→ 1.00</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Calendar hit</td>
+<td>Signed by deadline (Y/N)</td>
+<td>Calendar</td>
+<td>Each close</td>
+<td>Elena</td>
+<td></td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Empty-complete count</td>
+<td>Completes without evidence (0)</td>
+<td>Audit</td>
+<td>Each close</td>
+<td>Controls</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Accrual $ posted vs worksheet</td>
+<td>Difference (0)</td>
+<td>Ledger</td>
+<td>Each close</td>
+<td>Elena</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Late-invoice $ after freeze</td>
+<td>Sum</td>
+<td>Memo</td>
+<td>Each close</td>
+<td>AP Manager</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Agent period toggles</td>
+<td>Count (0)</td>
+<td>Security</td>
+<td>Daily</td>
+<td>Controls</td>
+<td>Auto Level 0</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Plug journals</td>
+<td>Count (0)</td>
+<td>Review</td>
+<td>Each close</td>
+<td>Controls</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Cross-ledger single attestation</td>
+<td>Count (0)</td>
+<td>Sample</td>
+<td>Each close</td>
+<td>Controls</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="14-performance-history-fields">14. Performance history fields</h2>
+<p>Common fields, plus:</p>
+<pre><code>tasks_required
+tasks_evidenced
+waivers
+signed_on_time
+accrual_worksheet_amount
+accrual_posted_amount
+late_invoice_amount
+period_toggles_by_agent
+</code></pre>
+<hr>
+<h2 id="15-starting-autonomy-level">15. Starting autonomy level</h2>
+<p><strong>Level 0 — Observe.</strong> Survive two closes as a checklist before Level 1 worksheets (<code>RESPONSIBILITY_MODEL.md</code> also requires calendar time). Sign-off never promotes.</p>
+<hr>
+<h2 id="16-failure-handling">16. Failure handling</h2>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Detect</th>
+<th>Degrade</th>
+<th>Notify</th>
+<th>Resume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Period API down</td>
+<td>Adapter</td>
+<td>Checklist manual; no fake green</td>
+<td>Systems</td>
+<td>Refresh</td>
+</tr>
+<tr>
+<td>Source pack missing</td>
+<td>Link 404</td>
+<td>Task cannot complete</td>
+<td>Owner</td>
+<td>Restore pack</td>
+</tr>
+<tr>
+<td>Accrual policy unpublished</td>
+<td>Lookup</td>
+<td>No proposals</td>
+<td>Elena</td>
+<td>Publish</td>
+</tr>
+<tr>
+<td>Model plugs to flash</td>
+<td>Guardrail</td>
+<td><code>CTRL-BRK</code></td>
+<td>Controls</td>
+<td>Human only</td>
+</tr>
+<tr>
+<td>Someone opens period after freeze</td>
+<td>ERP event</td>
+<td>Alert Elena</td>
+<td>Elena</td>
+<td>Document</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="17-cost-monitoring">17. Cost monitoring</h2>
+<table>
+<thead>
+<tr>
+<th>Cost object</th>
+<th>Measure</th>
+<th>Who acts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Close-week human hours</td>
+<td>Time</td>
+<td>AP Manager</td>
+</tr>
+<tr>
+<td>Accrual rework</td>
+<td>Reversals next period</td>
+<td>Elena</td>
+</tr>
+<tr>
+<td>Idle close tools</td>
+<td>A14</td>
+<td>Systems</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="18-worked-example-northline-industrial-group">18. Worked example — Northline Industrial Group</h2>
+<p>Northline (fictional), 4,200 employees, ~18,000 invoices/month, SAP + NetSuite NPC. Assistant Controller: Elena Voss. AP Manager: Priya Menon. Calendar <code>NL-CLOSE-2026-09</code> (illustrative): SAP NL10 sign-off T+4 working days; NPC T+5.</p>
+<p><strong>September close, Level 0.</strong> Workspace lists 18 tasks. A01 completeness gap = 0 for the last five operating days. A05 INR $1.84m of which $210k is <code>received_not_posted</code> at Columbus (Owen). A11: Veston statement missing — amber, waiver request: Veston always sends T+6; accrue from PO receipts instead. Hannah attaches the worksheet <em>she</em> built; A13 only linked the missing statement. Elena waives the Veston statement task with a dated note and signs SAP NL10. NPC workspace is still open — she does not sign it “to be efficient”.</p>
+<p><strong>Illegal.</strong> A13 posting $210k because flash needed it. Flipping MMRV. Marking A01 complete when Monday’s pack was missing. One signature covering SAP + NetSuite.</p>
+<p><strong>Control.</strong> Attestation PDF names Elena, period, company codes. <code>ER_A13_S4</code> has no period-close authorisation.</p>
+<hr>
+<h2 id="19-illustrative-close-task-list-northline-sap-nl10">19. Illustrative close task list (Northline SAP NL10)</h2>
+<p>Replace locally. Version inside <code>NL-CLOSE-2026-09</code>.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Task</th>
+<th>Evidence</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C01</td>
+<td>A01 completeness last 5 operating days gap = 0</td>
+<td><code>A01_completeness_daily</code></td>
+<td>Maya</td>
+</tr>
+<tr>
+<td>C02</td>
+<td>Parked invoice inventory listed</td>
+<td>ERP extract</td>
+<td>Diego</td>
+</tr>
+<tr>
+<td>C03</td>
+<td>Exceptions &gt; 10 days explained</td>
+<td><code>A04_aging_pack</code></td>
+<td>Marcus</td>
+</tr>
+<tr>
+<td>C04</td>
+<td>INR / received-not-posted</td>
+<td><code>A05_gap_pack</code></td>
+<td>Owen</td>
+</tr>
+<tr>
+<td>C05</td>
+<td>Priority statements in or waived</td>
+<td><code>A11_recon_pack</code></td>
+<td>Hannah</td>
+</tr>
+<tr>
+<td>C06</td>
+<td>Accrual worksheet vs policy</td>
+<td><code>A13_ACCR_NL10_&lt;period&gt;</code></td>
+<td>Hannah / Elena</td>
+</tr>
+<tr>
+<td>C07</td>
+<td>Accrual journals = worksheet</td>
+<td>Ledger vs sheet</td>
+<td>Elena</td>
+</tr>
+<tr>
+<td>C08</td>
+<td>Last A12 file recon clean</td>
+<td><code>A12_file_recon</code></td>
+<td>Tomoko</td>
+</tr>
+<tr>
+<td>C09</td>
+<td>A10 paid-dup $ = 0 or incident filed</td>
+<td>A10 monthly</td>
+<td>Samuel</td>
+</tr>
+<tr>
+<td>C10</td>
+<td>Intercompany AP (if any)</td>
+<td>Policy list</td>
+<td>Elena</td>
+</tr>
+<tr>
+<td>C11</td>
+<td>NPC <em>not</em> included in this attestation</td>
+<td>Separate workspace ID</td>
+<td>Priya</td>
+</tr>
+<tr>
+<td>C12</td>
+<td>Sign-off</td>
+<td>Attestation</td>
+<td>Elena</td>
+</tr>
+</tbody>
+</table>
+<p>Waivers require: reason, $ impact, expiry (usually next period), Elena user ID. A13 will not complete C12 if C01 or C07 is red.</p>
+<h3 id="accrual-candidate-types-policy-gated">Accrual candidate types (policy-gated)</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Source</th>
+<th>A13 may propose at Level 1?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Received not invoiced</td>
+<td>GR without invoice</td>
+<td>Yes, if policy</td>
+</tr>
+<tr>
+<td>Invoiced not received</td>
+<td>Invoice without GR</td>
+<td>Rare; usually hold, not accrue</td>
+</tr>
+<tr>
+<td>Unvouchered recurring</td>
+<td>Contract schedule</td>
+<td>Yes, if contract on file</td>
+</tr>
+<tr>
+<td>Statement-only</td>
+<td>A11 <code>supplier_only</code></td>
+<td>No — hunt invoice first</td>
+</tr>
+<tr>
+<td>Flash plug</td>
+<td>“Need to hit number”</td>
+<td>Never</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="charter-conformance">Charter conformance</h2>
+<ul>
+<li>[x] Purpose is one sentence and names a boundary</li>
+<li>[x] Job description names population in / out</li>
+<li>[x] Inputs table has required/optional and “if missing”</li>
+<li>[x] Tools table covers SAP, D365, Oracle, NetSuite, Workday, Other, and read/write</li>
+<li>[x] Responsibilities are verbs at the starting level</li>
+<li>[x] Exclusions include payment release, fraud conclusion, self-promotion</li>
+<li>[x] Human owner is a role with a backup</li>
+<li>[x] Levels 0–4 approval table is present and not softer than the responsibility model</li>
+<li>[x] Escalation has hard triggers and a do-not-escalate line</li>
+<li>[x] Outputs are named artefacts with fields</li>
+<li>[x] Controls include SOD, completeness, change control, untrusted input</li>
+<li>[x] Audit evidence is pullable</li>
+<li>[x] KPIs cover activity / operational / financial / risk and name a source</li>
+<li>[x] Performance history includes the common fields</li>
+<li>[x] Starting autonomy is 0 or 1</li>
+<li>[x] Failure handling has detect / degrade / notify / resume</li>
+<li>[x] Cost monitoring is present</li>
+<li>[x] Northline example is fictional and specific</li>
+<li>[x] No guaranteed savings / fraud / compliance / ROI claim</li>
+<li>[x] Statistics cited or labelled illustrative</li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Brand System · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Internal</p>
+  </header>
+  <h1 id="evidence-room-brand-system">Evidence Room — brand system</h1>
+<p><strong>Version:</strong> 1.0 · September 2026<br>
+<strong>Domain:</strong> evidenceroom.ai (available on Vercel registrar check this build — re-check before purchase)<br>
+<strong>Tokens:</strong> <code>design-system.css</code><br>
+<strong>This file:</strong> idea, lines, type, colour, mark, iconography, charts/tables/callouts/covers, product-family architecture.</p>
+<p>The brand is a <strong>room</strong>, not a robot. A claim about an agent has to survive process, control, and measurement. If it cannot, it does not ship as a story.</p>
+<hr>
+<h2 id="1-brand-idea">1. Brand idea</h2>
+<p>Finance does not need another assistant. It needs a place where “the agent will handle it” is forced to become a job, a fence, an owner, an evidence pack, and a pause.</p>
+<p><strong>Evidence Room</strong> is that place. The product is the standard. The aesthetic is institutional research, not a launch party.</p>
+<p><strong>Supporting sense:</strong> Governed agents. Measurable outcomes.</p>
+<p><strong>Audience feeling we want:</strong> “I can defend this on Tuesday, to Audit and to the floor.”<br>
+<strong>Audience feeling we refuse:</strong> “This will 10x AP.”</p>
+<hr>
+<h2 id="2-line-evaluation">2. Line evaluation</h2>
+<table>
+<thead>
+<tr>
+<th>Line</th>
+<th>Decision</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Responsibility is earned.</strong></td>
+<td><strong>Master.</strong> Locked.</td>
+<td>A standard. Matches Levels 0–4. A controller can repeat it. It forbids demo promotion.</td>
+</tr>
+<tr>
+<td>Governed agents. Measurable outcomes.</td>
+<td><strong>Supporting only.</strong></td>
+<td>Accurate. Less of a moral rule. Use under the master line, in footers, on method.</td>
+</tr>
+<tr>
+<td>Evidence over hype</td>
+<td>Rejected as master</td>
+<td>True; leads with contempt. The buyer already knows the market is noisy.</td>
+</tr>
+<tr>
+<td>From workflow to workforce</td>
+<td>Rejected</td>
+<td>Implies replacement. Not the offer.</td>
+</tr>
+<tr>
+<td>Evidence over theatre</td>
+<td>Internal only</td>
+<td>Useful in operating spec. Too insider for the H1.</td>
+</tr>
+<tr>
+<td>The operating system for AP agents</td>
+<td>Product descriptor</td>
+<td>Use in titles and decks. Not a brand line.</td>
+</tr>
+<tr>
+<td>Full autonomy is never the default</td>
+<td>Operating rule</td>
+<td>May appear in product. Not the wordmark.</td>
+</tr>
+</tbody>
+</table>
+<p>Do not rotate slogans by campaign. Do not add a third public line. Do not abbreviate the master line to “RIE.”</p>
+<p><strong>How to use the master line</strong></p>
+<ul>
+<li>After the H1 or as the H1 on Method  </li>
+<li>Footer strip on every marketing page  </li>
+<li>Last slide / last page of a brief  </li>
+<li>Never as a sticker on a savings chart (we have no savings charts)</li>
+</ul>
+<hr>
+<h2 id="3-voice">3. Voice</h2>
+<p>Intelligent. Concise. Credible. Executive. Specific. Non-hype.</p>
+<table>
+<thead>
+<tr>
+<th>Prefer</th>
+<th>Avoid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Invoice, exception, fence, steward, evidence pack, parked, GR/IR</td>
+<td>Unlock, supercharge, 10x, AI-powered, seamless, magic</td>
+</tr>
+<tr>
+<td>Named owner</td>
+<td>The team (as an owner)</td>
+</tr>
+<tr>
+<td>Observe / recommend / prepare</td>
+<td>Autonomous (unless Level 4, defined)</td>
+</tr>
+<tr>
+<td>Northline is fictional</td>
+<td>Case study, customer, logo wall</td>
+</tr>
+<tr>
+<td>We do not promise…</td>
+<td>But you <em>could</em> save…</td>
+</tr>
+</tbody>
+</table>
+<p>Read <code>08_WEBSITE/COPY_HOME.md</code> and the Agent Library if a sentence feels like a landing page from 2021.</p>
+<hr>
+<h2 id="4-typography">4. Typography</h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Spec</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Serif</td>
+<td><strong>Source Serif 4</strong>, 500, tracking −0.015em. Fallback: Iowan Old Style, Palatino</td>
+<td>H1–H4, wordmark, cover titles</td>
+</tr>
+<tr>
+<td>Sans</td>
+<td><strong>IBM Plex Sans</strong>. Fallback: Helvetica Neue, Arial</td>
+<td>Body, tables, UI</td>
+</tr>
+<tr>
+<td>Mono</td>
+<td><strong>IBM Plex Mono</strong>. Fallback: SF Mono, Menlo, Consolas</td>
+<td>Kickers, labels, IDs (A03), codes (<code>GR-MISS</code>), prices</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Scale (print / PDF)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Style</th>
+<th>Size</th>
+<th>Line</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cover title</td>
+<td>28–34 pt serif</td>
+<td>1.15</td>
+</tr>
+<tr>
+<td>H1</td>
+<td>22 pt serif</td>
+<td>1.2</td>
+</tr>
+<tr>
+<td>H2</td>
+<td>16 pt serif</td>
+<td>1.25</td>
+</tr>
+<tr>
+<td>Body</td>
+<td>11 pt sans (print) / 15.5 px sans (web)</td>
+<td>1.4 / 1.55</td>
+</tr>
+<tr>
+<td>Kicker</td>
+<td>11 px/pt mono, 0.16em, uppercase, forest</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Label</td>
+<td>10.5 px/pt mono, 0.12em, uppercase, slate</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Wordmark</td>
+<td>13 px/pt, 0.22em, uppercase, weight 600</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Do not use Inter, Roboto, Comic faces, or display italics for “emotion.”</p>
+<hr>
+<h2 id="5-colour">5. Colour</h2>
+<p>From <code>design-system.css</code>. Do not introduce purple, neon, or lemon-yellow on <em>our</em> surfaces. Lemon Squeezy checkout may look like Lemon Squeezy; that is acceptable.</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Hex</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ink</code></td>
+<td><code>#14171c</code></td>
+<td>Text, rules of force</td>
+</tr>
+<tr>
+<td><code>--ink-soft</code></td>
+<td><code>#2a3038</code></td>
+<td>Secondary text</td>
+</tr>
+<tr>
+<td><code>--slate</code></td>
+<td><code>#5c6370</code></td>
+<td>Labels, meta</td>
+</tr>
+<tr>
+<td><code>--rule</code></td>
+<td><code>#b8a888</code></td>
+<td>Gold rule, table lines of record</td>
+</tr>
+<tr>
+<td><code>--rule-soft</code></td>
+<td><code>#d4cbb8</code></td>
+<td>Hairlines</td>
+</tr>
+<tr>
+<td><code>--paper</code></td>
+<td><code>#f3efe6</code></td>
+<td>Page ground</td>
+</tr>
+<tr>
+<td><code>--cream</code></td>
+<td><code>#faf7f0</code></td>
+<td>Panels</td>
+</tr>
+<tr>
+<td><code>--white</code></td>
+<td><code>#fffcf7</code></td>
+<td>Cards</td>
+</tr>
+<tr>
+<td><code>--forest</code></td>
+<td><code>#1e5c45</code></td>
+<td>Links, kickers, mark</td>
+</tr>
+<tr>
+<td><code>--forest-deep</code></td>
+<td><code>#143d2e</code></td>
+<td>Hover, cover mark</td>
+</tr>
+<tr>
+<td><code>--rust</code></td>
+<td><code>#8c3a2f</code></td>
+<td>“What this is not,” hard gates, Sev-1</td>
+</tr>
+<tr>
+<td><code>--amber</code></td>
+<td><code>#8a6a2f</code></td>
+<td>Caution, unsigned F, Level 0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Meaning (do not invert)</strong></p>
+<ul>
+<li>Forest = proceed with governance  </li>
+<li>Rust = refusal / non-promise / stop  </li>
+<li>Amber = observe, unsigned, caution  </li>
+<li>Gold rule = institutional line, not decoration  </li>
+</ul>
+<p>Contrast: ink on paper meets body-text needs. Do not put slate on rule-soft.</p>
+<hr>
+<h2 id="6-logo-and-wordmark">6. Logo and wordmark</h2>
+<p><strong>Wordmark:</strong> <code>EVIDENCE ROOM</code> in the wordmark style (serif or tracked small-caps per context). No tagline inside the mark.</p>
+<p><strong>Cover mark:</strong> a forest square (the “room”) — 1:1, <code>#1e5c45</code>, optional 1 px rule-gold inset. Empty. Not a pictogram of a filing cabinet, a tick, or a robot.</p>
+<p><strong>Lockup (default)</strong></p>
+<pre><code>[■]  EVIDENCE ROOM
+     Responsibility is earned.
+</code></pre>
+<p>Square left, wordmark, supporting or master line underneath in sans/ink-soft.</p>
+<p><strong>Do not</strong></p>
+<ul>
+<li>Add a lens, an eye, a brain, a sparkle  </li>
+<li>Animate the square into a chat bubble  </li>
+<li>Place the mark on a photograph of people pointing at glass  </li>
+<li>Use a lemon, a check-orange, or a gradient orb  </li>
+</ul>
+<p><strong>Favicon:</strong> forest square or ink monogram <code>ER</code> in mono, no colour animation.</p>
+<p><strong>Clear space:</strong> one square-width on all sides. Minimum digital size: 16×16 favicon; 28×28 pt on covers.</p>
+<hr>
+<h2 id="7-iconography">7. Iconography</h2>
+<p>Almost none. If an icon is required (site nav, PDF kicker):</p>
+<ul>
+<li>1 px stroke, ink or forest, 24 px grid  </li>
+<li>Geometric: fence (box in a box), register (ruled lines), pause (two bars)  </li>
+<li>No 3D, no filled illustration sets, no Remix-style colourful packs  </li>
+</ul>
+<p>Agent IDs (<code>A01</code>) <em>are</em> the icons. Do not commission sixteen mascots.</p>
+<hr>
+<h2 id="8-charts-tables-callouts-covers">8. Charts, tables, callouts, covers</h2>
+<h3 id="charts">Charts</h3>
+<ul>
+<li>Paper ground, ink series, forest for “ours / operating,” amber for baseline, rust for a control break  </li>
+<li>Caption <strong>first line</strong> must say <code>Illustrative</code> or <code>Independent — see ledger</code> or <code>Customer baseline</code>  </li>
+<li>No 3D, no exploded pie, no “78%” as a hero number without LEDGER-001 and the words <em>industry context, not our forecast</em>  </li>
+<li>No dual-axis tricks that imply ROI  </li>
+</ul>
+<p>Executive chart files in sales (<code>06_SALES_AND_MARKETING/charts/</code>) follow this. If a chart cannot survive Q3, delete it.</p>
+<h3 id="tables">Tables</h3>
+<ul>
+<li>Left-aligned text, lining figures if available  </li>
+<li>Header: mono label or sans 13 px, rule under  </li>
+<li>Hairline <code>#d4cbb8</code>; heavier <code>#b8a888</code> for totals  </li>
+<li>Do not zebra in purple-grey. Alternate cream / paper if needed  </li>
+</ul>
+<h3 id="callouts">Callouts</h3>
+<table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>Treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Non-promise</td>
+<td>Rust 3 pt left rule, cream fill, list unsoftened</td>
+</tr>
+<tr>
+<td>Operating rule</td>
+<td>Forest left rule, no fill or paper</td>
+</tr>
+<tr>
+<td>Illustrative (Northline)</td>
+<td>Amber left rule + first words <code>Fictional example.</code></td>
+</tr>
+<tr>
+<td>Stop / kill switch</td>
+<td>Rust, short, named human</td>
+</tr>
+</tbody>
+</table>
+<h3 id="covers-pdf-zip-og">Covers (PDF / zip / OG)</h3>
+<ul>
+<li>Ground <code>#f3efe6</code>  </li>
+<li>Forest mark + serif title + mono product label (<code>DIAGNOSTIC</code> / <code>STARTER</code> / <code>PROFESSIONAL</code> / <code>TEAM</code> / <code>BLUEPRINT</code>)  </li>
+<li>Master line at the foot  </li>
+<li>1200×1200 and 1600×900 per store blueprint  </li>
+<li>No photographs, no people, no robots, no purple  </li>
+</ul>
+<p>Thumbnails: <code>thumb-diagnostic-sq.png</code> etc. as in <code>07_LEMON_SQUEEZY/STORE_BLUEPRINT.md</code> §5.</p>
+<hr>
+<h2 id="9-product-family-architecture">9. Product-family architecture</h2>
+<p>One family. Five rungs. Same room.</p>
+<pre><code>Diagnostic (free, evaluation)
+    → Starter $79 (individual, first fence)
+        → Professional $199 (one practitioner, full OS)
+            → Team $499 (eight seats, human system)
+                → Custom $1,500–$3,000 (named entity, application)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Rung</th>
+<th>Mono label</th>
+<th>Visual cue</th>
+<th>Promise (only this)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Diagnostic</td>
+<td><code>DIAGNOSTIC</code></td>
+<td>Level ladder 0–4 on paper</td>
+<td>A level, a gap map, a next step</td>
+</tr>
+<tr>
+<td>Starter</td>
+<td><code>STARTER</code></td>
+<td>Fence diagram (box in a box)</td>
+<td>Design and fence the first agent</td>
+</tr>
+<tr>
+<td>Professional</td>
+<td><code>PROFESSIONAL</code></td>
+<td>Eight-pack grid, mono labels</td>
+<td>The operating system</td>
+</tr>
+<tr>
+<td>Team</td>
+<td><code>TEAM</code></td>
+<td>Eight-seat mark + <code>WORKSHOP</code></td>
+<td>The OS plus the human system</td>
+</tr>
+<tr>
+<td>Custom</td>
+<td><code>BLUEPRINT</code></td>
+<td>Blank map</td>
+<td>A written design for one environment</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Shared modules</strong> (site and PDF): five-second block · what this is not · responsibility model · workforce diagram · tier table · Northline vignette labelled fictional · FAQ · legal/MoR strip.</p>
+<p><strong>Hierarchy of surfaces</strong></p>
+<ol>
+<li>evidenceroom.ai — paper, our type, our mark  </li>
+<li>Lemon Squeezy checkout — their UI + our thumbnails + our microcopy  </li>
+<li>Zip interiors — markdown / PDF in this system  </li>
+<li>LinkedIn — same type discipline; no carousel that implies savings  </li>
+</ol>
+<p><strong>Do not</strong> create a second mascot for Team or a “pro” chrome gradient. Seriousness scales by <em>completeness of documents</em>, not by gloss.</p>
+<hr>
+<h2 id="10-photography-and-motion">10. Photography and motion</h2>
+<p>None required at launch. If later:</p>
+<ul>
+<li>Empty rooms, paper, industrial still life without hero workers  </li>
+<li>No stock “diverse team at agile board”  </li>
+<li>Motion: fade and rule-draw only; no bounce, no confetti  </li>
+</ul>
+<hr>
+<h2 id="11-legal-line-every-public-surface">11. Legal line (every public surface)</h2>
+<p>Independently authored operating materials. Not legal, tax, accounting, audit, or investment advice. Does not replace your ERP, AP, or control environment. Does not promise savings, fraud detection, compliance, accounting accuracy, autonomous payments, or ROI. Northline Industrial Group is a fictional example. Checkout processed by Link, LLC f/k/a Lemon Squeezy LLC as merchant of record where that is the fact.</p>
+<hr>
+<h2 id="12-checks-before-a-surface-ships">12. Checks before a surface ships</h2>
+<ul>
+<li>[ ] Master line present or one click from the footer  </li>
+<li>[ ] Non-promise list or a pointer that does not soften it  </li>
+<li>[ ] Northline labelled fictional if used  </li>
+<li>[ ] No purple, no robot, no savings hero  </li>
+<li>[ ] Type triad only  </li>
+<li>[ ] Product label matches the SKU  </li>
+<li>[ ] Ledger cited if a number appears  </li>
+</ul>
+<p>If a surface fails a check, it is not off-brand in a cute way. It is unpublished.</p>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

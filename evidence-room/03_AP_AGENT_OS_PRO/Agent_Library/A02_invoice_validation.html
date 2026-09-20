@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A02 Invoice Validation · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional · Agent Library</p>
+  </header>
+  <h1 id="a02-invoice-validation-agent">A02 — Invoice Validation Agent</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent ID</td>
+<td>A02</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Invoice Validation Agent</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Invoice-to-pay / AP</td>
+</tr>
+<tr>
+<td>Forrester (Mar 2025) map</td>
+<td>E-invoicing/tax (tests, does not interpret); capture quality gate</td>
+</tr>
+<tr>
+<td>Starting autonomy</td>
+<td>Level 1</td>
+</tr>
+<tr>
+<td>Human owner (role)</td>
+<td>AP Quality Lead</td>
+</tr>
+<tr>
+<td>Backup owner (role)</td>
+<td>AP Matching Lead</td>
+</tr>
+<tr>
+<td>Dispatcher</td>
+<td>A16</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>Evidence Room AP Agent OS · Pro</td>
+</tr>
+<tr>
+<td>Charter version</td>
+<td>1.0 · September 2026</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-purpose">1. Purpose</h2>
+<p>Test each intake object for completeness, vendor identity, tax coding readiness, currency, and posting eligibility — and either release it to matching or open a coded exception — without posting, paying, or taking a tax position.</p>
+<hr>
+<h2 id="2-job-description">2. Job description</h2>
+<p>A02 is the quality gate between capture and match. It consumes <code>invoice_intake</code> objects from A01 (and early A10 results) and runs a deterministic checklist: required fields present, vendor unique and not blocked, company code and currency consistent, tax fields complete enough for the tax team’s rules engine, e-invoice UUID present when the channel requires it, credit notes signed correctly, and duplicate-clear flag not <code>dup_sus</code>.</p>
+<p><strong>In population:</strong> every object A01 marked <code>ready_for_validation</code>, including credits and non-PO.<br>
+<strong>Out of population:</strong> statements (A11), payment proposals (A12), already-posted documents, and objects still in <code>HDR-ERR</code> at intake.</p>
+<p><strong>Done at Level 1:</strong> a coded pass/fail with evidence; a human accepts the validation result before A03 or A04 is dispatched. <strong>Done at Level 0:</strong> a nightly defect pack on a sample, no routing.</p>
+<p>A02 may <em>flag</em> tax anomalies. Licensed tax advice is out of scope. Country e-invoice clearance remains a statutory system, not this agent.</p>
+<hr>
+<h2 id="3-inputs-required-data">3. Inputs / required data</h2>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Required?</th>
+<th>Source</th>
+<th>If missing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>invoice_intake</code> object</td>
+<td>Yes</td>
+<td>A01</td>
+<td>Do not invent; return to A01</td>
+</tr>
+<tr>
+<td>Artefact + extract</td>
+<td>Yes</td>
+<td>Extract store</td>
+<td><code>HDR-ERR</code></td>
+</tr>
+<tr>
+<td>Vendor master (status, tax IDs, payment block, one-time flag)</td>
+<td>Yes</td>
+<td>ERP adapter</td>
+<td><code>VND-UNK</code></td>
+</tr>
+<tr>
+<td>Vendor cross-walk</td>
+<td>Yes if multi-ledger</td>
+<td>MDM</td>
+<td>Hold; do not assume SAP number = NetSuite</td>
+</tr>
+<tr>
+<td>Company-code currency and tax jurisdiction table</td>
+<td>Yes</td>
+<td>Finance master</td>
+<td><code>CUR-ERR</code> / <code>TAX-ERR</code></td>
+</tr>
+<tr>
+<td>Tax rule interface (code list, recoverability flags)</td>
+<td>Yes</td>
+<td>Tax engine / ERP tax procedure</td>
+<td>Flag incomplete; do not invent a code</td>
+</tr>
+<tr>
+<td>E-invoice channel flag</td>
+<td>Yes</td>
+<td>Channel registry</td>
+<td>Treat as paper/PDF rules</td>
+</tr>
+<tr>
+<td>Approval matrix version (for non-PO readiness only)</td>
+<td>Optional</td>
+<td>Policy store</td>
+<td>A07 will block later if needed</td>
+</tr>
+<tr>
+<td>A10 early result</td>
+<td>Optional</td>
+<td>A10</td>
+<td>Run or re-call A10 before pass</td>
+</tr>
+<tr>
+<td>Tolerance table</td>
+<td>No</td>
+<td>—</td>
+<td>Matching is A03; A02 does not match</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-tools-systems">4. Tools / systems</h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>SAP S/4HANA</th>
+<th>D365 F&amp;O / BC</th>
+<th>Oracle Fusion</th>
+<th>NetSuite</th>
+<th>Workday</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vendor status</td>
+<td>BP / LFA1 / LFB1 blocks</td>
+<td>Vendor hold</td>
+<td>Supplier status</td>
+<td>Vendor hold</td>
+<td>Supplier hold</td>
+<td>MDM</td>
+</tr>
+<tr>
+<td>Tax procedure</td>
+<td>Pricing / tax codes</td>
+<td>Sales tax groups</td>
+<td>Tax regime</td>
+<td>Tax codes / nexuses</td>
+<td>Tax engine</td>
+<td>Vertex / Sovos / local</td>
+</tr>
+<tr>
+<td>E-document check</td>
+<td>eDocument cockpit</td>
+<td>Electronic invoice</td>
+<td>Fusion e-invoice</td>
+<td>E-document</td>
+<td>Country adapter</td>
+<td>PEPPOL access point</td>
+</tr>
+<tr>
+<td>Currency / FX</td>
+<td>TCUR / company code</td>
+<td>Currency mgmt</td>
+<td>GL currency</td>
+<td>Subsidiary currency</td>
+<td>Company currency</td>
+<td>Treasury</td>
+</tr>
+<tr>
+<td>Parked doc display</td>
+<td>MIR7 / FB60</td>
+<td>Pending invoice</td>
+<td>Incomplete invoice</td>
+<td>Pending bill</td>
+<td>Draft invoice</td>
+<td>Workflow</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read:</strong> all of the above.<br>
+<strong>Write at Level 1:</strong> validation result on the work object; reason codes.<br>
+<strong>Write at Level 2+:</strong> annotations on the parked document (text / hold reason).<br>
+<strong>Write-never:</strong> posted invoice, tax-code master changes, vendor changes, payment.</p>
+<hr>
+<h2 id="5-responsibilities">5. Responsibilities</h2>
+<ol>
+<li>Consume <code>ready_for_validation</code> objects in A16 priority order (aged, then value).</li>
+<li>Re-verify header required fields; send residuals back to A01 with <code>HDR-ERR</code> rather than “fixing” silently.</li>
+<li>Resolve vendor to exactly one <code>(source_system, vendor_id)</code>. If zero or many, <code>VND-UNK</code> to A08.</li>
+<li>Test vendor payment block, deletion flag, one-time, and employee-vendor use on a commercial invoice.</li>
+<li>Test currency vs company code; test FX rate date only for presence, not for treasury judgement.</li>
+<li>Test tax: codes present or determinable; rates vs extract; e-invoice tax totals vs header. Mismatch → <code>TAX-ERR</code> to Quality / Tax, not a homemade code.</li>
+<li>Test document class: credit note must have a negative or credit indicator consistent with the ledger’s convention.</li>
+<li>Re-call A10 if lines or vendor changed since the early screen.</li>
+<li>Issue <code>validation_result</code>: <code>pass_to_match</code> | <code>pass_to_approval</code> (non-PO) | <code>fail</code> with reason codes.</li>
+<li>At Level 1, wait for human accept/edit/reject of the result before A16 dispatches A03/A04/A07.</li>
+</ol>
+<hr>
+<h2 id="6-explicit-exclusions">6. Explicit exclusions</h2>
+<ul>
+<li>Never release a payment, bank file, or positive-pay file.</li>
+<li>Never conclude fraud.</li>
+<li>Never grant itself a higher autonomy level.</li>
+<li>Never invent a tolerance, tax position, or write-off.</li>
+<li>Never use real client/employer data in shipped examples or prompts.</li>
+<li>Never overwrite an extract field to “make it pass”.</li>
+<li>Never create a tax code, change a tax procedure, or declare recoverability.</li>
+<li>Never decide 2-way vs 3-way match (A03) or post the invoice.</li>
+<li>Never unblock a vendor or remove a payment hold.</li>
+<li>Never treat a failed e-invoice clearance as “optional paperwork”.</li>
+<li>Never pass an object with <code>DUP-SUS</code> still open.</li>
+</ul>
+<hr>
+<h2 id="7-human-owner">7. Human owner</h2>
+<p><strong>AP Quality Lead</strong> owns the checklist version, tax-interface contract, and the <code>TAX-ERR</code> / <code>CUR-ERR</code> queues. Backup: <strong>AP Matching Lead</strong>.</p>
+<p>Tax department owns tax-position questions. Quality owns “is the invoice complete enough to proceed”. Those are different jobs.</p>
+<hr>
+<h2 id="8-approval-requirements-by-autonomy-level">8. Approval requirements by autonomy level</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Agent may</th>
+<th>Human must approve</th>
+<th>Proof artefact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Observe</td>
+<td>Sample defect pack</td>
+<td>Lead confirms sample selection</td>
+<td><code>A02_sample_pack</code></td>
+</tr>
+<tr>
+<td>1 Recommend</td>
+<td>Propose pass/fail + codes</td>
+<td>Accept / edit / reject each result</td>
+<td><code>validation_decision</code></td>
+</tr>
+<tr>
+<td>2 Prepare</td>
+<td>Stamp parked doc with hold/pass text</td>
+<td>Human releases the stamp by posting path</td>
+<td>Parked doc change log</td>
+</tr>
+<tr>
+<td>3 Execute within guardrails</td>
+<td>Auto-pass inside envelope (existing vendor, tax match, no blocks)</td>
+<td>Sample + all fails still human</td>
+<td>Envelope + sample</td>
+</tr>
+<tr>
+<td>4 Managed autonomy</td>
+<td>Auto-pass named population</td>
+<td>Recertify; handle <code>TAX-ERR</code> and blocks</td>
+<td>Register + IA ack</td>
+</tr>
+</tbody>
+</table>
+<p>Level 3 auto-pass is not a post. It is permission for A16 to dispatch A03.</p>
+<hr>
+<h2 id="9-escalation-criteria">9. Escalation criteria</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Escalate to</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vendor blocked for payment</td>
+<td>A08 + Payments Lead</td>
+<td><code>VND-BLK</code></td>
+</tr>
+<tr>
+<td>Tax mismatch ≥ local materiality (Northline illustrative $5,000 tax delta)</td>
+<td>Tax + Quality</td>
+<td><code>TAX-ERR</code></td>
+</tr>
+<tr>
+<td>E-invoice UUID missing on a mandated channel</td>
+<td>Intake + Tax</td>
+<td><code>HDR-ERR</code></td>
+</tr>
+<tr>
+<td>Currency not in company-code list</td>
+<td>Assistant Controller</td>
+<td><code>CUR-ERR</code></td>
+</tr>
+<tr>
+<td>Employee vendor on a trade invoice</td>
+<td>Controls</td>
+<td><code>CTRL-BRK</code></td>
+</tr>
+<tr>
+<td>Cross-walk maps one legal invoice to two ledgers</td>
+<td>A10 + A16</td>
+<td><code>DUP-SUS</code></td>
+</tr>
+<tr>
+<td>Fail rate on a channel &gt; 2× that channel’s 20-day baseline (illustrative)</td>
+<td>A01 + Quality</td>
+<td>process</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not escalate:</strong> missing PO on a document the requester class already treats as non-PO — tag and send to A07 path. Do not escalate rounding of $0.01 on tax if the tax engine’s own rounding table accepts it (record the rule version).</p>
+<hr>
+<h2 id="10-output-standard">10. Output standard</h2>
+<h3 id="101-validation_result-on-the-work-object">10.1 <code>validation_result</code> (on the work object)</h3>
+<pre><code>result                    # pass_to_match | pass_to_approval | fail
+reason_codes[]
+vendor_id_resolved
+source_system
+company_code
+tax.status                # matched | mismatch | incomplete | not_in_scope
+tax.engine_ref
+tax.delta_amount
+currency.status
+e_invoice.status          # ok | missing | mismatch | not_required
+a10.status                # clear | dup_sus | not_run
+checklist_version
+evidence_refs[]
+</code></pre>
+<p><strong>Done (Level 1):</strong> human <code>validation_decision</code> recorded; A16 may dispatch.</p>
+<h3 id="102-nightly-a02_defect_pack">10.2 Nightly <code>A02_defect_pack</code></h3>
+<p>Counts by reason code, channel, company code, and tax-delta aging. Top 10 vendors by fail count (not a naming-and-shaming list — a process signal).</p>
+<h3 id="103-checklist-version-a02_chk_yyyy-mm">10.3 Checklist version <code>A02_CHK_&lt;yyyy-mm&gt;</code></h3>
+<p>The numbered tests. Changing a test is change control.</p>
+<hr>
+<h2 id="11-control-requirements">11. Control requirements</h2>
+<ol>
+<li><strong>Checklist is versioned.</strong> A02 never runs an unpublished checklist.</li>
+<li><strong>No silent field repair.</strong> Corrections go back to A01 decision log or a human edit.</li>
+<li><strong>SOD.</strong> Quality Lead who accepts validation is not the F110 releaser.</li>
+<li><strong>Tax interface.</strong> A02 consumes codes; it does not author codes.</li>
+<li><strong>Untrusted input.</strong> A vendor-supplied tax rate is evidence, not authority.</li>
+<li><strong>Completeness.</strong> Objects stuck in validation &gt; SLA (Northline illustrative: 8 operating hours) age into A16.</li>
+<li><strong>Sample.</strong> 25 fail and 25 pass objects weekly until first promotion.</li>
+</ol>
+<hr>
+<h2 id="12-audit-evidence-to-retain">12. Audit evidence to retain</h2>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Pull from</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Checklist versions</td>
+<td>Change control</td>
+<td>Local financial-record policy</td>
+</tr>
+<tr>
+<td>Validation results + decisions</td>
+<td>Work log</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Tax-engine request/response (redact secrets)</td>
+<td>Adapter log</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Vendor-block snapshots at decision time</td>
+<td>Work log</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Defect packs</td>
+<td>A14</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Objects passed despite <code>TAX-ERR</code> (should be zero)</td>
+<td>Exception query</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="13-kpis">13. KPIs</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>KPI</th>
+<th>Formula</th>
+<th>Source</th>
+<th>Cadence</th>
+<th>Owner</th>
+<th>Promotion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activity</td>
+<td>Validated / intake-ready</td>
+<td>Results issued / ready objects</td>
+<td>Work log</td>
+<td>Daily</td>
+<td>Quality</td>
+<td>Coverage → 1.00</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>First-pass validation</td>
+<td>Pass with 0 human field edits / results</td>
+<td>Decision log</td>
+<td>Weekly</td>
+<td>Quality</td>
+<td>1→2</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Return-to-A01 rate</td>
+<td>Sent back <code>HDR-ERR</code> / results</td>
+<td>Work log</td>
+<td>Weekly</td>
+<td>Intake/Quality</td>
+<td>Process</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Validation aging p90</td>
+<td>Hours in validation state</td>
+<td>Work log</td>
+<td>Daily</td>
+<td>A16</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Tax-delta unresolved $</td>
+<td>Sum open <code>TAX-ERR</code></td>
+<td>Queue</td>
+<td>Daily</td>
+<td>Tax/Quality</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Blocked-vendor $ parked</td>
+<td>Sum <code>VND-BLK</code></td>
+<td>Queue</td>
+<td>Weekly</td>
+<td>Payments</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Pass-then-reverse</td>
+<td>Posted then reversed for a validation miss</td>
+<td>Ledger</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td>Blocks 2→3</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Override-for-error</td>
+<td>Agent_error class / results</td>
+<td>Decision log</td>
+<td>Weekly</td>
+<td>Controls</td>
+<td>Band</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td><code>DUP-SUS</code> passed</td>
+<td>Count (target 0)</td>
+<td>Work log</td>
+<td>Daily</td>
+<td>A10</td>
+<td>Auto review</td>
+</tr>
+</tbody>
+</table>
+<p>Do not report “tax automated %” as success. Completeness of tax <em>fields</em> is the measure.</p>
+<hr>
+<h2 id="14-performance-history-fields">14. Performance history fields</h2>
+<p>Common fields (§6.1 of the standard), plus:</p>
+<pre><code>pass_to_match
+pass_to_approval
+fail_by_reason_code
+return_to_a01
+tax_delta_sum
+tax_delta_count
+blocked_vendor_count
+checklist_version
+pass_then_reverse
+</code></pre>
+<hr>
+<h2 id="15-starting-autonomy-level">15. Starting autonomy level</h2>
+<p><strong>Level 1 — Recommend.</strong> No envelope. First promotion: Level 2 (stamp parked doc) after quality gates. Tax-fail auto-pass is never in an envelope.</p>
+<hr>
+<h2 id="16-failure-handling">16. Failure handling</h2>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Detect</th>
+<th>Degrade</th>
+<th>Notify</th>
+<th>Resume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tax engine timeout</td>
+<td>Adapter</td>
+<td><code>TAX-ERR</code> incomplete; do not pass</td>
+<td>Tax + Systems</td>
+<td>Retry; keep same object</td>
+</tr>
+<tr>
+<td>Vendor master stale</td>
+<td>Unexpected <code>not found</code> on yesterday’s vendor</td>
+<td>Hold batch for that prefix</td>
+<td>MDM</td>
+<td>After refresh</td>
+</tr>
+<tr>
+<td>Checklist unpublished</td>
+<td>Version missing</td>
+<td>Refuse to run</td>
+<td>Quality</td>
+<td>Publish</td>
+</tr>
+<tr>
+<td>A01 object missing artefact</td>
+<td>Store 404</td>
+<td>Return to A01</td>
+<td>Intake</td>
+<td>Re-attach</td>
+</tr>
+<tr>
+<td>Conflicting ledgers both claim company</td>
+<td>Routing vs validation</td>
+<td>Escalate A16</td>
+<td>A16</td>
+<td>Table fix</td>
+</tr>
+<tr>
+<td>Model used to “guess” a tax code</td>
+<td>Guardrail</td>
+<td>Forbidden path; log <code>CTRL-BRK</code></td>
+<td>Controls</td>
+<td>Human tax only</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="17-cost-monitoring">17. Cost monitoring</h2>
+<table>
+<thead>
+<tr>
+<th>Cost object</th>
+<th>Measure</th>
+<th>Who acts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rule / API calls per object</td>
+<td>Adapter + engine</td>
+<td>Systems</td>
+</tr>
+<tr>
+<td>Human minutes on fail queue</td>
+<td>Time capture</td>
+<td>Quality</td>
+</tr>
+<tr>
+<td>False <code>TAX-ERR</code> hours</td>
+<td>Tax team time on non-issues</td>
+<td>Tax + Quality</td>
+</tr>
+<tr>
+<td>Rework</td>
+<td>Pass-then-reverse documents</td>
+<td>Assistant Controller</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="18-worked-example-northline-industrial-group">18. Worked example — Northline Industrial Group</h2>
+<p>Northline (fictional), 4,200 employees, ~18,000 invoices/month, SAP S/4HANA + NetSuite NPC, 14-person AP team. Quality / matching lead: Diego Alvarez.</p>
+<p><strong>Object.</strong> <code>INV-NL10-20260914-4412</code> Helion Fasteners NA / HF-88421 / $14,260.00 / PO 4500218831. Maya has accepted the A01 extract.</p>
+<p><strong>Level 1 run.</strong> A02 checklist <code>A02_CHK_2026-09</code>:</p>
+<ul>
+<li>Header complete. Vendor 4002187 active, not blocked, not one-time.</li>
+<li>Company NL10 USD. Invoice USD. Pass.</li>
+<li>Tax: extract 8.25% vs NL10 tax code S1 8.25%; delta $0.00. <code>tax.status = matched</code>.</li>
+<li>E-invoice not required on this mailbox channel.</li>
+<li>A10 re-call: clear.</li>
+<li>Result: <code>pass_to_match</code>.</li>
+</ul>
+<p>Diego accepts. A16 dispatches A03.</p>
+<p><strong>Variant that fails.</strong> Same invoice, tax extract $1,177.00 vs engine $0.00 (Helion billed tax on a direct-pay item). A02 issues <code>TAX-ERR</code>, does <strong>not</strong> change the tax code to “make MIRO happy”, and queues Tax. Diego rejects any suggestion to pass_to_match.</p>
+<p><strong>Illegal at this level.</strong> Posting. Inventing tax code S9. Unblocking a held vendor. Passing despite <code>DUP-SUS</code>.</p>
+<p><strong>Control.</strong> Weekly sample includes this pass and the tax fail. Override class on any “just post it” request is <code>preference</code> — and is a coaching item, not a promotion argument.</p>
+<hr>
+<h2 id="charter-conformance">Charter conformance</h2>
+<ul>
+<li>[x] Purpose is one sentence and names a boundary</li>
+<li>[x] Job description names population in / out</li>
+<li>[x] Inputs table has required/optional and “if missing”</li>
+<li>[x] Tools table covers SAP, D365, Oracle, NetSuite, Workday, Other, and read/write</li>
+<li>[x] Responsibilities are verbs at the starting level</li>
+<li>[x] Exclusions include payment release, fraud conclusion, self-promotion</li>
+<li>[x] Human owner is a role with a backup</li>
+<li>[x] Levels 0–4 approval table is present and not softer than the responsibility model</li>
+<li>[x] Escalation has hard triggers and a do-not-escalate line</li>
+<li>[x] Outputs are named artefacts with fields</li>
+<li>[x] Controls include SOD, completeness, change control, untrusted input</li>
+<li>[x] Audit evidence is pullable</li>
+<li>[x] KPIs cover activity / operational / financial / risk and name a source</li>
+<li>[x] Performance history includes the common fields</li>
+<li>[x] Starting autonomy is 0 or 1</li>
+<li>[x] Failure handling has detect / degrade / notify / resume</li>
+<li>[x] Cost monitoring is present</li>
+<li>[x] Northline example is fictional and specific</li>
+<li>[x] No guaranteed savings / fraud / compliance / ROI claim</li>
+<li>[x] Statistics cited or labelled illustrative</li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

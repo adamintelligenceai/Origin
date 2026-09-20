@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AP AI Readiness Diagnostic · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Free</p>
+  </header>
+  <h1 id="ap-agent-readiness-diagnostic">AP Agent Readiness Diagnostic</h1>
+<p><strong>Evidence Room · Free evaluation</strong><br>
+<strong>Version:</strong> 1.0 · September 2026<br>
+<strong>Licence:</strong> Evaluation — personal use, no redistribution<br>
+<strong>Time:</strong> One working session (60–90 minutes), not a coffee<br>
+<strong>Companion:</strong> <code>SCORECARD_WORKSHEET.md</code><br>
+<strong>Worked example:</strong> Northline Industrial Group is fictional. Not a client. Not your answers.</p>
+<p>You leave with a readiness level (0–4), a gap map, a ten-agent opportunity view, and a next step. The next step may be <strong>wait</strong>.</p>
+<p>This diagnostic does not calculate savings or ROI. It does not certify compliance, SOX, or audit readiness. It does not detect fraud. It does not tell you which vendor to buy. It does not connect to your ERP.</p>
+<p><strong>Responsibility is earned.</strong></p>
+<hr>
+<h2 id="how-to-take-it">How to take it</h2>
+<ol>
+<li>Answer for the environment you <strong>actually run</strong> — one primary entity and one primary ledger if the group is messy. If you run two books, take it twice or mark the weaker one.</li>
+<li>Use the worksheet. Score each question 0 / 1 / 2. Do not invent a 3.</li>
+<li>Do not send invoice data, vendor masters, or colleagues’ personal data to Evidence Room. Complete locally.</li>
+<li>One owner is enough. A working group can take it separately and compare. Disagreement is useful.</li>
+<li>After scoring, write the paste-ready paragraph in §9 before you open a vendor deck.</li>
+</ol>
+<p><strong>Scoring key (every question):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Score</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0</strong></td>
+<td>Absent, unknown, or tribal. You could not show an artefact this week.</td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td>Partial. A policy, a tool, or a person exists, but it would not survive a Tuesday exception and an auditor on the same day.</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Present and operable. Named owner, artefact, and a reader who is not the author.</td>
+</tr>
+</tbody>
+</table>
+<p>If you are unsure, score <strong>0</strong>. Optimism is a finding.</p>
+<hr>
+<h2 id="the-six-domains">The six domains</h2>
+<p>Thirty-six questions. Six each.</p>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Code</th>
+<th>What it tests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Process</td>
+<td>P01–P06</td>
+<td>Whether the <em>live</em> invoice-to-pay path is known</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>D01–D06</td>
+<td>Whether identity, completeness, and lineage exist</td>
+</tr>
+<tr>
+<td>Controls</td>
+<td>C01–C06</td>
+<td>Whether money, vendors, and evidence are fenced</td>
+</tr>
+<tr>
+<td>People</td>
+<td>H01–H06</td>
+<td>Whether ownership is a name, not a queue</td>
+</tr>
+<tr>
+<td>Systems</td>
+<td>S01–S06</td>
+<td>Whether the stack can host a governed agent layer</td>
+</tr>
+<tr>
+<td>Economics</td>
+<td>E01–E06</td>
+<td>Whether you can measure cost and cash <em>without</em> inventing a case</td>
+</tr>
+</tbody>
+</table>
+<p>Maximum 72 points. See §7 for levels.</p>
+<hr>
+<h2 id="1-process-p">1. Process (P)</h2>
+<h3 id="p01-live-path-not-policy-path">P01 — Live path, not policy path</h3>
+<p>Can you draw receipt → capture → code → match → exception → approve → schedule → pay → archive as it happens on a Tuesday, and would the people who work exceptions recognise it?</p>
+<p><strong>2</strong> = a dated map the floor has marked. <strong>1</strong> = an SOP or Visio from the last project. <strong>0</strong> = “everyone knows.”</p>
+<h3 id="p02-invoice-classes-are-named">P02 — Invoice classes are named</h3>
+<p>Have you written the classes you actually process (PO, non-PO, utility, freight, intercompany, employee, credit notes) with approximate mix?</p>
+<p><strong>2</strong> = mix from the ledger, last quarter. <strong>1</strong> = a list without volume. <strong>0</strong> = “mostly PO.”</p>
+<h3 id="p03-exception-codes-are-shared">P03 — Exception codes are shared</h3>
+<p>Do intake, matching, and the ticket tool use one taxonomy (or a mapped set), not local synonyms?</p>
+<p><strong>2</strong> = a code list used in tickets <em>and</em> reporting. <strong>1</strong> = a list in a drawer. <strong>0</strong> = free-text reasons.</p>
+<h3 id="p04-where-work-waits-is-known">P04 — Where work waits is known</h3>
+<p>Can you name the three longest waits (GR, requester silence, supplier data, approval, coding) with a median or a p90, even if ugly?</p>
+<p><strong>2</strong> = ageing from the system. <strong>1</strong> = a supervisor’s estimate written down. <strong>0</strong> = not discussed as waits.</p>
+<h3 id="p05-completeness-of-inbound-channels">P05 — Completeness of inbound channels</h3>
+<p>Is every live channel (mailbox, portal, EDI, e-invoice, scan) listed, and is yesterday’s inbound count reconcilable to created documents?</p>
+<p><strong>2</strong> = daily completeness. <strong>1</strong> = a channel list. <strong>0</strong> = invoices “just appear.”</p>
+<h3 id="p06-close-and-payment-are-on-the-same-map">P06 — Close and payment are on the same map</h3>
+<p>Does the path include payment proposal and period close, or does the map stop at “posted”?</p>
+<p><strong>2</strong> = pay and close are drawn, with owners. <strong>1</strong> = mentioned. <strong>0</strong> = out of scope because “that’s Treasury / Accounting.”</p>
+<hr>
+<h2 id="2-data-d">2. Data (D)</h2>
+<h3 id="d01-invoice-identity">D01 — Invoice identity</h3>
+<p>Can you state the natural key you use to call two documents “the same invoice” (entity, vendor, number, date, amount, currency, plus e-invoice UUID if you have one)?</p>
+<p><strong>2</strong> = written and used in duplicate screening. <strong>1</strong> = “invoice number + vendor.” <strong>0</strong> = not defined.</p>
+<h3 id="d02-vendor-cross-walk">D02 — Vendor cross-walk</h3>
+<p>If you run more than one ledger, can you join the same legal supplier across systems without a hero spreadsheet?</p>
+<p><strong>2</strong> = maintained cross-walk. <strong>1</strong> = a spreadsheet someone owns. <strong>0</strong> = we discover it at payment.</p>
+<h3 id="d03-required-fields-for-match">D03 — Required fields for match</h3>
+<p>Are PO, GR, tax, currency, and coding fields defined as required <em>before</em> match is attempted?</p>
+<p><strong>2</strong> = a field standard. <strong>1</strong> = processors know. <strong>0</strong> = match is attempted on whatever arrived.</p>
+<h3 id="d04-lineage-for-a-posted-invoice">D04 — Lineage for a posted invoice</h3>
+<p>From a posted document, can you retrieve the source file, extract, matcher decision, and approver in one pull?</p>
+<p><strong>2</strong> = Internal Audit can pull without a screen-share. <strong>1</strong> = you can reconstruct in a day. <strong>0</strong> = not reconstructable.</p>
+<h3 id="d05-golden-set-or-labelled-sample">D05 — Golden set or labelled sample</h3>
+<p>Do you have any labelled set (even 50 documents) for extract / class / match that is not “the clerk agreed”?</p>
+<p><strong>2</strong> = a dated sample with dual review. <strong>1</strong> = a folder of “good invoices.” <strong>0</strong> = none.</p>
+<h3 id="d06-untrusted-input-is-treated-as-untrusted">D06 — Untrusted input is treated as untrusted</h3>
+<p>Are invoice PDFs and supplier emails treated as untrusted (prompt-injection / instruction-in-document is a logged event, not an instruction)?</p>
+<p><strong>2</strong> = written handling. <strong>1</strong> = “we would notice.” <strong>0</strong> = never discussed.</p>
+<hr>
+<h2 id="3-controls-c">3. Controls (C)</h2>
+<h3 id="c01-payment-release-is-human">C01 — Payment release is human</h3>
+<p>Is payment file / bank batch / positive-pay release a named human control, and would an “AI agent” be refused if it offered to send the file?</p>
+<p><strong>2</strong> = written, tested, dual control as policy requires. <strong>1</strong> = “of course a human pays.” <strong>0</strong> = not written; a demo has already offered to pay.</p>
+<h3 id="c02-vendor-bank-and-tax-id-changes">C02 — Vendor bank and tax-ID changes</h3>
+<p>Are create, bank-detail, and tax-ID changes dual-controlled and out-of-band verified?</p>
+<p><strong>2</strong> = procedure + evidence. <strong>1</strong> = ERP workflow only. <strong>0</strong> = AP can change bank details.</p>
+<h3 id="c03-delegation-of-authority">C03 — Delegation of authority</h3>
+<p>Is the approval matrix versioned, dated, and actually what the workflow uses?</p>
+<p><strong>2</strong> = version matches the tool. <strong>1</strong> = a matrix exists. <strong>0</strong> = approvers are tribal.</p>
+<h3 id="c04-sod-on-posting-vs-paying">C04 — SOD on posting vs paying</h3>
+<p>Is the identity that posts invoices barred from releasing cash — including any <em>system</em> user you would give an agent?</p>
+<p><strong>2</strong> = matrix includes system identities. <strong>1</strong> = people only. <strong>0</strong> = shared robot user.</p>
+<h3 id="c05-exception-override-is-logged">C05 — Exception override is logged</h3>
+<p>When someone overrides a match fail, a duplicate hold, or a SoD fail, is the reason coded and retained?</p>
+<p><strong>2</strong> = coded overrides, reviewable. <strong>1</strong> = a comment. <strong>0</strong> = silent force-post.</p>
+<h3 id="c06-kill-switch">C06 — Kill switch</h3>
+<p>If an agent (or a vendor workflow) had to be stopped this afternoon, can you name who pulls it and what actually stops?</p>
+<p><strong>2</strong> = named owner, rehearsed. <strong>1</strong> = “we would call IT.” <strong>0</strong> = no one has asked.</p>
+<hr>
+<h2 id="4-people-h">4. People (H)</h2>
+<h3 id="h01-named-process-owner">H01 — Named process owner</h3>
+<p>Is there a human who owns AP process design (not a steering committee inbox)?</p>
+<p><strong>2</strong> = named, accepted. <strong>1</strong> = a title on a slide. <strong>0</strong> = unclear.</p>
+<h3 id="h02-named-control-owner">H02 — Named control owner</h3>
+<p>Is there a human who can veto an unsafe expansion of an agent or a workflow?</p>
+<p><strong>2</strong> = named, has vetoed something in the last year. <strong>1</strong> = Internal Audit exists. <strong>0</strong> = the project owns itself.</p>
+<h3 id="h03-exception-capacity-is-known">H03 — Exception capacity is known</h3>
+<p>Do you know how many people actually work exceptions, and what happens when two of them are out?</p>
+<p><strong>2</strong> = roster + backup. <strong>1</strong> = a team size. <strong>0</strong> = “we cope.”</p>
+<h3 id="h04-incentives">H04 — Incentives</h3>
+<p>Are people rewarded for speed or STP <em>without</em> a paired control or quality measure?</p>
+<p><strong>2</strong> = incentives include control/quality, or there is no STP bonus. <strong>1</strong> = mixed. <strong>0</strong> = speed is the only score.</p>
+<h3 id="h05-skills-for-a-steward">H05 — Skills for a steward</h3>
+<p>Is there someone who can write a one-sentence purpose, a fence, and an escalation list — or is “AI” parked with the vendor manager?</p>
+<p><strong>2</strong> = a steward exists or is designated. <strong>1</strong> = a curious lead. <strong>0</strong> = no one will own the brief.</p>
+<h3 id="h06-executive-reader">H06 — Executive reader</h3>
+<p>Is there a CFO, Controller, or delegate who will read a twelve-minute brief and is allowed to say no?</p>
+<p><strong>2</strong> = named reader, date available. <strong>1</strong> = “we will find time.” <strong>0</strong> = the project will go to steering as a demo.</p>
+<hr>
+<h2 id="5-systems-s">5. Systems (S)</h2>
+<h3 id="s01-system-of-record-is-unambiguous">S01 — System of record is unambiguous</h3>
+<p>For the slice you would fence first, which system is the book of record — and do people still keep a parallel tracker?</p>
+<p><strong>2</strong> = one book, tracker is reporting only. <strong>1</strong> = ERP plus a shadow file. <strong>0</strong> = the shadow file is the book.</p>
+<h3 id="s02-ap-automation-capture-estate">S02 — AP automation / capture estate</h3>
+<p>Can you list capture, workflow, and archive tools <em>and</em> say which job they already do well (so you do not buy an agent to re-do a rule)?</p>
+<p><strong>2</strong> = inventory with “deterministic already.” <strong>1</strong> = a vendor list. <strong>0</strong> = unknown.</p>
+<h3 id="s03-read-access-for-observation">S03 — Read access for observation</h3>
+<p>Could a read-only identity see inbound artefacts, parked documents, and open items for one company code without a six-month project?</p>
+<p><strong>2</strong> = yes, or a documented extract. <strong>1</strong> = maybe, untested. <strong>0</strong> = no path.</p>
+<h3 id="s04-write-identity-would-be-named">S04 — Write identity would be named</h3>
+<p>If anything ever posted, would it use a <em>named</em> system user per agent per ledger, not a shared robot?</p>
+<p><strong>2</strong> = identity standard exists. <strong>1</strong> = “we would set one up.” <strong>0</strong> = everyone shares <code>RPA_AP</code>.</p>
+<h3 id="s05-dual-ledger-honesty">S05 — Dual-ledger honesty</h3>
+<p>If you have two ledgers, is there a written rule that a post in one is not permission to post in the other?</p>
+<p><strong>2</strong> = written. <strong>1</strong> = understood. <strong>0</strong> = acquired entity is “the same AP.”</p>
+<h3 id="s06-change-control-for-rules-and-prompts">S06 — Change control for rules and prompts</h3>
+<p>Would a change to match tolerances, reason codes, or (later) prompts follow the same path as ERP configuration?</p>
+<p><strong>2</strong> = change ticket + recert. <strong>1</strong> = a spreadsheet of rules. <strong>0</strong> = the intern edits the prompt.</p>
+<hr>
+<h2 id="6-economics-e">6. Economics (E)</h2>
+<p>Answer with <strong>your</strong> numbers. Do not paste a blog.</p>
+<h3 id="e01-volume-of-the-first-slice">E01 — Volume of the first slice</h3>
+<p>Do you know invoices (and credits, if you include them) per month for the entity/class you would fence first?</p>
+<p><strong>2</strong> = ledger count, last quarter. <strong>1</strong> = a round number. <strong>0</strong> = group total only.</p>
+<h3 id="e02-exception-rate-baseline">E02 — Exception rate baseline</h3>
+<p>Do you have an exception rate for that slice, with a definition (what counts as an exception)?</p>
+<p><strong>2</strong> = defined rate. <strong>1</strong> = “about a quarter.” <strong>0</strong> = unknown.</p>
+<h3 id="e03-time-to-post-baseline">E03 — Time-to-post baseline</h3>
+<p>Median (or p50/p90) hours or days from intake-complete to posted, same slice?</p>
+<p><strong>2</strong> = system timestamps. <strong>1</strong> = a sample of 30. <strong>0</strong> = not measured.</p>
+<h3 id="e04-loaded-cost-definition">E04 — Loaded cost definition</h3>
+<p>Has FP&amp;A (or you, written) defined what “AP cost for this slice” includes — and excluded procurement, receiving, and bank fees unless disclosed?</p>
+<p><strong>2</strong> = a definition. <strong>1</strong> = a budget line. <strong>0</strong> = you are waiting for a $12 vs $3 industry figure.</p>
+<h3 id="e05-what-is-not-cash">E05 — What is <em>not</em> cash</h3>
+<p>Have you written that hours are not savings until overtime, contractors, or fees actually leave the cost base?</p>
+<p><strong>2</strong> = written, shared with the sponsor. <strong>1</strong> = you know. <strong>0</strong> = the deck already multiplies hours × rate.</p>
+<h3 id="e06-industry-figures-are-labelled">E06 — Industry figures are labelled</h3>
+<p>If you cite Ardent Partners 2024 Best-in-Class (78% lower cost, 82% faster, 59% lower exceptions, 9% exception rate) or any vendor dollar, do you treat them as <strong>context</strong>, not your target?</p>
+<p><strong>2</strong> = citations labelled; your F1_b sits beside them. <strong>1</strong> = you have heard the numbers. <strong>0</strong> = the business case <em>is</em> those numbers.</p>
+<p>Vendor blogs routinely recycle <strong>$10–$15 vs $2–$3</strong> per invoice. Those are unverified absolute dollars. They are not your cost.</p>
+<hr>
+<h2 id="7-scoring-model">7. Scoring model</h2>
+<h3 id="71-totals">7.1 Totals</h3>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Questions</th>
+<th>Max</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Process</td>
+<td>P01–P06</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>D01–D06</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Controls</td>
+<td>C01–C06</td>
+<td>12</td>
+</tr>
+<tr>
+<td>People</td>
+<td>H01–H06</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Systems</td>
+<td>S01–S06</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Economics</td>
+<td>E01–E06</td>
+<td>12</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td>36</td>
+<td><strong>72</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hard gates</strong> (cannot be “averaged away”):</p>
+<ul>
+<li>If <strong>C01 = 0</strong> (payment release not human / not written), cap the overall level at <strong>1</strong> and write “do not proceed to any payment-adjacent agent.”</li>
+<li>If <strong>P01 = 0</strong> and <strong>P05 = 0</strong>, the Diagnostic tells you to <strong>wait</strong> and map before buying more.</li>
+<li>If <strong>E05 = 0</strong> and <strong>E06 = 0</strong>, mark the business-case starter <strong>unsafe</strong> — you will invent a saving.</li>
+</ul>
+<h3 id="72-readiness-levels">7.2 Readiness levels</h3>
+<p>These levels describe <strong>agent-layer readiness</strong>, not AP automation maturity. A team can have a strong AP suite and still be Level 0 on agents.</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Name</th>
+<th>Typical total</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0</strong></td>
+<td>Unscoped</td>
+<td>0–17</td>
+<td>AI is a topic. No agent has a written job. The live path is not evidenced.</td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td>Tool-led</td>
+<td>18–35</td>
+<td>A vendor or model is in trial, or tools are strong, but ownership and fences are unclear.</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Designed</td>
+<td>36–49</td>
+<td>One agent <em>could</em> have purpose, fence, and a human owner. Gaps are named.</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>Governed</td>
+<td>50–61</td>
+<td>Controls, evidence, and a review cadence can exist for that agent. Economics are not folklore.</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>Operating</td>
+<td>62–72</td>
+<td>Measures can be read on a schedule. Change control exists. Scale would be deliberate.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Override toward the lower level</strong> if any domain scores ≤ 2/12. A 60-point total with Controls at 2 is not Level 3. It is Level 1 with a good process story.</p>
+<p>Most teams that “have AI in AP” land at 0 or 1. That is a coordinate.</p>
+<h3 id="73-maturity-stages-how-to-talk-about-it">7.3 Maturity stages (how to talk about it)</h3>
+<p>Use these in a note to a Controller. They map to the levels.</p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Level</th>
+<th>What “good next” is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Topic</td>
+<td>0</td>
+<td>Map one live class. Do not buy more toolkit than Diagnostic notes.</td>
+</tr>
+<tr>
+<td>Trial</td>
+<td>1</td>
+<td>Fence the trial you already have. Starter.</td>
+</tr>
+<tr>
+<td>Design</td>
+<td>2</td>
+<td>Write charter + controls + three measures. Professional.</td>
+</tr>
+<tr>
+<td>Govern</td>
+<td>3</td>
+<td>Register, sample, kill switch, IA sighting. Team if several people must move.</td>
+</tr>
+<tr>
+<td>Operate</td>
+<td>4</td>
+<td>Recertify. Expand class only when boringly stable. Custom only if the toolkit will not fit.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="8-ten-agent-opportunity-overview">8. Ten-agent opportunity overview</h2>
+<p>This is a <strong>subset of sixteen</strong>. It is not a shopping list. Score each 0–2 for <em>fit this year</em> using the rubric below. Full charters live in Professional. Starter condenses the same ten.</p>
+<p>Forrester (March 2025) maps current AI AP use cases to six clusters: capture, matching, reporting, fraud management, payment management, e-invoicing/tax. These ten cover those clusters and add triage, goods-receipt chase, supplier resolution, and orchestration. Fraud-adjacent work is <strong>duplicate and anomaly screening</strong>, not a fraud-detection guarantee.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Agent</th>
+<th>Starts at</th>
+<th>Score 2 if…</th>
+<th>Score 0 if…</th>
+<th>Typical first fence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A01</td>
+<td>Invoice Intake</td>
+<td>1</td>
+<td>Channels listed; extract is a known pain</td>
+<td>Invoices already structured e-invoice only and complete</td>
+<td>One mailbox + one portal, one entity</td>
+</tr>
+<tr>
+<td>A02</td>
+<td>Invoice Validation</td>
+<td>1</td>
+<td>Tax/vendor/coding fails are common and coded</td>
+<td>Validation is already a tight rule engine</td>
+<td>Same class as A01</td>
+</tr>
+<tr>
+<td>A03</td>
+<td>Matching</td>
+<td>1</td>
+<td>PO volume; tolerances exist on paper</td>
+<td>No PO discipline; match is political</td>
+<td>PO, one currency, amount cap</td>
+</tr>
+<tr>
+<td>A04</td>
+<td>Exception Triage</td>
+<td>1</td>
+<td>Free-text reasons; ageing is a surprise</td>
+<td>Codes already route cleanly</td>
+<td>Top five reason codes</td>
+</tr>
+<tr>
+<td>A05</td>
+<td>Goods Receipt</td>
+<td>0</td>
+<td>GR-MISS is a top wait</td>
+<td>Receiving will reject any chase</td>
+<td>One plant, one buyer group</td>
+</tr>
+<tr>
+<td>A07</td>
+<td>Approval</td>
+<td>0</td>
+<td>Approval ageing is visible</td>
+<td>DOA is broken — fix DOA first</td>
+<td>Non-PO or over-tolerance only</td>
+</tr>
+<tr>
+<td>A08</td>
+<td>Supplier Resolution</td>
+<td>1</td>
+<td>Supplier inquiries consume time</td>
+<td>Master data is a war zone with no owner</td>
+<td>Draft queries only; no send</td>
+</tr>
+<tr>
+<td>A10</td>
+<td>Duplicate &amp; Anomaly</td>
+<td>1</td>
+<td>No exact-key block, or near-dupes are folklore</td>
+<td>Exact-key already blocks 100% and is evidenced</td>
+<td>Exact-key first; near-dupe later</td>
+</tr>
+<tr>
+<td>A12</td>
+<td>Payment Proposal Review</td>
+<td>0</td>
+<td>Proposal is large and lightly challenged</td>
+<td>Anyone suggests the agent <em>releases</em></td>
+<td>Observe one run; never pay</td>
+</tr>
+<tr>
+<td>A16</td>
+<td>Orchestrator</td>
+<td>1</td>
+<td>Work is already multi-queue</td>
+<td>You do not yet have a second agent</td>
+<td>Dispatch + autonomy register only</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fit score (0–20)</strong> is optional. It does <strong>not</strong> raise your readiness level. A high fit score with Level 0 means you have <em>demand</em>, not <em>readiness</em>.</p>
+<p><strong>Not in the free ten (Professional):</strong> A06 PO Quality, A09 Internal Follow-Up, A11 Vendor Statements, A13 AP Close, A14 Reporting, A15 Root Cause. Do not start those from a Diagnostic alone.</p>
+<h3 id="81-heatmap-how-to-draw-and-read-it">8.1 Heatmap — how to draw and read it</h3>
+<p>On the worksheet, plot <strong>Domain scores /12</strong> as a row, and <strong>Agent fit 0–2</strong> as a second row.</p>
+<pre><code>                 P   D   C   H   S   E
+Northline ex.    7   5   8   6   6   4     ← illustrative, fictional
+                 A01 A02 A03 A04 A05 A07 A08 A10 A12 A16
+Fit (ex.)        2   2   2   2   2   1   2   2   1   2
+</code></pre>
+<p><strong>Interpretation rules:</strong></p>
+<ol>
+<li><strong>Dark controls, dark economics</strong> (C and E both ≥ 8) and pale process (P ≤ 4): you are ready to <em>measure a tool you already bought</em>, not to add agents. Map first.</li>
+<li><strong>Dark process, pale controls</strong> (P ≥ 8, C ≤ 4): you will automate a path you cannot defend. Stop. Write C01–C06.</li>
+<li><strong>A12 fit = 2 and C01 = 0:</strong> invalid. Rescore A12 to 0. Payment observation requires a written human release.</li>
+<li><strong>Every agent fit = 2:</strong> you did not fence. Recheck. Ten agents in year one is a control decision, not a Diagnostic outcome.</li>
+<li><strong>A05 = 2 and you have no receiving owner:</strong> the fit is political. Score 0 until Warehouse names a human.</li>
+</ol>
+<p><strong>Northline (illustrative, fictional).</strong> 4,200 employees; ~18,000 invoices/month; SAP + NetSuite Pacific; 14-person AP. They score Level 1: tools exist (capture suite on SAP), ownership of “the AI” is the vendor manager, NetSuite has no cross-walk (D02 = 0), payment is human (C01 = 2), economics still wants a blog dollar (E04 = 1, E06 = 0). Heatmap says: fence A03+A10 on SAP NL10 PO ≤ $25k; leave A12 at Observe; do not touch NetSuite. That is a next step, not a result.</p>
+<hr>
+<h2 id="9-business-case-starter-not-a-case">9. Business-case starter (not a case)</h2>
+<p>Use this page to stop a bad case, or to start a <em>proposal</em> that uses <strong>your</strong> baseline. Professional contains the full model. This is enough for an email.</p>
+<p><strong>Paste-ready paragraph</strong> (fill the brackets; delete the brackets):</p>
+<blockquote>
+<p>We completed the Evidence Room AP Agent Readiness Diagnostic for [entity / ledger]. We are at <strong>Level [0–4]</strong>. Weakest domains: [domain] and [domain]. We will not use industry cost-per-invoice figures as our baseline. Our slice is [class, volume/month]. We will [map the live path / fence the current trial / write one agent brief] before any production agent. We are not claiming savings, fraud detection, compliance, or ROI. Payment release remains human.</p>
+</blockquote>
+<p><strong>Input scraps</strong> (only if you scored E01–E04 at 1 or 2):</p>
+<table>
+<thead>
+<tr>
+<th>Scrap</th>
+<th>Your figure</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Slice volume / month</td>
+<td></td>
+<td>ERP</td>
+</tr>
+<tr>
+<td>Exception rate (defined)</td>
+<td></td>
+<td>Tickets / ERP</td>
+</tr>
+<tr>
+<td>Median time-to-post</td>
+<td></td>
+<td>Timestamps</td>
+</tr>
+<tr>
+<td>Loaded AP cost for the slice / year</td>
+<td></td>
+<td>FP&amp;A — or “not yet”</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Forbidden in the email:</strong> a 3–5× ROI, a $12 vs $3 comparison as <em>our</em> opportunity, “the agent will pay itself,” Ardent gaps applied as a multiplier.</p>
+<p>Ardent Partners (2024) Best-in-Class <em>relative</em> gaps — 78% lower cost, 82% faster, 59% lower exceptions, 9% exception rate — may appear as a <strong>one-line footnote</strong>: <em>industry research, not our target.</em> Then return to your numbers.</p>
+<hr>
+<h2 id="10-recommended-next-step">10. Recommended next step</h2>
+<table>
+<thead>
+<tr>
+<th>If you find…</th>
+<th>Then</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Level 0, and P01 or P05 is 0</td>
+<td>Stay with these notes. Map one invoice class. Do not buy more yet.</td>
+</tr>
+<tr>
+<td>Level 1, a vendor already in the building</td>
+<td>Starter ($79) — fence that trial.</td>
+</tr>
+<tr>
+<td>Level 1–2, and you will own the method</td>
+<td>Professional ($199).</td>
+</tr>
+<tr>
+<td>Several people must implement</td>
+<td>Team ($499).</td>
+</tr>
+<tr>
+<td>A named environment a toolkit will not fit</td>
+<td>Custom Blueprint application.</td>
+</tr>
+<tr>
+<td>C01 = 0</td>
+<td>Write the payment-release control. Do not discuss A12 as execute.</td>
+</tr>
+<tr>
+<td>E05 = E06 = 0</td>
+<td>Rewrite the sponsor deck before any purchase.</td>
+</tr>
+</tbody>
+</table>
+<p>The Diagnostic is allowed to tell you not to buy.</p>
+<hr>
+<h2 id="11-downloadable-scorecard-instructions">11. Downloadable scorecard — instructions</h2>
+<p>The fillable sheet is <code>SCORECARD_WORKSHEET.md</code>. If you export it:</p>
+<ol>
+<li>Copy the worksheet to your own store (Word, Sheets, or paper). Do not send completed scores to hello@evidenceroom.ai.</li>
+<li>Keep the 0/1/2 key on page one.</li>
+<li>Compute domain totals and the hard-gate flags automatically if you build a sheet — or by hand. Formula: <code>domain = sum of six items</code>; <code>total = sum of domains</code>; <code>level</code> from the table in §7.2; then apply hard gates and the “any domain ≤ 2” override.</li>
+<li>Print the heatmap as two rows, not a colourful dashboard that implies a result.</li>
+<li>Store the completed scorecard with the same retention as other finance working papers. It is your artefact, not ours.</li>
+<li>Licence: evaluation use. Not a client deliverable. Not for resale or republishing.</li>
+</ol>
+<p>A rendered PDF/DOCX may ship in <code>ER-DIAGNOSTIC.zip</code> as <code>AP_AGENT_READINESS_DIAGNOSTIC.pdf</code>. This markdown is the source of truth if they differ.</p>
+<hr>
+<h2 id="12-what-you-may-tell-a-controller-today">12. What you may tell a Controller today</h2>
+<ul>
+<li>You have a level and two weakest domains.</li>
+<li>You have a named next artefact (a map, a fence, or a brief).</li>
+<li>You have refused a list of claims.</li>
+<li>You have not selected a model.</li>
+</ul>
+<p>That is a serious start.</p>
+<hr>
+<h2 id="document-control">Document control</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Owner</td>
+<td>Evidence Room — AP Agent OS</td>
+</tr>
+<tr>
+<td>Advice status</td>
+<td>Not legal, tax, accounting, or investment advice</td>
+</tr>
+<tr>
+<td>Related</td>
+<td><code>SCORECARD_WORKSHEET.md</code> · <code>00_READ_ME/QUICK_START.md</code> · <code>02_AP_AGENT_STARTER/STARTER_GUIDE.md</code></td>
+</tr>
+</tbody>
+</table>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

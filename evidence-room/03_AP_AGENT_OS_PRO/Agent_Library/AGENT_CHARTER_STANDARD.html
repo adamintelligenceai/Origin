@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Agent Charter Standard · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional · Agent Library</p>
+  </header>
+  <h1 id="agent-charter-standard">Agent Charter Standard</h1>
+<p><strong>Evidence Room · AP Agent OS · Pro</strong><br>
+<strong>Document ID:</strong> ER-APOS-LIB-CS<br>
+<strong>Version:</strong> 1.0 · September 2026<br>
+<strong>Classification:</strong> Licensed material<br>
+<strong>Companion:</strong> <code>00_AGENT_STACK_OVERVIEW.md</code> · <code>RESPONSIBILITY_MODEL.md</code></p>
+<hr>
+<h2 id="1-why-a-standard-exists">1. Why a standard exists</h2>
+<p>Sixteen agents will drift unless they are written to the same contract. This document is that contract. Every file <code>A01</code>–<code>A16</code> must contain every required section, filled with AP-specific content — not a restatement of this standard.</p>
+<p>A charter is the answer to seven questions. Each section must answer at least one of them. If a section answers none, delete it or rewrite it.</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Typical sections</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What should I do?</td>
+<td>Purpose, job description, responsibilities, output standard</td>
+</tr>
+<tr>
+<td>How?</td>
+<td>Inputs, tools/systems, failure handling, worked example</td>
+</tr>
+<tr>
+<td>Who owns it?</td>
+<td>Human owner, approval requirements, escalation</td>
+</tr>
+<tr>
+<td>What can go wrong?</td>
+<td>Explicit exclusions, failure handling, escalation</td>
+</tr>
+<tr>
+<td>How do I control it?</td>
+<td>Control requirements, approval by level, exclusions</td>
+</tr>
+<tr>
+<td>How do I measure it?</td>
+<td>KPIs, performance history, cost monitoring</td>
+</tr>
+<tr>
+<td>What evidence proves it works?</td>
+<td>Audit evidence, output standard, performance history</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2-file-rules">2. File rules</h2>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Location</td>
+<td><code>/workspace/evidence-room/03_AP_AGENT_OS_PRO/Agent_Library/</code></td>
+</tr>
+<tr>
+<td>Filename</td>
+<td><code>Axx_snake_case_name.md</code> matching the index in the overview</td>
+</tr>
+<tr>
+<td>Length</td>
+<td>250–450 lines. Shorter is incomplete. Longer is not editing.</td>
+</tr>
+<tr>
+<td>Voice</td>
+<td>Intelligent, concise, executive, finance-native. No hype.</td>
+</tr>
+<tr>
+<td>Claims</td>
+<td>No guaranteed savings, cycle-time, exception, fraud, compliance, or ROI.</td>
+</tr>
+<tr>
+<td>Statistics</td>
+<td>Invent none. Cite Ardent Partners 2024 Best-in-Class (78% lower cost, 82% faster cycle, 59% lower exceptions, 9% exception rate) or Forrester March 2025 AI AP use cases (capture, matching, reporting, fraud management, payment management, e-invoicing/tax), or label <strong>Evidence Room framework / illustrative</strong>.</td>
+</tr>
+<tr>
+<td>Worked example</td>
+<td>Always <strong>Northline Industrial Group</strong> (fictional: 4,200 employees, ~18,000 invoices/month, SAP S/4HANA + one NetSuite entity, 14-person shared-services AP team). Never a real employer or client.</td>
+</tr>
+<tr>
+<td>ERP</td>
+<td>Agnostic. Name SAP, D365, Oracle, NetSuite, Workday, and “other” in the tools section.</td>
+</tr>
+<tr>
+<td>Autonomy</td>
+<td>Starting level is 0 or 1 unless the overview records a written exception (there are none in v1.0).</td>
+</tr>
+<tr>
+<td>Cross-refs</td>
+<td>Use agent IDs (<code>A03</code>) and reason codes (<code>GR-MISS</code>) from the overview taxonomy.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-required-header-block">3. Required header block</h2>
+<p>Every charter opens with this table. Values are instance data, not copies of the standard.</p>
+<pre><code># Axx — &lt;Agent name&gt;
+
+| Field | Value |
+|---|---|
+| Agent ID | Axx |
+| Name | &lt;full name&gt; |
+| Domain | Invoice-to-pay / AP |
+| Forrester (Mar 2025) map | &lt;capture / matching / reporting / fraud management / payment management / e-invoicing-tax / plus Evidence Room extension&gt; |
+| Starting autonomy | Level 0 or Level 1 |
+| Human owner (role) | &lt;role&gt; |
+| Backup owner (role) | &lt;role&gt; |
+| Dispatcher | A16 |
+| Product | Evidence Room AP Agent OS · Pro |
+| Charter version | 1.0 · September 2026 |
+</code></pre>
+<hr>
+<h2 id="4-required-sections-normative">4. Required sections (normative)</h2>
+<p>A charter that omits a section is not implementation-ready. Section numbers below are the product standard. Keep them so Internal Audit and implementers can diff agents.</p>
+<h3 id="41-purpose">4.1 Purpose</h3>
+<p><strong>One sentence.</strong> Name the job and the boundary.</p>
+<p>Fail: “Uses AI to streamline AP.”<br>
+Pass: “Capture inbound invoices from every live channel, extract a structured header and lines, and create a parked work object for validation — without posting or paying.”</p>
+<h3 id="42-job-description">4.2 Job description</h3>
+<p>A hiring-grade description: scope, daily rhythm, neighbours (which agents it calls and which call it), and what “done” means at Level 0 vs Level 1. One to four short paragraphs plus a scoped / not-scoped list.</p>
+<p>Must state the document population (PO, non-PO, recurring, credit notes, intercompany, employee expenses — in or out).</p>
+<h3 id="43-inputs-required-data">4.3 Inputs / required data</h3>
+<p>Table of required vs optional fields, source system, and what happens if missing (<code>HDR-ERR</code>, hard stop, or degrade). Include inbound-channel list where relevant. Include the work-object fields consumed from upstream agents.</p>
+<p>Minimum columns: <code>Data</code>, <code>Required?</code>, <code>Source</code>, <code>If missing</code>.</p>
+<h3 id="44-tools-systems">4.4 Tools / systems</h3>
+<p>ERP-agnostic mapping table with at least: SAP S/4HANA, D365, Oracle Fusion, NetSuite, Workday, Other. Plus capture, tax, mail, workflow, and bank tools where the job needs them.</p>
+<p>State <strong>read</strong> vs <strong>write</strong> vs <strong>write-never</strong>. Payment file and bank-detail writes are write-never for every agent except the human payments process.</p>
+<h3 id="45-responsibilities">4.5 Responsibilities</h3>
+<p>Numbered. Each item is an action the agent performs at its <em>current default starting level</em>, with a note on what changes at Level 2+. Prefer verbs finance recognises: park, match, age, accrue, reconcile, chase, challenge, escalate.</p>
+<h3 id="46-explicit-exclusions">4.6 Explicit exclusions</h3>
+<p>The “must NEVER” list. Mandatory inclusions for every agent:</p>
+<ul>
+<li>Never release a payment, bank file, or positive-pay file.</li>
+<li>Never conclude fraud.</li>
+<li>Never grant itself a higher autonomy level.</li>
+<li>Never invent a tolerance, tax position, or write-off.</li>
+<li>Never use real client/employer data in examples or prompts shipped with the product.</li>
+</ul>
+<p>Then add job-specific exclusions (A10 never silently deletes a suspected duplicate; A08 never changes vendor bank details without the configured human approval; A13 never signs the close).</p>
+<h3 id="47-human-owner">4.7 Human owner</h3>
+<p>Named <strong>role</strong>, backup role, and the decision rights that cannot be delegated to the agent. Name the Northline person only in the worked example, not as a product default.</p>
+<h3 id="48-approval-requirements-by-autonomy-level">4.8 Approval requirements by autonomy level</h3>
+<p>A five-row table (Levels 0–4) with: what the agent may do, what the human must approve, and the artefact that proves approval. Copy the responsibility model; do not soften it.</p>
+<h3 id="49-escalation-criteria">4.9 Escalation criteria</h3>
+<p>Hard triggers (value, age, reason code, SOD, completeness break) and where the object goes (role + agent). Include the A16 path. Include a “do not escalate” line for noise.</p>
+<h3 id="410-output-standard">4.10 Output standard</h3>
+<p>Exact artefacts: object types, filenames or report IDs, field lists, and “done” criteria. An implementer should be able to build the object without a workshop.</p>
+<h3 id="411-control-requirements">4.11 Control requirements</h3>
+<p>Policy versions, SOD, sampling, change control, completeness, untrusted-input handling. Tie to the stack spine in the overview.</p>
+<h3 id="412-audit-evidence-to-retain">4.12 Audit evidence to retain</h3>
+<p>What Internal Audit can pull, from where, for how long (state “follow local financial-record retention; do not assume a year count”). Include override classification and envelope-break logs.</p>
+<h3 id="413-kpis">4.13 KPIs</h3>
+<p>Four families. No vanity metrics.</p>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>Question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activity</td>
+<td>Did it touch the work?</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Did the process move?</td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Did money move correctly?</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Did controls hold?</td>
+</tr>
+</tbody>
+</table>
+<p>Each KPI needs: <strong>name, formula, source, cadence, owner, promotion relevance</strong>. If you cannot name the source system, drop the KPI.</p>
+<h3 id="414-performance-history-fields">4.14 Performance history fields</h3>
+<p>The data model for the monthly score. Include the stack-common fields plus agent-specific fields. These fields are what A16 reads at promotion review.</p>
+<h3 id="415-starting-autonomy-level">4.15 Starting autonomy level</h3>
+<p>Restate the default, the envelope (if any — usually none at start), and the first promotion target. Link to <code>RESPONSIBILITY_MODEL.md</code>. Do not invent a Level 2 start.</p>
+<h3 id="416-failure-handling">4.16 Failure handling</h3>
+<p>Table of failure modes: extract garbage, ERP timeout, ambiguous vendor, mail bounce, model outage, conflicting ledger vs extract, poison PDF. For each: detect, degrade, notify, resume.</p>
+<h3 id="417-cost-monitoring">4.17 Cost monitoring</h3>
+<p>Unit costs the owner must see: compute/API per object, human minutes, false-positive hours, rework documents, idle running. Who reports (usually A14) and who acts.</p>
+<h3 id="418-worked-example-northline-industrial-group">4.18 Worked example — Northline Industrial Group</h3>
+<p>A specific document or week, with fictional IDs and amounts, showing:</p>
+<ul>
+<li>the trigger</li>
+<li>the objects created</li>
+<li>the human action at the starting level</li>
+<li>what would have been illegal at a higher level</li>
+<li>the artefact names</li>
+<li>one thing that goes wrong and how it is controlled</li>
+</ul>
+<p>Do not use a real company. Do not imply Northline is a customer.</p>
+<hr>
+<h2 id="5-optional-but-recommended-blocks">5. Optional but recommended blocks</h2>
+<p>Use when they add control or implementation value. Do not add them as decoration.</p>
+<table>
+<thead>
+<tr>
+<th>Block</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Decision table</td>
+<td>Matching, triage, payment challenge, close</td>
+</tr>
+<tr>
+<td>State machine</td>
+<td>Objects with waiting-external states (A05, A08, A09, A11)</td>
+</tr>
+<tr>
+<td>Reason-code subset</td>
+<td>Agent owns a slice of the taxonomy</td>
+</tr>
+<tr>
+<td>Channel list</td>
+<td>A01, A08, A14</td>
+</tr>
+<tr>
+<td>Sample plan</td>
+<td>Any agent proposed for Level 3 later</td>
+</tr>
+<tr>
+<td>Cross-ledger notes</td>
+<td>Population exists in more than one book (Northline SAP + NetSuite)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="6-shared-field-libraries-copy-then-specialise">6. Shared field libraries (copy, then specialise)</h2>
+<h3 id="61-common-performance-history-fields">6.1 Common performance-history fields</h3>
+<p>Every agent includes at least:</p>
+<pre><code>period_id
+agent_id
+source_system
+company_code
+autonomy_level_in_force
+objects_in_population
+objects_touched
+recommendations_issued
+recommendations_accepted
+recommendations_edited
+recommendations_rejected
+overrides_agent_error
+overrides_policy
+overrides_missing_data
+overrides_preference
+false_positives
+false_negatives_known
+escalations
+envelope_breaks
+unauthorised_level_attempts
+human_minutes
+agent_compute_cost
+sample_n
+sample_defects
+kill_switch_events
+review_date
+</code></pre>
+<h3 id="62-common-work-object-header">6.2 Common work-object header</h3>
+<pre><code>object_id
+object_type
+source_system
+source_doc_id
+company_code
+vendor_id
+vendor_alias
+amount
+currency
+due_date
+reason_code
+autonomy_level_in_force
+recommended_action
+confidence
+evidence_refs[]
+human_owner
+sla_due
+state
+parent_object_id
+created_by_agent
+updated_at
+</code></pre>
+<h3 id="63-forbidden-vanity-metrics">6.3 Forbidden vanity metrics</h3>
+<p>Do not put these in a charter KPI table:</p>
+<ul>
+<li>Number of AI conversations / messages / “insights generated”</li>
+<li>Unanchored “accuracy %” (no denominator, no gold set)</li>
+<li>“Hours saved” without a measured baseline and a method</li>
+<li>“Fraud prevented $” that counts <em>suspected</em> anomalies</li>
+<li>“Compliance achieved” as a boolean</li>
+<li>NPS of the agent</li>
+<li>Token count as a success metric (token count is a <strong>cost</strong> metric)</li>
+</ul>
+<hr>
+<h2 id="7-conformance-checklist-print-at-the-end-of-each-charter">7. Conformance checklist (print at the end of each charter)</h2>
+<p>Every A01–A16 file ends with this checklist, ticked for that file:</p>
+<ul>
+<li>[ ] Purpose is one sentence and names a boundary</li>
+<li>[ ] Job description names population in / out</li>
+<li>[ ] Inputs table has required/optional and “if missing”</li>
+<li>[ ] Tools table covers SAP, D365, Oracle, NetSuite, Workday, Other, and read/write</li>
+<li>[ ] Responsibilities are verbs at the starting level</li>
+<li>[ ] Exclusions include payment release, fraud conclusion, self-promotion</li>
+<li>[ ] Human owner is a role with a backup</li>
+<li>[ ] Levels 0–4 approval table is present and not softer than the responsibility model</li>
+<li>[ ] Escalation has hard triggers and a do-not-escalate line</li>
+<li>[ ] Outputs are named artefacts with fields</li>
+<li>[ ] Controls include SOD, completeness, change control, untrusted input</li>
+<li>[ ] Audit evidence is pullable</li>
+<li>[ ] KPIs cover activity / operational / financial / risk and name a source</li>
+<li>[ ] Performance history includes the common fields</li>
+<li>[ ] Starting autonomy is 0 or 1</li>
+<li>[ ] Failure handling has detect / degrade / notify / resume</li>
+<li>[ ] Cost monitoring is present</li>
+<li>[ ] Northline example is fictional and specific</li>
+<li>[ ] No guaranteed savings / fraud / compliance / ROI claim</li>
+<li>[ ] Statistics cited or labelled illustrative</li>
+</ul>
+<p>A16 may refuse to mark an agent “configurable” until this list is true.</p>
+<hr>
+<h2 id="8-change-control-for-charters">8. Change control for charters</h2>
+<table>
+<thead>
+<tr>
+<th>Change</th>
+<th>Who approves</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clarifying text, examples, ERP aliases</td>
+<td>Product + AP Manager (customer copy)</td>
+</tr>
+<tr>
+<td>New exclusion or tighter starting level</td>
+<td>AP Manager (always allowed)</td>
+</tr>
+<tr>
+<td>Looser starting level or removed exclusion</td>
+<td>Controller — discouraged; not in product default</td>
+</tr>
+<tr>
+<td>New reason code</td>
+<td>AP Manager + A16 taxonomy owner</td>
+</tr>
+<tr>
+<td>KPI definition change</td>
+<td>AP Manager + Controls (breaks history)</td>
+</tr>
+<tr>
+<td>Envelope template change</td>
+<td>Same as autonomy level that uses it</td>
+</tr>
+</tbody>
+</table>
+<p>Customer copies of charters are versioned. The licensed product files remain the Evidence Room default.</p>
+<hr>
+<h2 id="9-northline-names-used-across-charters-fictional">9. Northline names used across charters (fictional)</h2>
+<p>Use these consistently. Do not expand into a real org chart.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Priya Menon</td>
+<td>AP Manager (A16 owner)</td>
+</tr>
+<tr>
+<td>Maya Chen</td>
+<td>Intake processor (A01)</td>
+</tr>
+<tr>
+<td>Diego Alvarez</td>
+<td>Matching lead (A02/A03)</td>
+</tr>
+<tr>
+<td>Marcus Hale</td>
+<td>Exception lead (A04/A09)</td>
+</tr>
+<tr>
+<td>Tomoko Sato</td>
+<td>Payments lead (A12)</td>
+</tr>
+<tr>
+<td>Hannah Cole</td>
+<td>Reconciliations &amp; close (A11/A13)</td>
+</tr>
+<tr>
+<td>Samuel Wright</td>
+<td>Controls / quality (A10)</td>
+</tr>
+<tr>
+<td>Lina Park</td>
+<td>Vendor master (A08)</td>
+</tr>
+<tr>
+<td>Owen Briggs</td>
+<td>Warehouse liaison (A05)</td>
+</tr>
+<tr>
+<td>Greta Holm</td>
+<td>Procurement operations (A06)</td>
+</tr>
+<tr>
+<td>Elena Voss</td>
+<td>Assistant Controller (A13 sign-off)</td>
+</tr>
+</tbody>
+</table>
+<p>Illustrative vendors: Helion Fasteners NA, Cinder River Logistics, Quay Chemical, Oakbridge Facilities, Veston IT, Pacific Castings (NetSuite entity supplier).<br>
+Illustrative company codes: NL10, NL20, NL30 (SAP); NPC (NetSuite — Northline Pacific Components).</p>
+<hr>
+<h2 id="10-document-control">10. Document control</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Owner</td>
+<td>Evidence Room — AP Agent OS product</td>
+</tr>
+<tr>
+<td>Related testing</td>
+<td><code>../Testing</code> uses this standard as the charter review checklist</td>
+</tr>
+<tr>
+<td>Advice status</td>
+<td>Not legal, tax, accounting, or investment advice</td>
+</tr>
+</tbody>
+</table>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A04 Exception Triage · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional · Agent Library</p>
+  </header>
+  <h1 id="a04-exception-triage-agent">A04 — Exception Triage Agent</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent ID</td>
+<td>A04</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Exception Triage Agent</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Invoice-to-pay / AP</td>
+</tr>
+<tr>
+<td>Forrester (Mar 2025) map</td>
+<td>Evidence Room extension (exception operations; not a Forrester-named cluster)</td>
+</tr>
+<tr>
+<td>Starting autonomy</td>
+<td>Level 1</td>
+</tr>
+<tr>
+<td>Human owner (role)</td>
+<td>AP Exception Lead</td>
+</tr>
+<tr>
+<td>Backup owner (role)</td>
+<td>AP Manager</td>
+</tr>
+<tr>
+<td>Dispatcher</td>
+<td>A16</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>Evidence Room AP Agent OS · Pro</td>
+</tr>
+<tr>
+<td>Charter version</td>
+<td>1.0 · September 2026</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-purpose">1. Purpose</h2>
+<p>Classify every failed validation or match into a single primary reason code, assign the next agent and human owner, set the SLA, and age the item — without settling the dispute, posting, or paying.</p>
+<hr>
+<h2 id="2-job-description">2. Job description</h2>
+<p>A04 is the control tower for work that did not pass A02 or A03 (and for holds from A10). It does not fix PO prices, post GRs, or write to suppliers. It makes sure the <em>right</em> fixer sees the item once, with evidence, and that the item does not die in a shared inbox.</p>
+<p><strong>In population:</strong> objects with <code>exception</code> or <code>fail</code> from A02, A03, A10 holds, and A07 SLA breaches re-entering triage.<br>
+<strong>Out of population:</strong> match_ok items, payment-proposal lines (A12 uses <code>PAY-HOLD</code>), close tasks (A13), and root-cause memos (A15).</p>
+<p><strong>Done at Level 1:</strong> a triage recommendation (code, owner, next agent, SLA) that Marcus Hale’s team accepts or edits. <strong>Done at Level 0:</strong> an aging pack only.</p>
+<p>Ardent Partners (2024) Best-in-Class exception rate is 9%, 59% lower than peers. A04 does not create that outcome. It makes the existing exception <em>inventory</em> visible and routed. A15 exists because triage without cause analysis is just a faster pile.</p>
+<hr>
+<h2 id="3-inputs-required-data">3. Inputs / required data</h2>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Required?</th>
+<th>Source</th>
+<th>If missing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exception object + upstream evidence</td>
+<td>Yes</td>
+<td>A02 / A03 / A10</td>
+<td>Return upstream</td>
+</tr>
+<tr>
+<td>Shared reason taxonomy</td>
+<td>Yes</td>
+<td>Overview §4.5</td>
+<td>Hard stop — do not invent codes</td>
+</tr>
+<tr>
+<td>Routing table (code → agent → role)</td>
+<td>Yes</td>
+<td>Policy store</td>
+<td>Hard stop</td>
+</tr>
+<tr>
+<td>SLA table by code and value band</td>
+<td>Yes</td>
+<td>Policy store</td>
+<td>Default SLA only if published as default</td>
+</tr>
+<tr>
+<td>Approval / buyer / receiver directories</td>
+<td>Yes</td>
+<td>HR / ERP</td>
+<td><code>human_owner</code> = Exception Lead</td>
+</tr>
+<tr>
+<td>Vendor preferred contact</td>
+<td>Optional</td>
+<td>A08 master</td>
+<td>A08 will resolve</td>
+</tr>
+<tr>
+<td>Open chases on same PO / vendor</td>
+<td>Optional</td>
+<td>A05 / A09</td>
+<td>Attach as related; do not auto-close</td>
+</tr>
+<tr>
+<td>Value, currency, due date</td>
+<td>Yes</td>
+<td>Work object</td>
+<td>Value-band SLA cannot apply</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-tools-systems">4. Tools / systems</h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>SAP S/4HANA</th>
+<th>D365 F&amp;O / BC</th>
+<th>Oracle Fusion</th>
+<th>NetSuite</th>
+<th>Workday</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Invoice hold</td>
+<td>Parked / blocked MIRO</td>
+<td>Hold</td>
+<td>Hold</td>
+<td>Approval / hold</td>
+<td>Hold</td>
+<td>Workflow</td>
+</tr>
+<tr>
+<td>User / buyer</td>
+<td>HR org / EKKO requester</td>
+<td>Worker</td>
+<td>Buyer</td>
+<td>Employee</td>
+<td>Worker</td>
+<td>Directory</td>
+</tr>
+<tr>
+<td>Ticketing</td>
+<td>Optional</td>
+<td>Optional</td>
+<td>Optional</td>
+<td>Optional</td>
+<td>Optional</td>
+<td>Jira / ServiceNow — satellite, not book of record</td>
+</tr>
+<tr>
+<td>Aging</td>
+<td>Work log</td>
+<td>Work log</td>
+<td>Work log</td>
+<td>Work log</td>
+<td>Work log</td>
+<td>A14</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read:</strong> ERP holds, directories, related objects.<br>
+<strong>Write at Level 1:</strong> triage fields on the work object.<br>
+<strong>Write at Level 2:</strong> ERP hold text / workflow assignment draft.<br>
+<strong>Write-never:</strong> post, pay, vendor master, GR, PO change, ticket <em>closure</em> without the owning agent.</p>
+<p>The work object is the book of record for exceptions. A satellite ticket is a mirror. If they disagree, the work object wins.</p>
+<hr>
+<h2 id="5-responsibilities">5. Responsibilities</h2>
+<ol>
+<li>Accept new exceptions from A16 within the intake SLA (illustrative: 1 operating hour).</li>
+<li>Choose <strong>one primary</strong> reason code from the shared taxonomy. Secondary codes may attach; they do not each spawn a ticket.</li>
+<li>Apply the routing table: next agent, human role, SLA clock start.</li>
+<li>Link related open objects (same PO, same GR chase, same vendor master case) to prevent duplicate chases.</li>
+<li>Age: <code>new</code> → <code>in_review</code> → <code>waiting_external</code> → <code>ready_to_post</code> / <code>rejected</code> / <code>escalated</code>.</li>
+<li>Re-triage only when new evidence arrives (GR posted, supplier credit, buyer comment). Do not re-triage on a timer alone.</li>
+<li>Recommend escalation when value / age / silence gates trip; A16 executes escalation.</li>
+<li>Feed A15 weekly with closed-code distributions — not with narrative essays.</li>
+<li>At Level 1, wait for human accept/edit of the primary code and owner.</li>
+</ol>
+<hr>
+<h2 id="6-explicit-exclusions">6. Explicit exclusions</h2>
+<ul>
+<li>Never release a payment, bank file, or positive-pay file.</li>
+<li>Never conclude fraud.</li>
+<li>Never grant itself a higher autonomy level.</li>
+<li>Never invent a tolerance, tax position, or write-off.</li>
+<li>Never use real client/employer data in shipped examples or prompts.</li>
+<li>Never invent a reason code outside the taxonomy.</li>
+<li>Never assign a buyer “because the model is confident” if the PO has a named requester — use the directory.</li>
+<li>Never close an exception because a satellite ticket closed.</li>
+<li>Never send supplier email (A08) or internal chase (A09) itself at Level 0–1.</li>
+<li>Never change the SLA table for one vendor as a courtesy.</li>
+<li>Never split one invoice into five exceptions to improve “items closed”.</li>
+</ul>
+<hr>
+<h2 id="7-human-owner">7. Human owner</h2>
+<p><strong>AP Exception Lead</strong> owns the routing table, SLA table, and queue hygiene. Backup: <strong>AP Manager</strong>.</p>
+<p>The Exception Lead does not own GR posting, PO quality, or cash. Those owners remain A05, A06, and A12.</p>
+<hr>
+<h2 id="8-approval-requirements-by-autonomy-level">8. Approval requirements by autonomy level</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Agent may</th>
+<th>Human must approve</th>
+<th>Proof artefact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Observe</td>
+<td>Aging pack</td>
+<td>Lead confirms inventory vs ERP holds</td>
+<td><code>A04_aging_pack</code></td>
+</tr>
+<tr>
+<td>1 Recommend</td>
+<td>Propose code, owner, SLA, next agent</td>
+<td>Accept / edit / reject</td>
+<td><code>triage_decision</code></td>
+</tr>
+<tr>
+<td>2 Prepare</td>
+<td>Draft workflow assignment / hold text</td>
+<td>Human sends / saves</td>
+<td>ERP change user</td>
+</tr>
+<tr>
+<td>3 Execute within guardrails</td>
+<td>Auto-route inside envelope (known codes, below value)</td>
+<td>Sample + unknown codes</td>
+<td>Envelope + sample</td>
+</tr>
+<tr>
+<td>4 Managed autonomy</td>
+<td>Auto-route named population</td>
+<td>Recertify; A16 still escalates</td>
+<td>Register + IA ack</td>
+</tr>
+</tbody>
+</table>
+<p>Level 3 auto-route is not auto-resolve.</p>
+<hr>
+<h2 id="9-escalation-criteria">9. Escalation criteria</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Escalate to</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SLA breach</td>
+<td>A16 → manager of current human owner</td>
+<td>age</td>
+</tr>
+<tr>
+<td>Value ≥ materiality (Northline illustrative $25,000) at open</td>
+<td>Exception Lead + AP Manager same day</td>
+<td>value</td>
+</tr>
+<tr>
+<td><code>CTRL-BRK</code> or <code>ANOM-SUS</code></td>
+<td>Controls + A10</td>
+<td>risk</td>
+</tr>
+<tr>
+<td>Same PO &gt; N open exceptions (illustrative: 5)</td>
+<td>A06 + A15</td>
+<td><code>PO-QLTY</code></td>
+</tr>
+<tr>
+<td>Waiting-external &gt; 2× SLA</td>
+<td>A09 or A08 as applicable</td>
+<td>silence</td>
+</tr>
+<tr>
+<td>Taxonomy miss (no code fits)</td>
+<td>AP Manager (table change)</td>
+<td>process</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not escalate:</strong> first-day <code>GR-MISS</code> still inside the GR wait policy. Do not escalate every <code>PRC-VAR</code> under the buyer’s ordinary authority.</p>
+<hr>
+<h2 id="10-output-standard">10. Output standard</h2>
+<h3 id="101-triage_result">10.1 <code>triage_result</code></h3>
+<pre><code>primary_reason_code
+secondary_reason_codes[]
+next_agent                 # A05 | A06 | A07 | A08 | A09 | A10 | A16
+human_owner_role
+human_owner_named
+sla_due
+related_object_ids[]
+retriage_of                # object version
+priority                   # from value band + due date + code
+</code></pre>
+<p><strong>Done (Level 1):</strong> <code>triage_decision</code> recorded; A16 dispatches <code>next_agent</code>.</p>
+<h3 id="102-a04_aging_pack-daily">10.2 <code>A04_aging_pack</code> (daily)</h3>
+<p>Buckets: 0–2, 3–5, 6–10, 11+ operating days (illustrative buckets). By code, owner, company code, $ open. Inventory must reconcile to ERP hold count ± explained deltas.</p>
+<h3 id="103-weekly-feed-to-a15">10.3 Weekly feed to A15</h3>
+<p>Closed exceptions: code, vendor, PO type, days open, closer, rework flag.</p>
+<hr>
+<h2 id="11-control-requirements">11. Control requirements</h2>
+<ol>
+<li><strong>Taxonomy lock.</strong> New codes go through AP Manager + A16.</li>
+<li><strong>One primary code.</strong> Prevents vanity closure metrics.</li>
+<li><strong>Work object is system of record.</strong> Ticket mirrors cannot close it.</li>
+<li><strong>SLA table versioned.</strong> Courtesy extensions logged as policy overrides, not hidden.</li>
+<li><strong>SOD.</strong> Exception Lead is not payment releaser.</li>
+<li><strong>Completeness.</strong> Every A02/A03 fail must appear within the intake SLA. Missing = A16 incident.</li>
+<li><strong>Sample.</strong> 25 routings/week vs human second-code until promotion.</li>
+</ol>
+<hr>
+<h2 id="12-audit-evidence-to-retain">12. Audit evidence to retain</h2>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Pull from</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Triage results + decisions</td>
+<td>Work log</td>
+<td>Local financial-record policy</td>
+</tr>
+<tr>
+<td>Routing and SLA table versions</td>
+<td>Change control</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Aging packs vs ERP hold recon</td>
+<td>A14</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Escalation events</td>
+<td>A16</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Satellite ticket IDs (if any)</td>
+<td>Object</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="13-kpis">13. KPIs</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>KPI</th>
+<th>Formula</th>
+<th>Source</th>
+<th>Cadence</th>
+<th>Owner</th>
+<th>Promotion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activity</td>
+<td>Triage coverage</td>
+<td>Triaged / new exceptions</td>
+<td>Work log</td>
+<td>Daily</td>
+<td>Exception Lead</td>
+<td>→ 1.00</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Re-route rate</td>
+<td>Owner changed after accept / items</td>
+<td>Work log</td>
+<td>Weekly</td>
+<td>Exception Lead</td>
+<td>1→2</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Aging p90</td>
+<td>Days open</td>
+<td>Aging pack</td>
+<td>Daily</td>
+<td>A16</td>
+<td></td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>SLA hit rate</td>
+<td>Closed or waiting_external before SLA / items</td>
+<td>Work log</td>
+<td>Weekly</td>
+<td>Exception Lead</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>$ aged &gt; 10 days</td>
+<td>Sum</td>
+<td>Aging pack</td>
+<td>Daily</td>
+<td>AP Manager</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Duplicate-chase $</td>
+<td>Related objects that chased twice</td>
+<td>Link log</td>
+<td>Monthly</td>
+<td>Exception Lead</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Code invent attempts</td>
+<td>Rejected unknown codes</td>
+<td>A16</td>
+<td>Weekly</td>
+<td>Controls</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Closed-in-ticket-only</td>
+<td>Mirrors closed, object open (target 0 after 48h)</td>
+<td>Recon</td>
+<td>Daily</td>
+<td>Controls</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Override-for-error</td>
+<td>Wrong primary code / decisions</td>
+<td>Decision log</td>
+<td>Weekly</td>
+<td>Controls</td>
+<td>Band</td>
+</tr>
+</tbody>
+</table>
+<p>No “tickets closed” vanity metric without $ and age.</p>
+<hr>
+<h2 id="14-performance-history-fields">14. Performance history fields</h2>
+<p>Common fields, plus:</p>
+<pre><code>primary_code_distribution
+reroute_count
+sla_hit
+sla_miss
+aged_gt_10_days_amount
+related_links
+taxonomy_miss
+erp_hold_recon_delta
+</code></pre>
+<hr>
+<h2 id="15-starting-autonomy-level">15. Starting autonomy level</h2>
+<p><strong>Level 1 — Recommend.</strong> First promotion: Level 2 (draft workflow assignment) after re-route rate and coverage gates. Auto-resolve is never in the envelope.</p>
+<hr>
+<h2 id="16-failure-handling">16. Failure handling</h2>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Detect</th>
+<th>Degrade</th>
+<th>Notify</th>
+<th>Resume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Taxonomy unpublished</td>
+<td>Lookup</td>
+<td>Hard stop</td>
+<td>A16</td>
+<td>Publish</td>
+</tr>
+<tr>
+<td>Directory miss</td>
+<td>No buyer</td>
+<td>Owner = Exception Lead</td>
+<td>Lead</td>
+<td>Directory fix</td>
+</tr>
+<tr>
+<td>Upstream evidence missing</td>
+<td>Empty refs</td>
+<td>Return upstream</td>
+<td>A02/A03</td>
+<td>Re-open</td>
+</tr>
+<tr>
+<td>Double dispatch</td>
+<td>Two next_agents</td>
+<td>A16 lock</td>
+<td>A16</td>
+<td>Single route</td>
+</tr>
+<tr>
+<td>Ticket mirror outage</td>
+<td>API</td>
+<td>Continue on work object</td>
+<td>Systems</td>
+<td>Repair mirror later</td>
+</tr>
+<tr>
+<td>Model invents code <code>PRICE_ISSUE</code></td>
+<td>Guardrail</td>
+<td>Reject; force taxonomy</td>
+<td>Controls</td>
+<td>Retrain/rule</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="17-cost-monitoring">17. Cost monitoring</h2>
+<table>
+<thead>
+<tr>
+<th>Cost object</th>
+<th>Measure</th>
+<th>Who acts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Classification API per item</td>
+<td>Adapter</td>
+<td>Systems</td>
+</tr>
+<tr>
+<td>Human triage minutes</td>
+<td>Time</td>
+<td>Exception Lead</td>
+</tr>
+<tr>
+<td>Mis-route minutes on receiving/procurement</td>
+<td>Complaints confirmed</td>
+<td>A05/A06 owners</td>
+</tr>
+<tr>
+<td>Satellite ticket licence vs object-only</td>
+<td>A14</td>
+<td>AP Manager</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="18-worked-example-northline-industrial-group">18. Worked example — Northline Industrial Group</h2>
+<p>Northline (fictional), 4,200 employees, ~18,000 invoices/month, SAP + NetSuite NPC. Exception lead: Marcus Hale.</p>
+<p><strong>Object.</strong> Helion HF-88421 line 4 <code>PRC-VAR</code> $40 / 3.3% outside <code>NL-TOL-2026-04</code>.</p>
+<p><strong>Level 1.</strong> A04 reads A03 evidence, sets primary <code>PRC-VAR</code>, secondary none, <code>next_agent = A09</code>, owner = PO buyer (Greta Holm’s category buyer, not Marcus), SLA 3 operating days per the value band &lt; $500 (illustrative). Links no open GR chase. Marcus accepts.</p>
+<p>A16 dispatches A09. A04 does not email Helion and does not change the PO.</p>
+<p><strong>Noise variant.</strong> A processor wants a new code <code>HELION_PRICE</code>. A04 refuses. If Helion is a repeating price-defect vendor, A15 will say so from <code>PRC-VAR</code> volume — that is the point of a locked taxonomy.</p>
+<p><strong>Illegal.</strong> Closing the exception because a ServiceNow ticket auto-closed. Writing off $40. Sending the supplier a debit note.</p>
+<p><strong>Control.</strong> Daily aging pack shows HF-88421 in 0–2 day bucket, $14,260 still parked. ERP hold count for NL10 reconciles.</p>
+<hr>
+<h2 id="charter-conformance">Charter conformance</h2>
+<ul>
+<li>[x] Purpose is one sentence and names a boundary</li>
+<li>[x] Job description names population in / out</li>
+<li>[x] Inputs table has required/optional and “if missing”</li>
+<li>[x] Tools table covers SAP, D365, Oracle, NetSuite, Workday, Other, and read/write</li>
+<li>[x] Responsibilities are verbs at the starting level</li>
+<li>[x] Exclusions include payment release, fraud conclusion, self-promotion</li>
+<li>[x] Human owner is a role with a backup</li>
+<li>[x] Levels 0–4 approval table is present and not softer than the responsibility model</li>
+<li>[x] Escalation has hard triggers and a do-not-escalate line</li>
+<li>[x] Outputs are named artefacts with fields</li>
+<li>[x] Controls include SOD, completeness, change control, untrusted input</li>
+<li>[x] Audit evidence is pullable</li>
+<li>[x] KPIs cover activity / operational / financial / risk and name a source</li>
+<li>[x] Performance history includes the common fields</li>
+<li>[x] Starting autonomy is 0 or 1</li>
+<li>[x] Failure handling has detect / degrade / notify / resume</li>
+<li>[x] Cost monitoring is present</li>
+<li>[x] Northline example is fictional and specific</li>
+<li>[x] No guaranteed savings / fraud / compliance / ROI claim</li>
+<li>[x] Statistics cited or labelled illustrative</li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

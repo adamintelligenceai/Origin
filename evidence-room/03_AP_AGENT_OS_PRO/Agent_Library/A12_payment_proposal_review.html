@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A12 Payment Proposal Review · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional · Agent Library</p>
+  </header>
+  <h1 id="a12-payment-proposal-review-agent">A12 — Payment Proposal Review Agent</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent ID</td>
+<td>A12</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Payment Proposal Review Agent</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Invoice-to-pay / AP</td>
+</tr>
+<tr>
+<td>Forrester (Mar 2025) map</td>
+<td>Payment management (challenge only)</td>
+</tr>
+<tr>
+<td>Starting autonomy</td>
+<td>Level 0</td>
+</tr>
+<tr>
+<td>Human owner (role)</td>
+<td>Payments Lead</td>
+</tr>
+<tr>
+<td>Backup owner (role)</td>
+<td>Assistant Controller</td>
+</tr>
+<tr>
+<td>Dispatcher</td>
+<td>A16</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>Evidence Room AP Agent OS · Pro</td>
+</tr>
+<tr>
+<td>Charter version</td>
+<td>1.0 · September 2026</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-purpose">1. Purpose</h2>
+<p>Challenge the payment proposal for holds, duplicates, due-date errors, discount misses, and payee anomalies — and never release the payment file, bank batch, or positive-pay file.</p>
+<hr>
+<h2 id="2-job-description">2. Job description</h2>
+<p>A12 is the sceptical reader of F110 / the payment journal / the settlement run. Forrester (March 2025) lists payment management as an AI AP use case. In this stack that use case stops at <strong>challenge</strong>. Authorisation remains human: bank mandate, dual control, and the Payments Lead’s release.</p>
+<p><strong>In population:</strong> every payment proposal line in the live run (SAP NL10/20/30 and NetSuite NPC as separate runs).<br>
+<strong>Out of population:</strong> invoice posting, vendor bank master writes (A08), payroll, treasury FX deals.</p>
+<p><strong>Done at Level 0:</strong> a challenge pack Tomoko Sato reviews beside the proposal before she releases. <strong>Done at Level 1:</strong> recommended <code>PAY-HOLD</code> / <code>pay_ok</code> / <code>discount_risk</code> on lines; she still releases.</p>
+<p>If A12 is silent, that is not an approval. Silence at Level 0 is an incomplete pack — stop the run.</p>
+<hr>
+<h2 id="3-inputs-required-data">3. Inputs / required data</h2>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Required?</th>
+<th>Source</th>
+<th>If missing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Proposal header + lines</td>
+<td>Yes</td>
+<td>ERP payment program</td>
+<td><strong>Do not release; do not “clear”</strong></td>
+</tr>
+<tr>
+<td>Invoice / open item detail</td>
+<td>Yes</td>
+<td>ERP</td>
+<td>Hold line</td>
+</tr>
+<tr>
+<td>A10 screen on each line</td>
+<td>Yes</td>
+<td>A10</td>
+<td>Run A10 first</td>
+</tr>
+<tr>
+<td>Vendor bank snapshot vs last paid bank</td>
+<td>Yes</td>
+<td>MDM / pay history</td>
+<td><code>PAY-HOLD</code></td>
+</tr>
+<tr>
+<td>Blocks / holds</td>
+<td>Yes</td>
+<td>Vendor + invoice</td>
+<td>Honour them</td>
+</tr>
+<tr>
+<td>Terms / discount dates</td>
+<td>Yes</td>
+<td>Invoice / vendor</td>
+<td>Discount test degraded</td>
+</tr>
+<tr>
+<td>Due date vs run date</td>
+<td>Yes</td>
+<td>Invoice</td>
+<td>Hold</td>
+</tr>
+<tr>
+<td>Dual-control / release policy</td>
+<td>Yes</td>
+<td>Treasury</td>
+<td>Human path only</td>
+</tr>
+<tr>
+<td>Positive-pay / bank-file format rules</td>
+<td>Yes</td>
+<td>Treasury</td>
+<td>Out of A12 write scope</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-tools-systems">4. Tools / systems</h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>SAP S/4HANA</th>
+<th>D365 F&amp;O / BC</th>
+<th>Oracle Fusion</th>
+<th>NetSuite</th>
+<th>Workday</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Proposal</td>
+<td>F110</td>
+<td>Payment journal</td>
+<td>Payment process request</td>
+<td>Payment batch</td>
+<td>Settlement run</td>
+<td></td>
+</tr>
+<tr>
+<td>Release / file</td>
+<td>Payment media / BCM</td>
+<td>Bank file</td>
+<td>Payments file</td>
+<td>File</td>
+<td>Settlement</td>
+<td>Bank portal</td>
+</tr>
+<tr>
+<td>Positive pay</td>
+<td>Bank adapter</td>
+<td>Bank</td>
+<td>Bank</td>
+<td>Bank</td>
+<td>Bank</td>
+<td>Treasury</td>
+</tr>
+<tr>
+<td>Blocks</td>
+<td>LFB1 / invoice</td>
+<td>Hold</td>
+<td>Hold</td>
+<td>Hold</td>
+<td>Hold</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read:</strong> proposal, invoices, banks, A10.<br>
+<strong>Write at Level 0:</strong> pack.<br>
+<strong>Write at Level 1:</strong> line challenges on work objects.<br>
+<strong>Write at Level 2:</strong> draft exception list for the releaser.<br>
+<strong>Write-never:</strong> payment release, bank file, positive-pay, vendor bank change, “pay immediately” to the bank.</p>
+<p><code>can_release_payment</code> is always false (<code>RESPONSIBILITY_MODEL.md</code>).</p>
+<hr>
+<h2 id="5-responsibilities">5. Responsibilities</h2>
+<ol>
+<li>Take a frozen snapshot of the proposal (line count, $ hash). If the proposal changes after the pack, invalidate the pack.</li>
+<li>Call A10 on every line (payee, invoice number reuse, cross-ledger twin).</li>
+<li>Test: payment block, invoice not posted, due date in the future beyond policy, already-paid item, bank account ≠ last verified, one-time vendor, employee vendor on trade, discount date still open, amount ≠ open item.</li>
+<li>Classify each line: <code>pay_ok_challenge_none</code> | <code>PAY-HOLD</code> | <code>discount_risk</code> | <code>early_pay</code> | <code>bank_changed</code> | <code>dup_sus</code>.</li>
+<li>Produce <code>A12_challenge_pack</code> before the human release window.</li>
+<li>Never interpret a clean pack as a release authorisation. The pack is an input to a human.</li>
+<li>After release, reconcile file $ to proposal $ to bank confirmation (read-only). Breaks go to Treasury.</li>
+<li>At Level 0, the pack may be manual-complete if the agent is down — the run does not become “agent-approved”.</li>
+</ol>
+<hr>
+<h2 id="6-explicit-exclusions">6. Explicit exclusions</h2>
+<ul>
+<li>Never release a payment, bank file, or positive-pay file.</li>
+<li>Never conclude fraud.</li>
+<li>Never grant itself a higher autonomy level.</li>
+<li>Never invent a tolerance, tax position, or write-off.</li>
+<li>Never use real client/employer data in shipped examples or prompts.</li>
+<li>Never send a file to the bank “because the window is closing”.</li>
+<li>Never change vendor bank details to match the invoice PDF.</li>
+<li>Never remove a payment block.</li>
+<li>Never batch-approve lines with a single click of its own.</li>
+<li>Never treat NetSuite NPC settlement as covered by a SAP F110 pack.</li>
+<li>Never claim discount savings without the terms table.</li>
+</ul>
+<hr>
+<h2 id="7-human-owner">7. Human owner</h2>
+<p><strong>Payments Lead</strong> owns the challenge review and the release <em>together with</em> the second releaser required by bank mandate. Backup: <strong>Assistant Controller</strong>.</p>
+<p>Tomoko Sato may not be the only releaser if policy says dual control. A12 is not the second releaser.</p>
+<hr>
+<h2 id="8-approval-requirements-by-autonomy-level">8. Approval requirements by autonomy level</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Agent may</th>
+<th>Human must approve</th>
+<th>Proof artefact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Observe</td>
+<td>Challenge pack</td>
+<td>Payments Lead + mandate releaser(s) release</td>
+<td><code>A12_challenge_pack</code> + release log</td>
+</tr>
+<tr>
+<td>1 Recommend</td>
+<td>Line-level challenge codes</td>
+<td>Human accepts holds; <strong>human releases</strong></td>
+<td><code>pay_line_decision</code> + release</td>
+</tr>
+<tr>
+<td>2 Prepare</td>
+<td>Draft exception list / F110 delete list</td>
+<td>Human edits proposal</td>
+<td>Proposal change user</td>
+</tr>
+<tr>
+<td>3 Execute within guardrails</td>
+<td>Auto-mark <code>PAY-HOLD</code> on exact A10 hits / blocks</td>
+<td>Sample; <strong>release still human</strong></td>
+<td>Envelope</td>
+</tr>
+<tr>
+<td>4 Managed autonomy</td>
+<td>Named payment methods (e.g. domestic ACH holds only)</td>
+<td>IA ack; <strong>release still human</strong></td>
+<td>Register + IA ack</td>
+</tr>
+</tbody>
+</table>
+<p>There is no level at which A12 releases cash.</p>
+<hr>
+<h2 id="9-escalation-criteria">9. Escalation criteria</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Escalate to</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bank account ≠ last verified</td>
+<td>Treasury + Controls <strong>before release</strong></td>
+<td><code>bank_changed</code></td>
+</tr>
+<tr>
+<td>A10 exact duplicate on a line</td>
+<td>Controls + halt that line</td>
+<td><code>DUP-SUS</code></td>
+</tr>
+<tr>
+<td>Proposal $ hash changed after pack</td>
+<td>Payments Lead — rebuild pack</td>
+<td>control</td>
+</tr>
+<tr>
+<td>Discount window closing same day</td>
+<td>Payments Lead (human choice)</td>
+<td><code>discount_risk</code></td>
+</tr>
+<tr>
+<td>File $ ≠ proposal $</td>
+<td>Treasury — do not resend blindly</td>
+<td><code>CTRL-BRK</code></td>
+</tr>
+<tr>
+<td>Agent outage at run time</td>
+<td>Payments Lead uses manual checklist</td>
+<td>process</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not escalate:</strong> invoices due tomorrow that policy includes in this run. Do not escalate every early-pay that policy allows for discount.</p>
+<hr>
+<h2 id="10-output-standard">10. Output standard</h2>
+<h3 id="101-a12_challenge_pack">10.1 <code>A12_challenge_pack</code></h3>
+<pre><code>run_id
+source_system
+proposal_hash
+line_count
+gross_amount
+by_class counts and $
+holds[]
+a10_summary
+disclaimer                 # &quot;This pack is not a payment authorisation&quot;
+</code></pre>
+<h3 id="102-pay_line_challenge">10.2 <code>pay_line_challenge</code></h3>
+<p>Per line: class, tests, invoice refs, bank-compare result, recommended action (<code>hold</code> / <code>release_candidate</code> / <code>take_discount</code> — the last is advice, not a post).</p>
+<h3 id="103-post-run-a12_file_recon">10.3 Post-run <code>A12_file_recon</code></h3>
+<p>Proposal $ / file $ / bank ack $.</p>
+<p><strong>Done at Level 0:</strong> pack produced and <em>read</em> (timestamped open) before release. Unread pack = do not release.</p>
+<hr>
+<h2 id="11-control-requirements">11. Control requirements</h2>
+<ol>
+<li><strong><code>can_release_payment = false</code></strong> on the system user. Tested.</li>
+<li><strong>Proposal hash.</strong> Pack invalid if proposal edits after snapshot.</li>
+<li><strong>A10 before pack complete.</strong></li>
+<li><strong>Dual control</strong> remains a people control.</li>
+<li><strong>Separate pack per ledger / run.</strong></li>
+<li><strong>Unread-pack block</strong> (operational procedure, even if the ERP cannot enforce it).</li>
+<li><strong>Sample</strong> 20 lines/run vs human: would they have held?</li>
+<li><strong>Kill switch</strong> drops A12 to observe pack-only; it does not auto-release to “keep the run”.</li>
+</ol>
+<hr>
+<h2 id="12-audit-evidence-to-retain">12. Audit evidence to retain</h2>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Pull from</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Packs + hashes</td>
+<td>A14</td>
+<td>Local financial-record policy</td>
+</tr>
+<tr>
+<td>Release logs (human IDs)</td>
+<td>ERP / BCM / bank</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>File recon</td>
+<td>Treasury</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Bank-change holds</td>
+<td>Controls</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Security extract (no release auth)</td>
+<td>GRC</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>A10 results on the run</td>
+<td>A10</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="13-kpis">13. KPIs</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>KPI</th>
+<th>Formula</th>
+<th>Source</th>
+<th>Cadence</th>
+<th>Owner</th>
+<th>Promotion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activity</td>
+<td>Pack before release</td>
+<td>Runs with pack-read / runs</td>
+<td>Log</td>
+<td>Per run</td>
+<td>Payments</td>
+<td>Must be 1.00</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Hold precision</td>
+<td>Human-kept holds / agent holds (L1+)</td>
+<td>Decision</td>
+<td>Monthly</td>
+<td>Payments</td>
+<td>0→1</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Time pack → release</td>
+<td>Minutes (process, not vanity)</td>
+<td>Log</td>
+<td>Per run</td>
+<td>Payments</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Confirmed dup $ stopped at proposal</td>
+<td>Sum</td>
+<td>A10+A12</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Discount taken vs offered</td>
+<td>$ / $ (local measure)</td>
+<td>Terms vs run</td>
+<td>Monthly</td>
+<td>Payments</td>
+<td>Not a guarantee</td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>File recon breaks</td>
+<td>Count / $</td>
+<td>Recon</td>
+<td>Per run</td>
+<td>Treasury</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Agent release events</td>
+<td>Count (0)</td>
+<td>Security</td>
+<td>Daily</td>
+<td>Controls</td>
+<td>Auto Level 0</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Unread-pack releases</td>
+<td>Count (0)</td>
+<td>Procedure log</td>
+<td>Per run</td>
+<td>Controls</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Bank-change paid</td>
+<td>Count (0)</td>
+<td>Controls</td>
+<td>Monthly</td>
+<td>Treasury</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Ardent Partners (2024) Best-in-Class cycle and cost figures are not payment-release KPIs. Do not misuse them here.</p>
+<hr>
+<h2 id="14-performance-history-fields">14. Performance history fields</h2>
+<p>Common fields, plus:</p>
+<pre><code>runs
+pack_read_before_release
+holds_proposed
+holds_kept
+discount_offered
+discount_taken
+file_recon_breaks
+agent_release_events
+bank_change_holds
+</code></pre>
+<hr>
+<h2 id="15-starting-autonomy-level">15. Starting autonomy level</h2>
+<p><strong>Level 0 — Observe.</strong> Watch at least one full cycle (the responsibility model’s 20 operating days still applies) before Level 1 line recommendations. Release never promotes.</p>
+<hr>
+<h2 id="16-failure-handling">16. Failure handling</h2>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Detect</th>
+<th>Degrade</th>
+<th>Notify</th>
+<th>Resume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Proposal extract fail</td>
+<td>Adapter</td>
+<td><strong>Stop run</strong></td>
+<td>Payments + A16</td>
+<td>Manual checklist or retry</td>
+</tr>
+<tr>
+<td>A10 index incomplete</td>
+<td>A10</td>
+<td>Do not mark lines <code>clear</code></td>
+<td>Controls</td>
+<td>Rescreen</td>
+</tr>
+<tr>
+<td>Hash mismatch</td>
+<td>Compare</td>
+<td>Invalidate pack</td>
+<td>Payments</td>
+<td>New pack</td>
+</tr>
+<tr>
+<td>Bank ack timeout</td>
+<td>Treasury</td>
+<td>Recon delayed; do not resend file</td>
+<td>Treasury</td>
+<td>Confirm then act</td>
+</tr>
+<tr>
+<td>Model “release to make discount”</td>
+<td>Guardrail</td>
+<td><code>CTRL-BRK</code></td>
+<td>Controls</td>
+<td>Human only</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="17-cost-monitoring">17. Cost monitoring</h2>
+<table>
+<thead>
+<tr>
+<th>Cost object</th>
+<th>Measure</th>
+<th>Who acts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Per-line screens</td>
+<td>API</td>
+<td>Systems</td>
+</tr>
+<tr>
+<td>Human hold-review minutes</td>
+<td>Time</td>
+<td>Payments</td>
+</tr>
+<tr>
+<td>Missed-discount $</td>
+<td>Terms vs run</td>
+<td>Payments — a <em>measure</em>, not an agent claim</td>
+</tr>
+<tr>
+<td>Duplicate-pay unwind</td>
+<td>Finance</td>
+<td>Controller</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="18-worked-example-northline-industrial-group">18. Worked example — Northline Industrial Group</h2>
+<p>Northline (fictional), 4,200 employees, ~18,000 invoices/month, SAP + NetSuite NPC. Payments lead: Tomoko Sato. Thursday F110 run NL10, proposal $4,180,000, 1,142 lines.</p>
+<p><strong>Level 0.</strong> A12 snapshot hash <code>9f3c…</code>. Pack: 6 <code>PAY-HOLD</code> (2 payment blocks, 1 A10 fuzzy Helion HF-88421A, 1 bank-detail change request still in callback, 2 due dates 12 days out against a policy of 7). Discount-risk list: 14 invoices still inside terms (advice). Tomoko opens the pack at 14:02 (logged), deletes the six holds from the proposal, rebuilds, new hash, new mini-pack, then she and the BCM second releaser release.</p>
+<p><strong>Illegal.</strong> A12 sending the payment medium. Paying Helion’s emailed new bank. Skipping the mini-pack after the delete. Releasing NPC’s NetSuite batch on the strength of the SAP pack.</p>
+<p><strong>What can go wrong.</strong> Proposal edited by another user after 14:02. Hash breaks. Release blocked by procedure until a new pack.</p>
+<p><strong>Control.</strong> Security extract: <code>ER_A12_S4</code> has F110 display, not proposal release, not medium create. Pack disclaimer: not a payment authorisation.</p>
+<hr>
+<h2 id="charter-conformance">Charter conformance</h2>
+<ul>
+<li>[x] Purpose is one sentence and names a boundary</li>
+<li>[x] Job description names population in / out</li>
+<li>[x] Inputs table has required/optional and “if missing”</li>
+<li>[x] Tools table covers SAP, D365, Oracle, NetSuite, Workday, Other, and read/write</li>
+<li>[x] Responsibilities are verbs at the starting level</li>
+<li>[x] Exclusions include payment release, fraud conclusion, self-promotion</li>
+<li>[x] Human owner is a role with a backup</li>
+<li>[x] Levels 0–4 approval table is present and not softer than the responsibility model</li>
+<li>[x] Escalation has hard triggers and a do-not-escalate line</li>
+<li>[x] Outputs are named artefacts with fields</li>
+<li>[x] Controls include SOD, completeness, change control, untrusted input</li>
+<li>[x] Audit evidence is pullable</li>
+<li>[x] KPIs cover activity / operational / financial / risk and name a source</li>
+<li>[x] Performance history includes the common fields</li>
+<li>[x] Starting autonomy is 0 or 1</li>
+<li>[x] Failure handling has detect / degrade / notify / resume</li>
+<li>[x] Cost monitoring is present</li>
+<li>[x] Northline example is fictional and specific</li>
+<li>[x] No guaranteed savings / fraud / compliance / ROI claim</li>
+<li>[x] Statistics cited or labelled illustrative</li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

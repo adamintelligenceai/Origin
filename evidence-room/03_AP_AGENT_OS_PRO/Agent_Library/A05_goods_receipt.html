@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A05 Goods Receipt · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional · Agent Library</p>
+  </header>
+  <h1 id="a05-goods-receipt-agent">A05 — Goods Receipt Agent</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent ID</td>
+<td>A05</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Goods Receipt Agent</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Invoice-to-pay / AP (receiving interface)</td>
+</tr>
+<tr>
+<td>Forrester (Mar 2025) map</td>
+<td>Matching (GR completeness); Evidence Room extension</td>
+</tr>
+<tr>
+<td>Starting autonomy</td>
+<td>Level 0</td>
+</tr>
+<tr>
+<td>Human owner (role)</td>
+<td>Warehouse / Receiving Lead</td>
+</tr>
+<tr>
+<td>Backup owner (role)</td>
+<td>AP Exception Lead</td>
+</tr>
+<tr>
+<td>Dispatcher</td>
+<td>A16</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>Evidence Room AP Agent OS · Pro</td>
+</tr>
+<tr>
+<td>Charter version</td>
+<td>1.0 · September 2026</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-purpose">1. Purpose</h2>
+<p>Detect missing, late, partial, or split goods receipts that block 3-way match, and produce a chase pack for the named receiver — without posting a GR, changing a PO, or paying.</p>
+<hr>
+<h2 id="2-job-description">2. Job description</h2>
+<p>A05 sits on the warehouse side of AP. Most 3-way failures are timing or location problems, not price problems. The agent compares invoices (and, at observe level, open PO due receipts) to GR documents and names the person who should post or explain.</p>
+<p><strong>In population:</strong> <code>GR-MISS</code> and <code>GR-SPLIT</code> objects from A04; optionally a daily observe population of PO lines past expected receipt date.<br>
+<strong>Out of population:</strong> service POs that policy marks receipt-not-required (A03 2-way), drop-ship where a third party receipts, and inventory adjustments that are not invoice-driven.</p>
+<p><strong>Done at Level 0:</strong> a daily GR-gap pack Owen Briggs can recognise as true. <strong>Done at Level 1 (earned later):</strong> recommended chase texts and owners, still unsent.</p>
+<p>False chases destroy receiving trust. That is why this agent starts at Observe.</p>
+<hr>
+<h2 id="3-inputs-required-data">3. Inputs / required data</h2>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Required?</th>
+<th>Source</th>
+<th>If missing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exception object <code>GR-MISS</code> / <code>GR-SPLIT</code></td>
+<td>Yes for chase path</td>
+<td>A04</td>
+<td>Observe path may still run</td>
+</tr>
+<tr>
+<td>PO line: material, plant, qty, expected date, receiving location</td>
+<td>Yes</td>
+<td>ERP</td>
+<td>Cannot name a receiver</td>
+</tr>
+<tr>
+<td>GR history on the PO line</td>
+<td>Yes</td>
+<td>ERP</td>
+<td>Assume none; still report</td>
+</tr>
+<tr>
+<td>Inbound delivery / ASN</td>
+<td>Optional</td>
+<td>WM / ERP</td>
+<td>Note absence</td>
+</tr>
+<tr>
+<td>Receiver / plant directory</td>
+<td>Yes</td>
+<td>WM / HR</td>
+<td>Owner = Receiving Lead</td>
+</tr>
+<tr>
+<td>Invoice qty and UoM (accepted extract)</td>
+<td>Yes on exception path</td>
+<td>A01/A03</td>
+<td>Return to A03</td>
+</tr>
+<tr>
+<td>Wait policy (days after invoice or ASN before chase)</td>
+<td>Yes</td>
+<td>Policy store</td>
+<td>Do not chase</td>
+</tr>
+<tr>
+<td>WMS status (dock, QC hold)</td>
+<td>Optional</td>
+<td>WMS</td>
+<td>May explain “received but not posted”</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-tools-systems">4. Tools / systems</h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>SAP S/4HANA</th>
+<th>D365 F&amp;O / BC</th>
+<th>Oracle Fusion</th>
+<th>NetSuite</th>
+<th>Workday</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GR</td>
+<td>MIGO / MKPF / MSEG</td>
+<td>Product receipt</td>
+<td>Receiving</td>
+<td>Item receipt</td>
+<td>Receipt</td>
+<td>WMS</td>
+</tr>
+<tr>
+<td>Inbound delivery</td>
+<td>VL31N / inbound</td>
+<td>Arrival journal</td>
+<td>ASN</td>
+<td>Inbound shipment</td>
+<td>—</td>
+<td>Carrier ASN</td>
+</tr>
+<tr>
+<td>Plant / storage</td>
+<td>MARC / T001W</td>
+<td>Warehouse</td>
+<td>Organization</td>
+<td>Location</td>
+<td>Location</td>
+<td>WMS</td>
+</tr>
+<tr>
+<td>SES (services)</td>
+<td>ML81N</td>
+<td>—</td>
+<td>SES</td>
+<td>—</td>
+<td>—</td>
+<td>PSA tools</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read:</strong> PO, GR, ASN, WMS status.<br>
+<strong>Write at Level 0:</strong> observe pack only.<br>
+<strong>Write at Level 1:</strong> chase work objects.<br>
+<strong>Write at Level 2+:</strong> draft messages to receivers (A09 may send internally).<br>
+<strong>Write-never:</strong> MIGO / item receipt / SES, PO change, invoice post, payment.</p>
+<hr>
+<h2 id="5-responsibilities">5. Responsibilities</h2>
+<ol>
+<li>Reconcile A04 <code>GR-MISS</code> inventory to ERP open 3-way holds daily.</li>
+<li>For each line, compute: invoice qty, GR qty, open qty, inbound-delivery qty, WMS dock qty if available.</li>
+<li>Classify: <code>not_received</code> | <code>received_not_posted</code> | <code>partial</code> | <code>split_multi_gr</code> | <code>wrong_plant</code> | <code>uom</code>.</li>
+<li>Name the receiver from plant directory; if QC hold, name QC.</li>
+<li>Apply wait policy before any chase recommendation (Level 1+).</li>
+<li>Detect split-GR candidates (multiple plants or multiple inbound deliveries) and propose an allocation <em>hint</em> for A03 — not a post.</li>
+<li>Produce <code>A05_gap_pack</code> for Receiving and AP.</li>
+<li>At Level 0, do not ping people. At Level 1, recommend A09 internal follow-up; do not email suppliers (that is A08, and usually wrong for GR).</li>
+<li>When a GR posts, notify A16 to re-open A03 — do not rematch inside A05.</li>
+</ol>
+<hr>
+<h2 id="6-explicit-exclusions">6. Explicit exclusions</h2>
+<ul>
+<li>Never release a payment, bank file, or positive-pay file.</li>
+<li>Never conclude fraud.</li>
+<li>Never grant itself a higher autonomy level.</li>
+<li>Never invent a tolerance, tax position, or write-off.</li>
+<li>Never use real client/employer data in shipped examples or prompts.</li>
+<li>Never post a GR or SES to complete a match.</li>
+<li>Never backdate a GR.</li>
+<li>Never tell AP to 2-way match a 3-way PO to “just pay”.</li>
+<li>Never chase a supplier for a warehouse miss as the first action.</li>
+<li>Never ping a receiver on day zero of the wait policy.</li>
+<li>Never create inventory.</li>
+</ul>
+<hr>
+<h2 id="7-human-owner">7. Human owner</h2>
+<p><strong>Warehouse / Receiving Lead</strong> owns GR-gap truth and receiver naming. Backup: <strong>AP Exception Lead</strong> for the AP-side inventory recon.</p>
+<p>Receiving owns the posting. AP owns the invoice hold. A05 is the translator.</p>
+<hr>
+<h2 id="8-approval-requirements-by-autonomy-level">8. Approval requirements by autonomy level</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Agent may</th>
+<th>Human must approve</th>
+<th>Proof artefact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Observe</td>
+<td>Gap pack</td>
+<td>Receiving Lead confirms pack vs dock weekly</td>
+<td><code>A05_gap_pack</code> + sign-off</td>
+</tr>
+<tr>
+<td>1 Recommend</td>
+<td>Propose chase owner + class</td>
+<td>Accept / edit / reject</td>
+<td><code>gr_chase_decision</code></td>
+</tr>
+<tr>
+<td>2 Prepare</td>
+<td>Draft receiver message via A09</td>
+<td>Human sends</td>
+<td>Message ID + user</td>
+</tr>
+<tr>
+<td>3 Execute within guardrails</td>
+<td>Auto-open A09 chases inside envelope</td>
+<td>Sample + all <code>received_not_posted</code> still reviewed</td>
+<td>Envelope</td>
+</tr>
+<tr>
+<td>4 Managed autonomy</td>
+<td>Named plants exception-only</td>
+<td>Recertify with warehouse</td>
+<td>Register + IA ack</td>
+</tr>
+</tbody>
+</table>
+<p>Posting a GR is never in the envelope.</p>
+<hr>
+<h2 id="9-escalation-criteria">9. Escalation criteria</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Escalate to</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>received_not_posted</code> &gt; 1 operating day</td>
+<td>Plant manager + Receiving Lead</td>
+<td>process</td>
+</tr>
+<tr>
+<td>Invoice due date inside 5 operating days and still <code>GR-MISS</code> (illustrative)</td>
+<td>Exception Lead + buyer</td>
+<td>age</td>
+</tr>
+<tr>
+<td>Value ≥ materiality (Northline illustrative $25,000)</td>
+<td>AP Manager</td>
+<td>value</td>
+</tr>
+<tr>
+<td>Same receiver &gt; N open chases (illustrative: 15)</td>
+<td>Receiving Lead</td>
+<td>capacity</td>
+</tr>
+<tr>
+<td>WMS shows received, ERP shows zero, &gt; 2 days</td>
+<td>Systems + WM</td>
+<td><code>CTRL-BRK</code> data</td>
+</tr>
+<tr>
+<td>Wrong plant pattern on a vendor</td>
+<td>A06</td>
+<td><code>PO-QLTY</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not escalate:</strong> ASN not yet due. Do not escalate service POs that are not 3-way.</p>
+<hr>
+<h2 id="10-output-standard">10. Output standard</h2>
+<h3 id="101-gr_gap-object">10.1 <code>gr_gap</code> object</h3>
+<pre><code>po_id
+po_line
+plant
+receiver_named
+class                      # not_received | received_not_posted | partial | split_multi_gr | wrong_plant | uom
+qty_inv
+qty_gr
+qty_open
+qty_wms
+inbound_deliveries[]
+wait_until
+related_invoice_objects[]
+</code></pre>
+<h3 id="102-a05_gap_pack-daily">10.2 <code>A05_gap_pack</code> (daily)</h3>
+<p>By plant: lines, $ invoiced-not-received, $ received-not-posted, p90 age, top receivers. Reconcile to A04 <code>GR-MISS</code> count.</p>
+<h3 id="103-allocation-hint-for-gr-split">10.3 Allocation hint (for <code>GR-SPLIT</code>)</h3>
+<p>Proposed GR document list for A03. Hint only.</p>
+<p><strong>Done at Level 0:</strong> pack published and acknowledged weekly. <strong>Done at Level 1:</strong> decisions recorded on exception objects.</p>
+<hr>
+<h2 id="11-control-requirements">11. Control requirements</h2>
+<ol>
+<li><strong>Wait policy versioned.</strong> No courtesy early chase without a logged override.</li>
+<li><strong>No GR write</strong> from this agent’s system user (remove MIGO auth if it exists).</li>
+<li><strong>Plant directory</strong> change-controlled.</li>
+<li><strong>Untrusted ASN.</strong> Carrier data is a hint, not a receipt.</li>
+<li><strong>Sample.</strong> Weekly, Receiving Lead samples 20 gaps: true / false / timing.</li>
+<li><strong>Completeness.</strong> Every A04 <code>GR-MISS</code> appears on the pack the same day.</li>
+</ol>
+<hr>
+<h2 id="12-audit-evidence-to-retain">12. Audit evidence to retain</h2>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Pull from</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daily gap packs</td>
+<td>A14</td>
+<td>Local financial-record policy</td>
+</tr>
+<tr>
+<td>Class + owner decisions</td>
+<td>Work log</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>WMS vs ERP discrepancies</td>
+<td>Incident log</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Proof the A05 user cannot post GR</td>
+<td>Security extract</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Wait-policy versions</td>
+<td>Change control</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="13-kpis">13. KPIs</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>KPI</th>
+<th>Formula</th>
+<th>Source</th>
+<th>Cadence</th>
+<th>Owner</th>
+<th>Promotion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activity</td>
+<td>Gap coverage</td>
+<td>Pack lines / A04 GR-MISS</td>
+<td>Recon</td>
+<td>Daily</td>
+<td>Receiving</td>
+<td>→ 1.00</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>False-chase rate</td>
+<td>Sampled gaps that were wrong / sample</td>
+<td>Sample</td>
+<td>Weekly</td>
+<td>Receiving</td>
+<td>0→1 gate</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Received-not-posted age p90</td>
+<td>Days</td>
+<td>Pack</td>
+<td>Daily</td>
+<td>WM</td>
+<td></td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Time GR-MISS → GR posted</td>
+<td>Days, p50/p90</td>
+<td>Work log</td>
+<td>Weekly</td>
+<td>Exception Lead</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>INR $ (invoiced-not-received)</td>
+<td>Sum open</td>
+<td>Pack</td>
+<td>Daily</td>
+<td>A13 also reads</td>
+<td>Close</td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>RNIR $ (received-not-invoiced) observe</td>
+<td>Sum (observe pop.)</td>
+<td>Pack</td>
+<td>Weekly</td>
+<td>Close</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>GR posted by A05 user</td>
+<td>Count (target 0)</td>
+<td>Security/ERP</td>
+<td>Daily</td>
+<td>Controls</td>
+<td>Auto Level 0</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Day-zero chases</td>
+<td>Count</td>
+<td>Work log</td>
+<td>Weekly</td>
+<td>Receiving</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="14-performance-history-fields">14. Performance history fields</h2>
+<p>Common fields, plus:</p>
+<pre><code>class_distribution
+inr_amount
+rnit_amount
+false_chase_sample
+wms_erp_mismatch
+day_zero_chases
+gr_posted_by_agent_user
+</code></pre>
+<hr>
+<h2 id="15-starting-autonomy-level">15. Starting autonomy level</h2>
+<p><strong>Level 0 — Observe.</strong> Earn Level 1 only after false-chase rate is inside the charter band on four consecutive weekly samples (<code>RESPONSIBILITY_MODEL.md</code> calendar still applies).</p>
+<hr>
+<h2 id="16-failure-handling">16. Failure handling</h2>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Detect</th>
+<th>Degrade</th>
+<th>Notify</th>
+<th>Resume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WMS feed down</td>
+<td>Adapter</td>
+<td>Classify without WMS; label degraded</td>
+<td>WM + Systems</td>
+<td>Recalc</td>
+</tr>
+<tr>
+<td>Plant directory stale</td>
+<td>Bounce / unknown user</td>
+<td>Owner = Receiving Lead</td>
+<td>Lead</td>
+<td>Update</td>
+</tr>
+<tr>
+<td>GR posted then reversed</td>
+<td>ERP</td>
+<td>Re-open gap</td>
+<td>A16</td>
+<td>New version</td>
+</tr>
+<tr>
+<td>UoM mismatch</td>
+<td>A03 flag</td>
+<td>Class <code>uom</code>; no chase</td>
+<td>A06</td>
+<td>Master fix</td>
+</tr>
+<tr>
+<td>Wait policy missing</td>
+<td>Lookup</td>
+<td>Observe only</td>
+<td>A16</td>
+<td>Publish</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="17-cost-monitoring">17. Cost monitoring</h2>
+<table>
+<thead>
+<tr>
+<th>Cost object</th>
+<th>Measure</th>
+<th>Who acts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ERP/WMS reads</td>
+<td>Adapter</td>
+<td>Systems</td>
+</tr>
+<tr>
+<td>Receiver minutes on false chases</td>
+<td>Sample × time</td>
+<td>Receiving Lead</td>
+</tr>
+<tr>
+<td>Dock overtime unexplained by pack</td>
+<td>Local WM metric</td>
+<td>WM — pack quality issue if persistent</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="18-worked-example-northline-industrial-group">18. Worked example — Northline Industrial Group</h2>
+<p>Northline (fictional), 4,200 employees, ~18,000 invoices/month, SAP + NetSuite NPC. Warehouse liaison: Owen Briggs. Plant NL10-P01 (Columbus DC).</p>
+<p><strong>Observe week.</strong> A04 opens <code>GR-MISS</code> on a Cinder River Logistics invoice for PO 4500221044 (pallet inbound). A05 gap pack shows: invoice 40 PAL, GR 0, inbound delivery 40 PAL, WMS dock status <code>in_QC</code>. Class: <code>received_not_posted</code>. Receiver: QC supervisor, not the AP processor.</p>
+<p>Owen confirms on Wednesday sample: true. No chase was sent (Level 0). QC posts MIGO Thursday. A16 re-dispatches A03.</p>
+<p><strong>What would have been illegal.</strong> A05 posting MIGO to “help close the week”. Emailing Cinder River “please confirm shipment” as the first step. Chasing the Columbus receiver on Monday morning when the wait policy is 3 days and the ASN dated Friday.</p>
+<p><strong>NetSuite note.</strong> NPC uses item receipts. A05 observe for NPC is a <em>separate</em> adapter and a separate pack. Do not mix NL10-P01 with NPC warehouse IDs.</p>
+<p><strong>Control.</strong> Security extract shows <code>ER_A05_S4</code> has display-only on MIGO. Weekly sample sheet signed by Owen.</p>
+<hr>
+<h2 id="19-classification-decision-table">19. Classification decision table</h2>
+<table>
+<thead>
+<tr>
+<th>ERP GR</th>
+<th>WMS / ASN</th>
+<th>Class</th>
+<th>First ask</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>None / ASN not due</td>
+<td><code>not_received</code></td>
+<td>Wait policy, then buyer/planner — not the supplier first</td>
+</tr>
+<tr>
+<td>0</td>
+<td>ASN due, not docked</td>
+<td><code>not_received</code></td>
+<td>Carrier/planner via receiving, still no MIGO</td>
+</tr>
+<tr>
+<td>0</td>
+<td>Docked / in QC</td>
+<td><code>received_not_posted</code></td>
+<td>QC or receiver: post GR</td>
+</tr>
+<tr>
+<td>Partial</td>
+<td>Matches partial ASN</td>
+<td><code>partial</code></td>
+<td>Allocate; A03 <code>GR-SPLIT</code> if invoice is full</td>
+</tr>
+<tr>
+<td>Multiple GRs</td>
+<td>Multiple plants</td>
+<td><code>split_multi_gr</code></td>
+<td>Allocation hint to A03</td>
+</tr>
+<tr>
+<td>GR at plant B</td>
+<td>PO plant A</td>
+<td><code>wrong_plant</code></td>
+<td>A06 / buyer — do not transfer stock from A05</td>
+</tr>
+<tr>
+<td>Qty mismatch explained by UoM</td>
+<td>Any</td>
+<td><code>uom</code></td>
+<td>A06 / material master</td>
+</tr>
+</tbody>
+</table>
+<p>Wait policy (illustrative Northline <code>A05_WAIT_2026-09</code>): chase <code>not_received</code> only after max(expected delivery + 1 day, invoice date + 3 operating days). <code>received_not_posted</code> wait = 1 operating day.</p>
+<h3 id="state-machine">State machine</h3>
+<p><code>observed → classified → (L0 pack only) → (L1) chase_recommended → A09_task → gr_posted_signal → A16 re-dispatch A03</code>.<br>
+A05 never enters <code>posted_by_agent</code>.</p>
+<hr>
+<h2 id="charter-conformance">Charter conformance</h2>
+<ul>
+<li>[x] Purpose is one sentence and names a boundary</li>
+<li>[x] Job description names population in / out</li>
+<li>[x] Inputs table has required/optional and “if missing”</li>
+<li>[x] Tools table covers SAP, D365, Oracle, NetSuite, Workday, Other, and read/write</li>
+<li>[x] Responsibilities are verbs at the starting level</li>
+<li>[x] Exclusions include payment release, fraud conclusion, self-promotion</li>
+<li>[x] Human owner is a role with a backup</li>
+<li>[x] Levels 0–4 approval table is present and not softer than the responsibility model</li>
+<li>[x] Escalation has hard triggers and a do-not-escalate line</li>
+<li>[x] Outputs are named artefacts with fields</li>
+<li>[x] Controls include SOD, completeness, change control, untrusted input</li>
+<li>[x] Audit evidence is pullable</li>
+<li>[x] KPIs cover activity / operational / financial / risk and name a source</li>
+<li>[x] Performance history includes the common fields</li>
+<li>[x] Starting autonomy is 0 or 1</li>
+<li>[x] Failure handling has detect / degrade / notify / resume</li>
+<li>[x] Cost monitoring is present</li>
+<li>[x] Northline example is fictional and specific</li>
+<li>[x] No guaranteed savings / fraud / compliance / ROI claim</li>
+<li>[x] Statistics cited or labelled illustrative</li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

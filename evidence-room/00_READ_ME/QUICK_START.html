@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Quick Start · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">All paid tiers</p>
+  </header>
+  <h1 id="quick-start-start-here-0112">Quick Start — START HERE 01–12</h1>
+<p><strong>Evidence Room · AP Agent OS</strong><br>
+<strong>Version:</strong> 1.0 · September 2026<br>
+<strong>Audience:</strong> The person who will be blamed if the pilot is vague.<br>
+<strong>Time:</strong> Twelve working sessions, not twelve minutes. You may pause.<br>
+<strong>Companion:</strong> <code>06_SALES_AND_MARKETING/CUSTOMER_ONBOARDING.md</code> (the zip-facing twin)</p>
+<p>Custom Blueprint customers receive a separate kickoff, not this list.</p>
+<hr>
+<h2 id="how-to-use-this-list">How to use this list</h2>
+<p>Do the steps in order. Do not skip to “pick an agent” because a vendor is on site.</p>
+<p>If a step tells you to <strong>stop</strong>, stop. The operating system is allowed to recommend waiting.</p>
+<p>Keep <strong>Northline Industrial Group</strong> out of your files. It is a fictional illustration in these materials, not your template company.</p>
+<p>We do not promise savings, fraud detection, compliance, accounting accuracy, autonomous payments, or ROI.</p>
+<hr>
+<h2 id="start-here-01-open-the-room">START HERE 01 — Open the room</h2>
+<p><strong>Outcome:</strong> You know what you bought and what you refused.</p>
+<p>Read the licence and the disclaimer that shipped with your files. Read the non-promise list aloud.</p>
+<p>Write one sentence:</p>
+<blockquote>
+<p>I am using AP Agent OS to <strong><em>_</em></strong><em>, for invoice class <strong><em>_</em></strong></em>, in system <strong><em>_</em></strong>_.</p>
+</blockquote>
+<p>If you cannot name the class and the system, you are not starting an agent. You are starting a map.</p>
+<p><strong>Diagnostic:</strong> complete <code>01_FREE_AP_AI_READINESS/DIAGNOSTIC.md</code> before 02.<br>
+<strong>Starter:</strong> you will take one agent through 01–08, with a light 09.<br>
+<strong>Professional:</strong> the same path, with the full packs.<br>
+<strong>Team:</strong> run 01–03 in a room together.</p>
+<p><strong>Northline (illustrative, fictional).</strong> Priya Menon, AP Manager, writes: “I am using AP Agent OS to fence a match-and-flag agent for PO invoices, in SAP company code NL10.” She does not write “transform AP with AI.”</p>
+<hr>
+<h2 id="start-here-02-take-a-level-04">START HERE 02 — Take a level (0–4)</h2>
+<p><strong>Outcome:</strong> A number you can defend.</p>
+<p>Complete the Diagnostic even if you bought a paid tier first.</p>
+<p>Record:</p>
+<ul>
+<li>Readiness level (0 Unscoped / 1 Tool-led / 2 Designed / 3 Governed / 4 Operating)</li>
+<li>The two weakest gaps (process, data, controls, people, systems, economics)</li>
+<li>Whether the Diagnostic told you to wait</li>
+</ul>
+<p>If it told you to wait, your next work is a live-process map only. Do not open the agent library yet.</p>
+<p>Most teams that “have AI in AP” are at 0 or 1. That is a starting coordinate, not an insult.</p>
+<hr>
+<h2 id="start-here-03-draw-the-live-path">START HERE 03 — Draw the live path</h2>
+<p><strong>Outcome:</strong> A map the people who work exceptions recognise.</p>
+<p>Sit with someone who touches invoices, not only someone who owns the policy.</p>
+<p>Draw: receipt → capture → code → match → exception → approve → schedule → pay → archive.</p>
+<p>Mark: systems, queues, handoffs, where work waits.</p>
+<p>Ask them to strike anything that is “supposed to happen” and does not.</p>
+<p><strong>Exit:</strong> they say “that is what Tuesday looks like.”<br>
+If they say “that is what the SOP says,” you are not done.</p>
+<p>Professional / Team: use <code>03_AP_AGENT_OS_PRO/Process_Mapping/ER_METHODOLOGY.md</code> and <code>TEMPLATES.md</code>.<br>
+Starter: use the process-mapping sheet in <code>02_AP_AGENT_STARTER/STARTER_GUIDE.md</code>.</p>
+<hr>
+<h2 id="start-here-04-choose-one-invoice-class">START HERE 04 — Choose one invoice class</h2>
+<p><strong>Outcome:</strong> A fence starting-point.</p>
+<p>Pick one class. Example pattern, not a rule: PO-backed, one entity, one currency, amount under a threshold a controller will sign.</p>
+<p>Write what is <strong>out</strong>: new vendors, non-PO, after-the-fact POs, employee expenses, intercompany if that is a different war.</p>
+<p>Do not pick “all AP” because a slide said transformation.</p>
+<p><strong>Northline (illustrative).</strong> In: SAP NL10, domestic PO invoices, existing vendors, ≤ $25,000, USD/CAD. Out: NetSuite Pacific, non-PO, one-time vendors, employee expenses, anything A10 flags <code>DUP-SUS</code>.</p>
+<hr>
+<h2 id="start-here-05-write-the-purpose-sentence">START HERE 05 — Write the purpose sentence</h2>
+<p><strong>Outcome:</strong> One sentence a controller will read aloud.</p>
+<p>Pattern:</p>
+<blockquote>
+<p>Flag [condition] on [class] for human release. Do not [payment / override / new vendor / close].</p>
+</blockquote>
+<p>If the sentence contains “autonomously pay”, tear it up.</p>
+<p>Team: the executive reader must accept this sentence before 06.</p>
+<p><strong>Northline (illustrative).</strong> “Flag PO invoice mismatches under $25,000 on NL10 for human release. Do not post, do not pay, do not create vendors.”</p>
+<hr>
+<h2 id="start-here-06-write-the-fence-and-the-escalation-list">START HERE 06 — Write the fence and the escalation list</h2>
+<p><strong>Outcome:</strong> The agent has a box and a list of states it must not resolve.</p>
+<p><strong>Fence:</strong> entity, system, class, amount, vendor set, document types, language.</p>
+<p><strong>Escalation:</strong> missing PO, amount breach, vendor master change, duplicate suspicion you are not equipped to adjudicate, payment instruction, control override, anything outside the fence.</p>
+<p>Name the human who receives escalations. If that name is “the team”, you do not have a name.</p>
+<p>Starter and Professional: copy the fence block from the Responsibility Model. Team: write it on the wall in the workshop, then type it.</p>
+<hr>
+<h2 id="start-here-07-attach-controls-and-evidence">START HERE 07 — Attach controls and evidence</h2>
+<p><strong>Outcome:</strong> Each control has an owner and an artefact.</p>
+<p>Minimum three:</p>
+<ol>
+<li><strong>Fence integrity</strong> — how you know the agent stayed inside.</li>
+<li><strong>Human release</strong> — how a person records they released or refused.</li>
+<li><strong>Evidence completeness</strong> — inputs, outputs, timestamp, brief version.</li>
+</ol>
+<p>Professional / Team: use <code>03_AP_AGENT_OS_PRO/Controls/AGENT_CONTROL_MATRIX.md</code>.<br>
+Starter: use the minimum control sheet in the Starter Guide.</p>
+<p>Do not paste your vendor’s SOC report and call it an AP control.</p>
+<hr>
+<h2 id="start-here-08-choose-three-operating-measures">START HERE 08 — Choose three operating measures</h2>
+<p><strong>Outcome:</strong> A 30-day reading list.</p>
+<p>Pick three from: cycle time by class, exception age, human review rate, evidence completeness, fence-breach count, pause events.</p>
+<p>Write where each number will come from (which system, which extract). If you cannot name the source, pick a different measure.</p>
+<p>Do <strong>not</strong> add a savings line “to make it interesting”.</p>
+<p>Professional: map picks to the KPI framework families (A / O / F / R). A pack that contains only activity is incomplete. Pilot close requires operational + risk-control.</p>
+<hr>
+<h2 id="start-here-09-historical-sample-test">START HERE 09 — Historical-sample test</h2>
+<p><strong>Outcome:</strong> You know what fails before production.</p>
+<p>Take a past sample of the fenced class. Run the agent design as a desk exercise or in a non-production tool. Record misses, false flags, and fence confusion.</p>
+<p>Write: “We would have been wrong about X. We will change Y or we will not go live.”</p>
+<p>If you cannot get a sample, you are not ready for 10.</p>
+<p>Professional / Team: use <code>03_AP_AGENT_OS_PRO/Testing/TESTING_UAT_SHADOW.md</code>.<br>
+Starter: a light sample of 25 documents is enough to learn; it is not enough to promote.</p>
+<hr>
+<h2 id="start-here-10-limited-production-fence">START HERE 10 — Limited production fence</h2>
+<p><strong>Outcome:</strong> A small live box with a rehearsed pause.</p>
+<p>Turn the agent on only inside the fence. Rehearse the pause (who, how, in one sentence). Read measures on a named cadence (twice a week is enough).</p>
+<p>If the pause requires a steering committee, redesign the pause.</p>
+<p>Default start is Level 0 (Observe) or Level 1 (Recommend). Full autonomy is never the default. Payment authorisation stays human.</p>
+<hr>
+<h2 id="start-here-11-brief-the-executive-reader">START HERE 11 — Brief the executive reader</h2>
+<p><strong>Outcome:</strong> Twelve minutes, no theatre.</p>
+<p>Use the Team executive pack if you have it (<code>04_AP_AGENT_OS_TEAM/Executive/CFO_BRIEF.md</code>); otherwise a one-pager:</p>
+<ul>
+<li>Purpose sentence</li>
+<li>Fence</li>
+<li>Measures</li>
+<li>What we will not claim</li>
+<li>What would turn it off</li>
+<li>Ask (hold / limited continue / stop)</li>
+</ul>
+<p>Do not show a vendor demo in this meeting unless the executive asks. Show the brief.</p>
+<hr>
+<h2 id="start-here-12-expand-responsibility-or-do-not">START HERE 12 — Expand responsibility — or do not</h2>
+<p><strong>Outcome:</strong> A written decision.</p>
+<p><strong>Scale</strong> a second class only if 10–11 are boringly stable.<br>
+<strong>Hold</strong> if the first fence still teaches you.<br>
+<strong>Stop</strong> if ownership, evidence, or pause is fictional.</p>
+<p>File the decision in the change log. Version the brief.</p>
+<p>Then — and only then — open the library to consider a second agent job (classify, chase evidence, pack a review). Still never: pay, override, “detect all fraud”, close the books.</p>
+<p>Responsibility is earned. Promotion uses the pack in <code>03_AP_AGENT_OS_PRO/Agent_Library/RESPONSIBILITY_MODEL.md</code>. A vendor slide is not a pack.</p>
+<hr>
+<h2 id="tier-trim">Tier trim</h2>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Diagnostic</th>
+<th>Starter</th>
+<th>Professional</th>
+<th>Team</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01–02</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Together</td>
+</tr>
+<tr>
+<td>03–08</td>
+<td>Optional notes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Workshop</td>
+</tr>
+<tr>
+<td>09–12</td>
+<td>No</td>
+<td>Light 09</td>
+<td>Yes</td>
+<td>Yes + exec pack</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="if-you-get-stuck">If you get stuck</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Do this</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cannot name a class</td>
+<td>Stay on 03–04. Do not open A01–A16.</td>
+</tr>
+<tr>
+<td>Vendor is already in a trial</td>
+<td>Fence <em>that</em> trial. Starter exists for this.</td>
+</tr>
+<tr>
+<td>Two people disagree on the live path</td>
+<td>That disagreement is the finding. Map both. Do not average them.</td>
+</tr>
+<tr>
+<td>Someone wants a savings number</td>
+<td>Point at the Diagnostic business-case starter and the KPI framework. Customer baseline only.</td>
+</tr>
+<tr>
+<td>Someone wants the agent to pay</td>
+<td>Stop. A12 may challenge a proposal. A human releases cash.</td>
+</tr>
+</tbody>
+</table>
+<p>Support: hello@evidenceroom.ai — product questions, not “please design our agent on this call”. That call is a Custom Blueprint, and only after an application.</p>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

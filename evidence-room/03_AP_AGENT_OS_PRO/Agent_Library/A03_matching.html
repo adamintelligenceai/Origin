@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A03 Matching · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional · Agent Library</p>
+  </header>
+  <h1 id="a03-matching-agent">A03 — Matching Agent</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent ID</td>
+<td>A03</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Matching Agent (2-way / 3-way)</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Invoice-to-pay / AP</td>
+</tr>
+<tr>
+<td>Forrester (Mar 2025) map</td>
+<td>Matching</td>
+</tr>
+<tr>
+<td>Starting autonomy</td>
+<td>Level 1</td>
+</tr>
+<tr>
+<td>Human owner (role)</td>
+<td>AP Matching Lead</td>
+</tr>
+<tr>
+<td>Backup owner (role)</td>
+<td>AP Quality Lead</td>
+</tr>
+<tr>
+<td>Dispatcher</td>
+<td>A16</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>Evidence Room AP Agent OS · Pro</td>
+</tr>
+<tr>
+<td>Charter version</td>
+<td>1.0 · September 2026</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-purpose">1. Purpose</h2>
+<p>Propose a 2-way or 3-way match of each validated PO invoice to purchase-order and goods-receipt lines, apply the <em>written</em> tolerance table, and either recommend match-success or a coded variance — without posting, paying, or inventing tolerance.</p>
+<hr>
+<h2 id="2-job-description">2. Job description</h2>
+<p>A03 is the match engine. Forrester (March 2025) names matching as a core AI AP use case. This charter is the control wrapper around that use case: which documents, which documents need a GR, which pennies may pass, and who overrides.</p>
+<p><strong>In population:</strong> PO invoices and credit notes that A02 passed to match. Multi-line, multi-PO, service-entry, and blanket-release invoices are in.<br>
+<strong>Out of population:</strong> true non-PO (A07), statements (A11), invoices with open <code>DUP-SUS</code>, and invoices whose PO is not in the same ledger.</p>
+<p><strong>2-way:</strong> invoice ↔ PO (typically services with SES / receipt-not-required).<br>
+<strong>3-way:</strong> invoice ↔ PO ↔ GR / SES.<br>
+The policy table — not the model — decides which PO types require a GR. A05 is called when the GR is the missing piece.</p>
+<p><strong>Done at Level 1:</strong> a match proposal the matching team accepts, edits, or rejects. <strong>Done at Level 0:</strong> shadow match vs historical human matches; no queue recommendations.</p>
+<p>Ardent Partners (2024) reports Best-in-Class exception rates of 9% and 59% lower exceptions than peers. A03’s job is to <em>apply policy</em>, not to promise those rates.</p>
+<hr>
+<h2 id="3-inputs-required-data">3. Inputs / required data</h2>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Required?</th>
+<th>Source</th>
+<th>If missing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Validated work object</td>
+<td>Yes</td>
+<td>A02</td>
+<td>Return to A02</td>
+</tr>
+<tr>
+<td>Invoice lines</td>
+<td>Yes</td>
+<td>A01 extract (human-accepted)</td>
+<td><code>LINE-ERR</code></td>
+</tr>
+<tr>
+<td>PO header + lines (qty, price, account, vendor, remaining)</td>
+<td>Yes</td>
+<td>ERP</td>
+<td><code>PO-MISS</code></td>
+</tr>
+<tr>
+<td>GR / SES lines where policy requires 3-way</td>
+<td>Yes if 3-way</td>
+<td>ERP</td>
+<td><code>GR-MISS</code> → A05</td>
+</tr>
+<tr>
+<td>Tolerance table version</td>
+<td>Yes</td>
+<td>Policy store</td>
+<td><strong>Hard stop. Do not match.</strong></td>
+</tr>
+<tr>
+<td>Match policy (2-way vs 3-way by PO type / item category)</td>
+<td>Yes</td>
+<td>Policy store</td>
+<td>Hard stop</td>
+</tr>
+<tr>
+<td>Unit-of-measure conversion</td>
+<td>Yes if UoM differs</td>
+<td>Material master</td>
+<td><code>QTY-VAR</code> or <code>PO-QLTY</code></td>
+</tr>
+<tr>
+<td>Prior allocations on the PO</td>
+<td>Yes</td>
+<td>ERP</td>
+<td>Risk of over-match</td>
+</tr>
+<tr>
+<td>Envelope (if Level 3+)</td>
+<td>Yes at those levels</td>
+<td>Register</td>
+<td>Drop to Level 1</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-tools-systems">4. Tools / systems</h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>SAP S/4HANA</th>
+<th>D365 F&amp;O / BC</th>
+<th>Oracle Fusion</th>
+<th>NetSuite</th>
+<th>Workday</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PO</td>
+<td>EKKO / EKPO</td>
+<td>Purch table</td>
+<td>PO</td>
+<td>Purchase order</td>
+<td>Purchase order</td>
+<td>P2P suite</td>
+</tr>
+<tr>
+<td>GR / SES</td>
+<td>MSEG / ML81N</td>
+<td>Product receipt / product receipt journal</td>
+<td>Receiving / SES</td>
+<td>Item receipt</td>
+<td>Receipt</td>
+<td>WMS</td>
+</tr>
+<tr>
+<td>Match / park</td>
+<td>MIRO</td>
+<td>Invoice matching</td>
+<td>Payables match</td>
+<td>Vendor bill match</td>
+<td>Invoice match</td>
+<td></td>
+</tr>
+<tr>
+<td>Tolerances</td>
+<td>OMR6 / T169G</td>
+<td>Matching policy</td>
+<td>Matching rules</td>
+<td>Bill matching prefs</td>
+<td>Match rules</td>
+<td>Policy store</td>
+</tr>
+<tr>
+<td>GR/IR</td>
+<td>WRX / F.13</td>
+<td>Accrual</td>
+<td>Accrual</td>
+<td>Accrual</td>
+<td>Accrual</td>
+<td>A13 reads</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read:</strong> PO, GR, tolerances, open allocations.<br>
+<strong>Write at Level 1:</strong> match proposal on the work object.<br>
+<strong>Write at Level 2:</strong> parked match allocation.<br>
+<strong>Write at Level 3+:</strong> post <em>only</em> inside envelope.<br>
+<strong>Write-never:</strong> payment, tolerance-table edit, PO price change, GR create (A05 chases; warehouse posts).</p>
+<hr>
+<h2 id="5-responsibilities">5. Responsibilities</h2>
+<ol>
+<li>Load match policy and tolerance table versions onto the object before any line pairing.</li>
+<li>Pair invoice lines to PO lines (explicit PO/line, then material + price, then residual qty). Record the pairing method.</li>
+<li>Decide 2-way vs 3-way from policy, not from “GR exists”.</li>
+<li>Compute qty, price, and amount variances per line and in header total.</li>
+<li>Apply tolerances <strong>as written</strong>. Inside → <code>match_ok</code>. Outside → <code>QTY-VAR</code> / <code>PRC-VAR</code>. Missing GR → <code>GR-MISS</code>. Unusable PO → <code>PO-QLTY</code> to A06.</li>
+<li>Handle multi-line and multi-GR: propose allocation; do not collapse lines to hide a variance.</li>
+<li>Handle partials and subsequent invoices against the same PO remaining qty.</li>
+<li>Recommend <code>match_ok</code>, <code>match_ok_with_tolerance</code> (show the cents), or <code>exception</code> with codes.</li>
+<li>At Level 1, wait for human decision. Do not post.</li>
+<li>Pass exceptions to A04 with evidence (PO line, GR doc, calculations).</li>
+</ol>
+<hr>
+<h2 id="6-explicit-exclusions">6. Explicit exclusions</h2>
+<ul>
+<li>Never release a payment, bank file, or positive-pay file.</li>
+<li>Never conclude fraud.</li>
+<li>Never grant itself a higher autonomy level.</li>
+<li>Never invent a tolerance, tax position, or write-off.</li>
+<li>Never use real client/employer data in shipped examples or prompts.</li>
+<li>Never post outside the envelope or at Level 0–2.</li>
+<li>Never create a GR to “complete” a 3-way match.</li>
+<li>Never change PO price or qty.</li>
+<li>Never net a price variance against an unrelated line.</li>
+<li>Never match a SAP PO to a NetSuite bill.</li>
+<li>Never treat header-only match as line match when policy says line-level.</li>
+<li>Never clear <code>DUP-SUS</code> by matching.</li>
+</ul>
+<hr>
+<h2 id="7-human-owner">7. Human owner</h2>
+<p><strong>AP Matching Lead</strong> owns pairing quality, tolerance application, and the variance queues that are still AP’s (vs buyer or warehouse). Backup: <strong>AP Quality Lead</strong>.</p>
+<p>Procurement owns PO content (A06). Warehouse owns GR posting (A05). Matching owns the arithmetic and the policy application.</p>
+<hr>
+<h2 id="8-approval-requirements-by-autonomy-level">8. Approval requirements by autonomy level</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Agent may</th>
+<th>Human must approve</th>
+<th>Proof artefact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Observe</td>
+<td>Shadow match vs human</td>
+<td>Lead reviews shadow deltas weekly</td>
+<td><code>A03_shadow_pack</code></td>
+</tr>
+<tr>
+<td>1 Recommend</td>
+<td>Propose match / exception</td>
+<td>Accept / edit / reject each</td>
+<td><code>match_decision</code></td>
+</tr>
+<tr>
+<td>2 Prepare</td>
+<td>Park allocation on the invoice</td>
+<td>Human posts</td>
+<td>Parked MIRO / bill</td>
+</tr>
+<tr>
+<td>3 Execute within guardrails</td>
+<td>Post match_ok inside envelope</td>
+<td>Sample + all variances</td>
+<td>Envelope + sample</td>
+</tr>
+<tr>
+<td>4 Managed autonomy</td>
+<td>Post named population</td>
+<td>Recertify; exceptions only</td>
+<td>Register + IA ack</td>
+</tr>
+</tbody>
+</table>
+<p><code>match_ok_with_tolerance</code> at Level 3 is allowed only if the envelope cites the tolerance table version. Payment is still human (A12).</p>
+<hr>
+<h2 id="9-escalation-criteria">9. Escalation criteria</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Escalate to</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Variance above <em>exception</em> threshold (Northline illustrative: $500 or 5%, whichever is stricter, <strong>policy</strong> — not invented)</td>
+<td>Buyer via A09 + A04</td>
+<td><code>PRC-VAR</code> / <code>QTY-VAR</code></td>
+</tr>
+<tr>
+<td>No GR after policy wait (illustrative: 3 operating days)</td>
+<td>A05</td>
+<td><code>GR-MISS</code></td>
+</tr>
+<tr>
+<td>PO vendor ≠ invoice vendor</td>
+<td>A06 + A08</td>
+<td><code>PO-QLTY</code></td>
+</tr>
+<tr>
+<td>Remaining PO qty insufficient</td>
+<td>A06 / buyer</td>
+<td><code>QTY-VAR</code></td>
+</tr>
+<tr>
+<td>Multi-PO invoice cannot be allocated without residual &gt; tolerance</td>
+<td>Matching Lead</td>
+<td><code>LINE-ERR</code></td>
+</tr>
+<tr>
+<td>Tolerance table unpublished</td>
+<td>A16 hard stop</td>
+<td><code>CTRL-BRK</code></td>
+</tr>
+<tr>
+<td>Shadow vs human disagreement cluster on one material</td>
+<td>A15 + Procurement</td>
+<td>process</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not escalate:</strong> variances inside tolerance. Do not escalate freight billed on a planned condition if the PO has that condition — allocate it.</p>
+<hr>
+<h2 id="10-output-standard">10. Output standard</h2>
+<h3 id="101-match_proposal">10.1 <code>match_proposal</code></h3>
+<pre><code>policy_version
+tolerance_version
+match_type                 # two_way | three_way
+pairing_method             # explicit | material | residual
+lines[].invoice_line
+lines[].po_id
+lines[].po_line
+lines[].gr_docs[]
+lines[].qty_inv
+lines[].qty_po
+lines[].qty_gr
+lines[].price_inv
+lines[].price_po
+lines[].var_qty
+lines[].var_price
+lines[].var_amt
+lines[].within_tolerance
+header.var_amt
+result                     # match_ok | match_ok_with_tolerance | exception
+reason_codes[]
+calc_evidence_uri
+</code></pre>
+<p><strong>Done (Level 1):</strong> <code>match_decision</code> recorded.</p>
+<h3 id="102-shadow-pack-a03_shadow_pack-level-0-and-ongoing-sample">10.2 Shadow pack <code>A03_shadow_pack</code> (Level 0 and ongoing sample)</h3>
+<p>Line-level comparison of agent result vs human result on a held-out set.</p>
+<h3 id="103-tolerance-cite">10.3 Tolerance cite</h3>
+<p>Every <code>match_ok_with_tolerance</code> stores the row applied (absolute, percent, and which won).</p>
+<hr>
+<h2 id="11-control-requirements">11. Control requirements</h2>
+<ol>
+<li><strong>No unpublished tolerance.</strong> Hard stop.</li>
+<li><strong>Line-level evidence.</strong> Header-only success is forbidden when policy is line-level.</li>
+<li><strong>SOD.</strong> Matching poster ≠ payment releaser. A03 system user has no payment object.</li>
+<li><strong>No GR creation.</strong> Missing GR is an exception, not a write.</li>
+<li><strong>Cross-ledger isolation.</strong></li>
+<li><strong>Sample.</strong> 100% of Level-3 posts in week 1 of any envelope; then the register sample rate.</li>
+<li><strong>Change control</strong> on pairing heuristics equal to ERP config.</li>
+</ol>
+<hr>
+<h2 id="12-audit-evidence-to-retain">12. Audit evidence to retain</h2>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Pull from</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Match proposals + calculations</td>
+<td>Work log</td>
+<td>Local financial-record policy</td>
+</tr>
+<tr>
+<td>Tolerance and policy versions applied</td>
+<td>Snapshot on object</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Human decisions + override class</td>
+<td>Work log</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Posted document numbers (Level 3+)</td>
+<td>Ledger</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Shadow packs</td>
+<td>A14</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Envelope breaks</td>
+<td>A16</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="13-kpis">13. KPIs</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>KPI</th>
+<th>Formula</th>
+<th>Source</th>
+<th>Cadence</th>
+<th>Owner</th>
+<th>Promotion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activity</td>
+<td>Match coverage</td>
+<td>Proposals / A02 pass_to_match</td>
+<td>Work log</td>
+<td>Daily</td>
+<td>Matching</td>
+<td>→ 1.00</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>First-pass match</td>
+<td>Human-accepted match_ok / PO invoices</td>
+<td>Decision log</td>
+<td>Weekly</td>
+<td>Matching</td>
+<td>1→2</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Exception rate (local)</td>
+<td>Exceptions / PO invoices</td>
+<td>Work log</td>
+<td>Weekly</td>
+<td>Matching</td>
+<td>Present beside Ardent 9% as <em>context</em>, not a target warranty</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Time in match p90</td>
+<td>Hours</td>
+<td>Work log</td>
+<td>Weekly</td>
+<td>A16</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Posted out-of-tolerance $</td>
+<td>Sum (target 0)</td>
+<td>Incident</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td>Auto demote</td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Over-matched remaining qty</td>
+<td>Count of PO over-allocations</td>
+<td>ERP vs log</td>
+<td>Weekly</td>
+<td>Matching</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Override-for-error</td>
+<td>Agent_error / proposals</td>
+<td>Decision log</td>
+<td>Weekly</td>
+<td>Controls</td>
+<td>Band</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>GR invented</td>
+<td>Count (target 0)</td>
+<td>Audit query</td>
+<td>Daily</td>
+<td>Controls</td>
+<td>Auto Level 0</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Unauthorised post</td>
+<td>Count</td>
+<td>A16</td>
+<td>Daily</td>
+<td>Controls</td>
+<td>Auto Level 0</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="14-performance-history-fields">14. Performance history fields</h2>
+<p>Common fields, plus:</p>
+<pre><code>two_way_count
+three_way_count
+match_ok
+match_ok_with_tolerance
+qty_var
+prc_var
+gr_miss
+po_qlty
+tolerance_version
+over_allocations
+shadow_disagree
+</code></pre>
+<hr>
+<h2 id="15-starting-autonomy-level">15. Starting autonomy level</h2>
+<p><strong>Level 1 — Recommend.</strong> No posting envelope. First promotion: Level 2 prepare-park, SAP NL10 PO invoices only (Northline pattern). See the worked example in <code>RESPONSIBILITY_MODEL.md</code> §13.</p>
+<hr>
+<h2 id="16-failure-handling">16. Failure handling</h2>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Detect</th>
+<th>Degrade</th>
+<th>Notify</th>
+<th>Resume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tolerance table missing</td>
+<td>Version lookup</td>
+<td>Hard stop</td>
+<td>A16 + Matching</td>
+<td>After publish</td>
+</tr>
+<tr>
+<td>PO locked / in change</td>
+<td>ERP</td>
+<td>Wait state; do not residual-match</td>
+<td>Matching</td>
+<td>Retry</td>
+</tr>
+<tr>
+<td>UoM conversion missing</td>
+<td>Material master</td>
+<td><code>PO-QLTY</code></td>
+<td>A06</td>
+<td>After master fix</td>
+</tr>
+<tr>
+<td>Partial GR race</td>
+<td>GR appears after proposal</td>
+<td>Recalculate; new version</td>
+<td>Matching</td>
+<td>Same object</td>
+</tr>
+<tr>
+<td>ERP timeout</td>
+<td>Adapter</td>
+<td>No half-allocation</td>
+<td>Systems</td>
+<td>Retry idempotent</td>
+</tr>
+<tr>
+<td>Model proposes netting lines</td>
+<td>Guardrail</td>
+<td>Reject proposal; <code>CTRL-BRK</code> if it persists</td>
+<td>Controls</td>
+<td>Human allocation</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="17-cost-monitoring">17. Cost monitoring</h2>
+<table>
+<thead>
+<tr>
+<th>Cost object</th>
+<th>Measure</th>
+<th>Who acts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ERP reads per invoice</td>
+<td>Adapter</td>
+<td>Systems</td>
+</tr>
+<tr>
+<td>Human match minutes</td>
+<td>Time</td>
+<td>Matching Lead</td>
+</tr>
+<tr>
+<td>False <code>GR-MISS</code> chases</td>
+<td>A05 noise</td>
+<td>Warehouse liaison</td>
+</tr>
+<tr>
+<td>Rework</td>
+<td>Reversals after bad match</td>
+<td>Assistant Controller</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="18-worked-example-northline-industrial-group">18. Worked example — Northline Industrial Group</h2>
+<p>Northline (fictional), 4,200 employees, ~18,000 invoices/month, SAP + NetSuite NPC. Matching lead: Diego Alvarez. Policy: 3-way on materials; 2-way on service POs with SES. Tolerance table <code>NL-TOL-2026-04</code> (illustrative): $50 or 2% of line, whichever is lower.</p>
+<p><strong>Object.</strong> Helion HF-88421, $14,260.00, PO 4500218831, four material lines.</p>
+<p><strong>Level 1.</strong> A03 pairs by explicit PO/line. Lines 1–3: qty and price exact; GRs 500218810–12 exist. Line 4: invoice 100 EA @ $12.40; PO 100 EA @ $12.00; GR 100 EA. Price var $40.00 (3.3%). $40 &lt; $50 but 3.3% &gt; 2% → <strong>outside</strong> (stricter rule wins). Result: <code>exception</code> / <code>PRC-VAR</code> on line 4. Header not <code>match_ok</code>.</p>
+<p>Diego accepts the exception. A16 → A04 → A09 (buyer). A03 does not bump tolerance to $50 “because it is close”.</p>
+<p><strong>Happy path variant.</strong> Line 4 PO price $12.40. All inside. Result <code>match_ok</code>. Diego accepts; he posts MIRO. Agent did not post.</p>
+<p><strong>Illegal.</strong> Creating GR 500218813 to cover a short receipt. Matching the same Helion invoice to a NetSuite NPC bill. Posting at Level 1.</p>
+<p><strong>Control.</strong> Calculation sheet stored. Tolerance version stamped. If Diego overrides to post anyway, class is <code>preference</code> and the $40 is visible on the monthly pack.</p>
+<hr>
+<h2 id="charter-conformance">Charter conformance</h2>
+<ul>
+<li>[x] Purpose is one sentence and names a boundary</li>
+<li>[x] Job description names population in / out</li>
+<li>[x] Inputs table has required/optional and “if missing”</li>
+<li>[x] Tools table covers SAP, D365, Oracle, NetSuite, Workday, Other, and read/write</li>
+<li>[x] Responsibilities are verbs at the starting level</li>
+<li>[x] Exclusions include payment release, fraud conclusion, self-promotion</li>
+<li>[x] Human owner is a role with a backup</li>
+<li>[x] Levels 0–4 approval table is present and not softer than the responsibility model</li>
+<li>[x] Escalation has hard triggers and a do-not-escalate line</li>
+<li>[x] Outputs are named artefacts with fields</li>
+<li>[x] Controls include SOD, completeness, change control, untrusted input</li>
+<li>[x] Audit evidence is pullable</li>
+<li>[x] KPIs cover activity / operational / financial / risk and name a source</li>
+<li>[x] Performance history includes the common fields</li>
+<li>[x] Starting autonomy is 0 or 1</li>
+<li>[x] Failure handling has detect / degrade / notify / resume</li>
+<li>[x] Cost monitoring is present</li>
+<li>[x] Northline example is fictional and specific</li>
+<li>[x] No guaranteed savings / fraud / compliance / ROI claim</li>
+<li>[x] Statistics cited or labelled illustrative</li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

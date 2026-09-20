@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A14 Ap Reporting · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional · Agent Library</p>
+  </header>
+  <h1 id="a14-ap-reporting-agent">A14 — AP Reporting Agent</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent ID</td>
+<td>A14</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>AP Reporting Agent</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Invoice-to-pay / AP</td>
+</tr>
+<tr>
+<td>Forrester (Mar 2025) map</td>
+<td>Reporting</td>
+</tr>
+<tr>
+<td>Starting autonomy</td>
+<td>Level 1</td>
+</tr>
+<tr>
+<td>Human owner (role)</td>
+<td>AP Manager</td>
+</tr>
+<tr>
+<td>Backup owner (role)</td>
+<td>Assistant Controller</td>
+</tr>
+<tr>
+<td>Dispatcher</td>
+<td>A16</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>Evidence Room AP Agent OS · Pro</td>
+</tr>
+<tr>
+<td>Charter version</td>
+<td>1.0 · September 2026</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-purpose">1. Purpose</h2>
+<p>Produce the AP operating pack from ledger facts and agent work logs, reconciling every published number to a source extract — without forecasting savings, certifying controls, or replacing the trial balance.</p>
+<hr>
+<h2 id="2-job-description">2. Job description</h2>
+<p>A14 is the scorekeeper. Forrester (March 2025) names reporting as an AI AP use case. This agent’s job is a <strong>tied pack</strong>, not a narrative. It assembles activity, operational, financial, and risk measures defined in the other charters, plus a small stack-level set. If a number does not tie to the ledger or the work log, it does not ship.</p>
+<p><strong>In population:</strong> the daily flash, the weekly ops pack, the monthly autonomy/cost pack, and ad-hoc extracts A16 requests for promotion reviews.<br>
+<strong>Out of population:</strong> investor reporting, tax returns, “hours saved” without a method, and vendor marketing slides.</p>
+<p><strong>Done at Level 1:</strong> Priya Menon accepts the pack (or rejects a broken tie) before it is forwarded. <strong>Done at Level 0:</strong> shadow tables only, not circulated.</p>
+<p>Ardent Partners (2024) Best-in-Class: 78% lower cost, 82% faster cycle, 59% lower exceptions, 9% exception rate. A14 may print those figures in a <strong>footnote as external context</strong>. It may not label Northline “Best-in-Class” and it may not imply the stack produced those outcomes.</p>
+<hr>
+<h2 id="3-inputs-required-data">3. Inputs / required data</h2>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Required?</th>
+<th>Source</th>
+<th>If missing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ledger extracts (invoices posted, open items, payments)</td>
+<td>Yes</td>
+<td>ERP adapters</td>
+<td>Pack blocked</td>
+</tr>
+<tr>
+<td>Work-log KPI fields (all agents)</td>
+<td>Yes</td>
+<td>A16 store</td>
+<td>Section omitted + labelled</td>
+</tr>
+<tr>
+<td>Completeness packs</td>
+<td>Yes</td>
+<td>A01</td>
+<td>Flash fail</td>
+</tr>
+<tr>
+<td>Aging / exception inventory</td>
+<td>Yes</td>
+<td>A04</td>
+<td>Ops pack fail</td>
+</tr>
+<tr>
+<td>Autonomy register</td>
+<td>Yes</td>
+<td>A16</td>
+<td>Monthly pack fail</td>
+</tr>
+<tr>
+<td>Cost feeds (API, time)</td>
+<td>Optional</td>
+<td>Systems / time</td>
+<td>Cost section omitted, not zeroed</td>
+</tr>
+<tr>
+<td>KPI dictionary version</td>
+<td>Yes</td>
+<td>This library + local</td>
+<td>Hard stop</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-tools-systems">4. Tools / systems</h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>SAP S/4HANA</th>
+<th>D365 F&amp;O / BC</th>
+<th>Oracle Fusion</th>
+<th>NetSuite</th>
+<th>Workday</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Invoice / pay extracts</td>
+<td>CDS / tables</td>
+<td>Entities</td>
+<td>OTBI</td>
+<td>Saved searches</td>
+<td>Reports</td>
+<td>Warehouse</td>
+</tr>
+<tr>
+<td>Open items</td>
+<td>FBL1N</td>
+<td>Aged</td>
+<td>Trial</td>
+<td>Open</td>
+<td>Open</td>
+<td></td>
+</tr>
+<tr>
+<td>Packs</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>A14 store / BI</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read:</strong> ledgers, logs, register.<br>
+<strong>Write at Level 1:</strong> draft pack objects.<br>
+<strong>Write-never:</strong> ledger, autonomy level, payment, “publish to board” without accept.</p>
+<hr>
+<h2 id="5-responsibilities">5. Responsibilities</h2>
+<ol>
+<li>Run extracts on a published schedule (daily flash 07:00 local; weekly Monday; monthly T+6).</li>
+<li>Tie: posted invoice count and $ to ERP; exception $ to A04; GR-MISS $ to A05; proposal $ to last A12 hash.</li>
+<li>Apply the KPI dictionary (formula, source, cadence, owner). No new metrics without change control.</li>
+<li>Separate <strong>Northline actuals</strong> from <strong>external footnotes</strong> (Ardent / Forrester).</li>
+<li>Produce packs: <code>A14_FLASH</code>, <code>A14_OPS</code>, <code>A14_MONTH</code>.</li>
+<li>At Level 1, wait for human accept. Rejected tie = incident, not a silent fix.</li>
+<li>Supply A16 the promotion extract (performance-history fields).</li>
+<li>Never interpolate missing days as zeros unless the dictionary says “zero if none”.</li>
+</ol>
+<hr>
+<h2 id="6-explicit-exclusions">6. Explicit exclusions</h2>
+<ul>
+<li>Never release a payment, bank file, or positive-pay file.</li>
+<li>Never conclude fraud or print “fraud $ prevented” from A10 suspects.</li>
+<li>Never grant itself a higher autonomy level.</li>
+<li>Never invent a tolerance, tax position, or write-off.</li>
+<li>Never use real client/employer data in shipped examples or prompts.</li>
+<li>Never claim guaranteed savings, ROI, compliance, or cycle-time improvement.</li>
+<li>Never retitle local exception rate as Ardent Best-in-Class.</li>
+<li>Never change an agent’s autonomy in the register.</li>
+<li>Never publish an untied number.</li>
+<li>Never use vanity metrics listed in <code>AGENT_CHARTER_STANDARD.md</code> §6.3.</li>
+</ul>
+<hr>
+<h2 id="7-human-owner">7. Human owner</h2>
+<p><strong>AP Manager</strong> owns pack circulation and dictionary changes (with Controls). Backup: <strong>Assistant Controller</strong> for numbers that hit the close pack.</p>
+<p>Priya accepts. A14 does not email the CFO unaided at Level 1.</p>
+<hr>
+<h2 id="8-approval-requirements-by-autonomy-level">8. Approval requirements by autonomy level</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Agent may</th>
+<th>Human must approve</th>
+<th>Proof artefact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Observe</td>
+<td>Shadow tables</td>
+<td>Not circulated</td>
+<td><code>A14_SHADOW</code></td>
+</tr>
+<tr>
+<td>1 Recommend</td>
+<td>Draft packs</td>
+<td>Accept / reject each issue</td>
+<td><code>pack_decision</code></td>
+</tr>
+<tr>
+<td>2 Prepare</td>
+<td>Stage to the AP site / inbox</td>
+<td>Human publish</td>
+<td>Publish log + user</td>
+</tr>
+<tr>
+<td>3 Execute within guardrails</td>
+<td>Auto-publish daily flash if ties pass</td>
+<td>Sample; monthly still human</td>
+<td>Envelope</td>
+</tr>
+<tr>
+<td>4 Managed autonomy</td>
+<td>Named flash only</td>
+<td>Recertify; monthly + board still human</td>
+<td>Register + IA ack</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="9-escalation-criteria">9. Escalation criteria</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Escalate to</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tie break &gt; published pennies (illustrative: $1 or 1 invoice)</td>
+<td>Systems + Priya</td>
+<td><code>CTRL-BRK</code> data</td>
+</tr>
+<tr>
+<td>Dictionary unpublished</td>
+<td>A16 hard stop</td>
+<td>control</td>
+</tr>
+<tr>
+<td>Cost feed missing</td>
+<td>Omit section</td>
+<td>— (do not escalate as red)</td>
+</tr>
+<tr>
+<td>Someone asks for “ROI this week”</td>
+<td>Refuse; offer local cycle/exception actuals</td>
+<td>policy</td>
+</tr>
+<tr>
+<td>Cross-ledger double count</td>
+<td>Rebuild</td>
+<td>process</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not escalate:</strong> a vendor asking for a league table. Do not escalate footnote formatting.</p>
+<hr>
+<h2 id="10-output-standard">10. Output standard</h2>
+<h3 id="101-a14_flash-daily">10.1 <code>A14_FLASH</code> (daily)</h3>
+<p>Inbound vs A01 objects (gap), parked $, posted yesterday, exceptions open $, GR-MISS $, payment-run flag if today. All with source IDs.</p>
+<h3 id="102-a14_ops-weekly">10.2 <code>A14_OPS</code> (weekly)</h3>
+<p>Exception aging, first-pass match (local), chase silence, A10 holds (suspected vs confirmed), A07 bottlenecks. KPI dictionary refs.</p>
+<h3 id="103-a14_month">10.3 <code>A14_MONTH</code></h3>
+<p>Autonomy register extract, promotion/demotion events, cost per invoice <em>measured</em>, override-for-error rates, close calendar hit, Ardent/Forrester <strong>footnote only</strong>.</p>
+<h3 id="104-tie-sheet">10.4 Tie sheet</h3>
+<p>Each published number → extract ID → row count → $.</p>
+<p><strong>Done at Level 1:</strong> <code>pack_decision = accepted</code> or <code>rejected_tie</code>.</p>
+<hr>
+<h2 id="11-control-requirements">11. Control requirements</h2>
+<ol>
+<li><strong>Dictionary version</strong> on every pack header.</li>
+<li><strong>Tie or omit.</strong> Never zero-fill a missing extract.</li>
+<li><strong>Footnotes ≠ actuals</strong> (visual separation).</li>
+<li><strong>No vanity metrics.</strong></li>
+<li><strong>SOD.</strong> Reporting user cannot post or pay.</li>
+<li><strong>Sample</strong> 5 numbers/week re-pulled by Quality.</li>
+<li><strong>Change control</strong> on new KPIs.</li>
+</ol>
+<hr>
+<h2 id="12-audit-evidence-to-retain">12. Audit evidence to retain</h2>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Pull from</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Packs + tie sheets + extracts</td>
+<td>A14 store</td>
+<td>Local financial-record policy</td>
+</tr>
+<tr>
+<td>Decisions</td>
+<td>Work log</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Dictionary versions</td>
+<td>Change control</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Sample re-pulls</td>
+<td>Quality</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="13-kpis">13. KPIs</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>KPI</th>
+<th>Formula</th>
+<th>Source</th>
+<th>Cadence</th>
+<th>Owner</th>
+<th>Promotion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activity</td>
+<td>On-time packs</td>
+<td>Issued by SLA / scheduled</td>
+<td>Store</td>
+<td>Monthly</td>
+<td>AP Manager</td>
+<td></td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Tie-break rate</td>
+<td>Rejected_tie / packs</td>
+<td>Decision</td>
+<td>Monthly</td>
+<td>AP Manager</td>
+<td>1→2</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Sample defect rate</td>
+<td>Wrong numbers / sampled</td>
+<td>Quality</td>
+<td>Monthly</td>
+<td>Quality</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Pack vs TB open AP</td>
+<td>Difference (0) on the monthly AP line cited</td>
+<td>Ledger</td>
+<td>Monthly</td>
+<td>Elena</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Untied numbers shipped</td>
+<td>Count (0)</td>
+<td>Audit</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td>Demote</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Savings/ROI claims shipped</td>
+<td>Count (0)</td>
+<td>Sample</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Autonomy changed via report</td>
+<td>Count (0)</td>
+<td>Register vs A14</td>
+<td>Monthly</td>
+<td>A16</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>A14’s KPIs measure <em>reporting quality</em>, not AP heroics.</p>
+<hr>
+<h2 id="14-performance-history-fields">14. Performance history fields</h2>
+<p>Common fields, plus:</p>
+<pre><code>packs_issued
+packs_rejected_tie
+numbers_sampled
+sample_defects
+untied_shipped
+claim_violations
+dictionary_version
+</code></pre>
+<hr>
+<h2 id="15-starting-autonomy-level">15. Starting autonomy level</h2>
+<p><strong>Level 1 — Recommend.</strong> Flash and ops draft to Priya. First promotion: Level 2 auto-stage to the internal AP site after tie-break rate is inside band. Board/Controller pack stays human.</p>
+<hr>
+<h2 id="16-failure-handling">16. Failure handling</h2>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Detect</th>
+<th>Degrade</th>
+<th>Notify</th>
+<th>Resume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extract fail</td>
+<td>Adapter</td>
+<td>Pack blocked</td>
+<td>Systems</td>
+<td>Rerun</td>
+</tr>
+<tr>
+<td>Tie break</td>
+<td>Compare</td>
+<td>Reject pack</td>
+<td>Priya</td>
+<td>Fix extract</td>
+</tr>
+<tr>
+<td>Dictionary drift</td>
+<td>Version</td>
+<td>Hard stop</td>
+<td>A16</td>
+<td>Publish</td>
+</tr>
+<tr>
+<td>Model writes “we saved 30%”</td>
+<td>Guardrail</td>
+<td>Strip; <code>CTRL-BRK</code> if persisted</td>
+<td>Controls</td>
+<td>Human prose only</td>
+</tr>
+<tr>
+<td>Double-count SAP+NPC</td>
+<td>Recon</td>
+<td>Halt monthly</td>
+<td>Hannah</td>
+<td>Rebuild</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="17-cost-monitoring">17. Cost monitoring</h2>
+<table>
+<thead>
+<tr>
+<th>Cost object</th>
+<th>Measure</th>
+<th>Who acts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extract jobs</td>
+<td>Warehouse</td>
+<td>Systems</td>
+</tr>
+<tr>
+<td>Human accept minutes</td>
+<td>Time</td>
+<td>AP Manager</td>
+</tr>
+<tr>
+<td>Rework on rejected ties</td>
+<td>Incidents</td>
+<td>Systems</td>
+</tr>
+</tbody>
+</table>
+<p>Report <strong>other</strong> agents’ compute costs here; do not hide them.</p>
+<hr>
+<h2 id="18-worked-example-northline-industrial-group">18. Worked example — Northline Industrial Group</h2>
+<p>Northline (fictional), 4,200 employees, ~18,000 invoices/month, SAP + NetSuite NPC. AP Manager: Priya Menon.</p>
+<p><strong>Monday ops pack, Level 1.</strong> A14 pulls SAP posted 16,110 invoices last week; NPC 1,042; A01 artefacts 17,201; gap 0 after not-invoice 49. Exception open $6.4m, p90 age 7 days. First-pass match (human-accepted A03) printed as a <em>local</em> rate with dictionary formula. Footnote: “Ardent Partners (2024) Best-in-Class exception rate 9% — external context, not a Northline target warranty.” Priya rejects the first draft because NPC open items were added into the SAP aging total. A14 issues <code>rejected_tie</code>, rebuilds two aging tables, Priya accepts.</p>
+<p><strong>Illegal.</strong> A line “projected $1.2m savings”. Combining ledgers after the reject “to keep it simple”. Changing A03 to Level 2 in the register from a footnote.</p>
+<p><strong>Control.</strong> Tie sheet shows extract <code>EXT-S4-2026-09-15</code> and <code>EXT-NS-2026-09-15</code> separately. Dictionary <code>KPI-2026-09</code>.</p>
+<hr>
+<h2 id="19-pack-calendar-and-consumers-implementation">19. Pack calendar and consumers (implementation)</h2>
+<table>
+<thead>
+<tr>
+<th>Pack</th>
+<th>When</th>
+<th>Consumer</th>
+<th>Must tie to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>A14_FLASH</code></td>
+<td>Daily 07:00 local</td>
+<td>Priya, intake, exception</td>
+<td>A01 completeness, A04 open $, ERP parked count</td>
+</tr>
+<tr>
+<td><code>A14_OPS</code></td>
+<td>Monday 09:00</td>
+<td>14-person AP standup</td>
+<td>A03 decisions, A09 silence, A07 waits</td>
+</tr>
+<tr>
+<td><code>A14_MONTH</code></td>
+<td>T+6</td>
+<td>Elena, Controls, A16 promotion</td>
+<td>Trial-balance AP line, register, cost feeds</td>
+</tr>
+<tr>
+<td>Promotion extract</td>
+<td>On request</td>
+<td>A16 assembly</td>
+<td>Performance-history fields only — no prose claims</td>
+</tr>
+</tbody>
+</table>
+<p>If a consumer wants a number that is not in the dictionary, the answer is a change request, not a one-off cell in the flash.</p>
+<h3 id="dictionary-row-required-columns">Dictionary row (required columns)</h3>
+<pre><code>kpi_id
+agent_id
+family                    # activity | operational | financial | risk
+formula
+source_extract_id
+cadence
+owner
+promotion_gate            # bool
+external_footnote         # none | ardent_2024 | forrester_2025
+</code></pre>
+<p>A KPI with <code>external_footnote = ardent_2024</code> still prints Northline’s actual in the main cell. The Ardent 9% exception rate, 78% cost, 82% cycle, 59% exception gap stay in the footnote.</p>
+<h3 id="tie-algorithm-illustrative-evidence-room-framework">Tie algorithm (illustrative Evidence Room framework)</h3>
+<ol>
+<li>Pull extract. Store row count, sum, min/max date, hash.</li>
+<li>Compute KPI.</li>
+<li>Compare to independent control total (ERP report ID named in the dictionary).</li>
+<li>If <code>|delta|</code> &gt; tie tolerance (illustrative: $1 or 1 document), <code>rejected_tie</code>.</li>
+<li>Do not average SAP and NetSuite to hide a break.</li>
+</ol>
+<hr>
+<h2 id="charter-conformance">Charter conformance</h2>
+<ul>
+<li>[x] Purpose is one sentence and names a boundary</li>
+<li>[x] Job description names population in / out</li>
+<li>[x] Inputs table has required/optional and “if missing”</li>
+<li>[x] Tools table covers SAP, D365, Oracle, NetSuite, Workday, Other, and read/write</li>
+<li>[x] Responsibilities are verbs at the starting level</li>
+<li>[x] Exclusions include payment release, fraud conclusion, self-promotion</li>
+<li>[x] Human owner is a role with a backup</li>
+<li>[x] Levels 0–4 approval table is present and not softer than the responsibility model</li>
+<li>[x] Escalation has hard triggers and a do-not-escalate line</li>
+<li>[x] Outputs are named artefacts with fields</li>
+<li>[x] Controls include SOD, completeness, change control, untrusted input</li>
+<li>[x] Audit evidence is pullable</li>
+<li>[x] KPIs cover activity / operational / financial / risk and name a source</li>
+<li>[x] Performance history includes the common fields</li>
+<li>[x] Starting autonomy is 0 or 1</li>
+<li>[x] Failure handling has detect / degrade / notify / resume</li>
+<li>[x] Cost monitoring is present</li>
+<li>[x] Northline example is fictional and specific</li>
+<li>[x] No guaranteed savings / fraud / compliance / ROI claim</li>
+<li>[x] Statistics cited or labelled illustrative</li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

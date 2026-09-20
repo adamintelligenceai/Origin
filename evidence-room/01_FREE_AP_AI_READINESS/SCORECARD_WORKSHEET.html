@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Diagnostic Scorecard Worksheet · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Free</p>
+  </header>
+  <h1 id="ap-agent-readiness-scorecard-worksheet">AP Agent Readiness — scorecard worksheet</h1>
+<p><strong>Evidence Room · Diagnostic companion</strong><br>
+<strong>Version:</strong> 1.0 · September 2026<br>
+<strong>Licence:</strong> Evaluation — complete locally. Do not email invoice or vendor data to Evidence Room.<br>
+<strong>Source of questions:</strong> <code>DIAGNOSTIC.md</code><br>
+<strong>Scoring:</strong> 0 = absent · 1 = partial · 2 = operable</p>
+<p>Complete this sheet. Then compute the footer. Then write the paragraph. Then stop — or open the recommended next product.</p>
+<hr>
+<h2 id="cover">Cover</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Your answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Organisation (internal name only)</td>
+<td></td>
+</tr>
+<tr>
+<td>Entity / company code in scope</td>
+<td></td>
+</tr>
+<tr>
+<td>Primary ledger (SAP / D365 / Oracle / NetSuite / Workday / other)</td>
+<td></td>
+</tr>
+<tr>
+<td>Second ledger (if any)</td>
+<td></td>
+</tr>
+<tr>
+<td>Named owner completing this</td>
+<td></td>
+</tr>
+<tr>
+<td>Date</td>
+<td></td>
+</tr>
+<tr>
+<td>Other people who answered (optional)</td>
+<td></td>
+</tr>
+<tr>
+<td>Vendor already in trial? (name the tool, not a pitch)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Northline Industrial Group is <strong>fictional</strong>. Do not copy its figures into this sheet as if they were yours.</p>
+<hr>
+<h2 id="process-max-12">Process (max 12)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Question (short)</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>Artefact you could show this week</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P01</td>
+<td>Live path recognised by exception staff</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>P02</td>
+<td>Invoice classes named with mix</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>P03</td>
+<td>Shared exception codes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>P04</td>
+<td>Top waits known (median or p90)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>P05</td>
+<td>Inbound channels complete and reconcilable</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>P06</td>
+<td>Pay and close on the same map</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>P total</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>/12</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="data-max-12">Data (max 12)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Question (short)</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>Artefact</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D01</td>
+<td>Invoice natural key defined</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>D02</td>
+<td>Vendor cross-walk if multi-ledger</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>D03</td>
+<td>Required fields before match</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>D04</td>
+<td>Lineage from posted invoice</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>D05</td>
+<td>Labelled sample / golden set</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>D06</td>
+<td>Untrusted input handled</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>D total</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>/12</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="controls-max-12">Controls (max 12)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Question (short)</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>Artefact</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C01</td>
+<td>Payment release is human and written</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>C02</td>
+<td>Vendor bank / tax-ID dual control</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>C03</td>
+<td>DOA version matches workflow</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>C04</td>
+<td>SOD posting vs paying (incl. system users)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>C05</td>
+<td>Overrides coded and retained</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>C06</td>
+<td>Kill switch named</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>C total</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>/12</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="people-max-12">People (max 12)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Question (short)</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>Artefact</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H01</td>
+<td>Named process owner</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>H02</td>
+<td>Named control owner with veto</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>H03</td>
+<td>Exception roster + backup</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>H04</td>
+<td>Incentives not speed-only</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>H05</td>
+<td>Steward who can write a fence</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>H06</td>
+<td>Executive reader who can say no</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>H total</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>/12</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="systems-max-12">Systems (max 12)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Question (short)</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>Artefact</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01</td>
+<td>Book of record unambiguous</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>S02</td>
+<td>Capture / workflow inventory</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>S03</td>
+<td>Read path for one company code</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>S04</td>
+<td>Named write identity standard</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>S05</td>
+<td>Dual-ledger posting rule</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>S06</td>
+<td>Change control for rules / prompts</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>S total</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>/12</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="economics-max-12">Economics (max 12)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Question (short)</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>Your figure (if any)</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E01</td>
+<td>Slice volume / month</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>E02</td>
+<td>Exception rate, defined</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>E03</td>
+<td>Time-to-post median / p90</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>E04</td>
+<td>Loaded cost definition</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>E05</td>
+<td>Hours ≠ cash until cost base moves</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>E06</td>
+<td>Industry figures labelled context</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>E total</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>/12</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Do not write $10–$15 or $2–$3 as <em>your</em> cost. Those dollars are vendor-recycled and unverified.</p>
+<hr>
+<h2 id="hard-gates">Hard gates</h2>
+<table>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Trip if</th>
+<th>Tripped? (Y/N)</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Payment</td>
+<td>C01 = 0</td>
+<td></td>
+<td>Cap level at 1. No payment-adjacent execute.</td>
+</tr>
+<tr>
+<td>Map</td>
+<td>P01 = 0 and P05 = 0</td>
+<td></td>
+<td>Diagnostic says <strong>wait</strong>. Map only.</td>
+</tr>
+<tr>
+<td>Unsafe case</td>
+<td>E05 = 0 and E06 = 0</td>
+<td></td>
+<td>Business-case starter <strong>unsafe</strong>. Rewrite the deck.</td>
+</tr>
+<tr>
+<td>Domain collapse</td>
+<td>Any domain total ≤ 2</td>
+<td></td>
+<td>Override overall level <strong>down</strong> (see Diagnostic §7.2).</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="totals-and-level">Totals and level</h2>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>/12</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Process</td>
+<td></td>
+</tr>
+<tr>
+<td>Data</td>
+<td></td>
+</tr>
+<tr>
+<td>Controls</td>
+<td></td>
+</tr>
+<tr>
+<td>People</td>
+<td></td>
+</tr>
+<tr>
+<td>Systems</td>
+<td></td>
+</tr>
+<tr>
+<td>Economics</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Grand total</strong></td>
+<td><strong>/72</strong></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Raw level from total</th>
+<th>0: 0–17 · 1: 18–35 · 2: 36–49 · 3: 50–61 · 4: 62–72</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Raw level</td>
+<td></td>
+</tr>
+<tr>
+<td>After hard gates / domain collapse</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Declared level</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Two weakest domains</td>
+<td></td>
+</tr>
+<tr>
+<td>Diagnostic says wait?</td>
+<td>Yes / No</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="ten-agent-fit-optional-02-each-does-not-raise-level">Ten-agent fit (optional, 0–2 each — does not raise level)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Agent</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>Why this score</th>
+<th>First fence if 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A01</td>
+<td>Invoice Intake</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>A02</td>
+<td>Invoice Validation</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>A03</td>
+<td>Matching</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>A04</td>
+<td>Exception Triage</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>A05</td>
+<td>Goods Receipt</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>A07</td>
+<td>Approval</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>A08</td>
+<td>Supplier Resolution</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>A10</td>
+<td>Duplicate &amp; Anomaly</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>A12</td>
+<td>Payment Proposal Review</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>A16</td>
+<td>Orchestrator</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Fit total</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>/20</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>A12 cannot be 2 if C01 is 0. Correct it.</p>
+<hr>
+<h2 id="heatmap-tick-one-cell-per-domain">Heatmap (tick one cell per domain)</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>0–3 pale</th>
+<th>4–7 mid</th>
+<th>8–12 dark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Process</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Data</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Controls</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>People</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Systems</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Economics</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Read with Diagnostic §8.1. Do not colour this into a “readiness dashboard” for a steering pack without the hard gates.</p>
+<hr>
+<h2 id="next-step-circle-one">Next step (circle one)</h2>
+<ul>
+<li>Wait — map one live class only  </li>
+<li>Starter — fence a trial already in the building  </li>
+<li>Professional — I will own the method  </li>
+<li>Team — several people must implement  </li>
+<li>Custom application — toolkit will not fit  </li>
+<li>Rewrite sponsor deck (unsafe case) before any of the above  </li>
+</ul>
+<hr>
+<h2 id="paste-ready-paragraph">Paste-ready paragraph</h2>
+<blockquote>
+<p>We completed the Evidence Room AP Agent Readiness Diagnostic for <strong><em>_</em></strong><em>. We are at <strong>Level ____</strong>. Weakest domains: <strong><em>_</em></strong></em> and <strong><em>_</em></strong><em>. We will not use industry cost-per-invoice figures as our baseline. Our slice is <strong><em>_</em></strong></em>. We will <strong><em>_</em></strong>_ before any production agent. We are not claiming savings, fraud detection, compliance, or ROI. Payment release remains human.</p>
+</blockquote>
+<hr>
+<h2 id="sign-off-optional-internal">Sign-off (optional, internal)</h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Name</th>
+<th>Date</th>
+<th>I have not added a savings claim</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Completing owner</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Process owner (if different)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Control owner (if read)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Independently authored. Not legal, tax, accounting, or audit advice. Completing this sheet does not certify a person, a system, or a control environment.</p>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

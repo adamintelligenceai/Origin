@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Responsibility Model · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional</p>
+  </header>
+  <h1 id="responsibility-model">Responsibility Model</h1>
+<p><strong>Evidence Room · AP Agent OS · Pro</strong><br>
+<strong>Document ID:</strong> ER-APOS-LIB-RM<br>
+<strong>Version:</strong> 1.0 · September 2026<br>
+<strong>Classification:</strong> Licensed material<br>
+<strong>Companion:</strong> <code>00_AGENT_STACK_OVERVIEW.md</code> · <code>AGENT_CHARTER_STANDARD.md</code></p>
+<hr>
+<h2 id="1-the-rule">1. The rule</h2>
+<p><strong>Responsibility is earned. Full autonomy is never the default.</strong></p>
+<p>An AP agent is not “live” because the model is connected. It is live at a <strong>named autonomy level</strong>, for a <strong>named document population</strong>, in a <strong>named company code or subsidiary</strong>, with a <strong>named human owner</strong>, a <strong>review date</strong>, and an <strong>evidence pack</strong>.</p>
+<p>If any of those are missing, the agent operates at Level 0 (Observe) regardless of what the configuration screen says. A16 — the AP Manager / Orchestrator — is required to refuse a dispatch that exceeds the register.</p>
+<p>This is a control document. It is the answer to: <em>What should the agent be allowed to do? Who decided that? What can go wrong? How do we take the privilege back?</em></p>
+<hr>
+<h2 id="2-the-five-levels">2. The five levels</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Name</th>
+<th>The agent may</th>
+<th>The agent may not</th>
+<th>Human role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0</strong></td>
+<td>Observe</td>
+<td>Read allowed systems. Write logs and private drafts. Produce a read-only pack.</td>
+<td>Recommend a posting, a payment, a vendor change, or a supplier email that looks official.</td>
+<td>Watch the pack. Confirm the agent sees the same population the ledger does.</td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td>Recommend</td>
+<td>Propose a coded action on a work object. Show evidence and confidence.</td>
+<td>Create or change a ledger document. Send external mail. Change master data.</td>
+<td>Accept, edit, or reject every recommendation in scope.</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Prepare</td>
+<td>Draft the parked invoice, journal, email, chase, or payment-proposal challenge. Stage it for a named human.</td>
+<td>Post, send, or release. Override tolerance. Change the approval matrix.</td>
+<td>Review the draft. Post or send. Own the document.</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>Execute within guardrails</td>
+<td>Post or send inside a written envelope: company code, vendor class, amount, document type, reason codes.</td>
+<td>Exceed the envelope. Release cash. Create vendors. Conclude fraud. Sign the close.</td>
+<td>Sample review. Handle everything outside the envelope. Remain the process owner.</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>Managed autonomy</td>
+<td>Operate the named population with exception-only human review, still inside an envelope, still with a kill switch.</td>
+<td>Expand its own envelope. Authorise payment. Grant itself a higher level.</td>
+<td>Exception handling, sampling, and periodic recertification. Not “set and forget”.</td>
+</tr>
+</tbody>
+</table>
+<p>Level 4 is still managed. It is not unsupervised AI. The word “autonomy” here means <em>the human is not in the path of every document</em>. It does not mean <em>the human is not accountable</em>.</p>
+<hr>
+<h2 id="3-what-each-level-looks-like-on-a-real-invoice">3. What each level looks like on a real invoice</h2>
+<p>Illustrative path for Northline Industrial Group (fictional), SAP company code NL10, vendor Helion Fasteners NA, PO 4500218831, invoice HF-88421, $14,260.00 USD.</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>What happens to HF-88421</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>A01 logs that a PDF arrived from <code>ap@helion.example</code> and that a parked document does not yet exist. No extract is offered as “ready”.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>A01 proposes header and line extract. Processor Maya Chen accepts lines 1–3, corrects UoM on line 4, and parks MIR7 herself.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>A01 writes a parked MIR7 draft. Maya opens the parked document, checks tax and PO, and posts.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>A01 parks and A03 matches within tolerance ($50 or 2%, Evidence Room illustrative policy). Document posts under the system user with Maya as recorded authoriser for the batch. Amount is below the Level-3 envelope.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Same as 3 for the named population “NL10 / PO invoices / domestic / ≤ $25,000 / existing vendor / no anomaly flag”. HF-88421 never appears in Maya’s queue. It appears on the daily sample list. If A10 raises <code>DUP-SUS</code>, the envelope breaks and the invoice returns to Level 1.</td>
+</tr>
+</tbody>
+</table>
+<p>Payment of HF-88421 is <strong>never</strong> at Level 3 or 4 of A01–A03. A12 may challenge the proposal at Level 0–2. A human releases F110 / the bank file.</p>
+<hr>
+<h2 id="4-starting-levels-product-default">4. Starting levels (product default)</h2>
+<p>These defaults are part of the product. A customer may be stricter. A customer may not be looser at go-live without a written exception in the autonomy register signed by the Controller.</p>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Default start</th>
+<th>Why not higher</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A01 Invoice Intake</td>
+<td>1</td>
+<td>Extract quality is unknown until measured against a human-corrected set.</td>
+</tr>
+<tr>
+<td>A02 Invoice Validation</td>
+<td>1</td>
+<td>Tax and vendor judgement are easy to get confidently wrong.</td>
+</tr>
+<tr>
+<td>A03 Matching</td>
+<td>1</td>
+<td>Tolerance posts are the first place silent error becomes money.</td>
+</tr>
+<tr>
+<td>A04 Exception Triage</td>
+<td>1</td>
+<td>Mis-routes burn other teams; observe-only is too weak for a queue.</td>
+</tr>
+<tr>
+<td>A05 Goods Receipt</td>
+<td>0</td>
+<td>Receiving is operationally sensitive; false chases destroy trust.</td>
+</tr>
+<tr>
+<td>A06 PO Quality</td>
+<td>0</td>
+<td>Procurement will reject a noisy critic. Earn the right to recommend.</td>
+</tr>
+<tr>
+<td>A07 Approval</td>
+<td>0</td>
+<td>Delegation of authority is a human control. Start by watching bottlenecks.</td>
+</tr>
+<tr>
+<td>A08 Supplier Resolution</td>
+<td>1</td>
+<td>Drafts only. Sending as the company is a Level-2 privilege.</td>
+</tr>
+<tr>
+<td>A09 Internal Follow-Up</td>
+<td>1</td>
+<td>Internal noise has a political cost. Recommend, then prepare.</td>
+</tr>
+<tr>
+<td>A10 Duplicate &amp; Anomaly</td>
+<td>1</td>
+<td>A hold recommendation is useful. An auto-block of a live vendor is not a day-one act.</td>
+</tr>
+<tr>
+<td>A11 Vendor Statement Reconciliation</td>
+<td>0</td>
+<td>Statement formats vary; observe completeness first.</td>
+</tr>
+<tr>
+<td>A12 Payment Proposal Review</td>
+<td>0</td>
+<td>Cash. Watch one cycle before you let it speak.</td>
+</tr>
+<tr>
+<td>A13 AP Close</td>
+<td>0</td>
+<td>Close sign-off is human. The agent starts as a checklist observer.</td>
+</tr>
+<tr>
+<td>A14 AP Reporting</td>
+<td>1</td>
+<td>Numbers must reconcile to the ledger before anyone forwards the pack.</td>
+</tr>
+<tr>
+<td>A15 Root Cause</td>
+<td>0</td>
+<td>Clusters without a quarter of coded exceptions are fiction.</td>
+</tr>
+<tr>
+<td>A16 Orchestrator</td>
+<td>1</td>
+<td>It may recommend reassignment and escalation. It may not promote agents.</td>
+</tr>
+</tbody>
+</table>
+<p>Almost every agent starts at 0 or 1. That is intentional.</p>
+<hr>
+<h2 id="5-the-envelope-required-at-level-3-and-level-4">5. The envelope (required at Level 3 and Level 4)</h2>
+<p>An envelope is a written box. If the document does not fit, the agent drops to Level 1 for that object and A16 records an <code>envelope_break</code>.</p>
+<p>Minimum envelope fields:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Example (Northline, illustrative)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agent_id</code></td>
+<td>A03</td>
+</tr>
+<tr>
+<td><code>source_system</code></td>
+<td>SAP_S4_NL</td>
+</tr>
+<tr>
+<td><code>company_codes[]</code></td>
+<td>NL10</td>
+</tr>
+<tr>
+<td><code>document_types[]</code></td>
+<td>PO invoice (RE)</td>
+</tr>
+<tr>
+<td><code>vendor_classes[]</code></td>
+<td>Domestic, existing, not one-time, not employee</td>
+</tr>
+<tr>
+<td><code>max_gross_amount</code></td>
+<td>25000</td>
+</tr>
+<tr>
+<td><code>currencies[]</code></td>
+<td>USD, CAD</td>
+</tr>
+<tr>
+<td><code>reason_codes_allowed[]</code></td>
+<td>(empty for match-success path)</td>
+</tr>
+<tr>
+<td><code>reason_codes_forbidden[]</code></td>
+<td><code>DUP-SUS</code>, <code>ANOM-SUS</code>, <code>CTRL-BRK</code>, <code>VND-BLK</code></td>
+</tr>
+<tr>
+<td><code>tolerance_table_version</code></td>
+<td>NL-TOL-2026-04</td>
+</tr>
+<tr>
+<td><code>approval_matrix_version</code></td>
+<td>NL-DOA-2026-02</td>
+</tr>
+<tr>
+<td><code>can_send_external_mail</code></td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>can_post</code></td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>can_release_payment</code></td>
+<td>false (always false for every agent)</td>
+</tr>
+<tr>
+<td><code>can_change_vendor_bank</code></td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>sample_rate</code></td>
+<td>0.10 of posted documents, plus 100% of envelope breaks</td>
+</tr>
+<tr>
+<td><code>kill_switch_owner</code></td>
+<td>Priya Menon, AP Manager</td>
+</tr>
+<tr>
+<td><code>review_date</code></td>
+<td>2026-12-15</td>
+</tr>
+<tr>
+<td><code>internal_audit_ack</code></td>
+<td>required for Level 4</td>
+</tr>
+</tbody>
+</table>
+<p><code>can_release_payment</code> is always false. There is no envelope that makes A12 a payer.</p>
+<hr>
+<h2 id="6-how-responsibility-is-earned">6. How responsibility is earned</h2>
+<h3 id="61-clock-and-volume-minimums">6.1 Clock and volume (minimums)</h3>
+<p>Evidence Room framework — illustrative gates, not industry law. Raise them if the population is high-value or high-fraud-risk.</p>
+<table>
+<thead>
+<tr>
+<th>From → To</th>
+<th>Minimum calendar</th>
+<th>Minimum objects in population</th>
+<th>Additional gate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 → 1</td>
+<td>20 operating days</td>
+<td>500 objects observed, or 30 days if volume is lower</td>
+<td>Completeness test passed (inbound vs created)</td>
+</tr>
+<tr>
+<td>1 → 2</td>
+<td>40 operating days at Level 1</td>
+<td>1,000 recommendations scored</td>
+<td>Accept rate and override-for-error rate inside charter thresholds</td>
+</tr>
+<tr>
+<td>2 → 3</td>
+<td>60 operating days at Level 2</td>
+<td>1,000 prepared documents posted by humans without material correction</td>
+<td>Envelope written; SOD tested; sample plan agreed</td>
+</tr>
+<tr>
+<td>3 → 4</td>
+<td>90 operating days at Level 3</td>
+<td>2,000 executed documents; two period closes survived</td>
+<td>Internal Audit acknowledgement; Controller signature; kill switch tested</td>
+</tr>
+</tbody>
+</table>
+<p>“Material correction” means the human changed amount, vendor, tax, PO, bank, or company code — not a cosmetic text edit.</p>
+<p>Calendar and volume are both required. A weekend burst of 2,000 invoices does not earn Level 3.</p>
+<h3 id="62-quality-gates-must-all-pass">6.2 Quality gates (must all pass)</h3>
+<p>Each agent charter sets numeric thresholds in its KPI block. The stack-level rule is:</p>
+<ol>
+<li><strong>False-negative on duplicates (A10):</strong> any confirmed duplicate that reached posted + paid is a demotion event for A10 and a review event for A12.</li>
+<li><strong>Unauthorised-level attempt:</strong> any write the register did not permit is a demotion event for that agent and a controls incident.</li>
+<li><strong>Override-for-error rate:</strong> human rejects because the agent was wrong — not because policy changed — must be inside the charter band.</li>
+<li><strong>Completeness:</strong> inbound channels reconcile to work objects. Missing population = no promotion.</li>
+<li><strong>Ledger recon:</strong> A14 pack ties to trial balance / open items. Untied reports cannot support a Level-2 reporting privilege.</li>
+<li><strong>Sampling:</strong> the sample plan was actually executed. An unsampled Level 3 is a Level 1 in disguise.</li>
+</ol>
+<h3 id="63-the-promotion-pack-what-you-put-on-the-table">6.3 The promotion pack (what you put on the table)</h3>
+<p>A16 assembles. The human owner presents. The Controller (or delegate) approves. Internal Audit acknowledges Level 4.</p>
+<p>Contents:</p>
+<ol>
+<li>Agent charter (current version) and envelope draft.</li>
+<li>Autonomy register extract.</li>
+<li>KPI table for the qualifying window (activity, operational, financial, risk).</li>
+<li>Override log classified: <em>agent error / policy change / data missing / human preference</em>.</li>
+<li>Exception sample: 25 objects the agent got wrong, with root cause.</li>
+<li>SOD and posting-user evidence.</li>
+<li>Kill-switch test result (date, who pulled it, what stopped).</li>
+<li>Known limitations (document types it still fails).</li>
+<li>Review date and demotion triggers copied from this document.</li>
+<li>Signatures: owner, AP Manager, Controller (Level 3+), Internal Audit (Level 4).</li>
+</ol>
+<p>No pack, no promotion. A vendor slide is not a pack.</p>
+<hr>
+<h2 id="7-how-responsibility-is-taken-back">7. How responsibility is taken back</h2>
+<p>Demotion is faster than promotion. A16 may <strong>recommend</strong> demotion. The AP Manager <strong>executes</strong> it. The kill-switch owner may drop any agent to Level 0 immediately.</p>
+<h3 id="71-automatic-drop-to-level-0-same-day">7.1 Automatic drop to Level 0 (same day)</h3>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unauthorised write to ledger or bank file</td>
+<td>Control break</td>
+</tr>
+<tr>
+<td>Payment release attempted by any agent</td>
+<td>Cash control</td>
+</tr>
+<tr>
+<td>Vendor bank-detail change executed without the configured human approval</td>
+<td>Classic fraud path</td>
+</tr>
+<tr>
+<td>Kill switch pulled</td>
+<td>Any reason the owner names</td>
+</tr>
+<tr>
+<td>Adapter mapping defect that affected posted amounts or tax</td>
+<td>Books may be wrong</td>
+</tr>
+<tr>
+<td>Completeness break &gt; 1 operating day on a live inbound channel</td>
+<td>Invisible invoices</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-drop-by-one-level-within-5-operating-days">7.2 Drop by one level (within 5 operating days)</h3>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Override-for-error rate above charter threshold for 10 operating days</td>
+<td>Quality</td>
+</tr>
+<tr>
+<td>Confirmed duplicate posted (A10 / A03 / A12 joint review)</td>
+<td>Financial</td>
+</tr>
+<tr>
+<td>Sample plan missed two consecutive cycles</td>
+<td>Control not operating</td>
+</tr>
+<tr>
+<td>Envelope break rate above charter threshold</td>
+<td>Agent working outside its box</td>
+</tr>
+<tr>
+<td>Supplier or receiving complaints that chases are wrong, confirmed on sample</td>
+<td>Trust and noise</td>
+</tr>
+<tr>
+<td>Close task signed as complete that was not (A13)</td>
+<td>Period integrity</td>
+</tr>
+</tbody>
+</table>
+<h3 id="73-freeze-level-0-no-recommendations">7.3 Freeze (Level 0, no recommendations)</h3>
+<p>Use when the facts are unclear: a suspected prompt-injection via invoice PDF, a compromised mailbox, a parallel ERP cutover, or an investigation. Freeze is not punishment. It is a control. A16 records <code>CTRL-BRK</code> and the reason.</p>
+<p>After freeze, restart at Level 0 and re-earn. Do not restore the previous level because “it was probably fine”.</p>
+<hr>
+<h2 id="8-who-may-change-a-level">8. Who may change a level</h2>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>May initiate</th>
+<th>May approve</th>
+<th>Must be informed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Set Level 0 or 1 at go-live</td>
+<td>Project + AP Manager</td>
+<td>AP Manager</td>
+<td>Controls Lead</td>
+</tr>
+<tr>
+<td>Promote to Level 2</td>
+<td>Human owner</td>
+<td>AP Manager</td>
+<td>Controls Lead</td>
+</tr>
+<tr>
+<td>Promote to Level 3</td>
+<td>Human owner + AP Manager</td>
+<td>Controller or delegate</td>
+<td>Internal Audit, Systems Owner</td>
+</tr>
+<tr>
+<td>Promote to Level 4</td>
+<td>AP Manager + Controller</td>
+<td>Controller + Internal Audit acknowledgement</td>
+<td>CISO / IT security if mail or bank adapters are in scope</td>
+</tr>
+<tr>
+<td>Demote one level</td>
+<td>Owner, AP Manager, Controls</td>
+<td>AP Manager</td>
+<td>Owner</td>
+</tr>
+<tr>
+<td>Emergency Level 0</td>
+<td>Kill-switch owner, AP Manager, Controller, CISO</td>
+<td>None (execute first)</td>
+<td>All of the above same day</td>
+</tr>
+<tr>
+<td>Expand envelope</td>
+<td>Owner</td>
+<td>Same approver as the current level</td>
+<td>Audit if Level 4</td>
+</tr>
+</tbody>
+</table>
+<p>A16 cannot approve its own promotion. A16 cannot approve another agent’s Level 3+.</p>
+<hr>
+<h2 id="9-human-in-the-loop-patterns">9. Human-in-the-loop patterns</h2>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Used at</th>
+<th>What the human sees</th>
+<th>Risk if skipped</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Review every object</strong></td>
+<td>Level 1</td>
+<td>Recommendation + evidence + accept/edit/reject</td>
+<td>Silent posting of bad extract</td>
+</tr>
+<tr>
+<td><strong>Review every draft</strong></td>
+<td>Level 2</td>
+<td>Parked document or outbound draft</td>
+<td>Official email or parked doc with wrong vendor</td>
+</tr>
+<tr>
+<td><strong>Review the envelope breaks + sample</strong></td>
+<td>Level 3</td>
+<td>Break queue + sample list</td>
+<td>Drift inside the envelope</td>
+</tr>
+<tr>
+<td><strong>Review exceptions + recertify</strong></td>
+<td>Level 4</td>
+<td>Exception queue + monthly recertification pack</td>
+<td>Unattended population after a policy change</td>
+</tr>
+<tr>
+<td><strong>Always review cash</strong></td>
+<td>All levels of A12</td>
+<td>Payment proposal + challenges</td>
+<td>Duplicate pay, wrong payee, early/late pay</td>
+</tr>
+<tr>
+<td><strong>Always review vendor bank / tax-ID</strong></td>
+<td>All levels of A08</td>
+<td>Change request</td>
+<td>Redirected payments</td>
+</tr>
+</tbody>
+</table>
+<p>“Human-in-the-loop” is not a checkbox on a slide. It is one of the patterns above, named in the register.</p>
+<hr>
+<h2 id="10-sod-and-identity">10. SOD and identity</h2>
+<ul>
+<li>Each agent that writes uses a <strong>named system user</strong> per ledger (<code>ER_A01_S4</code>, <code>ER_A03_NS</code>, …). Shared “robot” users are a finding.</li>
+<li>The system user that <strong>posts invoices</strong> is not the user that <strong>releases payments</strong>.</li>
+<li>The human recorded as authoriser cannot be the same human who created a one-time vendor on the same document (classic SOD). A16 blocks the path.</li>
+<li>Prompts and rule tables are production configuration. Access to change them is equivalent to <code>SPRO</code> / system-admin, not to “the AP intern who writes prompts”.</li>
+<li>Invoice PDFs and supplier email are untrusted input. An extract that contains instructions (“ignore previous matching rules”) is logged and sent to A10 / Controls — it is not executed.</li>
+</ul>
+<hr>
+<h2 id="11-what-this-model-does-not-do">11. What this model does not do</h2>
+<ul>
+<li>It does not certify SOX / ICFR. It produces evidence a control owner can test.</li>
+<li>It does not replace delegation-of-authority policy.</li>
+<li>It does not make a Level-4 agent a lawful approver under a bank mandate.</li>
+<li>It does not guarantee a 9% exception rate. Ardent Partners (2024) reports 9% exceptions and 59% lower exceptions for Best-in-Class organisations. Use those figures as external context when you present <em>your</em> rates.</li>
+<li>It does not treat Forrester’s March 2025 AI AP use cases (capture, matching, reporting, fraud management, payment management, e-invoicing/tax) as permission to skip a level. Use-case popularity is not a control.</li>
+</ul>
+<hr>
+<h2 id="12-register-data-model-minimum-fields">12. Register data model (minimum fields)</h2>
+<p>Maintain one row per <code>(agent_id, source_system, company_code, document_population)</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>register_id</code></td>
+<td>string</td>
+<td>Stable</td>
+</tr>
+<tr>
+<td><code>agent_id</code></td>
+<td>A01–A16</td>
+<td></td>
+</tr>
+<tr>
+<td><code>source_system</code></td>
+<td>enum</td>
+<td>SAP_S4, D365, ORACLE, NS, WORKDAY, OTHER</td>
+</tr>
+<tr>
+<td><code>company_code</code></td>
+<td>string</td>
+<td>Or subsidiary</td>
+</tr>
+<tr>
+<td><code>population</code></td>
+<td>string</td>
+<td>e.g. <code>PO_DOMESTIC_LE_25K</code></td>
+</tr>
+<tr>
+<td><code>level</code></td>
+<td>0–4</td>
+<td></td>
+</tr>
+<tr>
+<td><code>envelope_ref</code></td>
+<td>versioned ID</td>
+<td>Required if level ≥ 3</td>
+</tr>
+<tr>
+<td><code>owner_role</code></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><code>owner_named</code></td>
+<td>string</td>
+<td>A person, not a team inbox</td>
+</tr>
+<tr>
+<td><code>backup_named</code></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><code>kill_switch_owner</code></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><code>effective_from</code></td>
+<td>date</td>
+<td></td>
+</tr>
+<tr>
+<td><code>review_date</code></td>
+<td>date</td>
+<td></td>
+</tr>
+<tr>
+<td><code>last_promotion_pack</code></td>
+<td>link</td>
+<td></td>
+</tr>
+<tr>
+<td><code>ia_acknowledged</code></td>
+<td>bool</td>
+<td>Required if level = 4</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>active / frozen / retired</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>A14 publishes a register extract in the monthly pack. A16 refuses dispatch when <code>status != active</code> or <code>review_date</code> is more than 30 days stale at Level 3+.</p>
+<hr>
+<h2 id="13-worked-example-northline-earns-a03-level-2">13. Worked example — Northline earns A03 Level 2</h2>
+<p>Northline Industrial Group (fictional): 4,200 employees, about 18,000 invoices/month, SAP S/4HANA + NetSuite (Northline Pacific Components), 14-person AP team. AP Manager: Priya Menon. Matching lead: Diego Alvarez.</p>
+<p><strong>What they did</strong></p>
+<ol>
+<li>Went live with A03 at Level 1 on SAP company code NL10 only. NetSuite left at Level 0.</li>
+<li>For 45 operating days, A03 recommended match / exception on PO invoices. Diego’s team accepted, edited, or rejected.</li>
+<li>A14 reported: 11,400 match recommendations; override-for-error 6.8%; first-pass match on the human-accepted set improved versus the pre-period baseline <em>as measured locally</em> (no industry claim).</li>
+<li>Twenty-five wrong recommendations were sampled: twelve GR timing, eight UoM, five price-condition misreads.</li>
+<li>Envelope drafted: NL10, PO invoices, existing domestic vendors, ≤ $25,000, no <code>DUP-SUS</code>.</li>
+<li>Promotion pack presented. Priya approved Level 2 — <strong>Prepare parked match, human posts</strong> — not Level 3.</li>
+<li>NetSuite still Level 0. Cross-ledger invoices remain a human path.</li>
+</ol>
+<p><strong>What they refused</strong></p>
+<ul>
+<li>Level 3 after 45 days (calendar gate is 60 days at Level 2, which they do not yet have).</li>
+<li>Including non-PO invoices in the envelope.</li>
+<li>Letting A03 post because “the demo posted cleanly”.</li>
+</ul>
+<p><strong>What can still go wrong</strong></p>
+<ul>
+<li>Diego’s team stops classifying overrides (“too busy”), and the next pack is unusable. Stay at Level 2.</li>
+<li>A10 is still Level 1 and misses a duplicate; A03 at Level 2 would park a second invoice. A10 miss is a joint review, not an A03 promotion argument.</li>
+</ul>
+<hr>
+<h2 id="14-recertification">14. Recertification</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Recertify</th>
+<th>By whom</th>
+<th>If missed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0–1</td>
+<td>Quarterly, light</td>
+<td>Owner + AP Manager</td>
+<td>Stay; do not promote</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Quarterly</td>
+<td>Owner + AP Manager + Controls</td>
+<td>Drop to 1 if &gt; 30 days late</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Monthly sample + quarterly pack</td>
+<td>Owner + Controller delegate</td>
+<td>Drop to 2 if sample missed twice</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Monthly sample + quarterly IA sighting</td>
+<td>Controller + Internal Audit</td>
+<td>Drop to 3 immediately if stale</td>
+</tr>
+</tbody>
+</table>
+<p>Recertification reuses the promotion-pack outline. It is shorter. It still includes the 25-error sample if volume allows.</p>
+<hr>
+<h2 id="15-cost-of-responsibility-why-this-is-not-bureaucracy">15. Cost of responsibility (why this is not bureaucracy)</h2>
+<p>Every level above 0 consumes:</p>
+<ul>
+<li>Human review minutes (Level 1–2 heavy, Level 3–4 lighter but specialised).</li>
+<li>Compute and API cost.</li>
+<li>Sample and audit time.</li>
+</ul>
+<p>A16 and A14 must show <strong>unit review cost</strong> and <strong>error cost</strong> together. A cheap Level 4 that posts duplicates is more expensive than a Level 1 that does not.</p>
+<p>Do not justify a promotion with an unsourced savings percentage. If you cite the market, cite it as market: Ardent Partners (2024) Best-in-Class — 78% lower cost, 82% faster cycle, 59% lower exceptions, 9% exception rate — and then show Northline’s own numbers beside it.</p>
+<hr>
+<h2 id="16-document-control">16. Document control</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Owner</td>
+<td>AP Manager (operating); Controller (Level 3+ policy)</td>
+</tr>
+<tr>
+<td>Related</td>
+<td>Autonomy register; kill-switch procedure; SOD matrix</td>
+</tr>
+<tr>
+<td>Advice status</td>
+<td>Not legal, tax, accounting, or investment advice</td>
+</tr>
+</tbody>
+</table>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

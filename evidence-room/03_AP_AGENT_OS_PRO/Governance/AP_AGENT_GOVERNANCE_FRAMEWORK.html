@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AP Agent Governance Framework · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional</p>
+  </header>
+  <h1 id="ap-agent-governance-framework">AP Agent Governance Framework</h1>
+<p><strong>Evidence Room · AP Agent OS Pro</strong><br>
+Version 1.0 · September 2026 · Licensed material · ERP-agnostic<br>
+Answers: <em>Who owns it? What can go wrong? How control? What evidence?</em></p>
+<hr>
+<h2 id="purpose">Purpose</h2>
+<p>This framework assigns <em>human</em> accountability for agents used in accounts payable. It is an operating document: who may do what, what must be logged, what happens when something fails, and how that maps to recognised AI-risk functions.</p>
+<p>It does not make Evidence Room, the client, or any vendor “compliant,” “certified,” or “safe.” It does not guarantee fraud detection, accounting accuracy, payment safety, or regulatory outcomes. Payment authorisation remains human.</p>
+<p>Use it to stand up a local AI management system for AP agents, then keep it alive with certification, incidents, and change control.</p>
+<hr>
+<h2 id="external-references-use-do-not-impersonate">External references (use, do not impersonate)</h2>
+<p><strong>NIST AI Risk Management Framework 1.0</strong> — functions <strong>Govern, Map, Measure, Manage</strong>.<br>
+Source: <a href="https://www.nist.gov/itl/ai-risk-management-framework">https://www.nist.gov/itl/ai-risk-management-framework</a></p>
+<p><strong>NIST AI 600-1</strong> (July 2024) is the <strong>Generative AI Profile</strong>. It profiles the same RMF functions for generative systems. AP agents that draft, extract, classify, or explain inherit those profile concerns (prompt injection, hallucination, data leakage, insecure output handling) in addition to classical AP control concerns.</p>
+<p><strong>ISO/IEC 42001</strong> is a <em>certifiable</em> Artificial Intelligence Management System (AIMS) standard. Organisations may choose to build toward it. <strong>Evidence Room is not ISO/IEC 42001 certified, and use of this toolkit is not certification.</strong> Do not state or imply otherwise in client materials, websites, or auditor letters.</p>
+<p>This framework maps practices to NIST functions so a control owner can see coverage. It is not a NIST assessment and not an AIMS certificate.</p>
+<hr>
+<h2 id="accountability-model">Accountability model</h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Always human?</th>
+<th>Accountable for</th>
+<th>Typical title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accountable executive</td>
+<td>Yes</td>
+<td>Residual risk of AP agents; authority promotions (method Step 10)</td>
+<td>CFO</td>
+</tr>
+<tr>
+<td>Process owner</td>
+<td>Yes</td>
+<td>The AP job being assisted; SOP and process map</td>
+<td>AP Director</td>
+</tr>
+<tr>
+<td>Control owner</td>
+<td>Yes</td>
+<td>Control design, certification, veto on unsafe expansion</td>
+<td>Internal Audit or Financial Controls</td>
+</tr>
+<tr>
+<td>AI product owner</td>
+<td>Yes</td>
+<td>Configuration, models, prompts, tools, vendor stack, inference cost</td>
+<td>Finance systems / AI ops</td>
+</tr>
+<tr>
+<td>Data owner</td>
+<td>Yes</td>
+<td>Invoice images, supplier master, employee approver data</td>
+<td>Controller + Procurement (by domain)</td>
+</tr>
+<tr>
+<td>Service operator</td>
+<td>Yes</td>
+<td>Run, kill-switch, fallback on the day</td>
+<td>AP supervisor + IT ops</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td>No</td>
+<td>Nothing. Agents do not own risk.</td>
+<td>A01–A16</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule.</strong> If a RACI row would put an agent as Accountable, the row is wrong. See <code>../Process_Mapping/TEMPLATES.md</code>.</p>
+<h3 id="human-accountability-govern">Human accountability (Govern)</h3>
+<ul>
+<li>A named person is accountable for each in-scope agent canvas.</li>
+<li>A named person is accountable for each material risk (<code>../Controls/RISK_REGISTER.md</code>).</li>
+<li>Delegation is written. Out-of-office does not move payment authority to an agent.</li>
+<li>Performance objectives must not reward STP or speed <em>without</em> control metrics. That incentive is itself a risk (R-INCENT).</li>
+</ul>
+<h3 id="segregation-of-duties-govern-map">Segregation of duties (Govern / Map)</h3>
+<p>Minimum SoD for AP agents (extend locally):</p>
+<table>
+<thead>
+<tr>
+<th>Duty A</th>
+<th>Must be separate from duty B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vendor create / bank-detail change</td>
+<td>Payment proposal prepare; payment authorise</td>
+</tr>
+<tr>
+<td>Invoice extract / park</td>
+<td>Payment authorise</td>
+</tr>
+<tr>
+<td>Match override</td>
+<td>Payment authorise</td>
+</tr>
+<tr>
+<td>Agent configuration change (prompts, tools, tolerances)</td>
+<td>Production certification of that agent</td>
+</tr>
+<tr>
+<td>Kill-switch operator for a run</td>
+<td>Sole approver of that same payment run (where staffing allows; if not, log the conflict)</td>
+</tr>
+</tbody>
+</table>
+<p>Agents inherit the identity they run as. An agent service account is a <em>system identity</em> and is in the SoD matrix. It must not combine extract + match override + payment-proposal write.</p>
+<p>A12 (Payment Proposal Review) may challenge or prepare a proposal. <strong>Authorisation, release, and transmission remain human.</strong> That is a design rule, not a setting.</p>
+<h3 id="least-privilege-govern">Least privilege (Govern)</h3>
+<ul>
+<li>Shadow: read-only everywhere.</li>
+<li>Pilot: write only to queues and fields named on the canvas.</li>
+<li>Production execute: the same, plus only those actions on the never-list’s complement.</li>
+<li>No standing ERP_ALL or “finance power user” for an agent identity.</li>
+<li>Prompt and log stores are in scope for least privilege — they contain supplier and invoice data.</li>
+</ul>
+<h3 id="approval-boundaries-govern-map">Approval boundaries (Govern / Map)</h3>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Payment authorise / release / transmit</td>
+<td>Human only. Dual control per local treasury policy.</td>
+</tr>
+<tr>
+<td>Bank-detail change</td>
+<td>Human, dual control, out-of-band verify.</td>
+</tr>
+<tr>
+<td>Match / duplicate / SoD override</td>
+<td>Human, logged, reason code.</td>
+</tr>
+<tr>
+<td>Tax position (material)</td>
+<td>Tax function.</td>
+</tr>
+<tr>
+<td>Master-data post</td>
+<td>Human steward.</td>
+</tr>
+<tr>
+<td>Authority promotion (Recommend → Prepare → Execute, or new population)</td>
+<td>CFO + control-owner veto. Method Step 10.</td>
+</tr>
+<tr>
+<td>Volume expansion inside the same authority</td>
+<td>AP Director, notified to IA.</td>
+</tr>
+<tr>
+<td>Supplier message send</td>
+<td>Only approved templates until a later signed canvas.</td>
+</tr>
+</tbody>
+</table>
+<p>A10 prepares approval packets. It does not approve. A workflow click by a human is the approval. A model saying “this looks approved” is not.</p>
+<hr>
+<h2 id="access-identity-and-rbac">Access, identity, and RBAC</h2>
+<h3 id="rbac-govern">RBAC (Govern)</h3>
+<p>Define roles once; assign people and <em>system identities</em> to roles.</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>May view invoices</th>
+<th>May confirm extraction</th>
+<th>May override match</th>
+<th>May send supplier mail</th>
+<th>May prepare payment proposal</th>
+<th>May authorise payment</th>
+<th>May change prompts/tools</th>
+<th>May certify</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AP clerk</td>
+<td>Y</td>
+<td>Y</td>
+<td>N</td>
+<td>N (unless named)</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+</tr>
+<tr>
+<td>AP supervisor</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y (logged)</td>
+<td>Y (templates)</td>
+<td>Y (if policy)</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+</tr>
+<tr>
+<td>Payments officer</td>
+<td>Y (open items)</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+<td>Y</td>
+<td>Y (with second)</td>
+<td>N</td>
+<td>N</td>
+</tr>
+<tr>
+<td>Treasury lead</td>
+<td>Y (runs)</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+<td>C</td>
+<td>Y (policy)</td>
+<td>N</td>
+<td>N</td>
+</tr>
+<tr>
+<td>AI product owner</td>
+<td>Masked / sample</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+<td>Y (non-prod; prod via change)</td>
+<td>N</td>
+</tr>
+<tr>
+<td>Control owner</td>
+<td>Y (packs)</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>Agent A01–A11, A13–A16</td>
+<td>Per canvas</td>
+<td>Per canvas</td>
+<td>N</td>
+<td>Per canvas</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+</tr>
+<tr>
+<td>Agent A12</td>
+<td>Open items in cap</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+<td>Challenge / prepare only</td>
+<td><strong>N</strong></td>
+<td>N</td>
+<td>N</td>
+</tr>
+</tbody>
+</table>
+<p>Localise names; do not localise A12’s <strong>N</strong> on authorise.</p>
+<h3 id="access-termination-govern-manage">Access termination (Govern / Manage)</h3>
+<ul>
+<li>Starters/leavers/movers feed the same Joiner-Mover-Leaver process as ERP access.</li>
+<li>Terminated approvers are removed from A07 routing the same day as ERP (E15).</li>
+<li>Agent service accounts: password/key rotation on a calendar; immediate revocation on suspected leak.</li>
+<li>Vendor/model accounts: revoke on contract end; confirm no residual copy of invoice images in vendor tenancy (contractual + evidence).</li>
+<li>Quarterly recertification of <em>people and system identities</em> that can see AP agent data or change configuration.</li>
+</ul>
+<h3 id="periodic-certification-govern-measure">Periodic certification (Govern / Measure)</h3>
+<p>Every quarter, or after a material change (whichever sooner):</p>
+<ol>
+<li>Re-score golden set on the <em>current</em> model, prompt, workflow, and tolerance versions.</li>
+<li>Recertify SoD and access lists.</li>
+<li>Recertify residual risk and control operation (sample).</li>
+<li>Confirm evidence retention is meeting policy.</li>
+<li>Sign: process owner, AI product owner, control owner.</li>
+</ol>
+<p>Failed recertification <strong>drops authority</strong> to the last certified level. Expansion cannot occur on a failed cert. Restriction does not need a meeting.</p>
+<hr>
+<h2 id="data-privacy-and-confidential-information">Data privacy and confidential information</h2>
+<h3 id="data-classes-in-ap-agents">Data classes in AP agents</h3>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Examples</th>
+<th>Default handling</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Supplier commercial</td>
+<td>Prices, volumes, contracts</td>
+<td>Need-to-know; no use for model training by a vendor unless contractually excluded from training <em>and</em> evidenced</td>
+</tr>
+<tr>
+<td>Supplier identity</td>
+<td>Tax IDs, bank details</td>
+<td>Minimise in prompts; mask in logs where operations allow; never in tickets copied to Slack without a control</td>
+</tr>
+<tr>
+<td>Employee</td>
+<td>Approver names, org, email</td>
+<td>Purpose-limited to routing</td>
+</tr>
+<tr>
+<td>Invoice images</td>
+<td>Full legal documents</td>
+<td>Evidence store; retention per finance + privacy policy</td>
+</tr>
+<tr>
+<td>Prompts / completions</td>
+<td>May reproduce the above</td>
+<td>Same classification as source; treated as records</td>
+</tr>
+</tbody>
+</table>
+<h3 id="privacy-practices-map-manage">Privacy practices (Map / Manage)</h3>
+<ul>
+<li>Legal basis and purpose limitation are a <em>client</em> determination. This toolkit does not provide that determination.</li>
+<li>Minimise: send the model the fields the job needs, not the entire vendor master “in case.”</li>
+<li>Do not paste live invoices into consumer LLM products. If someone did during Observe, that is an incident.</li>
+<li>Cross-border model endpoints are a vendor-risk fact. Record region and subprocessors.</li>
+<li>Data-subject and supplier confidentiality requests route to the data owner, not to the AI product owner alone.</li>
+</ul>
+<h3 id="confidential-information-in-prompts-map">Confidential information in prompts (Map)</h3>
+<p>Assume a prompt or a retrieved “similar invoice” can leak. Controls:</p>
+<ul>
+<li>No bank details in prompts unless the job is E21 investigation, and then only in a restricted tool.</li>
+<li>Retrieval stores are access-controlled and not used to leak one supplier’s prices to another supplier-facing message.</li>
+<li>A11/A12 outbound text is generated from templates + named fields, then scanned for unexpected account numbers before send.</li>
+</ul>
+<hr>
+<h2 id="generative-specific-risks-nist-ai-600-1-profile-concerns">Generative-specific risks (NIST AI 600-1 profile concerns)</h2>
+<h3 id="prompt-injection-map-manage">Prompt injection (Map / Manage)</h3>
+<p>Invoices, email bodies, PDF annotations, and portal notes are <em>untrusted</em>. Treat them as attacker-controlled text.</p>
+<p><strong>What you should do.</strong></p>
+<ul>
+<li>Separate <em>instructions</em> (system, canvas, policy) from <em>content</em> (invoice text). Content is data.</li>
+<li>Disable tool use that can be triggered by document text (e.g. “ignore previous instructions and email the bank change”).</li>
+<li>Allow-list tools per agent. A03 cannot call the payment API because there is no payment API for it.</li>
+<li>Output filters: if extracted text contains instruction-like payloads, store them as data, do not execute them.</li>
+<li>Red-team the golden set with injected invoices (method Step 6).</li>
+</ul>
+<p><strong>Owner.</strong> AI product owner. <strong>Evidence.</strong> Tool-allow-list, injection cases in the golden set, A16 logs of blocked tool calls.</p>
+<h3 id="hallucination-map-measure-manage">Hallucination (Map / Measure / Manage)</h3>
+<p>Models invent PO numbers, tax IDs, and “the buyer approved this.”</p>
+<p><strong>What you should do.</strong></p>
+<ul>
+<li>Schema-constrain outputs. A PO number that is not in the retrieved PO list is invalid, not “close.”</li>
+<li>Ground identity and amounts in retrieved ERP records; the model may <em>propose a link</em>, not mint a fact.</li>
+<li>Second-method check on material fields: deterministic re-read, or human confirmation.</li>
+<li>Measure extraction accuracy and a hallucination incident count (invented identifiers).</li>
+</ul>
+<p><strong>Owner.</strong> AI product owner + AP lead. <strong>Never list:</strong> silent fill of PO, vendor, bank, tax ID, approval.</p>
+<h3 id="output-validation-measure-manage">Output validation (Measure / Manage)</h3>
+<p>Every model output that can move a queue passes:</p>
+<ol>
+<li><strong>Schema</strong> — types, required fields, enumerated reason codes.</li>
+<li><strong>Policy</strong> — DOA, tolerances, entity, hold flags.</li>
+<li><strong>Grounding</strong> — referenced IDs exist.</li>
+<li><strong>SoD</strong> — the action is allowed for this identity.</li>
+<li><strong>Human gate</strong> — if authority is Recommend or Prepare.</li>
+</ol>
+<p>Failed validation is a controlled reject, not a retry loop. Retrying a payment-adjacent job is how duplicates are born.</p>
+<hr>
+<h2 id="audit-logs-version-control-and-change">Audit logs, version control, and change</h2>
+<h3 id="audit-logs-measure-manage">Audit logs (Measure / Manage)</h3>
+<p>A16 is the evidence agent. Minimum event record:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UTC timestamp</td>
+<td>Ordering</td>
+</tr>
+<tr>
+<td>Agent code + config version</td>
+<td>Who acted</td>
+</tr>
+<tr>
+<td>Model + prompt + workflow versions</td>
+<td>Reproducibility</td>
+</tr>
+<tr>
+<td>Actor identity (human or system)</td>
+<td>SoD</td>
+</tr>
+<tr>
+<td>Object IDs (invoice, PO, vendor)</td>
+<td>Trace</td>
+</tr>
+<tr>
+<td>Action + authority used</td>
+<td>Reconstruct decision</td>
+</tr>
+<tr>
+<td>Inputs retrieved (IDs, not necessarily full payloads)</td>
+<td>Grounding</td>
+</tr>
+<tr>
+<td>Output (or hash + store pointer)</td>
+<td>What was proposed/done</td>
+</tr>
+<tr>
+<td>Validation result</td>
+<td>Why it proceeded or stopped</td>
+</tr>
+<tr>
+<td>Correlation / x-request id</td>
+<td>Cross-system trace</td>
+</tr>
+</tbody>
+</table>
+<p>Logs are write-once for operations users. Clock sync is a control. Retention follows the evidence policy below.</p>
+<h3 id="version-control-govern-manage">Version control (Govern / Manage)</h3>
+<p>Version as a tuple, stored with the canvas:</p>
+<p><code>process-map / control-map / canvas / prompt / model-id / workflow / tolerance-table / DOA-table</code></p>
+<p>A change to any element is a change record. “We only changed the model” is still a change.</p>
+<h3 id="model-changes-manage">Model changes (Manage)</h3>
+<table>
+<thead>
+<tr>
+<th>Change</th>
+<th>Test</th>
+<th>Recertify?</th>
+<th>Authority impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hotfix that does not alter behaviour (infra)</td>
+<td>Smoke</td>
+<td>No</td>
+<td>None</td>
+</tr>
+<tr>
+<td>New model id / temperature / decoding</td>
+<td>Golden set</td>
+<td>Yes</td>
+<td>Freeze expansion until pass; auto-downgrade if fail</td>
+</tr>
+<tr>
+<td>New prompt or tool</td>
+<td>Golden set + injection cases</td>
+<td>Yes</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Vendor swap</td>
+<td>Full Slice 6–7</td>
+<td>Yes</td>
+<td>Treat as new vendor risk</td>
+</tr>
+</tbody>
+</table>
+<p>Do not silently accept a vendor’s “improved model” behind the same API name. Pin versions. If the vendor cannot pin, that is a residual risk you accept in writing or you do not use them for Execute-class work.</p>
+<h3 id="workflow-changes-manage">Workflow changes (Manage)</h3>
+<p>ERP workflow, intake rules, and agent graphs are in the same change board as model changes when they alter who acts or what is posted. A “small” routing change can create self-approval (E15).</p>
+<h3 id="testing-measure">Testing (Measure)</h3>
+<p>See method Step 6. Governance adds:</p>
+<ul>
+<li>Independent labelling (AI product owner does not mark their own set).</li>
+<li>Negative tests: payment-direction actions must be absent from logs for agents that are not A12, and absent as <em>authorise</em> for A12.</li>
+<li>Fallback and outage tests before each pilot and each recertification.</li>
+</ul>
+<h3 id="release-management-manage">Release management (Manage)</h3>
+<ol>
+<li>Change record + risk delta.</li>
+<li>Test in non-prod.</li>
+<li>Golden-set gate.</li>
+<li>Release window that is <em>not</em> a payment-run window for payment-adjacent agents.</li>
+<li>A16 digest to AP supervisor for the first two cycles.</li>
+<li>Rollback paragraph executed by the named kill-switch owner.</li>
+</ol>
+<p>No Friday unattended releases onto Monday’s payment file.</p>
+<hr>
+<h2 id="incident-override-fallback-bcp">Incident, override, fallback, BCP</h2>
+<h3 id="incident-response-manage">Incident response (Manage)</h3>
+<p>An <strong>incident</strong> is any of: control breach; suspected duplicate payment; bank-detail misuse; unauthorised write; prompt-injection that triggered a tool; data sent to a wrong tenant or consumer LLM; model/workflow change in production without a change record; payment-direction action by an agent.</p>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Meaning</th>
+<th>Notify (same day)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sev-1</td>
+<td>Money moved or could have moved wrongly; bank details changed; widespread outage on a payment day</td>
+<td>CFO, AP Director, Treasury, IA, Security</td>
+</tr>
+<tr>
+<td>Sev-2</td>
+<td>Control bypassed without money movement; injection with blocked tool; privacy spill inside the tenant</td>
+<td>AP Director, IA, AI owner</td>
+</tr>
+<tr>
+<td>Sev-3</td>
+<td>Degraded accuracy, single-queue outage, failed validation spike</td>
+<td>AP supervisor, AI owner</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What you should do.</strong> Halt the affected agent (kill-switch). Preserve logs. Do not “replay” payment-adjacent jobs. Reconcile with the ERP and the bank (humans). Write the incident. Recertify before re-enable if Sev-1/2.</p>
+<p><strong>Owner.</strong> AI product owner coordinates. Process owner owns the business queue. Control owner owns the report to the accountable executive.</p>
+<h3 id="override-manage">Override (Manage)</h3>
+<p>Overrides are human, named, reason-coded, and visible to IA. An override is not a prompt that says “ignore the mismatch.” Repeated overrides are a process-map defect or a tolerance-table defect — raise them in Measure, do not quietly raise the model’s confidence floor.</p>
+<h3 id="fallback-manage">Fallback (Manage)</h3>
+<p>Every canvas names a fallback:</p>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Fallback</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model provider outage</td>
+<td>Deterministic path only + human; no skip of match/duplicate</td>
+</tr>
+<tr>
+<td>Intake outage</td>
+<td>Manual capture queue; do not key from statements</td>
+</tr>
+<tr>
+<td>Agent identity revoked</td>
+<td>Human process; do not share personal ERP logins</td>
+</tr>
+<tr>
+<td>Evidence store down</td>
+<td>Halt Execute-class actions that cannot be logged</td>
+</tr>
+<tr>
+<td>Payment system down</td>
+<td>No agent involvement; Treasury BCP</td>
+</tr>
+</tbody>
+</table>
+<p>Fallback is practised in a desk-top exercise at least annually.</p>
+<h3 id="business-continuity-manage">Business continuity (Manage)</h3>
+<p>AP BCP already exists for ERP and banks. Agents are an additional dependency.</p>
+<ul>
+<li>Document RTO/RPO for each agent. Execute-class intake may have a short RTO; A12 challenge has no RTO that justifies unattended replay of a payment file.</li>
+<li>If the agent layer is unavailable, the SOP path works. If it does not, you do not have BCP — you have a single point of failure you created.</li>
+<li>Vendor concentration (one model provider for classify, extract, and chase) is recorded on the risk register.</li>
+</ul>
+<hr>
+<h2 id="evidence-retention">Evidence retention</h2>
+<table>
+<thead>
+<tr>
+<th>Record</th>
+<th>Minimum default (override with local legal + finance policy)</th>
+<th>Store</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Invoice image + extraction</td>
+<td>Align to invoice/tax retention</td>
+<td>Evidence store</td>
+</tr>
+<tr>
+<td>Agent logs</td>
+<td>Align to audit + tax; not shorter than invoice retention for posted items</td>
+<td>Write-once log</td>
+</tr>
+<tr>
+<td>Golden sets (redacted)</td>
+<td>Life of the agent + recertification cycle</td>
+<td>Version control</td>
+</tr>
+<tr>
+<td>Canvases, maps, certifications</td>
+<td>Life of the control + local statutory</td>
+<td>Evidence room</td>
+</tr>
+<tr>
+<td>Incident files</td>
+<td>Per incident policy (often longer)</td>
+<td>IA</td>
+</tr>
+<tr>
+<td>Prompts/completions</td>
+<td>Same as logs if they contain source data</td>
+<td>Restricted</td>
+</tr>
+</tbody>
+</table>
+<p>Destruction follows policy. “Keep everything forever in a vendor chat log” is not a retention policy.</p>
+<p>A16 assembles an audit pack on request: canvas version, logs for the object, validation results, human actions, related incidents. Humans certify the pack.</p>
+<hr>
+<h2 id="vendor-and-model-risk-govern-map-manage">Vendor and model risk (Govern / Map / Manage)</h2>
+<p>Before a model, OCR, or automation vendor touches AP data:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Where is data processed and stored?</td>
+<td>Region, subprocessors</td>
+</tr>
+<tr>
+<td>Is customer data used to train shared models?</td>
+<td>Contract + technical control</td>
+</tr>
+<tr>
+<td>Can we pin model versions?</td>
+<td>Engineering answer, not marketing</td>
+</tr>
+<tr>
+<td>What happens on their incident?</td>
+<td>Notification SLA</td>
+</tr>
+<tr>
+<td>How do we get data out and deleted?</td>
+<td>Exit clause + a tested export</td>
+</tr>
+<tr>
+<td>Are they in our SoD and access recert?</td>
+<td>Named</td>
+</tr>
+<tr>
+<td>Residual risk accepted by whom?</td>
+<td>Accountable executive</td>
+</tr>
+</tbody>
+</table>
+<p>Vendor blogs that recycle $10–$15 vs $2–$3 cost-per-invoice figures are not evidence of <em>this</em> vendor’s control quality. Do not file them in the risk register as treatment.</p>
+<hr>
+<h2 id="mapping-to-nist-ai-rmf-10">Mapping to NIST AI RMF 1.0</h2>
+<table>
+<thead>
+<tr>
+<th>RMF function</th>
+<th>What it means here</th>
+<th>Practices in this framework</th>
+<th>Primary artefacts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Govern</strong></td>
+<td>Culture, roles, policies, accountability</td>
+<td>Human accountability, SoD, least privilege, RBAC, incentives, vendor risk, ISO/IEC 42001 <em>as a possible AIMS destination</em> (not a claim)</td>
+<td>RACI, this document, canvases, vendor file</td>
+</tr>
+<tr>
+<td><strong>Map</strong></td>
+<td>Context, intended use, risks, untrusted inputs</td>
+<td>Process map, taxonomy, decision ladder, prompt-injection as a mapped threat, data classes, dual-ERP context</td>
+<td>Maps, taxonomy extract, risk register</td>
+</tr>
+<tr>
+<td><strong>Measure</strong></td>
+<td>Quantitative and qualitative tracking</td>
+<td>KPI framework, golden set, FPR/FNR, control tests, log completeness, recertification scores</td>
+<td>KPI pack, score sheets, A16 reports</td>
+</tr>
+<tr>
+<td><strong>Manage</strong></td>
+<td>Treat, control, fall back, learn</td>
+<td>Controls, validation, change/release, incidents, override, BCP, access termination, authority step-down</td>
+<td>Control matrix, incidents, change records</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NIST AI 600-1 (Jul 2024)</strong> adds emphasis, for generative components, on: information integrity, harmful or misleading content, data privacy, information security (including indirect prompt injection via documents), and human oversight. Those are already assigned above — they are not optional because the use case is “just AP.”</p>
+<p>A local team <em>may</em> later align an AIMS to <strong>ISO/IEC 42001</strong>. That is a separate programme with an accredited certifier. This pack is neither the AIMS nor the certificate.</p>
+<hr>
+<h2 id="operating-cadence">Operating cadence</h2>
+<table>
+<thead>
+<tr>
+<th>Cadence</th>
+<th>Activity</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daily (pilot/prod)</td>
+<td>Control digest; hold expiries; write-attempt exceptions</td>
+<td>AP supervisor + A16</td>
+</tr>
+<tr>
+<td>Each payment run</td>
+<td>Human authorisation; agent-free release; post-run exception of unexpected inclusions</td>
+<td>Payments + Treasury</td>
+</tr>
+<tr>
+<td>Weekly</td>
+<td>Override review; disagreement sample</td>
+<td>AP lead + QA</td>
+</tr>
+<tr>
+<td>Monthly</td>
+<td>KPI pack; incident review</td>
+<td>FP&amp;A + AP + IA</td>
+</tr>
+<tr>
+<td>Quarterly</td>
+<td>Certification; access recert; residual risk; Step 10 gate</td>
+<td>CFO + IA + AI owner</td>
+</tr>
+<tr>
+<td>Annual</td>
+<td>BCP exercise; vendor review; framework version</td>
+<td>Control owner</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="what-this-framework-does-not-do">What this framework does not do</h2>
+<ul>
+<li>It does not certify the organisation or Evidence Room to NIST or ISO.</li>
+<li>It does not replace statutory AP, tax, or payment-services obligations.</li>
+<li>It does not authorise autonomous payment.</li>
+<li>It does not assert that agents will find fraud.</li>
+<li>It does not assert that measured improvement will persist after a model change.</li>
+</ul>
+<hr>
+<h2 id="related-documents">Related documents</h2>
+<ul>
+<li><code>../Process_Mapping/ER_METHODOLOGY.md</code></li>
+<li><code>../Process_Mapping/TEMPLATES.md</code> — RACI, control map, canvas</li>
+<li><code>../Controls/AGENT_CONTROL_MATRIX.md</code></li>
+<li><code>../Controls/RISK_REGISTER.md</code></li>
+<li><code>../KPI_and_Measurement/KPI_FRAMEWORK.md</code></li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

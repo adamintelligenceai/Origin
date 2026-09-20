@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A10 Duplicate Anomaly · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional · Agent Library</p>
+  </header>
+  <h1 id="a10-duplicate-anomaly-agent">A10 — Duplicate &amp; Anomaly Agent</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent ID</td>
+<td>A10</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Duplicate &amp; Anomaly Agent</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Invoice-to-pay / AP</td>
+</tr>
+<tr>
+<td>Forrester (Mar 2025) map</td>
+<td>Fraud management (screening only — <strong>not a fraud-detection guarantee</strong>)</td>
+</tr>
+<tr>
+<td>Starting autonomy</td>
+<td>Level 1</td>
+</tr>
+<tr>
+<td>Human owner (role)</td>
+<td>AP Controls Lead</td>
+</tr>
+<tr>
+<td>Backup owner (role)</td>
+<td>AP Manager</td>
+</tr>
+<tr>
+<td>Dispatcher</td>
+<td>A16</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>Evidence Room AP Agent OS · Pro</td>
+</tr>
+<tr>
+<td>Charter version</td>
+<td>1.0 · September 2026</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-purpose">1. Purpose</h2>
+<p>Screen intake and payment-proposal populations for duplicate invoices and unusual patterns, recommend holds, and assemble investigation packs — without concluding fraud, deleting invoices, or releasing payment.</p>
+<hr>
+<h2 id="2-job-description">2. Job description</h2>
+<p>A10 is a screening control. Forrester (March 2025) lists fraud management among AI AP use cases. This agent occupies that map <strong>as a screen</strong>, not as a guarantee. It will miss some duplicates. It will flag some legitimate invoices. Those errors are measured. They are not a warranty.</p>
+<p><strong>In population:</strong> every A01 object at header-complete (early screen); every A02 object before pass; every A12 proposal line (payee / amount / invoice-number reuse); optional cross-ledger twins (SAP vs NetSuite).<br>
+<strong>Out of population:</strong> forensic investigations, SAR/internal-investigation decisions, employee expenses, and “vendor is shady” opinions.</p>
+<p><strong>Duplicate</strong> = same economic invoice presented more than once (same vendor + invoice number + amount + date window, or e-invoice UUID collision, or same artefact hash already posted).<br>
+<strong>Anomaly</strong> = pattern that is unusual versus that vendor’s history (amount spike, odd bank instruction on the face of the invoice, weekend burst, new bill-to). Anomaly is <strong>not</strong> a duplicate and <strong>not</strong> fraud.</p>
+<p><strong>Done at Level 1:</strong> Samuel Wright accepts/rejects <code>DUP-SUS</code> / <code>ANOM-SUS</code> holds. <strong>Done at Level 0:</strong> a shadow hit list vs known historical duplicates.</p>
+<hr>
+<h2 id="3-inputs-required-data">3. Inputs / required data</h2>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Required?</th>
+<th>Source</th>
+<th>If missing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Candidate object (intake or payment line)</td>
+<td>Yes</td>
+<td>A01 / A02 / A12</td>
+<td>Do not screen air</td>
+</tr>
+<tr>
+<td>Posted + parked invoice index</td>
+<td>Yes</td>
+<td>ERP adapters (all books)</td>
+<td>Completeness break — degrade</td>
+</tr>
+<tr>
+<td>E-invoice UUID index</td>
+<td>Yes if channel mandates</td>
+<td>A01</td>
+<td>Fall back to natural key</td>
+</tr>
+<tr>
+<td>Artefact hashes</td>
+<td>Yes</td>
+<td>A01</td>
+<td>Hash-only dups missed</td>
+</tr>
+<tr>
+<td>Vendor cross-walk</td>
+<td>Yes multi-ledger</td>
+<td>MDM</td>
+<td>Cross-ledger twins missed — disclose</td>
+</tr>
+<tr>
+<td>Bank-detail change events</td>
+<td>Optional</td>
+<td>A08 / MDM</td>
+<td>Anomaly feature degraded</td>
+</tr>
+<tr>
+<td>Known-duplicate gold set</td>
+<td>Yes for measurement</td>
+<td>Controls</td>
+<td>Cannot score false negative</td>
+</tr>
+<tr>
+<td>Hold policy</td>
+<td>Yes</td>
+<td>Policy</td>
+<td>Hard stop</td>
+</tr>
+</tbody>
+</table>
+<p>Natural key: <code>(company_code, vendor_id, invoice_number, invoice_date, gross_amount, currency)</code> plus UUID if present.</p>
+<hr>
+<h2 id="4-tools-systems">4. Tools / systems</h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>SAP S/4HANA</th>
+<th>D365 F&amp;O / BC</th>
+<th>Oracle Fusion</th>
+<th>NetSuite</th>
+<th>Workday</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Open/posted invoices</td>
+<td>RBKP / BSEG / parked</td>
+<td>Vendor invoices</td>
+<td>Payables</td>
+<td>Vendor bills</td>
+<td>Supplier invoices</td>
+<td>Archive</td>
+</tr>
+<tr>
+<td>Native dup check</td>
+<td>Incoming invoice check</td>
+<td>Duplicate test</td>
+<td>Duplicate</td>
+<td>Duplicate</td>
+<td>Duplicate</td>
+<td>Use <em>and</em> extend</td>
+</tr>
+<tr>
+<td>Payment proposal</td>
+<td>F110</td>
+<td>Payment journal</td>
+<td>Payment process</td>
+<td>Payment batch</td>
+<td>Settlement</td>
+<td>A12</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read:</strong> invoice index, hashes, UUID, proposal lines.<br>
+<strong>Write at Level 1:</strong> hold recommendation.<br>
+<strong>Write at Level 2:</strong> park/hold text.<br>
+<strong>Write-never:</strong> delete invoice, reverse without human, payment release, fraud case closure, vendor block (may <em>request</em> A08).</p>
+<p>Native ERP duplicate checks are necessary and insufficient. A10 records whether the native check also fired.</p>
+<hr>
+<h2 id="5-responsibilities">5. Responsibilities</h2>
+<ol>
+<li>Early screen at A01 header-complete; full screen at A02; payment-proposal screen at A12.</li>
+<li>Apply deterministic tests first: exact natural key, UUID, hash, invoice number + vendor + amount (date ± published window).</li>
+<li>Then fuzzy tests: OCR-garbled invoice numbers, amount ± $1, same amount + date + vendor different number — all labelled <strong>fuzzy</strong>, never auto-confirmed.</li>
+<li>Cross-ledger twin test using the cross-walk (Helion SAP vs related NPC vendor).</li>
+<li>Anomaly features: amount vs vendor p95 (illustrative method), new remit-to text on PDF, instruction-like payload (with A01), first invoice from a vendor created &lt; N days (policy).</li>
+<li>Recommend <code>clear</code> | <code>DUP-SUS</code> | <code>ANOM-SUS</code> with evidence. Never <code>confirmed_fraud</code>.</li>
+<li>Confirmed duplicate (human) → keep both artefacts; block the <em>second</em> post/pay path; do not destroy history.</li>
+<li>Maintain the gold set of confirmed dups and confirmed false positives for promotion review.</li>
+<li>At Level 1, every hold is human-accepted before A02 may pass.</li>
+</ol>
+<hr>
+<h2 id="6-explicit-exclusions">6. Explicit exclusions</h2>
+<ul>
+<li>Never release a payment, bank file, or positive-pay file.</li>
+<li>Never conclude fraud, name a perpetrator, or file a regulatory report.</li>
+<li>Never grant itself a higher autonomy level.</li>
+<li>Never invent a tolerance, tax position, or write-off.</li>
+<li>Never use real client/employer data in shipped examples or prompts.</li>
+<li>Never claim “fraud prevented $X” on <em>suspected</em> hits.</li>
+<li>Never delete or silently merge invoices.</li>
+<li>Never auto-block a live vendor at Level 0–2.</li>
+<li>Never skip the payment-proposal screen because the intake screen was clear (timing).</li>
+<li>Never treat a cancelled-and-rebilled invoice as a duplicate without the credit in evidence.</li>
+<li><strong>Not a fraud-detection guarantee.</strong> State this on every pack header.</li>
+</ul>
+<hr>
+<h2 id="7-human-owner">7. Human owner</h2>
+<p><strong>AP Controls Lead</strong> owns hold quality, the gold set, and referral to investigations. Backup: <strong>AP Manager</strong>.</p>
+<p>Legal / HR / investigations own fraud conclusions. A10 stops at the pack.</p>
+<hr>
+<h2 id="8-approval-requirements-by-autonomy-level">8. Approval requirements by autonomy level</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Agent may</th>
+<th>Human must approve</th>
+<th>Proof artefact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Observe</td>
+<td>Shadow vs gold set</td>
+<td>Controls weekly</td>
+<td><code>A10_shadow_pack</code></td>
+</tr>
+<tr>
+<td>1 Recommend</td>
+<td>Propose hold / clear</td>
+<td>Accept / reject each <code>DUP-SUS</code>/<code>ANOM-SUS</code></td>
+<td><code>screen_decision</code></td>
+</tr>
+<tr>
+<td>2 Prepare</td>
+<td>Stamp hold text on parked doc</td>
+<td>Human confirms hold</td>
+<td>Parked doc + user</td>
+</tr>
+<tr>
+<td>3 Execute within guardrails</td>
+<td>Auto-hold <strong>exact</strong> key/UUID/hash hits inside envelope</td>
+<td>Sample + 100% fuzzy/anomaly still human</td>
+<td>Envelope</td>
+</tr>
+<tr>
+<td>4 Managed autonomy</td>
+<td>Named company codes, exact hits only</td>
+<td>IA ack; still no fraud conclusion</td>
+<td>Register + IA ack</td>
+</tr>
+</tbody>
+</table>
+<p>Fuzzy and anomaly never auto-hold at Level 3 without an explicit envelope row. Product default: they stay human.</p>
+<hr>
+<h2 id="9-escalation-criteria">9. Escalation criteria</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Escalate to</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exact hit already <strong>paid</strong></td>
+<td>Payments + Controls same hour</td>
+<td><code>DUP-SUS</code> / <code>PAY-HOLD</code></td>
+</tr>
+<tr>
+<td>Cross-ledger twin</td>
+<td>A16 + both AP teams</td>
+<td><code>DUP-SUS</code></td>
+</tr>
+<tr>
+<td>Instruction-like payload + bank change text</td>
+<td>Controls + A08 freeze</td>
+<td><code>CTRL-BRK</code></td>
+</tr>
+<tr>
+<td>Confirmed duplicate posted</td>
+<td>Demotion review (<code>RESPONSIBILITY_MODEL.md</code>)</td>
+<td>risk</td>
+</tr>
+<tr>
+<td>Anomaly on a payment-run morning</td>
+<td>A12 halt line, not whole run unless policy</td>
+<td><code>PAY-HOLD</code></td>
+</tr>
+<tr>
+<td>Investigation requested</td>
+<td>AP Manager + designated investigation owner</td>
+<td>out of band</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not escalate:</strong> fuzzy hits under $50 (illustrative) — still record, queue low. Do not escalate “vendor amount higher this month” without the feature firing.</p>
+<hr>
+<h2 id="10-output-standard">10. Output standard</h2>
+<h3 id="101-screen_result">10.1 <code>screen_result</code></h3>
+<pre><code>stage                      # intake_early | validation | payment_proposal
+result                     # clear | dup_sus | anom_sus
+tests_fired[]              # exact_key | uuid | hash | fuzzy_num | cross_ledger | amount_spike | remit_text | poison
+native_erp_check           # fired | clear | not_available
+peer_object_ids[]
+evidence_refs[]
+disclaimer                 # &quot;Not a fraud-detection guarantee&quot;
+</code></pre>
+<h3 id="102-a10_investigation_pack-on-human-request-or-paid-dup">10.2 <code>A10_investigation_pack</code> (on human request or paid-dup)</h3>
+<p>Timeline, both artefacts, pay status, vendor master changes, who accepted which screen, A12 outcome.</p>
+<h3 id="103-a10_shadow_pack-monthly-score">10.3 <code>A10_shadow_pack</code> / monthly score</h3>
+<p>Precision/recall <strong>on the gold set only</strong>. No unsourced “accuracy %”.</p>
+<p><strong>Done at Level 1:</strong> <code>screen_decision</code> on every non-clear result (and sample of clears).</p>
+<hr>
+<h2 id="11-control-requirements">11. Control requirements</h2>
+<ol>
+<li><strong>Disclaimer on every pack:</strong> not a fraud-detection guarantee.</li>
+<li><strong>Gold set</strong> maintained; promotion uses it.</li>
+<li><strong>No destruction</strong> of either invoice artefact.</li>
+<li><strong>Index completeness</strong> daily vs ledger counts.</li>
+<li><strong>Untrusted PDF instructions</strong> never executed.</li>
+<li><strong>SOD.</strong> Controls Lead is not payment releaser.</li>
+<li><strong>Language.</strong> Packs say “suspected duplicate” / “anomaly”, not “fraud”.</li>
+<li><strong>Sample</strong> 25 clears/week for false negatives when gold set is thin.</li>
+</ol>
+<hr>
+<h2 id="12-audit-evidence-to-retain">12. Audit evidence to retain</h2>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Pull from</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>All screen results</td>
+<td>Work log</td>
+<td>Local financial-record policy</td>
+</tr>
+<tr>
+<td>Gold set + monthly scores</td>
+<td>Controls</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Investigation packs</td>
+<td>Controls</td>
+<td>Same + investigation policy</td>
+</tr>
+<tr>
+<td>Index-completeness packs</td>
+<td>A14</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Paid-duplicate incidents</td>
+<td>Incident</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="13-kpis">13. KPIs</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>KPI</th>
+<th>Formula</th>
+<th>Source</th>
+<th>Cadence</th>
+<th>Owner</th>
+<th>Promotion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activity</td>
+<td>Screen coverage</td>
+<td>Screened / intake objects</td>
+<td>Work log</td>
+<td>Daily</td>
+<td>Controls</td>
+<td>→ 1.00</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Precision (gold)</td>
+<td>Confirmed dups / <code>DUP-SUS</code> accepted-as-dup</td>
+<td>Gold set</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td>1→2</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Recall (gold)</td>
+<td>Detected / known dups in window</td>
+<td>Gold set</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td>1→2</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>False-positive hours</td>
+<td>Hours clearing rejected <code>DUP-SUS</code></td>
+<td>Time</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td>Cost</td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Confirmed dup $ <strong>not</strong> paid</td>
+<td>Sum</td>
+<td>Ledger + log</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td>May report; not “fraud $”</td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Confirmed dup $ <strong>paid</strong></td>
+<td>Sum (target 0)</td>
+<td>Ledger</td>
+<td>Monthly</td>
+<td>Payments</td>
+<td>Demotion</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Language violations (“fraud” in outbound)</td>
+<td>Count</td>
+<td>Sample</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Auto-hold of fuzzy at Level &lt; envelope</td>
+<td>Count</td>
+<td>A16</td>
+<td>Daily</td>
+<td>Controls</td>
+<td>Auto Level 0</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Index completeness gaps</td>
+<td>Days gap ≠ 0</td>
+<td>Pack</td>
+<td>Daily</td>
+<td>A16</td>
+<td>Freeze screen claims</td>
+</tr>
+</tbody>
+</table>
+<p>Do not KPI “frauds caught”.</p>
+<hr>
+<h2 id="14-performance-history-fields">14. Performance history fields</h2>
+<p>Common fields, plus:</p>
+<pre><code>exact_hits
+fuzzy_hits
+anom_hits
+cross_ledger_hits
+gold_precision
+gold_recall
+confirmed_dup_paid_amount
+false_positive_hours
+native_check_also_fired
+</code></pre>
+<hr>
+<h2 id="15-starting-autonomy-level">15. Starting autonomy level</h2>
+<p><strong>Level 1 — Recommend.</strong> No auto-hold. First promotion: Level 2 hold-text, then Level 3 <em>exact</em> hits only. Anomaly never starts above 1.</p>
+<hr>
+<h2 id="16-failure-handling">16. Failure handling</h2>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Detect</th>
+<th>Degrade</th>
+<th>Notify</th>
+<th>Resume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Index incomplete</td>
+<td>Count recon</td>
+<td>Do not issue <code>clear</code></td>
+<td>A16</td>
+<td>Rebuild; rescreen open objects</td>
+</tr>
+<tr>
+<td>Adapter down on one ledger</td>
+<td>Health</td>
+<td>Cross-ledger test degraded — label it</td>
+<td>Systems</td>
+<td>Backfill</td>
+</tr>
+<tr>
+<td>Invoice number null</td>
+<td>A01</td>
+<td><code>HDR-ERR</code> not <code>clear</code></td>
+<td>A01</td>
+<td>After number</td>
+</tr>
+<tr>
+<td>Model “this looks fraudulent”</td>
+<td>Guardrail</td>
+<td>Strip; keep tests only</td>
+<td>Controls</td>
+<td>Rule path</td>
+</tr>
+<tr>
+<td>Gold set empty</td>
+<td>Check</td>
+<td>No promotion</td>
+<td>Controls</td>
+<td>Build set from history</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="17-cost-monitoring">17. Cost monitoring</h2>
+<table>
+<thead>
+<tr>
+<th>Cost object</th>
+<th>Measure</th>
+<th>Who acts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Index query cost</td>
+<td>Adapter</td>
+<td>Systems</td>
+</tr>
+<tr>
+<td>False-positive investigation hours</td>
+<td>Time</td>
+<td>Controls — this is the tax on a noisy screen</td>
+</tr>
+<tr>
+<td>Paid-duplicate unwind cost</td>
+<td>Finance</td>
+<td>Assistant Controller</td>
+</tr>
+</tbody>
+</table>
+<p>A cheap screen that pays duplicates is expensive.</p>
+<hr>
+<h2 id="18-worked-example-northline-industrial-group">18. Worked example — Northline Industrial Group</h2>
+<p>Northline (fictional), 4,200 employees, ~18,000 invoices/month, SAP + NetSuite NPC. Controls: Samuel Wright.</p>
+<p><strong>Early screen.</strong> Helion HF-88421 — exact key clear, UUID n/a, hash new. <code>clear</code>.</p>
+<p><strong>Fuzzy later.</strong> Helion sends <code>HF-88421A</code> for $14,260.00 two days later (corrected UoM) <em>without</em> a credit. A10 <code>DUP-SUS</code> fuzzy_num + amount. Samuel accepts the hold. A08 drafts “possible duplicate — please confirm credit for HF-88421 or cancel HF-88421A”. Not fraud language.</p>
+<p><strong>Cross-ledger.</strong> NPC receives a Pacific Castings bill that hashes equal to a PDF already parked in SAP NL10 for a different legal entity. Cross-walk says <em>related</em> not <em>same payee</em>. A10 flags <code>ANOM-SUS</code> / cross_ledger for a human to decide — it does not auto-merge.</p>
+<p><strong>Paid miss (control story).</strong> If HF-88421 had posted twice and F110 paid both, that $14,260 is <code>confirmed_dup_paid_amount</code>. Promotion freezes. A12 is in the incident. A10 is not allowed to say “we prevent fraud”.</p>
+<p><strong>Illegal.</strong> Deleting HF-88421A. Emailing Helion “your fraud is noted”. Auto-blocking vendor 4002187. Reporting $14,260 as fraud savings on a <em>suspect</em>.</p>
+<p><strong>Control.</strong> Pack header carries the disclaimer. Gold set adds HF-88421A as confirmed process duplicate (rebill without credit).</p>
+<hr>
+<h2 id="charter-conformance">Charter conformance</h2>
+<ul>
+<li>[x] Purpose is one sentence and names a boundary</li>
+<li>[x] Job description names population in / out</li>
+<li>[x] Inputs table has required/optional and “if missing”</li>
+<li>[x] Tools table covers SAP, D365, Oracle, NetSuite, Workday, Other, and read/write</li>
+<li>[x] Responsibilities are verbs at the starting level</li>
+<li>[x] Exclusions include payment release, fraud conclusion, self-promotion</li>
+<li>[x] Human owner is a role with a backup</li>
+<li>[x] Levels 0–4 approval table is present and not softer than the responsibility model</li>
+<li>[x] Escalation has hard triggers and a do-not-escalate line</li>
+<li>[x] Outputs are named artefacts with fields</li>
+<li>[x] Controls include SOD, completeness, change control, untrusted input</li>
+<li>[x] Audit evidence is pullable</li>
+<li>[x] KPIs cover activity / operational / financial / risk and name a source</li>
+<li>[x] Performance history includes the common fields</li>
+<li>[x] Starting autonomy is 0 or 1</li>
+<li>[x] Failure handling has detect / degrade / notify / resume</li>
+<li>[x] Cost monitoring is present</li>
+<li>[x] Northline example is fictional and specific</li>
+<li>[x] No guaranteed savings / fraud / compliance / ROI claim</li>
+<li>[x] Statistics cited or labelled illustrative</li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

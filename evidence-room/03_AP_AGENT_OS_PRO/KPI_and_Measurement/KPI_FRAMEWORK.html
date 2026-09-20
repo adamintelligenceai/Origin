@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>KPI Framework · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional</p>
+  </header>
+  <h1 id="kpi-framework">KPI framework</h1>
+<p><strong>Evidence Room · AP Agent OS Pro</strong><br>
+Version 1.0 · September 2026 · Licensed material · ERP-agnostic<br>
+Answers: <em>How measure? What evidence? What can go wrong?</em></p>
+<hr>
+<h2 id="purpose">Purpose</h2>
+<p>Measure whether AP agents are doing the <em>job</em>, changing <em>outcomes</em>, changing <em>cash and cost</em> in a way Finance will sign, and whether <em>controls</em> still hold.</p>
+<p>This is not a scoreboard for a model vendor. Activity without outcomes is occupancy. Outcomes without controls are a future incident. Financial figures without a customer baseline are marketing.</p>
+<p><strong>This framework does not promise savings, ROI, fraud detection, compliance, or accuracy.</strong> It defines how to calculate numbers from <em>this organisation’s</em> books and logs so a claim can be supported — or withdrawn.</p>
+<hr>
+<h2 id="design-rules">Design rules</h2>
+<ol>
+<li><strong>Four families, never blended into one “AI score.”</strong> Activity / Operational outcomes / Financial outcomes / Risk-control outcomes.</li>
+<li><strong>Customer baseline first.</strong> Every rate that implies improvement is <code>period − baseline</code> on the same entity, channel, and document type.</li>
+<li><strong>No vanity metrics.</strong> If a number cannot go the wrong way when the process is worse, drop it. Examples of vanity: “prompts run,” “tokens used” (except as a <em>cost</em> input), “documents touched” without a correctness predicate, “hours of AI time.”</li>
+<li><strong>Human is not automatically ground truth.</strong> Accuracy metrics need a labelled sample (dual review or a frozen golden set).</li>
+<li><strong>Do not import vendor-blog cost-per-invoice as fact.</strong> Industry blogs routinely recycle <strong>$10–$15 vs $2–$3</strong> (or similar) per-invoice figures. Those are not this client’s cost. Use them only as a caution that published absolute dollars are noisy.</li>
+<li><strong>Independent context, not a forecast.</strong> Ardent Partners’ 2024 Best-in-Class <em>relative</em> gaps — <strong>78% lower</strong> per-invoice cost, <strong>82% faster</strong> cycle, <strong>59% lower</strong> exceptions, <strong>9% BIC exception rate</strong> (vs <strong>22%</strong> for others) — are useful ambition context. They are not a target the agent “will deliver.” Cite the research as research. Calculator inputs remain the customer’s baseline.</li>
+<li><strong>Incentives.</strong> Do not bonus STP or speed without publishing the risk-control family in the same pack (see R-INCENT).</li>
+</ol>
+<p>Ardent references (independent, not Evidence Room work): e.g. Ardent Partners commentary on 2024 Best-in-Class AP advantages and the 2024 ePayables study as reported by industry recaps. Always prefer the client-held copy of the study if licensed.</p>
+<hr>
+<h2 id="families">Families</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>Question</th>
+<th>Typical audience</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A — Activity</strong></td>
+<td>What did we handle?</td>
+<td>Operations</td>
+</tr>
+<tr>
+<td><strong>O — Operational outcomes</strong></td>
+<td>Did the process get better <em>and</em> stay correct?</td>
+<td>AP Director, process owner</td>
+</tr>
+<tr>
+<td><strong>F — Financial outcomes</strong></td>
+<td>Did cost or cash move in a way we will sign?</td>
+<td>FP&amp;A, CFO</td>
+</tr>
+<tr>
+<td><strong>R — Risk-control outcomes</strong></td>
+<td>Did we break anything that matters?</td>
+<td>IA, Treasury, CFO</td>
+</tr>
+</tbody>
+</table>
+<p>A pack that contains only A and a vanity slice of O is incomplete. Pilot close requires O + R. A business case update requires F with a method note, or it should say “financial outcomes not yet validated.”</p>
+<hr>
+<h2 id="notation">Notation</h2>
+<ul>
+<li>Period <code>t</code> (week, month, quarter) and baseline <code>b</code> (same grain, pre-pilot or control entity).</li>
+<li>Population must be stated: entity, ERP, channel, document type, amount band.</li>
+<li><code>1()</code> is an indicator.</li>
+<li>Counts are of <em>documents</em> or <em>exceptions</em> as defined — do not mix.</li>
+</ul>
+<hr>
+<h2 id="a-activity">A — Activity</h2>
+<p>These describe throughput. They do not justify expansion by themselves.</p>
+<h3 id="a1-invoices-handled">A1 Invoices handled</h3>
+<p><strong>Definition.</strong> Invoices (and credit notes, if you include them — say so) that reached a terminal intake state in <code>t</code>: filed and classified, including those later parked.</p>
+<p><strong>Formula.</strong><br>
+<code>A1 = count of documents in population with intake_complete in t</code></p>
+<p><strong>Owner.</strong> AP lead. <strong>Evidence.</strong> Intake log (A01/A02).<br>
+<strong>Misuse.</strong> Counting every model call as an invoice.</p>
+<h3 id="a2-exceptions-handled">A2 Exceptions handled</h3>
+<p><strong>Definition.</strong> Exception tickets (primary taxonomy code) that moved to a terminal exception state in <code>t</code> (resolved, rejected, or reclassified to a new primary code). Ageing alone is not “handled.”</p>
+<p><strong>Formula.</strong><br>
+<code>A2 = count of exceptions with terminal_status in t</code></p>
+<p><strong>Owner.</strong> AP supervisor. <strong>Evidence.</strong> Exception store.<br>
+<strong>Misuse.</strong> Counting a chase as a resolution.</p>
+<h3 id="a3-agent-touched-share-optional-not-a-success-metric">A3 Agent-touched share (optional, not a success metric)</h3>
+<p><strong>Definition.</strong> Share of A1 where an in-scope agent produced a logged output.</p>
+<p><strong>Formula.</strong> <code>A3 = invoices_with_agent_output / A1</code></p>
+<p>Use only to explain capacity. Do not target it.</p>
+<hr>
+<h2 id="o-operational-outcomes">O — Operational outcomes</h2>
+<h3 id="o1-classification-accuracy">O1 Classification accuracy</h3>
+<p><strong>Definition.</strong> Share of labelled documents whose A02 class equals the label.</p>
+<p><strong>Formula.</strong><br>
+<code>O1 = correct_class / labelled_n</code><br>
+Report also per class (invoice, credit, statement, other).</p>
+<p><strong>Ground truth.</strong> Golden set or dual-reviewed sample — not the clerk who accepted the agent’s class without looking.<br>
+<strong>Owner.</strong> QA. <strong>Evidence.</strong> Score sheet.<br>
+<strong>Floor.</strong> Set before scores are seen (method Step 6).</p>
+<h3 id="o2-extraction-accuracy">O2 Extraction accuracy</h3>
+<p><strong>Definition.</strong> Field-level correctness on <em>required</em> fields, and a separate score for <em>identity fields</em> (supplier, entity, invoice number, amounts, tax IDs, bank fields).</p>
+<p><strong>Formula.</strong><br>
+<code>O2_required = correct_required_fields / required_fields_in_sample</code><br>
+<code>O2_identity = correct_identity_fields / identity_fields_in_sample</code><br>
+A document is “header-accurate” only if all required header fields match.</p>
+<p><strong>Rules.</strong> Numeric compare on amounts with an agreed rounding; dates normalised; invoice-number compare on the certified normalisation (do not call a padded number “wrong” if policy pads).<br>
+<strong>Owner.</strong> QA + AP lead.<br>
+<strong>Misuse.</strong> Averaging easy fields (currency = USD) with IBAN.</p>
+<h3 id="o3-matching-accuracy">O3 Matching accuracy</h3>
+<p><strong>Definition.</strong> On labelled match cases: in-tolerance match / out-of-tolerance non-match agrees with the certified tree.</p>
+<p><strong>Formula.</strong><br>
+<code>O3 = correct_match_decisions / labelled_match_n</code><br>
+Split <strong>deterministic A05</strong> vs any residual recommend.</p>
+<p><strong>Owner.</strong> Process owner. <strong>Evidence.</strong> Match log + labels.<br>
+A model that “explains” a mismatch is not scored as matching accuracy.</p>
+<h3 id="o4-false-positive-rate-fpr">O4 False positive rate (FPR)</h3>
+<p><strong>Definition.</strong> Alarms that were not true, on a specified detector.</p>
+<p>State the detector every time you quote FPR. Default detectors: A06 exact-key (should be ~0 FPR by construction if the key is the definition of “true”); A06 near-duplicate; A02 “is invoice”; E21 bank-disagreement.</p>
+<p><strong>Formula.</strong><br>
+<code>FPR = FP / (FP + TN)</code><br>
+where a positive is “detector fired.”</p>
+<p><strong>Owner.</strong> QA.<br>
+<strong>Why it matters.</strong> High FPR on near-duplicates starves suppliers and trains clerks to ignore the queue.</p>
+<h3 id="o5-false-negative-rate-fnr">O5 False negative rate (FNR)</h3>
+<p><strong>Definition.</strong> True events the detector missed.</p>
+<p><strong>Formula.</strong><br>
+<code>FNR = FN / (FN + TP)</code></p>
+<p>For <strong>exact-key duplicates</strong>, FNR &gt; 0 is a control defect. For <strong>near-duplicates</strong>, FNR is a trade-off and must be paired with FPR.</p>
+<p><strong>Owner.</strong> QA + control owner.</p>
+<h3 id="o6-exception-resolution-rate">O6 Exception resolution rate</h3>
+<p><strong>Definition.</strong> Share of exceptions <em>open at start of t plus newly opened in t</em> that reached a true terminal resolution in <code>t</code> (not re-aged, not “handled” by a chase).</p>
+<p><strong>Formula.</strong><br>
+<code>O6 = resolved_in_t / (open_start_t + opened_in_t)</code><br>
+Report by taxonomy code. A high O6 with rising reopens is a fail (see O14).</p>
+<p><strong>Owner.</strong> AP supervisor.</p>
+<h3 id="o7-straight-through-processing-stp-rate">O7 Straight-through processing (STP) rate</h3>
+<p><strong>Definition.</strong> Share of invoices that posted (or reached the agreed “complete” state) with <strong>no human edit, override, or exception ticket</strong>, inside policy.</p>
+<p><strong>Formula.</strong><br>
+<code>O7 = stp_invoices / A1_postable</code><br>
+<code>A1_postable</code> excludes documents that <em>should</em> exception (e.g. true missing GR). Do not inflate STP by auto-receipting (forbidden) or by narrowing the population to happy path after the fact.</p>
+<p><strong>Owner.</strong> Process owner.<br>
+<strong>Misuse.</strong> Counting “agent ran” as STP.</p>
+<h3 id="o8-human-intervention-rate">O8 Human intervention rate</h3>
+<p><strong>Definition.</strong> Complement of a defined “no-touch” — but count <em>interventions</em>, not people.</p>
+<p><strong>Formula.</strong><br>
+<code>O8 = invoices_with_≥1_human_action_in_scope / A1</code><br>
+Split: confirmation (expected for Prepare) vs override (control-relevant).</p>
+<p>Prepare-class agents will have high confirmation and can still be useful. Do not treat O8 as a failure if authority is Prepare.</p>
+<p><strong>Owner.</strong> AP lead.</p>
+<h3 id="o9-average-resolution-time">O9 Average resolution time</h3>
+<p><strong>Definition.</strong> Median and 90th percentile hours from exception open to terminal resolution, by code.</p>
+<p><strong>Formula.</strong><br>
+<code>O9_p50 = median(resolved_at − opened_at)</code><br>
+<code>O9_p90 = percentile_90(...)</code><br>
+Prefer median. Means are pulled by E26.</p>
+<p><strong>Owner.</strong> AP supervisor. <strong>Clock</strong> excludes named waiting states if you disclose them (e.g. “waiting on supplier” parked). If you exclude waits, also publish calendar age (O16).</p>
+<h3 id="o10-time-to-posting">O10 Time to posting</h3>
+<p><strong>Definition.</strong> Hours from intake_complete to posted (or parked-as-policy-complete). Median and p90.</p>
+<p><strong>Formula.</strong><br>
+<code>O10_p50 = median(posted_at − intake_complete_at)</code></p>
+<p><strong>Owner.</strong> AP lead.<br>
+Compare to baseline <code>b</code> on the same slice. Ardent’s “82% faster” is context, not a multiplier to apply to <code>b</code>.</p>
+<h3 id="o11-on-time-supplier-internal-follow-up">O11 On-time supplier / internal follow-up</h3>
+<p><strong>Definition.</strong> Share of A11/A12 chases sent (or queued for human send) within the SLA, and share of <em>responses recorded</em> within the response SLA.</p>
+<p><strong>Formula.</strong><br>
+<code>O11_send = chases_on_sla / chases_required</code><br>
+<code>O11_response = responses_on_sla / chases_that_needed_response</code><br>
+A chase not required (policy wait) is excluded from the denominator.</p>
+<p><strong>Owner.</strong> AP supervisor.</p>
+<h3 id="o12-ageing-reduction">O12 Ageing reduction</h3>
+<p><strong>Definition.</strong> Change in the stock of exceptions older than the local threshold (E26), in count and in value.</p>
+<p><strong>Formula.</strong><br>
+<code>O12_count = aged_open_t − aged_open_b</code><br>
+<code>O12_value = aged_value_t − aged_value_b</code><br>
+Negative is improvement. Publish <em>with</em> R1 (control breaches). Ageing that falls because someone posted without a receipt is not improvement.</p>
+<p><strong>Owner.</strong> AP Director.</p>
+<h3 id="o13-payment-on-time">O13 Payment-on-time</h3>
+<p><strong>Definition.</strong> Share of scheduled payments that were released by the due date (or by the agreed discount date, if that is the policy), on the <em>human-authorised</em> run.</p>
+<p><strong>Formula.</strong><br>
+<code>O13 = paid_on_time / payment_items_due_in_t</code><br>
+Exclude items on legitimate hold (E24). Do not credit the agent for Treasury cash decisions.</p>
+<p><strong>Owner.</strong> Treasury + AP.<br>
+Agents do not authorise payments; this metric measures whether the <em>process</em> still pays when it should.</p>
+<h3 id="o14-repeat-exception-rate">O14 Repeat exception rate</h3>
+<p><strong>Definition.</strong> Share of resolved exceptions whose <em>same supplier + same primary code</em> reopens within a window (default 90 days), or same PO + same code.</p>
+<p><strong>Formula.</strong><br>
+<code>O14 = repeats_in_window / resolved_in_prior_window</code></p>
+<p><strong>Owner.</strong> Process owner.<br>
+High O14 means the resolution was theatre.</p>
+<h3 id="o15-missing-receipt-reduction">O15 Missing-receipt reduction</h3>
+<p><strong>Definition.</strong> Change in E07 open rate vs baseline, same slice.</p>
+<p><strong>Formula.</strong><br>
+<code>O15 = (E07_open / A1)_t − (E07_open / A1)_b</code></p>
+<p><strong>Owner.</strong> Operations + AP.<br>
+Must not be achieved by agent-created GR (R-MATCH-02).</p>
+<h3 id="o16-po-compliance">O16 PO compliance</h3>
+<p><strong>Definition.</strong> Share of in-scope invoices that reference a <em>valid</em> PO when policy requires one, and share that matched in tolerance.</p>
+<p><strong>Formula.</strong><br>
+<code>O16_present = invoices_with_valid_PO / invoices_that_require_PO</code><br>
+<code>O16_matched = in_tolerance_matches / invoices_with_valid_PO</code></p>
+<p><strong>Owner.</strong> Procurement + AP.<br>
+Non-PO policy spend is excluded from the first denominator, not hidden inside it.</p>
+<h3 id="o17-duplicates-detected">O17 Duplicates detected</h3>
+<p><strong>Definition.</strong> Count of E09 exact-key blocks plus E10 near-duplicates <em>confirmed</em> as duplicates by a human.</p>
+<p><strong>Formula.</strong><br>
+<code>O17 = exact_blocks + confirmed_near_dupes</code><br>
+Always split the two.</p>
+<p><strong>Owner.</strong> AP supervisor.</p>
+<h3 id="o18-duplicate-payments-prevented-where-measurable">O18 Duplicate payments prevented (where measurable)</h3>
+<p><strong>Definition.</strong> A prevented duplicate payment is an O17 item that was <strong>not paid</strong>, and would have been a candidate for the next proposal under the old process (documented rule), <em>or</em> a recovery of a payment already made. Do not count every E10 queue item.</p>
+<p><strong>Formula.</strong><br>
+<code>O18 = exact_blocks_that_were_unpaid_and_proposal_eligible + confirmed_near_dupes_unpaid_and_proposal_eligible + recovered_duplicate_payments</code><br>
+Publish the rule for “proposal eligible.” If you cannot evidence eligibility, report O17 only.</p>
+<p><strong>Owner.</strong> Payments + AP. <strong>This is not a fraud-detection claim.</strong></p>
+<h3 id="o19-rework-rate">O19 Rework rate</h3>
+<p><strong>Definition.</strong> Share of posted invoices that required a reversing document, recode, or re-open exception within a window (default 30 days).</p>
+<p><strong>Formula.</strong><br>
+<code>O19 = reworked_posts / posts_in_t</code></p>
+<p><strong>Owner.</strong> Controller + AP.<br>
+The operational counterpart to “we posted faster.”</p>
+<hr>
+<h2 id="f-financial-outcomes">F — Financial outcomes</h2>
+<p>All F metrics require an <strong>FP&amp;A method note</strong>: population, loaded-cost definition, what was <em>not</em> counted (headcount not released, discounts not taken, etc.). Unsigned F numbers do not enter an external pack.</p>
+<h3 id="f1-cost-per-invoice">F1 Cost per invoice</h3>
+<p><strong>Definition.</strong> Loaded AP operating cost attributable to the slice, divided by invoices in the slice.</p>
+<p><strong>Formula.</strong><br>
+<code>F1 = loaded_AP_cost_slice_t / A1_t</code></p>
+<p><strong>Loaded cost includes</strong> (pick and disclose): salaries and on-costs, contractor, allocated supervision, lockbox/OCR/vendor fees, <strong>AI inference cost (F3)</strong>, error-correction labour if you can allocate it.<br>
+<strong>Excludes</strong> unless disclosed: procurement, receiving, Treasury bank fees.</p>
+<p><strong>Baseline.</strong> <code>F1_b</code> from the same definition.<br>
+<strong>Not an input:</strong> $10–$15 or $2–$3 industry tropes.</p>
+<p><strong>Owner.</strong> FP&amp;A.<br>
+A falling F1 with rising R1 is not a success.</p>
+<h3 id="f2-cost-per-exception">F2 Cost per exception</h3>
+<p><strong>Definition.</strong> Loaded cost of exception labour + allocated tools, divided by A2 (or by open+opened — disclose).</p>
+<p><strong>Formula.</strong><br>
+<code>F2 = exception_loaded_cost_t / A2_t</code></p>
+<p><strong>Owner.</strong> FP&amp;A + AP.</p>
+<h3 id="f3-ai-inference-cost">F3 AI inference cost</h3>
+<p><strong>Definition.</strong> Amount paid (or accrued) to model, OCR, and agent-platform vendors for the slice, plus internal GPU if material.</p>
+<p><strong>Formula.</strong><br>
+<code>F3 = vendor_inference_t + ocr_t + platform_t + internal_compute_t</code></p>
+<p>Report <strong>F3 / A1</strong> and <strong>F3 / correct_outcomes</strong> (see F4).<br>
+<strong>Owner.</strong> AI product owner.<br>
+Tokens are an input to F3, not a KPI.</p>
+<h3 id="f4-cost-per-correct-outcome">F4 Cost per correct outcome</h3>
+<p><strong>Definition.</strong> What a <em>correct</em> posted invoice (or correctly blocked duplicate, if you include that — disclose) costs.</p>
+<p><strong>Formula.</strong><br>
+<code>F4 = (loaded_AP_cost_slice_t + F3_if_not_already_in_loaded) / correct_outcomes_t</code><br>
+<code>correct_outcomes = posts_not_reworked_in_window + O18_if_included</code></p>
+<p>This punishes fast-and-wrong.<br>
+<strong>Owner.</strong> FP&amp;A.</p>
+<h3 id="f5-hours-released">F5 Hours released</h3>
+<p><strong>Definition.</strong> Time study or system timestamps: hours of in-scope tasks not spent vs baseline, <strong>after</strong> adding review time the agent created.</p>
+<p><strong>Formula.</strong><br>
+<code>F5 = hours_baseline_task_mix − hours_current_task_mix</code><br>
+If <code>F5 &lt; 0</code>, publish it. Do not convert F5 to FTE or cash unless a manager has actually reduced hours or redeployed them (then F6).</p>
+<p><strong>Owner.</strong> AP Director + FP&amp;A.<br>
+Shadow period: do not claim F5.</p>
+<h3 id="f6-validated-savings">F6 Validated savings</h3>
+<p><strong>Definition.</strong> Cash or P&amp;L items FP&amp;A will sign: reduced external processing fees, reduced overtime, closed contractor roles, recovered duplicate payments, incremental discounts <em>actually taken</em> that were not taken in baseline, minus incremental F3 and platform cost.</p>
+<p><strong>Formula.</strong><br>
+<code>F6 = Σ signed_benefit_lines − Σ signed_incremental_costs</code><br>
+Each line has an owner, a source, and a period.<br>
+<strong>Not in F6:</strong> “hours × loaded rate” unless those hours left the cost base. <strong>Not in F6:</strong> Ardent gaps applied to spend. <strong>Not in F6:</strong> avoided fraud you did not evidence.</p>
+<p><strong>Owner.</strong> FP&amp;A (Accountable). CFO sees F6 only with the method note.</p>
+<h3 id="f7-payment-on-time-cash-optional">F7 Payment-on-time cash (optional)</h3>
+<p>If the organisation measures early-payment discount capture or late-payment fees:</p>
+<p><code>F7_discounts = discounts_taken_t − discounts_taken_b</code> (same terms)<br>
+<code>F7_fees = late_fees_t − late_fees_b</code></p>
+<p>Do not attribute Treasury policy changes to the agent.</p>
+<hr>
+<h2 id="r-risk-control-outcomes">R — Risk-control outcomes</h2>
+<p>These are first-class. A green O pack with a red R pack is a failed period.</p>
+<h3 id="r1-control-breaches">R1 Control breaches</h3>
+<p><strong>Definition.</strong> Count of failed <em>hard</em> or <em>key</em> controls: payment-direction by an agent; bank change without verify; GR by an agent; unlogged Execute; exact-key miss that posted; unauthorised authority promotion.</p>
+<p><strong>Formula.</strong><br>
+<code>R1 = count(breach_events)</code><br>
+<strong>Target: 0</strong> on hard controls. Any R1 on C-A12-01 is Sev-1.</p>
+<p><strong>Owner.</strong> Control owner. <strong>Evidence.</strong> A16 + incidents.</p>
+<h3 id="r2-escalation-rate">R2 Escalation rate</h3>
+<p><strong>Definition.</strong> Share of exceptions that hit threshold 1 or 2 (E26 / local tree).</p>
+<p><strong>Formula.</strong><br>
+<code>R2 = escalated / (open_start + opened)</code><br>
+A falling R2 can mean health or suppressed escalation. Pair with aged stock (O12).</p>
+<p><strong>Owner.</strong> AP supervisor.</p>
+<h3 id="r3-audit-exceptions">R3 Audit exceptions</h3>
+<p><strong>Definition.</strong> Internal or external audit exceptions attributable to the AP agent slice (access, SoD, evidence, payments, tax).</p>
+<p><strong>Formula.</strong><br>
+<code>R3 = count</code> and <code>R3_open</code><br>
+<strong>Owner.</strong> IA.</p>
+<h3 id="r4-override-rate">R4 Override rate</h3>
+<p><strong>Definition.</strong> Human overrides of match, duplicate, SoD, or hold, per 100 invoices.</p>
+<p><strong>Formula.</strong><br>
+<code>R4 = overrides / A1 × 100</code><br>
+Rising R4 is a design smell (R-MATCH-03, bad tolerances) or a control under attack.</p>
+<p><strong>Owner.</strong> Control owner.</p>
+<h3 id="r5-hallucination-injection-incidents">R5 Hallucination / injection incidents</h3>
+<p><strong>Definition.</strong> Invented identifiers that passed a gate, or document-text that invoked a tool.</p>
+<p><strong>Formula.</strong> counts, target 0 at Execute gates.<br>
+<strong>Owner.</strong> AI product owner + IA.</p>
+<h3 id="r6-recertification-status">R6 Recertification status</h3>
+<p><strong>Definition.</strong> Pass/fail of the last cert; current authority vs signed canvas.</p>
+<p><strong>Formula.</strong> categorical. Fail = authority step-down.<br>
+<strong>Owner.</strong> Control owner.</p>
+<hr>
+<h2 id="pack-layout-monthly">Pack layout (monthly)</h2>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Metrics (minimum)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Population</td>
+<td>Entity, ERP, A1, mix</td>
+</tr>
+<tr>
+<td>Activity</td>
+<td>A1, A2</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>O3, O7, O8 (split), O10 p50/p90, O6 by top codes, O12, O14, O17, O18 if evidenced, O19</td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>F3, F1 vs <code>b</code> if method signed; F6 only if signed</td>
+</tr>
+<tr>
+<td>Risk-control</td>
+<td>R1, R2, R3, R4, R6</td>
+</tr>
+<tr>
+<td>Notes</td>
+<td>Model/workflow versions; incidents; what <em>not</em> to conclude</td>
+</tr>
+</tbody>
+</table>
+<p>No single RAG status for the whole pack. RAG each family.</p>
+<hr>
+<h2 id="baseline-and-comparison">Baseline and comparison</h2>
+<table>
+<thead>
+<tr>
+<th>Allowed comparison</th>
+<th>Not allowed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Same slice vs its <code>b</code></td>
+<td>vs a vendor’s $12 / $3 story</td>
+</tr>
+<tr>
+<td>Same slice vs a hold-out entity</td>
+<td>vs Ardent BIC as if it were a forecast</td>
+</tr>
+<tr>
+<td>Golden set vs last cert</td>
+<td>vs a demo on cherry-picked PDFs</td>
+</tr>
+<tr>
+<td>Dual-reviewed sample</td>
+<td>vs “the clerk agreed” as accuracy</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ardent 2024 relative gaps</strong> may appear in a one-line “industry context” footnote: BIC teams showed 78% lower cost, 82% faster processing, 59% lower exceptions, 9% vs 22% exception rates in that research. Then: “Our F1_b is [x]; our exception rate_b is [y]. We are not claiming BIC.”</p>
+<hr>
+<h2 id="data-lineage-evidence">Data lineage (evidence)</h2>
+<p>Every metric in the pack has:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>O7</td>
+</tr>
+<tr>
+<td>Source systems</td>
+<td>ERP posted flag, exception store, A16</td>
+</tr>
+<tr>
+<td>Query / definition version</td>
+<td><code>kpi_dict v1.2</code></td>
+</tr>
+<tr>
+<td>Population filter</td>
+<td>SAP 1000, PO, inbox</td>
+</tr>
+<tr>
+<td>Owner</td>
+<td>Process owner</td>
+</tr>
+<tr>
+<td>Last refresh</td>
+<td>ISO date</td>
+</tr>
+<tr>
+<td>Known defects</td>
+<td>e.g. parked-as-posted leak</td>
+</tr>
+</tbody>
+</table>
+<p>If lineage is missing, the number is anecdotal.</p>
+<hr>
+<h2 id="northline-illustrative-measurement-not-a-result">Northline (illustrative measurement, not a result)</h2>
+<p>Fictional 18,000 invoices/month, SAP + NetSuite. First pack on <strong>SAP PO, company 1000 only</strong>.</p>
+<p>Illustrative <em>baseline</em> (customer-like, made up for the exercise): exception rate 24% on that slice; median time-to-post 6.2 days; STP 31%; F1 calculated from NL10 shared-services loaded cost / slice volume; F3 = 0; O18 not evidenced (no proposal-eligibility rule yet); R1 = n/a pre-agent. A14 publishes the pack; humans certify.</p>
+<p>Illustrative <em>pilot pack</em> would report deltas on that slice only, F3 newly visible, F6 unsigned (“hours observed, cost base unchanged”), R1 = 0 required to continue. No ROI line.</p>
+<hr>
+<h2 id="related-documents">Related documents</h2>
+<ul>
+<li><code>../Business_Case/BUSINESS_CASE_MODEL.md</code> — how F6 is proposed <em>before</em> it is validated</li>
+<li><code>../Process_Mapping/ER_METHODOLOGY.md</code> — Step 9</li>
+<li><code>../Controls/AGENT_CONTROL_MATRIX.md</code> — what R1 counts</li>
+<li><code>../Governance/AP_AGENT_GOVERNANCE_FRAMEWORK.md</code> — who may publish the pack</li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

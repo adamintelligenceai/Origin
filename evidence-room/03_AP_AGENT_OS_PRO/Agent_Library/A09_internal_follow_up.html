@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A09 Internal Follow Up · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional · Agent Library</p>
+  </header>
+  <h1 id="a09-internal-follow-up-agent">A09 — Internal Follow-Up Agent</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent ID</td>
+<td>A09</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Internal Follow-Up Agent</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Invoice-to-pay / AP</td>
+</tr>
+<tr>
+<td>Forrester (Mar 2025) map</td>
+<td>Evidence Room extension (internal exception operations)</td>
+</tr>
+<tr>
+<td>Starting autonomy</td>
+<td>Level 1</td>
+</tr>
+<tr>
+<td>Human owner (role)</td>
+<td>AP Exception Lead</td>
+</tr>
+<tr>
+<td>Backup owner (role)</td>
+<td>AP Manager</td>
+</tr>
+<tr>
+<td>Dispatcher</td>
+<td>A16</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>Evidence Room AP Agent OS · Pro</td>
+</tr>
+<tr>
+<td>Charter version</td>
+<td>1.0 · September 2026</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-purpose">1. Purpose</h2>
+<p>Chase named internal owners — requesters, buyers, receivers, approvers — with a single specific ask on an open exception, without posting, paying, or emailing the supplier.</p>
+<hr>
+<h2 id="2-job-description">2. Job description</h2>
+<p>A09 is the internal collections clerk for <em>information</em>, not cash. When A04 routes <code>PRC-VAR</code>, <code>QTY-VAR</code>, <code>PO-MISS</code>, <code>APPR-PEND</code> (operational chase), or A05/A06 have an accepted task, A09 drafts a chase to a person on the directory: what is blocked, what we need, by when, and what happens if they stay silent (escalation, not a threat to the supplier).</p>
+<p><strong>In population:</strong> internal-owner exceptions; accepted A05/A06 tasks; reminder drafts A07 handed over for <em>people</em> (A07 still owns matrix logic).<br>
+<strong>Out of population:</strong> supplier mail (A08), payment reminders to vendors, GR posting, PO edits, and anything without a named human.</p>
+<p><strong>Done at Level 1:</strong> Marcus Hale’s team accepts/edits/rejects chase drafts. <strong>Done at Level 0:</strong> a silence pack only.</p>
+<p>Internal noise has a political cost. One precise chase beats five “any update?” pings.</p>
+<hr>
+<h2 id="3-inputs-required-data">3. Inputs / required data</h2>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Required?</th>
+<th>Source</th>
+<th>If missing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exception / task object</td>
+<td>Yes</td>
+<td>A04 / A05 / A06 / A07</td>
+<td>Do not chase</td>
+</tr>
+<tr>
+<td>Named owner + manager</td>
+<td>Yes</td>
+<td>Directory</td>
+<td>Owner = Exception Lead</td>
+</tr>
+<tr>
+<td>Specific ask</td>
+<td>Yes</td>
+<td>Upstream evidence</td>
+<td>Return upstream to write the ask</td>
+</tr>
+<tr>
+<td>SLA and escalation ladder</td>
+<td>Yes</td>
+<td>Policy</td>
+<td>Default ladder only if published</td>
+</tr>
+<tr>
+<td>Prior chases on this object</td>
+<td>Yes</td>
+<td>Work log</td>
+<td>Risk of spam</td>
+</tr>
+<tr>
+<td>Out-of-office / leavers</td>
+<td>Optional</td>
+<td>HR</td>
+<td>Escalate if stale</td>
+</tr>
+<tr>
+<td>Channel policy (email, Teams, workflow inbox)</td>
+<td>Yes</td>
+<td>Policy</td>
+<td>No send</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-tools-systems">4. Tools / systems</h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>SAP S/4HANA</th>
+<th>D365 F&amp;O / BC</th>
+<th>Oracle Fusion</th>
+<th>NetSuite</th>
+<th>Workday</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Buyer / requester</td>
+<td>EKKO / user</td>
+<td>Worker</td>
+<td>Buyer</td>
+<td>Employee</td>
+<td>Worker</td>
+<td>Directory</td>
+</tr>
+<tr>
+<td>Workflow inbox</td>
+<td>Fiori My Inbox</td>
+<td>Work items</td>
+<td>BPM</td>
+<td>Reminders</td>
+<td>Inbox</td>
+<td>Email / Teams</td>
+</tr>
+<tr>
+<td>HR status</td>
+<td>Infotype / SuccessFactors</td>
+<td>Worker</td>
+<td>Person</td>
+<td>Employee</td>
+<td>Workday</td>
+<td>HRIS</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read:</strong> directory, prior chases, object evidence.<br>
+<strong>Write at Level 1:</strong> draft chase on the object.<br>
+<strong>Write at Level 2:</strong> stage in approved internal channel.<br>
+<strong>Write-never:</strong> ledger, vendor, payment, supplier mailbox.</p>
+<hr>
+<h2 id="5-responsibilities">5. Responsibilities</h2>
+<ol>
+<li>Open a chase only when the ask is specific (“confirm price $12.40 vs $12.00 on PO 4500218831 line 40” not “please advise”).</li>
+<li>Use the published template set (<code>T-PRICE</code>, <code>T-QTY</code>, <code>T-NEED-PO</code>, <code>T-NEED-RECEIPT-POST</code>, <code>T-APPROVE</code>).</li>
+<li>Thread on the same <code>object_id</code>. Do not start a new thread per reminder.</li>
+<li>Apply cadence: chase 1 at accept; chase 2 at SLA/2; escalate at SLA (illustrative; table versioned).</li>
+<li>Record replies as evidence; notify A16 to re-dispatch A03/A02. A09 does not rematch.</li>
+<li>Detect leavers and OOOH; reroute to manager, do not keep mailing a dead account.</li>
+<li>At Level 1, wait for human send. Suppress chases the Exception Lead marks <code>do_not_chase</code> (union dispute, legal hold, known project).</li>
+<li>Feed A15 with silence rates by role and plant — not with names in the control pack.</li>
+</ol>
+<hr>
+<h2 id="6-explicit-exclusions">6. Explicit exclusions</h2>
+<ul>
+<li>Never release a payment, bank file, or positive-pay file.</li>
+<li>Never conclude fraud.</li>
+<li>Never grant itself a higher autonomy level.</li>
+<li>Never invent a tolerance, tax position, or write-off.</li>
+<li>Never use real client/employer data in shipped examples or prompts.</li>
+<li>Never email a supplier.</li>
+<li>Never CC the company’s customers or external freight brokers unless they are the <em>receiver of record</em> and policy allows.</li>
+<li>Never threaten disciplinary action.</li>
+<li>Never promise a payment date.</li>
+<li>Never chase more often than the cadence table.</li>
+<li>Never use a public Slack channel for invoice amounts.</li>
+</ul>
+<hr>
+<h2 id="7-human-owner">7. Human owner</h2>
+<p><strong>AP Exception Lead</strong> owns cadence, templates, and <code>do_not_chase</code>. Backup: <strong>AP Manager</strong>.</p>
+<p>The named buyer/receiver owns the <em>answer</em>. A09 owns the <em>chase quality</em>.</p>
+<hr>
+<h2 id="8-approval-requirements-by-autonomy-level">8. Approval requirements by autonomy level</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Agent may</th>
+<th>Human must approve</th>
+<th>Proof artefact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Observe</td>
+<td>Silence pack</td>
+<td>Lead weekly</td>
+<td><code>A09_silence_pack</code></td>
+</tr>
+<tr>
+<td>1 Recommend</td>
+<td>Draft chase</td>
+<td>Accept / edit / reject; human sends</td>
+<td><code>chase_decision</code></td>
+</tr>
+<tr>
+<td>2 Prepare</td>
+<td>Stage in internal channel</td>
+<td>Human send</td>
+<td>Message ID + user</td>
+</tr>
+<tr>
+<td>3 Execute within guardrails</td>
+<td>Send templates inside envelope</td>
+<td>Sample + all first-time owners</td>
+<td>Envelope</td>
+</tr>
+<tr>
+<td>4 Managed autonomy</td>
+<td>Named plants / roles</td>
+<td>Recertify</td>
+<td>Register + IA ack</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="9-escalation-criteria">9. Escalation criteria</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Escalate to</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SLA miss</td>
+<td>Owner’s manager via A16</td>
+<td>age</td>
+</tr>
+<tr>
+<td>Two cadences, no usable reply</td>
+<td>Exception Lead</td>
+<td>silence</td>
+</tr>
+<tr>
+<td>Value ≥ materiality</td>
+<td>AP Manager</td>
+<td>value</td>
+</tr>
+<tr>
+<td>Owner left</td>
+<td>HR + manager</td>
+<td>directory</td>
+</tr>
+<tr>
+<td>Reply is “just pay it” without evidence</td>
+<td>Matching Lead — do not treat as approval</td>
+<td>control</td>
+</tr>
+<tr>
+<td>Owner asks to hide the exception</td>
+<td>Controls</td>
+<td><code>CTRL-BRK</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not escalate:</strong> OOOH with a delegate already assigned. Do not escalate day-zero.</p>
+<hr>
+<h2 id="10-output-standard">10. Output standard</h2>
+<h3 id="101-internal_chase">10.1 <code>internal_chase</code></h3>
+<pre><code>template_id
+owner_named
+manager_named
+channel
+ask
+object_id
+cadence_step                 # 1 | 2 | escalate
+do_not_chase
+thread_id
+</code></pre>
+<h3 id="102-a09_silence_pack-weekly">10.2 <code>A09_silence_pack</code> (weekly)</h3>
+<p>By role (buyer / receiver / requester / approver): open chases, silence rate, $ silent &gt; SLA. No public ranking of named people in the control pack.</p>
+<p><strong>Done at Level 1:</strong> <code>chase_decision</code> recorded.</p>
+<hr>
+<h2 id="11-control-requirements">11. Control requirements</h2>
+<ol>
+<li><strong>Templates and cadence versioned.</strong></li>
+<li><strong>Amounts only on approved channels.</strong></li>
+<li><strong><code>do_not_chase</code> logged</strong> with reason and expiry.</li>
+<li><strong>SOD.</strong> Chase agent cannot post or pay.</li>
+<li><strong>Sample</strong> 20 chases/week: specific ask? right person? cadence respected?</li>
+<li><strong>Untrusted replies.</strong> “Approve” in email is not A07 approval unless policy says so (default: no).</li>
+</ol>
+<hr>
+<h2 id="12-audit-evidence-to-retain">12. Audit evidence to retain</h2>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Pull from</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chases + replies</td>
+<td>Comms / work log</td>
+<td>Local financial-record policy</td>
+</tr>
+<tr>
+<td>Cadence + template versions</td>
+<td>Change control</td>
+<td>Same</td>
+</tr>
+<tr>
+<td><code>do_not_chase</code> list</td>
+<td>Policy</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Silence packs</td>
+<td>A14</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Escalations</td>
+<td>A16</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="13-kpis">13. KPIs</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>KPI</th>
+<th>Formula</th>
+<th>Source</th>
+<th>Cadence</th>
+<th>Owner</th>
+<th>Promotion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activity</td>
+<td>Chase coverage</td>
+<td>Chases / A09-routed objects</td>
+<td>Work log</td>
+<td>Weekly</td>
+<td>Exception Lead</td>
+<td>→ 1.00</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Usable-reply rate</td>
+<td>Replies that unblocked / chases</td>
+<td>Work log</td>
+<td>Weekly</td>
+<td>Exception Lead</td>
+<td>1→2</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Silence &gt; SLA</td>
+<td>Count / $</td>
+<td>Pack</td>
+<td>Weekly</td>
+<td>AP Manager</td>
+<td></td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Edit rate</td>
+<td>Drafts edited / offered</td>
+<td>Decision log</td>
+<td>Weekly</td>
+<td>Exception Lead</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>$ unblocked after chase</td>
+<td>Sum returned to match</td>
+<td>Work log</td>
+<td>Monthly</td>
+<td>Exception Lead</td>
+<td>Local measure</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Supplier-mail incidents</td>
+<td>Count (0)</td>
+<td>Channel audit</td>
+<td>Daily</td>
+<td>Controls</td>
+<td>Auto Level 0</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Over-cadence pings</td>
+<td>Count</td>
+<td>Work log</td>
+<td>Weekly</td>
+<td>Exception Lead</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Email-as-approval treated as A07</td>
+<td>Count (0)</td>
+<td>Sample</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="14-performance-history-fields">14. Performance history fields</h2>
+<p>Common fields, plus:</p>
+<pre><code>chases_step1
+chases_step2
+escalations
+usable_replies
+do_not_chase_count
+over_cadence
+supplier_sends_blocked
+</code></pre>
+<hr>
+<h2 id="15-starting-autonomy-level">15. Starting autonomy level</h2>
+<p><strong>Level 1 — Recommend.</strong> First promotion: Level 2 stage-and-human-send after usable-reply and edit-rate gates. Do not start at Level 3 to “reduce clicks”.</p>
+<hr>
+<h2 id="16-failure-handling">16. Failure handling</h2>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Detect</th>
+<th>Degrade</th>
+<th>Notify</th>
+<th>Resume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Directory miss</td>
+<td>Lookup</td>
+<td>Owner = Exception Lead</td>
+<td>Lead</td>
+<td>HR fix</td>
+</tr>
+<tr>
+<td>Channel outage</td>
+<td>API</td>
+<td>Draft only</td>
+<td>Systems</td>
+<td>Flush queue</td>
+</tr>
+<tr>
+<td>Leaver</td>
+<td>HR</td>
+<td>Escalate</td>
+<td>A16</td>
+<td>New owner</td>
+</tr>
+<tr>
+<td>Vague upstream ask</td>
+<td>Quality check</td>
+<td>Return to A04/A06</td>
+<td>Upstream</td>
+<td>Rewrite ask</td>
+</tr>
+<tr>
+<td>Model CCs supplier</td>
+<td>Guardrail</td>
+<td>Block</td>
+<td>Controls</td>
+<td>Redraft</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="17-cost-monitoring">17. Cost monitoring</h2>
+<table>
+<thead>
+<tr>
+<th>Cost object</th>
+<th>Measure</th>
+<th>Who acts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Message API</td>
+<td>Adapter</td>
+<td>Systems</td>
+</tr>
+<tr>
+<td>Human edit minutes</td>
+<td>Time</td>
+<td>Exception Lead</td>
+</tr>
+<tr>
+<td>Buyer/receiver minutes on vague chases</td>
+<td>Complaint sample</td>
+<td>Exception Lead</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="18-worked-example-northline-industrial-group">18. Worked example — Northline Industrial Group</h2>
+<p>Northline (fictional), 4,200 employees, ~18,000 invoices/month, SAP + NetSuite NPC. Exception lead: Marcus Hale.</p>
+<p><strong>Object.</strong> Helion HF-88421 <code>PRC-VAR</code> $40 on line 4. A04 assigned the PO buyer, Jordan Hale (fictional buyer; not Marcus).</p>
+<p><strong>Level 1.</strong> A09 drafts <code>T-PRICE</code>: PO 4500218831 line 40, invoice $12.40 vs PO $12.00, ask = confirm amended PO or reject for credit, SLA Wednesday. Channel = workflow inbox, not a company-wide Teams channel. Marcus accepts and sends.</p>
+<p>Jordan replies: “price increase approved — change the PO”. A09 does <strong>not</strong> change the PO. It attaches the reply and A16 notifies A06/buyer to execute ME22N. A03 waits for the PO change, not for an email.</p>
+<p><strong>Illegal.</strong> A09 mailing Helion. Treating Jordan’s reply as A07 approval to post out of tolerance without a PO change. Pinging Jordan daily.</p>
+<p><strong>Control.</strong> Thread stays on <code>INV-NL10-20260914-4412</code>. Cadence table <code>A09_CAD_2026-09</code> shows next chase Friday if silent, then Jordan’s manager.</p>
+<hr>
+<h2 id="19-cadence-and-template-table-implementation">19. Cadence and template table (implementation)</h2>
+<p>Version <code>A09_CAD_2026-09</code> (illustrative Evidence Room default — replace locally):</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>When</th>
+<th>Who</th>
+<th>Channel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Object routed to A09</td>
+<td>—</td>
+<td>No send; draft only at Level 1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Human accept</td>
+<td>Named owner</td>
+<td>Workflow inbox</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SLA / 2</td>
+<td>Same owner</td>
+<td>Same thread</td>
+</tr>
+<tr>
+<td>3</td>
+<td>SLA</td>
+<td>Owner’s manager</td>
+<td>Same thread + A16 escalate</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2× SLA</td>
+<td>Exception Lead + AP Manager</td>
+<td>Queue health, not a new ping storm</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Template</th>
+<th>Use when</th>
+<th>Required fields in body</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>T-PRICE</code></td>
+<td><code>PRC-VAR</code></td>
+<td>PO, line, inv price, PO price, ask (amend PO or credit)</td>
+</tr>
+<tr>
+<td><code>T-QTY</code></td>
+<td><code>QTY-VAR</code></td>
+<td>PO, GR qty, inv qty, ask</td>
+</tr>
+<tr>
+<td><code>T-NEED-PO</code></td>
+<td><code>PO-MISS</code></td>
+<td>Invoice ID, $, requester, ask for PO or non-PO path</td>
+</tr>
+<tr>
+<td><code>T-NEED-RECEIPT-POST</code></td>
+<td>A05 <code>received_not_posted</code></td>
+<td>Inbound delivery, plant, ask to post GR</td>
+</tr>
+<tr>
+<td><code>T-APPROVE</code></td>
+<td><code>APPR-PEND</code></td>
+<td>Amount, matrix version, link — <strong>not</strong> an approval</td>
+</tr>
+</tbody>
+</table>
+<p><code>do_not_chase</code> reasons (logged): legal hold, labour action, known outage, duplicate of an open thread, value below “no-chase” band if policy has one.</p>
+<h3 id="state-machine">State machine</h3>
+<p><code>draft → accepted → sent_step1 → replied_usable / replied_unusable / silent → sent_step2 → escalated → closed_by_upstream</code>.<br>
+A09 never <code>closed</code> itself because a person said “ok”.</p>
+<hr>
+<h2 id="charter-conformance">Charter conformance</h2>
+<ul>
+<li>[x] Purpose is one sentence and names a boundary</li>
+<li>[x] Job description names population in / out</li>
+<li>[x] Inputs table has required/optional and “if missing”</li>
+<li>[x] Tools table covers SAP, D365, Oracle, NetSuite, Workday, Other, and read/write</li>
+<li>[x] Responsibilities are verbs at the starting level</li>
+<li>[x] Exclusions include payment release, fraud conclusion, self-promotion</li>
+<li>[x] Human owner is a role with a backup</li>
+<li>[x] Levels 0–4 approval table is present and not softer than the responsibility model</li>
+<li>[x] Escalation has hard triggers and a do-not-escalate line</li>
+<li>[x] Outputs are named artefacts with fields</li>
+<li>[x] Controls include SOD, completeness, change control, untrusted input</li>
+<li>[x] Audit evidence is pullable</li>
+<li>[x] KPIs cover activity / operational / financial / risk and name a source</li>
+<li>[x] Performance history includes the common fields</li>
+<li>[x] Starting autonomy is 0 or 1</li>
+<li>[x] Failure handling has detect / degrade / notify / resume</li>
+<li>[x] Cost monitoring is present</li>
+<li>[x] Northline example is fictional and specific</li>
+<li>[x] No guaranteed savings / fraud / compliance / ROI claim</li>
+<li>[x] Statistics cited or labelled illustrative</li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

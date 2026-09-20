@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AP Agent Stack Overview · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional</p>
+  </header>
+  <h1 id="ap-agent-stack-overview">AP Agent Stack Overview</h1>
+<p><strong>Evidence Room · AP Agent OS · Pro</strong><br>
+<strong>Document ID:</strong> ER-APOS-LIB-00<br>
+<strong>Version:</strong> 1.0 · September 2026<br>
+<strong>Classification:</strong> Licensed material<br>
+<strong>Audience:</strong> AP Manager, Controller, Internal Audit, Systems Owner<br>
+<strong>Companion files:</strong> <code>AGENT_CHARTER_STANDARD.md</code> · <code>RESPONSIBILITY_MODEL.md</code> · A01–A16 charters</p>
+<hr>
+<h2 id="1-what-this-library-is">1. What this library is</h2>
+<p>This library is the operating specification for sixteen named AP agents. Each agent has one job, one human owner, a defined starting autonomy level, and a written list of things it must never do.</p>
+<p>The stack is ERP-agnostic. It is designed to sit beside SAP S/4HANA, Microsoft Dynamics 365, Oracle Fusion Cloud, NetSuite, Workday, and equivalent payables ledgers. Agents do not replace the ledger. They read from it, prepare work for it, and — only after earned promotion and an explicit control decision — write to it within guardrails.</p>
+<p>This is not a chatbot overlay. It is a responsibility model for invoice-to-pay work: who does what, at what autonomy, with what evidence.</p>
+<p>Forrester (March 2025) maps current AI use in accounts payable to six clusters: capture, matching, reporting, fraud management, payment management, and e-invoicing/tax. The sixteen agents below cover those clusters and add the work Forrester’s list does not name: exception triage, goods-receipt chase, PO quality, supplier and internal follow-up, vendor-statement reconciliation, period close, and root-cause. Fraud-adjacent work is limited to duplicate and anomaly screening. It is not a fraud-detection guarantee.</p>
+<hr>
+<h2 id="2-design-rules">2. Design rules</h2>
+<ol>
+<li><strong>One job per agent.</strong> An agent that extracts invoice fields does not release a payment. An agent that flags a duplicate does not conclude fraud. An agent that prepares a close checklist does not sign the close.</li>
+<li><strong>Responsibility is earned.</strong> Every agent starts at Level 0 (Observe) or Level 1 (Recommend). Promotion requires measured history, not a vendor demo. See <code>RESPONSIBILITY_MODEL.md</code>.</li>
+<li><strong>Full autonomy is never the default.</strong> Level 4 is a scoped, time-boxed privilege for a named population of documents. It is not a product setting you switch on at go-live.</li>
+<li><strong>Payment authorisation stays human.</strong> The Payment Proposal Review Agent may assemble, score, and challenge a proposal. A human releases the payment file, bank batch, or positive-pay file.</li>
+<li><strong>Supplier master changes stay human unless a written policy says otherwise.</strong> The Supplier Resolution Agent drafts communications and change requests. Creation, bank-detail change, and tax-ID change require a named approver. That approval may be configured; the default is human.</li>
+<li><strong>No agent is a control.</strong> Agents produce evidence that controls operated. Internal Audit still tests the control. SOX / ICFR ownership remains with the process owner.</li>
+<li><strong>ERP is the book of record.</strong> If the agent and the ledger disagree, the ledger wins until a human posts a correcting document.</li>
+<li><strong>No guaranteed savings, cycle-time, exception, fraud, compliance, or ROI claims.</strong> Ardent Partners (2024) reports that Best-in-Class AP organisations run at 78% lower cost, 82% faster cycle time, and 59% lower exceptions than their peers, with a 9% exception rate. Those are industry observations, not a forecast for this stack. Measure your own baseline before you claim a result.</li>
+</ol>
+<hr>
+<h2 id="3-the-sixteen-agents">3. The sixteen agents</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Agent</th>
+<th>Primary job</th>
+<th>Starts at</th>
+<th>Human owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A01</td>
+<td>Invoice Intake</td>
+<td>Capture, classify, extract, and park inbound invoices</td>
+<td>1</td>
+<td>AP Intake Lead</td>
+</tr>
+<tr>
+<td>A02</td>
+<td>Invoice Validation</td>
+<td>Test completeness, tax, vendor, currency, and coding readiness</td>
+<td>1</td>
+<td>AP Quality Lead</td>
+</tr>
+<tr>
+<td>A03</td>
+<td>Matching</td>
+<td>2-way / 3-way match, tolerances, multi-line allocation</td>
+<td>1</td>
+<td>AP Matching Lead</td>
+</tr>
+<tr>
+<td>A04</td>
+<td>Exception Triage</td>
+<td>Classify, route, and age exceptions</td>
+<td>1</td>
+<td>AP Exception Lead</td>
+</tr>
+<tr>
+<td>A05</td>
+<td>Goods Receipt</td>
+<td>Detect missing / late / split GRs and chase receivers</td>
+<td>0</td>
+<td>Warehouse / Receiving Lead</td>
+</tr>
+<tr>
+<td>A06</td>
+<td>PO Quality</td>
+<td>Detect POs that will fail match before the invoice arrives</td>
+<td>0</td>
+<td>Procurement Operations</td>
+</tr>
+<tr>
+<td>A07</td>
+<td>Approval</td>
+<td>Route, remind, and evidence non-PO and exception approvals</td>
+<td>0</td>
+<td>AP Manager</td>
+</tr>
+<tr>
+<td>A08</td>
+<td>Supplier Resolution</td>
+<td>Draft supplier queries; propose master-data fixes</td>
+<td>1</td>
+<td>Vendor Master / AP Communications</td>
+</tr>
+<tr>
+<td>A09</td>
+<td>Internal Follow-Up</td>
+<td>Chase requesters, buyers, and receivers</td>
+<td>1</td>
+<td>AP Exception Lead</td>
+</tr>
+<tr>
+<td>A10</td>
+<td>Duplicate &amp; Anomaly</td>
+<td>Screen for duplicates and unusual patterns</td>
+<td>1</td>
+<td>AP Controls Lead</td>
+</tr>
+<tr>
+<td>A11</td>
+<td>Vendor Statement Reconciliation</td>
+<td>Match statements to open items and disputes</td>
+<td>0</td>
+<td>AP Reconciliations</td>
+</tr>
+<tr>
+<td>A12</td>
+<td>Payment Proposal Review</td>
+<td>Challenge the payment proposal before human release</td>
+<td>0</td>
+<td>Payments Lead</td>
+</tr>
+<tr>
+<td>A13</td>
+<td>AP Close</td>
+<td>Drive the period-close checklist and accrual completeness</td>
+<td>0</td>
+<td>Assistant Controller / AP Manager</td>
+</tr>
+<tr>
+<td>A14</td>
+<td>AP Reporting</td>
+<td>Produce the operating pack from ledger facts</td>
+<td>1</td>
+<td>AP Manager</td>
+</tr>
+<tr>
+<td>A15</td>
+<td>Root Cause</td>
+<td>Cluster repeating exceptions and propose process fixes</td>
+<td>0</td>
+<td>AP Manager / Process Excellence</td>
+</tr>
+<tr>
+<td>A16</td>
+<td>AP Manager / Orchestrator</td>
+<td>Queue, SLA, hand-off, and autonomy-gate supervision</td>
+<td>1</td>
+<td>AP Manager</td>
+</tr>
+</tbody>
+</table>
+<p>A16 is not a seventeenth processor. It is the dispatcher and the conscience of the stack: it assigns work, enforces autonomy gates, and escalates when an agent is outside its charter.</p>
+<hr>
+<h2 id="4-how-they-interact">4. How they interact</h2>
+<h3 id="41-invoice-path-happy-path">4.1 Invoice path (happy path)</h3>
+<pre><code>Inbound invoice
+    → A01 Intake          capture, classify, extract, create parked document
+    → A10 Duplicate       early duplicate / anomaly screen (blocks or flags)
+    → A02 Validation      completeness, tax, vendor, currency, coding
+    → A03 Matching        2-way or 3-way against PO / GR
+    → A07 Approval        only if policy requires (non-PO, over-tolerance, new vendor)
+    → Ledger post         human or Level-3 agent under guardrails
+    → A12 Payment review  proposal challenge; human releases
+</code></pre>
+<p>A01 may call A10 before extraction is complete when a header-level duplicate is obvious (same vendor + invoice number + amount). A10 also runs after A02 once lines are reliable.</p>
+<h3 id="42-exception-path">4.2 Exception path</h3>
+<pre><code>A02 or A03 or A10 raises exception
+    → A04 Triage          assign reason code, owner, SLA, next action
+        ├─ GR missing / split     → A05 Goods Receipt
+        ├─ PO incomplete / wrong  → A06 PO Quality + buyer
+        ├─ Supplier data / invoice error → A08 Supplier Resolution
+        ├─ Requester / receiver silence  → A09 Internal Follow-Up
+        ├─ Duplicate / anomaly hold      → A10 (investigation pack) + human
+        └─ Approval outstanding          → A07
+A04 ages the item. A16 escalates when SLA or value gates trip.
+A15 reads closed exceptions weekly and proposes causes, not journal entries.
+</code></pre>
+<h3 id="43-periodic-path-not-invoice-triggered">4.3 Periodic path (not invoice-triggered)</h3>
+<table>
+<thead>
+<tr>
+<th>Cadence</th>
+<th>Agents</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daily</td>
+<td>A16, A14 (flash), A05, A09</td>
+<td>Queue health, GR backlog, open chases</td>
+</tr>
+<tr>
+<td>Payment run</td>
+<td>A12, A10 (payee / bank-detail screen), A07 if needed</td>
+<td>Challenged proposal; human release</td>
+</tr>
+<tr>
+<td>Weekly</td>
+<td>A11 (priority suppliers), A15, A06</td>
+<td>Statement gaps, repeating defects, PO quality pack</td>
+</tr>
+<tr>
+<td>Month-end</td>
+<td>A13, A11, A14, A16</td>
+<td>Close checklist, accruals, operating pack</td>
+</tr>
+<tr>
+<td>Quarter / promotion review</td>
+<td>A16 + process owner + Internal Audit</td>
+<td>Autonomy evidence pack</td>
+</tr>
+</tbody>
+</table>
+<h3 id="44-data-hand-off-contract">4.4 Data hand-off contract</h3>
+<p>Agents pass <strong>work objects</strong>, not chat. A work object is a structured record with:</p>
+<ul>
+<li><code>object_id</code>, <code>object_type</code> (invoice, exception, GR chase, statement line, payment proposal line, close task)</li>
+<li><code>source_system</code> + <code>source_doc_id</code></li>
+<li><code>company_code</code> / <code>subsidiary</code></li>
+<li><code>vendor_id</code>, <code>amount</code>, <code>currency</code>, <code>due_date</code></li>
+<li><code>reason_code</code> (from the shared taxonomy)</li>
+<li><code>autonomy_level_in_force</code></li>
+<li><code>recommended_action</code> + <code>confidence</code> + <code>evidence_refs[]</code></li>
+<li><code>human_owner</code> + <code>sla_due</code></li>
+<li><code>state</code> (<code>new</code> / <code>in_review</code> / <code>waiting_external</code> / <code>ready_to_post</code> / <code>posted</code> / <code>rejected</code> / <code>escalated</code>)</li>
+</ul>
+<p>A16 is the only agent allowed to reassign <code>human_owner</code> or change <code>state</code> to <code>escalated</code>. Downstream agents may propose a state change; they do not silently close another agent’s object.</p>
+<h3 id="45-shared-exception-taxonomy">4.5 Shared exception taxonomy</h3>
+<p>Use these codes everywhere. Do not invent local synonyms.</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+<th>Typical next agent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>HDR-ERR</code></td>
+<td>Header incomplete or unreadable</td>
+<td>A01, A08</td>
+</tr>
+<tr>
+<td><code>LINE-ERR</code></td>
+<td>Line, UoM, or tax-line extraction failure</td>
+<td>A01, A08</td>
+</tr>
+<tr>
+<td><code>VND-UNK</code></td>
+<td>Vendor not found or ambiguous</td>
+<td>A08</td>
+</tr>
+<tr>
+<td><code>VND-BLK</code></td>
+<td>Vendor blocked, one-time, or payment hold</td>
+<td>A08, A12</td>
+</tr>
+<tr>
+<td><code>TAX-ERR</code></td>
+<td>Tax code, jurisdiction, or e-invoice tax mismatch</td>
+<td>A02</td>
+</tr>
+<tr>
+<td><code>CUR-ERR</code></td>
+<td>Currency / FX / company-code mismatch</td>
+<td>A02</td>
+</tr>
+<tr>
+<td><code>PO-MISS</code></td>
+<td>No PO, invalid PO, or PO closed</td>
+<td>A06, A09</td>
+</tr>
+<tr>
+<td><code>PO-QLTY</code></td>
+<td>PO exists but cannot match (account, vendor, price, qty, date)</td>
+<td>A06</td>
+</tr>
+<tr>
+<td><code>GR-MISS</code></td>
+<td>Expected GR not posted</td>
+<td>A05</td>
+</tr>
+<tr>
+<td><code>GR-SPLIT</code></td>
+<td>Partial / multi-GR allocation needed</td>
+<td>A05, A03</td>
+</tr>
+<tr>
+<td><code>QTY-VAR</code></td>
+<td>Quantity outside tolerance</td>
+<td>A03, A09</td>
+</tr>
+<tr>
+<td><code>PRC-VAR</code></td>
+<td>Price outside tolerance</td>
+<td>A03, A09</td>
+</tr>
+<tr>
+<td><code>DUP-SUS</code></td>
+<td>Duplicate suspected</td>
+<td>A10</td>
+</tr>
+<tr>
+<td><code>ANOM-SUS</code></td>
+<td>Pattern anomaly, not a known duplicate</td>
+<td>A10</td>
+</tr>
+<tr>
+<td><code>APPR-PEND</code></td>
+<td>Approval outstanding</td>
+<td>A07</td>
+</tr>
+<tr>
+<td><code>STMT-UNM</code></td>
+<td>Statement line unmatched</td>
+<td>A11</td>
+</tr>
+<tr>
+<td><code>ACCR-GAP</code></td>
+<td>Received-not-invoiced or invoiced-not-received gap</td>
+<td>A13</td>
+</tr>
+<tr>
+<td><code>PAY-HOLD</code></td>
+<td>Payment-proposal challenge</td>
+<td>A12</td>
+</tr>
+<tr>
+<td><code>CTRL-BRK</code></td>
+<td>Control or SOD concern</td>
+<td>A16 + Controls Lead</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5-what-stays-human">5. What stays human</h2>
+<p>The following remain human at every autonomy level. An agent may prepare the file. It may not complete the act.</p>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Why it stays human</th>
+<th>Agent that prepares</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Payment file / bank batch / positive-pay release</td>
+<td>Cash leaves the company</td>
+<td>A12</td>
+</tr>
+<tr>
+<td>Approval of invoices above the written matrix</td>
+<td>Delegation of authority is a human control</td>
+<td>A07</td>
+</tr>
+<tr>
+<td>Vendor create; bank-detail or tax-ID change</td>
+<td>Classic fraud path; configurable but default human</td>
+<td>A08</td>
+</tr>
+<tr>
+<td>Write-off, tolerance override above policy, or account reclass above limit</td>
+<td>P&amp;L / balance-sheet judgement</td>
+<td>A03, A04, A13</td>
+</tr>
+<tr>
+<td>Fraud conclusion, SAR/internal-investigation referral</td>
+<td>Legal and HR process</td>
+<td>A10</td>
+</tr>
+<tr>
+<td>Period-close sign-off</td>
+<td>Controller accountability</td>
+<td>A13</td>
+</tr>
+<tr>
+<td>Autonomy promotion or demotion</td>
+<td>Governance, not a model score</td>
+<td>A16 + owner + Audit</td>
+</tr>
+<tr>
+<td>Prompt / rule / tolerance table change</td>
+<td>Change control</td>
+<td>Process owner</td>
+</tr>
+<tr>
+<td>Legal, tax-position, or statutory interpretation</td>
+<td>Licensed advice is out of scope</td>
+<td>A02 may flag; Tax owns</td>
+</tr>
+<tr>
+<td>SOD override (same person create + approve + pay)</td>
+<td>Control failure</td>
+<td>A16 blocks; Audit reviews</td>
+</tr>
+</tbody>
+</table>
+<p>If a local policy wants an agent to do any of the above, that is a Level-4 request and requires the promotion pack in <code>RESPONSIBILITY_MODEL.md</code> plus Internal Audit acknowledgement. The Evidence Room default is: <strong>do not</strong>.</p>
+<hr>
+<h2 id="6-erp-agnostic-operating-notes">6. ERP-agnostic operating notes</h2>
+<h3 id="61-two-books-one-stack">6.1 Two books, one stack</h3>
+<p>Many groups run more than one ledger. The worked example in every charter — <strong>Northline Industrial Group</strong> — runs SAP S/4HANA for the core companies and NetSuite for one acquired entity. The agents share a taxonomy and a work-object schema. They do <strong>not</strong> share a single posting API.</p>
+<p>Implementation rule: one <strong>adapter per ledger</strong>. The charter stays the same. The adapter translates:</p>
+<table>
+<thead>
+<tr>
+<th>Stack concept</th>
+<th>SAP S/4HANA</th>
+<th>D365 F&amp;O / BC</th>
+<th>Oracle Fusion</th>
+<th>NetSuite</th>
+<th>Workday Financials</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Parked / draft invoice</td>
+<td>MIR7 / parked MIRO / FB60 hold</td>
+<td>Pending vendor invoice</td>
+<td>Incomplete Payables invoice</td>
+<td>Vendor bill (pending approval)</td>
+<td>Supplier invoice (draft)</td>
+</tr>
+<tr>
+<td>Posted invoice</td>
+<td>RBKP / BSEG</td>
+<td>Posted vendor invoice</td>
+<td>Payables invoice</td>
+<td>Vendor bill</td>
+<td>Supplier invoice</td>
+</tr>
+<tr>
+<td>Purchase order</td>
+<td>EKKO / EKPO</td>
+<td>Purch table</td>
+<td>PO header / line</td>
+<td>Purchase order</td>
+<td>Purchase order</td>
+</tr>
+<tr>
+<td>Goods receipt</td>
+<td>MIGO / MKPF / MSEG</td>
+<td>Product receipt</td>
+<td>Receiving</td>
+<td>Item receipt</td>
+<td>Receipt</td>
+</tr>
+<tr>
+<td>2-/3-way match</td>
+<td>MIRO match + OMR6 tolerances</td>
+<td>Invoice matching policy</td>
+<td>Matching rules</td>
+<td>Vendor bill matching</td>
+<td>Receipt / invoice match</td>
+</tr>
+<tr>
+<td>Vendor</td>
+<td>Business Partner / LFA1</td>
+<td>Vendor</td>
+<td>Supplier</td>
+<td>Vendor</td>
+<td>Supplier</td>
+</tr>
+<tr>
+<td>Payment proposal</td>
+<td>F110 proposal</td>
+<td>Payment journal</td>
+<td>Payment process request</td>
+<td>Payment batch</td>
+<td>Settlement run</td>
+</tr>
+<tr>
+<td>Statement</td>
+<td>Vendor line items + FBL1N</td>
+<td>Vendor aged / statement</td>
+<td>Payables trial</td>
+<td>Vendor statement</td>
+<td>Supplier statement</td>
+</tr>
+<tr>
+<td>Close</td>
+<td>MMRV / GR/IR / F.13</td>
+<td>Period close workspace</td>
+<td>Close monitor</td>
+<td>Period close</td>
+<td>Close</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-identity-and-keys">6.2 Identity and keys</h3>
+<p>Do not assume a global vendor number. Northline’s SAP vendor <code>4002187</code> (Helion Fasteners NA) is NetSuite vendor <code>V-1184</code> at the acquired entity. The adapter stores a <strong>cross-walk</strong>. Agents key work objects on <code>(source_system, source_vendor_id)</code> and display the group alias.</p>
+<p>Invoice numbers are not unique across vendors. The natural key is <code>(company_code, vendor_id, invoice_number, invoice_date, gross_amount, currency)</code> plus any legal e-invoice UUID where one exists.</p>
+<h3 id="63-comma-lists-attachments-and-e-invoices">6.3 Comma lists, attachments, and e-invoices</h3>
+<ul>
+<li>Header PDF / XML / UBL / PEPPOL / country e-invoice formats land in A01. Do not force a single capture engine. The charter requires an extract, a confidence, and a human-review path — not a named OCR brand.</li>
+<li>Attachment stores (OpenText, VIM, ReadSoft, native ERP attach) are tools, not agents.</li>
+<li>Where a statutory e-invoice identifier exists, A01 persists it. A02 tests it. A10 uses it as a hard duplicate key.</li>
+</ul>
+<h3 id="64-what-the-adapter-must-never-do">6.4 What the adapter must never do</h3>
+<ul>
+<li>Post in one ledger because a twin document posted in another.</li>
+<li>Recycle a payment proposal across systems.</li>
+<li>Treat a NetSuite “pending approval” bill as a SAP-posted invoice.</li>
+<li>Write back to the ledger without the autonomy gate and the named posting user (system user with logged human authoriser).</li>
+</ul>
+<hr>
+<h2 id="7-operating-model-for-a-14-person-ap-team">7. Operating model for a 14-person AP team</h2>
+<p>The Northline worked example is illustrative (Evidence Room framework). It is the same company used in every agent charter so the library reads as one system.</p>
+<p><strong>Northline Industrial Group</strong> — 4,200 employees; about 18,000 invoices per month; SAP S/4HANA plus one NetSuite entity (Northline Pacific Components); 14-person shared-services AP team.</p>
+<p>Suggested role map (illustrative, not a staffing recommendation):</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Headcount (illustrative)</th>
+<th>Owns agents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AP Manager</td>
+<td>1</td>
+<td>A16, A14, A15, A07</td>
+</tr>
+<tr>
+<td>Intake / capture</td>
+<td>2</td>
+<td>A01</td>
+</tr>
+<tr>
+<td>Validation / matching</td>
+<td>3</td>
+<td>A02, A03</td>
+</tr>
+<tr>
+<td>Exception specialists</td>
+<td>3</td>
+<td>A04, A09</td>
+</tr>
+<tr>
+<td>Vendor master &amp; supplier comms</td>
+<td>2</td>
+<td>A08</td>
+</tr>
+<tr>
+<td>Payments &amp; bank</td>
+<td>1</td>
+<td>A12</td>
+</tr>
+<tr>
+<td>Reconciliations &amp; close</td>
+<td>1</td>
+<td>A11, A13</td>
+</tr>
+<tr>
+<td>Controls / quality</td>
+<td>1</td>
+<td>A10, A02 (second)</td>
+</tr>
+<tr>
+<td>Warehouse liaison (not AP headcount)</td>
+<td>—</td>
+<td>A05</td>
+</tr>
+<tr>
+<td>Procurement operations (not AP headcount)</td>
+<td>—</td>
+<td>A06</td>
+</tr>
+</tbody>
+</table>
+<p>A16’s queue should make this split visible. If matching staff are working supplier emails, the orchestrator is mis-routed — that is a control and a productivity issue.</p>
+<hr>
+<h2 id="8-autonomy-at-go-live-default">8. Autonomy at go-live (default)</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Meaning</th>
+<th>Agents at go-live</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Observe</td>
+<td>Read, log, report. No recommendations that look like instructions to the ledger.</td>
+<td>A05, A06, A07, A11, A12, A13, A15</td>
+</tr>
+<tr>
+<td>1 Recommend</td>
+<td>Propose an action. Human accepts, edits, or rejects.</td>
+<td>A01, A02, A03, A04, A08, A09, A10, A14, A16</td>
+</tr>
+<tr>
+<td>2 Prepare</td>
+<td>Draft the document, email, or parking entry. Human posts or sends.</td>
+<td>None at go-live</td>
+</tr>
+<tr>
+<td>3 Execute within guardrails</td>
+<td>Post / send inside written limits.</td>
+<td>None at go-live</td>
+</tr>
+<tr>
+<td>4 Managed autonomy</td>
+<td>Operate a named population with exception-only review.</td>
+<td>Never default</td>
+</tr>
+</tbody>
+</table>
+<p>Promotion criteria, demotion triggers, and the evidence pack live in <code>RESPONSIBILITY_MODEL.md</code>. A16 refuses to dispatch a Level-3 action if the agent’s current authorised level is lower.</p>
+<hr>
+<h2 id="9-control-spine">9. Control spine</h2>
+<p>Every agent charter repeats a control block. The stack-level spine is:</p>
+<ol>
+<li><strong>Written policy</strong> — tolerance table, approval matrix, vendor-change policy, payment-release policy. Versioned. Dated. Owner named.</li>
+<li><strong>Autonomy register</strong> — which agent, which company code, which document population, which level, review date. Owned by AP Manager; visible to Internal Audit.</li>
+<li><strong>Immutable work log</strong> — every recommendation, override, post, and escalation. Retention aligned to financial-record policy (set locally; do not assume a number).</li>
+<li><strong>SOD</strong> — the system user that posts is not the user that releases cash. Agents inherit this. A16 blocks a path that would collapse maker and checker.</li>
+<li><strong>Change control</strong> — prompts, match rules, reason codes, and tolerance numbers change through the same path as an ERP configuration change.</li>
+<li><strong>Completeness</strong> — inbound invoice count (mailroom / e-invoice / portal / EDI) reconciled to A01 created objects, daily.</li>
+<li><strong>Evidence pack</strong> — each agent lists what Internal Audit can pull without a screen-share.</li>
+</ol>
+<p>Ardent Partners (2024) Best-in-Class exception rate is 9%. Use that as an external benchmark when you present your own exception rate. Do not treat 9% as a target the agents are warranted to hit.</p>
+<hr>
+<h2 id="10-measurement-spine">10. Measurement spine</h2>
+<p>Four KPI families. No vanity metrics (messages sent, “AI interactions”, unanchored “accuracy %”).</p>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>Question</th>
+<th>Typical stack measures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activity</td>
+<td>Did the agent touch the work?</td>
+<td>Objects ingested, recommendations issued, coverage of inbound volume</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Did the process move?</td>
+<td>Cycle time receipt-to-post, first-pass match, exception aging, chase response</td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Did money move correctly?</td>
+<td>Duplicate $ prevented (confirmed, not suspected), discount captured vs offered, GR/IR balance, on-time pay</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Did controls hold?</td>
+<td>Override rate, false-positive investigation load, SOD blocks, unauthorised-level attempts, late close tasks</td>
+</tr>
+</tbody>
+</table>
+<p>Each agent charter defines formula, source, cadence, and owner. A14 publishes the pack. A16 uses the pack to recommend promotion or demotion — it does not promote itself.</p>
+<hr>
+<h2 id="11-implementation-sequence-evidence-room-framework">11. Implementation sequence (Evidence Room framework)</h2>
+<p>Do not stand up sixteen agents on day one. Sequence is a control decision.</p>
+<table>
+<thead>
+<tr>
+<th>Wave</th>
+<th>Stand up</th>
+<th>Why this order</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>A16 + autonomy register + work-object schema + inbound completeness</td>
+<td>Without a dispatcher and a log, you cannot evidence anything</td>
+</tr>
+<tr>
+<td>1</td>
+<td>A01, A02, A10</td>
+<td>You cannot match or triage garbage extract; you must screen duplicates early</td>
+</tr>
+<tr>
+<td>2</td>
+<td>A03, A04</td>
+<td>Matching and triage are the volume engines</td>
+</tr>
+<tr>
+<td>3</td>
+<td>A05, A09, A08</td>
+<td>Most exceptions die in GR, requester silence, or supplier data</td>
+</tr>
+<tr>
+<td>4</td>
+<td>A06, A07</td>
+<td>Upstream PO quality and approval routing once exception codes are stable</td>
+</tr>
+<tr>
+<td>5</td>
+<td>A12, A11, A13</td>
+<td>Payment, statements, close — after the daily path is trusted</td>
+</tr>
+<tr>
+<td>6</td>
+<td>A14, A15</td>
+<td>Reporting and root-cause require a quarter of clean objects</td>
+</tr>
+</tbody>
+</table>
+<p>Wave dates are local. The order is not.</p>
+<hr>
+<h2 id="12-failure-modes-of-the-stack-not-of-a-single-agent">12. Failure modes of the stack (not of a single agent)</h2>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>What goes wrong</th>
+<th>Who owns the fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adapter drift</td>
+<td>Field mapping silently drops tax or PO line</td>
+<td>Systems Owner + A02 completeness test</td>
+</tr>
+<tr>
+<td>Taxonomy fork</td>
+<td>Teams invent local reason codes; A15 becomes noise</td>
+<td>A16 + AP Manager</td>
+</tr>
+<tr>
+<td>Autonomy creep</td>
+<td>A processor “just lets it post” without a register update</td>
+<td>Controls Lead; demote</td>
+</tr>
+<tr>
+<td>Completeness gap</td>
+<td>Portal invoices bypass A01; late invoices appear at close</td>
+<td>A01 + A13</td>
+</tr>
+<tr>
+<td>Cross-ledger double pay</td>
+<td>Same supplier invoice in SAP and NetSuite</td>
+<td>A10 + A12 + cross-walk</td>
+</tr>
+<tr>
+<td>Chat instead of objects</td>
+<td>Work happens in email; audit trail dies</td>
+<td>A16 rejects non-object hand-offs</td>
+</tr>
+<tr>
+<td>Vendor demo promotion</td>
+<td>Level 3 granted because extraction “looked good”</td>
+<td>Promotion pack refused</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="13-cost-monitoring-stack">13. Cost monitoring (stack)</h2>
+<p>Monitor agent cost the same way you monitor a BPO invoice: unit cost, exception cost, and rework.</p>
+<table>
+<thead>
+<tr>
+<th>Cost object</th>
+<th>What to capture</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Capture / model / API</td>
+<td>Cost per invoice ingested (A01) and per exception classified (A04)</td>
+<td>Systems Owner</td>
+</tr>
+<tr>
+<td>ERP API volume</td>
+<td>Reads vs writes; write spikes are a control event</td>
+<td>Systems Owner</td>
+</tr>
+<tr>
+<td>Human minutes</td>
+<td>Review, override, chase, investigation</td>
+<td>AP Manager</td>
+</tr>
+<tr>
+<td>False-positive load</td>
+<td>Hours spent clearing A10 / A03 noise</td>
+<td>Controls Lead</td>
+</tr>
+<tr>
+<td>Rework</td>
+<td>Reversal / credit / re-post after agent-prepared documents</td>
+<td>Assistant Controller</td>
+</tr>
+<tr>
+<td>Idle licence</td>
+<td>Agents switched on with no objects</td>
+<td>A16</td>
+</tr>
+</tbody>
+</table>
+<p>A14 reports these monthly. Cost reduction is a measurement, not a claim.</p>
+<hr>
+<h2 id="14-what-implementation-ready-means-here">14. What “implementation-ready” means here</h2>
+<p>A charter is implementation-ready when a project team can:</p>
+<ol>
+<li>Name the human owner and the backup.</li>
+<li>Map every required input to an ERP field or a file.</li>
+<li>Configure the reason codes and the routing table.</li>
+<li>Produce the listed artifacts on day one at Level 0 or 1.</li>
+<li>Show Internal Audit the evidence list.</li>
+<li>Refuse any action in the exclusions list.</li>
+<li>Score the agent after 60–90 days using the KPI block and decide stay / promote / demote.</li>
+</ol>
+<p>If a section does not tell you what to do, how, who owns it, what can go wrong, how you control it, how you measure it, or what evidence proves it, the section is incomplete. Fix the charter before you configure the agent.</p>
+<hr>
+<h2 id="15-document-control">15. Document control</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Owner</td>
+<td>Evidence Room — AP Agent OS product</td>
+</tr>
+<tr>
+<td>Change path</td>
+<td>Version increment; changelog; no silent edits to autonomy defaults</td>
+</tr>
+<tr>
+<td>Related product folders</td>
+<td><code>../Governance</code> · <code>../Controls</code> · <code>../KPI_and_Measurement</code> · <code>../Process_Mapping</code> · <code>../Testing</code></td>
+</tr>
+<tr>
+<td>Worked example</td>
+<td>Northline Industrial Group (fictional). Never replace with a real employer or client.</td>
+</tr>
+<tr>
+<td>Advice status</td>
+<td>Not legal, tax, accounting, or investment advice. Independently authored.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="16-file-index">16. File index</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>00_AGENT_STACK_OVERVIEW.md</code></td>
+<td>This document</td>
+</tr>
+<tr>
+<td><code>RESPONSIBILITY_MODEL.md</code></td>
+<td>Levels 0–4; promotion; demotion; evidence pack</td>
+</tr>
+<tr>
+<td><code>AGENT_CHARTER_STANDARD.md</code></td>
+<td>Required fields for every agent</td>
+</tr>
+<tr>
+<td><code>A01_invoice_intake.md</code></td>
+<td>Invoice Intake Agent</td>
+</tr>
+<tr>
+<td><code>A02_invoice_validation.md</code></td>
+<td>Invoice Validation Agent</td>
+</tr>
+<tr>
+<td><code>A03_matching.md</code></td>
+<td>Matching Agent</td>
+</tr>
+<tr>
+<td><code>A04_exception_triage.md</code></td>
+<td>Exception Triage Agent</td>
+</tr>
+<tr>
+<td><code>A05_goods_receipt.md</code></td>
+<td>Goods Receipt Agent</td>
+</tr>
+<tr>
+<td><code>A06_po_quality.md</code></td>
+<td>PO Quality Agent</td>
+</tr>
+<tr>
+<td><code>A07_approval.md</code></td>
+<td>Approval Agent</td>
+</tr>
+<tr>
+<td><code>A08_supplier_resolution.md</code></td>
+<td>Supplier Resolution Agent</td>
+</tr>
+<tr>
+<td><code>A09_internal_follow_up.md</code></td>
+<td>Internal Follow-Up Agent</td>
+</tr>
+<tr>
+<td><code>A10_duplicate_anomaly.md</code></td>
+<td>Duplicate &amp; Anomaly Agent</td>
+</tr>
+<tr>
+<td><code>A11_vendor_statement_reconciliation.md</code></td>
+<td>Vendor Statement Reconciliation Agent</td>
+</tr>
+<tr>
+<td><code>A12_payment_proposal_review.md</code></td>
+<td>Payment Proposal Review Agent</td>
+</tr>
+<tr>
+<td><code>A13_ap_close.md</code></td>
+<td>AP Close Agent</td>
+</tr>
+<tr>
+<td><code>A14_ap_reporting.md</code></td>
+<td>AP Reporting Agent</td>
+</tr>
+<tr>
+<td><code>A15_root_cause.md</code></td>
+<td>Root Cause Agent</td>
+</tr>
+<tr>
+<td><code>A16_ap_manager_orchestrator.md</code></td>
+<td>AP Manager / Orchestrator</td>
+</tr>
+</tbody>
+</table>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

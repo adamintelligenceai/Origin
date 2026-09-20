@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A06 Po Quality · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional · Agent Library</p>
+  </header>
+  <h1 id="a06-po-quality-agent">A06 — PO Quality Agent</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent ID</td>
+<td>A06</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>PO Quality Agent</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Invoice-to-pay / AP (procurement interface)</td>
+</tr>
+<tr>
+<td>Forrester (Mar 2025) map</td>
+<td>Matching (upstream defect); Evidence Room extension</td>
+</tr>
+<tr>
+<td>Starting autonomy</td>
+<td>Level 0</td>
+</tr>
+<tr>
+<td>Human owner (role)</td>
+<td>Procurement Operations</td>
+</tr>
+<tr>
+<td>Backup owner (role)</td>
+<td>AP Matching Lead</td>
+</tr>
+<tr>
+<td>Dispatcher</td>
+<td>A16</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>Evidence Room AP Agent OS · Pro</td>
+</tr>
+<tr>
+<td>Charter version</td>
+<td>1.0 · September 2026</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-purpose">1. Purpose</h2>
+<p>Detect purchase orders that will fail match — missing account, wrong vendor, unusable price, residual qty, date, or receipt rule — and produce a defect pack for procurement, without changing the PO or posting the invoice.</p>
+<hr>
+<h2 id="2-job-description">2. Job description</h2>
+<p>A06 is the upstream critic. Exception cost in AP is often a PO that should never have been released. The agent watches two populations: (1) invoices already coded <code>PO-MISS</code> / <code>PO-QLTY</code> / chronic <code>PRC-VAR</code> / <code>QTY-VAR</code>, and (2) at observe level, newly released POs scored against a defect checklist <em>before</em> an invoice arrives.</p>
+<p><strong>In population:</strong> PO-related exception objects; optional new-PO observe feed.<br>
+<strong>Out of population:</strong> vendor master quality (A08), GR posting (A05), non-PO invoices (A07), and commercial negotiations (buyers).</p>
+<p><strong>Done at Level 0:</strong> a weekly defect pack Greta Holm will recognise. <strong>Done at Level 1:</strong> recommended defect codes on specific POs, still unread by buyers until accepted.</p>
+<p>Procurement will reject a noisy critic. Start at Observe.</p>
+<hr>
+<h2 id="3-inputs-required-data">3. Inputs / required data</h2>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Required?</th>
+<th>Source</th>
+<th>If missing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exception objects with PO codes</td>
+<td>Yes for exception path</td>
+<td>A04</td>
+<td>Observe path may run</td>
+</tr>
+<tr>
+<td>PO header/lines: vendor, price, qty, account, tax, dates, receipt indicator</td>
+<td>Yes</td>
+<td>ERP</td>
+<td>Skip PO</td>
+</tr>
+<tr>
+<td>Account assignment rules</td>
+<td>Yes</td>
+<td>Finance / MM</td>
+<td><code>account_unknown</code> defect</td>
+</tr>
+<tr>
+<td>Info record / contract price (if policy uses them)</td>
+<td>Optional</td>
+<td>ERP</td>
+<td>Price defect uses invoice vs PO only</td>
+</tr>
+<tr>
+<td>Tolerance table (for “will fail” simulation)</td>
+<td>Yes</td>
+<td>Policy store</td>
+<td>Delay observe scoring</td>
+</tr>
+<tr>
+<td>Historical exception codes by PO type</td>
+<td>Optional</td>
+<td>A15</td>
+<td>Improves ranking, not required</td>
+</tr>
+<tr>
+<td>Buyer directory</td>
+<td>Yes</td>
+<td>ERP</td>
+<td>Owner = Procurement Ops</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-tools-systems">4. Tools / systems</h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>SAP S/4HANA</th>
+<th>D365 F&amp;O / BC</th>
+<th>Oracle Fusion</th>
+<th>NetSuite</th>
+<th>Workday</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PO</td>
+<td>ME23N / EKKO</td>
+<td>Purchase order</td>
+<td>PO</td>
+<td>Purchase order</td>
+<td>Purchase order</td>
+<td>P2P</td>
+</tr>
+<tr>
+<td>Release strategy</td>
+<td>ME29N</td>
+<td>Workflow</td>
+<td>Approval</td>
+<td>Approval</td>
+<td>Approval</td>
+<td></td>
+</tr>
+<tr>
+<td>Account assignment</td>
+<td>EKPO KNTTP</td>
+<td>Accounting</td>
+<td>Distribution</td>
+<td>Expense account</td>
+<td>Worktags</td>
+<td></td>
+</tr>
+<tr>
+<td>Info record</td>
+<td>ME13</td>
+<td>Trade agreement</td>
+<td>Blanket</td>
+<td>Vendor price</td>
+<td>Catalog</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read:</strong> PO, contract, account rules, exception history.<br>
+<strong>Write at Level 0:</strong> defect pack.<br>
+<strong>Write at Level 1:</strong> <code>po_defect</code> objects.<br>
+<strong>Write-never:</strong> PO change, release, price update, invoice post, payment, vendor change.</p>
+<hr>
+<h2 id="5-responsibilities">5. Responsibilities</h2>
+<ol>
+<li>Reconcile A04 PO-related exceptions to open POs daily.</li>
+<li>Score each in-scope PO against the published defect checklist (below).</li>
+<li>Rank by: already blocking an invoice, $ at risk, repeat vendor/buyer, days to invoice expected.</li>
+<li>Produce <code>A06_defect_pack</code> weekly for Procurement Operations and AP Matching.</li>
+<li>On exception path, attach the defect evidence to the A04 object so A09 chases the <em>buyer</em> with a specific ask (add account, fix vendor, extend qty) rather than “please look”.</li>
+<li>At Level 0, do not message buyers. At Level 1, recommend A09 tasks after human accept.</li>
+<li>Feed A15 with defect clusters (account-assignment type, plant, vendor).</li>
+<li>Never “fix” the PO in the ERP.</li>
+</ol>
+<h3 id="defect-checklist-versioned">Defect checklist (versioned)</h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Test</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PO-NO-ACCT</code></td>
+<td>Account assignment required and blank / invalid</td>
+</tr>
+<tr>
+<td><code>PO-VND-NE</code></td>
+<td>PO vendor ≠ invoice vendor (when invoice exists)</td>
+</tr>
+<tr>
+<td><code>PO-PRICE-0</code></td>
+<td>Zero or placeholder price on a goods line</td>
+</tr>
+<tr>
+<td><code>PO-QTY-EXH</code></td>
+<td>Remaining qty &lt; typical invoice (or already exhausted)</td>
+</tr>
+<tr>
+<td><code>PO-CLOSED</code></td>
+<td>PO or line closed / deleted / finally invoiced</td>
+</tr>
+<tr>
+<td><code>PO-RCPT-FLG</code></td>
+<td>Receipt-required flag inconsistent with item category / policy</td>
+</tr>
+<tr>
+<td><code>PO-DATE</code></td>
+<td>Delivery date implausible vs invoice date (rule versioned)</td>
+</tr>
+<tr>
+<td><code>PO-CUR</code></td>
+<td>PO currency ≠ company / invoice without FX plan</td>
+</tr>
+<tr>
+<td><code>PO-SPLIT-BAD</code></td>
+<td>Header text only; lines not invoiceable</td>
+</tr>
+</tbody>
+</table>
+<p>These map <em>into</em> taxonomy <code>PO-QLTY</code> / <code>PO-MISS</code> when an invoice exists.</p>
+<hr>
+<h2 id="6-explicit-exclusions">6. Explicit exclusions</h2>
+<ul>
+<li>Never release a payment, bank file, or positive-pay file.</li>
+<li>Never conclude fraud.</li>
+<li>Never grant itself a higher autonomy level.</li>
+<li>Never invent a tolerance, tax position, or write-off.</li>
+<li>Never use real client/employer data in shipped examples or prompts.</li>
+<li>Never change PO price, qty, vendor, or account.</li>
+<li>Never release a PO in the workflow.</li>
+<li>Never tell AP to ignore a missing account “and code it in MIRO” unless policy explicitly allows invoice-level coding (record the policy version).</li>
+<li>Never score employee or one-time vendors as ordinary trade POs.</li>
+<li>Never publish a buyer league table as a KPI (that is politics, not control).</li>
+</ul>
+<hr>
+<h2 id="7-human-owner">7. Human owner</h2>
+<p><strong>Procurement Operations</strong> owns the defect checklist, buyer routing, and whether a defect is a training issue or a master-data issue. Backup: <strong>AP Matching Lead</strong>.</p>
+<p>Buyers own commercial price. A06 owns <em>structural</em> quality.</p>
+<hr>
+<h2 id="8-approval-requirements-by-autonomy-level">8. Approval requirements by autonomy level</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Agent may</th>
+<th>Human must approve</th>
+<th>Proof artefact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Observe</td>
+<td>Weekly defect pack</td>
+<td>Procurement Ops confirms true-defect sample</td>
+<td><code>A06_defect_pack</code> + sample</td>
+</tr>
+<tr>
+<td>1 Recommend</td>
+<td>Propose defect codes + A09 task</td>
+<td>Accept / edit / reject</td>
+<td><code>po_defect_decision</code></td>
+</tr>
+<tr>
+<td>2 Prepare</td>
+<td>Draft buyer task text</td>
+<td>Human sends via A09</td>
+<td>Task ID</td>
+</tr>
+<tr>
+<td>3 Execute within guardrails</td>
+<td>Auto-open A09 for checklist codes inside envelope</td>
+<td>Sample</td>
+<td>Envelope</td>
+</tr>
+<tr>
+<td>4 Managed autonomy</td>
+<td>Named PO types</td>
+<td>Recertify with Procurement</td>
+<td>Register + IA ack</td>
+</tr>
+</tbody>
+</table>
+<p>PO write is never in the envelope.</p>
+<hr>
+<h2 id="9-escalation-criteria">9. Escalation criteria</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Escalate to</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Same buyer &gt; N confirmed defects in 20 days (illustrative: 10)</td>
+<td>Category manager</td>
+<td>process</td>
+</tr>
+<tr>
+<td>Invoice blocked ≥ materiality by <code>PO-QLTY</code></td>
+<td>AP Manager + Procurement</td>
+<td>value</td>
+</tr>
+<tr>
+<td>Closed PO still receiving invoices</td>
+<td>Vendor master + A08 + buyer</td>
+<td><code>PO-CLOSED</code></td>
+</tr>
+<tr>
+<td>Receipt-flag errors on a whole item category</td>
+<td>Master data</td>
+<td><code>PO-RCPT-FLG</code></td>
+</tr>
+<tr>
+<td>Checklist unpublished</td>
+<td>A16</td>
+<td><code>CTRL-BRK</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not escalate:</strong> a single price disagreement that is a true commercial <code>PRC-VAR</code>. That is A09 to the buyer, not a PO <em>quality</em> defect.</p>
+<hr>
+<h2 id="10-output-standard">10. Output standard</h2>
+<h3 id="101-po_defect-object">10.1 <code>po_defect</code> object</h3>
+<pre><code>po_id
+po_line
+buyer_named
+defect_codes[]
+already_blocking_invoice   # bool
+invoice_object_ids[]
+ask                        # specific: &quot;add cost center on line 20&quot;
+severity
+</code></pre>
+<h3 id="102-a06_defect_pack-weekly">10.2 <code>A06_defect_pack</code> (weekly)</h3>
+<p>Counts by defect code, plant, PO type, $ blocked. Sample of 20 scored POs with true/false. No buyer shaming table in the <em>control</em> pack; a private ops list may exist outside this charter.</p>
+<p><strong>Done at Level 0:</strong> pack + sample sign-off. <strong>Done at Level 1:</strong> decisions on exception-linked POs.</p>
+<hr>
+<h2 id="11-control-requirements">11. Control requirements</h2>
+<ol>
+<li><strong>Checklist versioned.</strong> Scoring against an unpublished list is forbidden.</li>
+<li><strong>No PO write</strong> on <code>ER_A06_*</code> users.</li>
+<li><strong>Separate commercial vs structural.</strong> Price fights stay <code>PRC-VAR</code>.</li>
+<li><strong>Sample</strong> 20 POs/week for true-defect rate before Level 1.</li>
+<li><strong>Change control</strong> on account-assignment rules consumed.</li>
+<li><strong>Untrusted invoice text</strong> does not rewrite the PO.</li>
+</ol>
+<hr>
+<h2 id="12-audit-evidence-to-retain">12. Audit evidence to retain</h2>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Pull from</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Defect packs + samples</td>
+<td>A14</td>
+<td>Local financial-record policy</td>
+</tr>
+<tr>
+<td>Decisions</td>
+<td>Work log</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Security extract (no ME22N)</td>
+<td>GRC</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Checklist versions</td>
+<td>Change control</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>$ blocked by PO-QLTY</td>
+<td>A04 + A14</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="13-kpis">13. KPIs</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>KPI</th>
+<th>Formula</th>
+<th>Source</th>
+<th>Cadence</th>
+<th>Owner</th>
+<th>Promotion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activity</td>
+<td>Exception coverage</td>
+<td>POs scored / PO-related exceptions</td>
+<td>Work log</td>
+<td>Weekly</td>
+<td>Proc Ops</td>
+<td>→ 1.00</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>True-defect rate</td>
+<td>Sample true / sample</td>
+<td>Sample</td>
+<td>Weekly</td>
+<td>Proc Ops</td>
+<td>0→1</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Time PO-QLTY → PO usable</td>
+<td>Days</td>
+<td>Work log</td>
+<td>Weekly</td>
+<td>Matching</td>
+<td></td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Repeat defect on same PO type</td>
+<td>Count</td>
+<td>A15 feed</td>
+<td>Monthly</td>
+<td>Proc Ops</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>$ blocked by PO-QLTY / PO-MISS</td>
+<td>Sum open</td>
+<td>A04</td>
+<td>Weekly</td>
+<td>AP Manager</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Invoices parked against closed POs</td>
+<td>Count / $</td>
+<td>ERP</td>
+<td>Weekly</td>
+<td>Proc Ops</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>PO changes by A06 user</td>
+<td>Count (0)</td>
+<td>Security</td>
+<td>Daily</td>
+<td>Controls</td>
+<td>Auto Level 0</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Commercial items miscoded as quality</td>
+<td>Sample</td>
+<td>Sample</td>
+<td>Weekly</td>
+<td>Proc Ops</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="14-performance-history-fields">14. Performance history fields</h2>
+<p>Common fields, plus:</p>
+<pre><code>defect_code_distribution
+true_defect_sample
+dollars_blocked
+closed_po_invoices
+po_writes_by_agent_user
+observe_pos_scored
+</code></pre>
+<hr>
+<h2 id="15-starting-autonomy-level">15. Starting autonomy level</h2>
+<p><strong>Level 0 — Observe.</strong> Level 1 only after four weekly samples at true-defect rate inside band, plus the calendar gate.</p>
+<hr>
+<h2 id="16-failure-handling">16. Failure handling</h2>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Detect</th>
+<th>Degrade</th>
+<th>Notify</th>
+<th>Resume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PO display auth missing</td>
+<td>Adapter</td>
+<td>Skip; log gap</td>
+<td>Systems</td>
+<td>Auth</td>
+</tr>
+<tr>
+<td>Account rule table stale</td>
+<td>Unknown account</td>
+<td>Defect <code>PO-NO-ACCT</code> with low confidence</td>
+<td>Finance</td>
+<td>Update</td>
+</tr>
+<tr>
+<td>Invoice vendor mismatch is a drop-ship design</td>
+<td>Policy flag</td>
+<td>Not a defect if policy says so</td>
+<td>Proc Ops</td>
+<td>Policy version</td>
+</tr>
+<tr>
+<td>Model rewrites price</td>
+<td>Guardrail</td>
+<td><code>CTRL-BRK</code></td>
+<td>Controls</td>
+<td>Human only</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="17-cost-monitoring">17. Cost monitoring</h2>
+<table>
+<thead>
+<tr>
+<th>Cost object</th>
+<th>Measure</th>
+<th>Who acts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ERP reads on new-PO observe feed</td>
+<td>Adapter</td>
+<td>Systems — throttle if noisy</td>
+</tr>
+<tr>
+<td>Buyer minutes on false defects</td>
+<td>Sample</td>
+<td>Proc Ops</td>
+</tr>
+<tr>
+<td>AP minutes on PO-QLTY</td>
+<td>A04 time</td>
+<td>Matching</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="18-worked-example-northline-industrial-group">18. Worked example — Northline Industrial Group</h2>
+<p>Northline (fictional), 4,200 employees, ~18,000 invoices/month, SAP + NetSuite NPC. Procurement operations: Greta Holm.</p>
+<p><strong>Observe.</strong> Weekly pack flags PO 4500225601 (Oakbridge Facilities, plant NL10-P01): line 10 account assignment blank on a K (cost center) item; receipt-required flag on a service line that policy says SES-only. No invoice yet. Greta’s sample: both true. Buyer is asked <em>by Greta</em>, not by the agent.</p>
+<p><strong>Exception path later.</strong> Invoice OB-10044 arrives, A03 cannot match (<code>PO-QLTY</code>). A04 routes to A06. At Level 0, A06 only adds evidence to the pack. A09 is not auto-opened.</p>
+<p><strong>Illegal.</strong> A06 filling the cost center from “the last PO for Oakbridge”. Releasing the PO. Telling Diego to post FB60 and skip the PO.</p>
+<p><strong>NetSuite.</strong> NPC purchase orders use different account (expense) rules. Separate checklist version <code>A06_CHK_NPC_2026-09</code>. Do not score NPC POs with the SAP KNTTP table.</p>
+<p><strong>Control.</strong> <code>ER_A06_S4</code> display-only on ME22N. Sample sheet signed.</p>
+<hr>
+<h2 id="19-observe-vs-exception-path">19. Observe vs exception path</h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Trigger</th>
+<th>Output at Level 0</th>
+<th>Output at Level 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Observe</td>
+<td>New PO released in last 7 days (illustrative window)</td>
+<td>Score on weekly pack</td>
+<td>Defect object if accepted</td>
+</tr>
+<tr>
+<td>Exception</td>
+<td>A04 <code>PO-QLTY</code> / <code>PO-MISS</code></td>
+<td>Evidence attached to pack</td>
+<td><code>po_defect</code> + recommended A09 ask</td>
+</tr>
+</tbody>
+</table>
+<p>Throttle: if new-PO volume would flood the pack, sample by $ and by new buyers. Disclose the sample rate. A silent 5% sample labelled as “all POs” is a control break.</p>
+<h3 id="ask-library-paste-into-a09">Ask library (paste into A09)</h3>
+<table>
+<thead>
+<tr>
+<th>Defect</th>
+<th>Ask (specific)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PO-NO-ACCT</code></td>
+<td>“Add valid cost object on PO {id} line {n}. Invoice {inv} is parked.”</td>
+</tr>
+<tr>
+<td><code>PO-VND-NE</code></td>
+<td>“PO vendor {a} vs invoice vendor {b}. Confirm correct vendor or cancel.”</td>
+</tr>
+<tr>
+<td><code>PO-PRICE-0</code></td>
+<td>“Replace placeholder price on line {n}.”</td>
+</tr>
+<tr>
+<td><code>PO-QTY-EXH</code></td>
+<td>“Remaining qty {r}; invoice qty {q}. Extend or split.”</td>
+</tr>
+<tr>
+<td><code>PO-CLOSED</code></td>
+<td>“PO finally invoiced/closed; reopen per policy or reroute as non-PO.”</td>
+</tr>
+<tr>
+<td><code>PO-RCPT-FLG</code></td>
+<td>“Set receipt rule to policy for item category {c}.”</td>
+</tr>
+</tbody>
+</table>
+<p>If the ask cannot be written in one sentence, A06 is not ready to recommend A09.</p>
+<hr>
+<h2 id="charter-conformance">Charter conformance</h2>
+<ul>
+<li>[x] Purpose is one sentence and names a boundary</li>
+<li>[x] Job description names population in / out</li>
+<li>[x] Inputs table has required/optional and “if missing”</li>
+<li>[x] Tools table covers SAP, D365, Oracle, NetSuite, Workday, Other, and read/write</li>
+<li>[x] Responsibilities are verbs at the starting level</li>
+<li>[x] Exclusions include payment release, fraud conclusion, self-promotion</li>
+<li>[x] Human owner is a role with a backup</li>
+<li>[x] Levels 0–4 approval table is present and not softer than the responsibility model</li>
+<li>[x] Escalation has hard triggers and a do-not-escalate line</li>
+<li>[x] Outputs are named artefacts with fields</li>
+<li>[x] Controls include SOD, completeness, change control, untrusted input</li>
+<li>[x] Audit evidence is pullable</li>
+<li>[x] KPIs cover activity / operational / financial / risk and name a source</li>
+<li>[x] Performance history includes the common fields</li>
+<li>[x] Starting autonomy is 0 or 1</li>
+<li>[x] Failure handling has detect / degrade / notify / resume</li>
+<li>[x] Cost monitoring is present</li>
+<li>[x] Northline example is fictional and specific</li>
+<li>[x] No guaranteed savings / fraud / compliance / ROI claim</li>
+<li>[x] Statistics cited or labelled illustrative</li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>

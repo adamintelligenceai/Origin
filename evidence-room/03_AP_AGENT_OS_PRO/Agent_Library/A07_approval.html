@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A07 Approval · Evidence Room</title>
+  <style>/* Evidence Room — Institutional Design System
+   Think: investment research × Palantir × high-end annual report.
+   No neon. No robots. No purple gradients. */
+
+:root {
+  --ink: #14171c;
+  --ink-soft: #2a3038;
+  --slate: #5c6370;
+  --rule: #b8a888;
+  --rule-soft: #d4cbb8;
+  --paper: #f3efe6;
+  --cream: #faf7f0;
+  --white: #fffcf7;
+  --forest: #1e5c45;
+  --forest-deep: #143d2e;
+  --rust: #8c3a2f;
+  --amber: #8a6a2f;
+  --line: 1px solid var(--rule-soft);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .wordmark, .cover-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.wordmark {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+a { color: var(--forest); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px 8px 0;
+  font-weight: 500;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 8px 10px 8px 0;
+  vertical-align: top;
+}
+
+.callout {
+  border-left: 3px solid var(--forest);
+  padding: 12px 16px;
+  background: var(--cream);
+  margin: 20px 0;
+}
+.callout.warn {
+  border-left-color: var(--rust);
+}
+.callout.evidence {
+  border-left-color: var(--rule);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--rule);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.level-0 { color: var(--slate); }
+.level-1 { color: var(--amber); }
+.level-2 { color: var(--forest); }
+.level-3 { color: var(--forest-deep); }
+.level-4 { color: var(--ink); }
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 22mm 18mm;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: #5c6370;
+  }
+  @top-right {
+    content: "CONFIDENTIAL  ·  LICENSED MATERIAL";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    color: #5c6370;
+  }
+}
+
+.cover {
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+}
+.cover-mark {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  position: relative;
+}
+.cover-mark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  border-left: 2px solid var(--forest);
+}
+.cover-title { font-size: 42px; line-height: 1.12; margin: 0 0 16px; }
+.cover-sub { font-size: 18px; color: var(--ink-soft); max-width: 420px; }
+.meta-row { font-family: var(--mono); font-size: 11px; color: var(--slate); letter-spacing: 0.06em; }
+
+h2 { font-size: 22px; margin: 32px 0 10px; }
+h3 { font-size: 16px; margin: 22px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 18px; }
+li { margin-bottom: 4px; }
+
+.do-not {
+  background: #f4ece8;
+  border: 1px solid #e0cfc8;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.do {
+  background: #eef4f0;
+  border: 1px solid #c9d9d0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
+
+    body { padding: 0 8mm; }
+    h1 { font-size: 28px; }
+    pre, code { font-family: var(--mono); font-size: 12px; }
+    blockquote { border-left: 3px solid var(--forest); margin: 16px 0; padding-left: 14px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <header style="margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);">
+    <p class="wordmark">Evidence Room</p>
+    <p class="kicker">Professional · Agent Library</p>
+  </header>
+  <h1 id="a07-approval-agent">A07 — Approval Agent</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent ID</td>
+<td>A07</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Approval Agent</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Invoice-to-pay / AP</td>
+</tr>
+<tr>
+<td>Forrester (Mar 2025) map</td>
+<td>Evidence Room extension (delegation of authority operations)</td>
+</tr>
+<tr>
+<td>Starting autonomy</td>
+<td>Level 0</td>
+</tr>
+<tr>
+<td>Human owner (role)</td>
+<td>AP Manager</td>
+</tr>
+<tr>
+<td>Backup owner (role)</td>
+<td>Assistant Controller</td>
+</tr>
+<tr>
+<td>Dispatcher</td>
+<td>A16</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>Evidence Room AP Agent OS · Pro</td>
+</tr>
+<tr>
+<td>Charter version</td>
+<td>1.0 · September 2026</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-purpose">1. Purpose</h2>
+<p>Route, remind, and evidence non-PO and exception approvals against the written delegation-of-authority matrix — without approving as the agent, posting, or paying.</p>
+<hr>
+<h2 id="2-job-description">2. Job description</h2>
+<p>A07 is the clerk of the approval matrix, not an approver. Delegation of authority is a human control. The agent starts by watching: which invoices wait, who is the correct approver, where reminders die, and where the matrix is silent.</p>
+<p><strong>In population:</strong> non-PO invoices A02 passed to approval; match exceptions that policy says need a tolerance override approval; vendor-related holds that policy sends to a named approver; recurring invoices that still require periodic re-approval.<br>
+<strong>Out of population:</strong> PO match_ok items that policy says “no extra approval”; payment release (A12 / bank mandate); vendor bank-detail approval (A08 policy); period-close sign-off (A13).</p>
+<p><strong>Done at Level 0:</strong> an approval-bottleneck pack Priya Menon can act on. <strong>Done at Level 1:</strong> recommended routing and reminder <em>proposals</em>, unsent until accepted.</p>
+<p>The agent never becomes the approver of record. Level 3/4 may <em>dispatch</em> reminders and pre-fill the workflow — the approve click remains a human identity.</p>
+<hr>
+<h2 id="3-inputs-required-data">3. Inputs / required data</h2>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Required?</th>
+<th>Source</th>
+<th>If missing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Work object needing approval</td>
+<td>Yes for route path</td>
+<td>A02 / A04</td>
+<td>Observe path may run</td>
+</tr>
+<tr>
+<td>Delegation-of-authority matrix version</td>
+<td>Yes</td>
+<td>Policy store</td>
+<td><strong>Hard stop</strong></td>
+</tr>
+<tr>
+<td>Approver directory + delegates + out-of-office</td>
+<td>Yes</td>
+<td>Workflow / HR</td>
+<td>Owner = AP Manager</td>
+</tr>
+<tr>
+<td>Amount, currency, company, account, vendor class</td>
+<td>Yes</td>
+<td>Object</td>
+<td>Cannot route</td>
+</tr>
+<tr>
+<td>Prior approvals on the same document</td>
+<td>Yes</td>
+<td>Workflow</td>
+<td>Risk of double-ask</td>
+</tr>
+<tr>
+<td>Recurring schedule (if any)</td>
+<td>Optional</td>
+<td>Contract</td>
+<td>Treat as one-off</td>
+</tr>
+<tr>
+<td>SOD list (requester ≠ approver)</td>
+<td>Yes</td>
+<td>Controls</td>
+<td>Escalate <code>CTRL-BRK</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-tools-systems">4. Tools / systems</h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>SAP S/4HANA</th>
+<th>D365 F&amp;O / BC</th>
+<th>Oracle Fusion</th>
+<th>NetSuite</th>
+<th>Workday</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Invoice workflow</td>
+<td>Fiori / Flexible workflow</td>
+<td>Workflow</td>
+<td>Payables approval</td>
+<td>Bill approval</td>
+<td>Business process</td>
+<td>External IDP</td>
+</tr>
+<tr>
+<td>DOA / limits</td>
+<td>Custom / GRC</td>
+<td>Signing limits</td>
+<td>Approval rules</td>
+<td>Approval routing</td>
+<td>Financial limits</td>
+<td>Policy store</td>
+</tr>
+<tr>
+<td>OOOH / delegate</td>
+<td>Substitute</td>
+<td>Delegate</td>
+<td>Vacation rules</td>
+<td>Delegate</td>
+<td>Delegation</td>
+<td>HR</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read:</strong> workflow state, matrix, substitutes.<br>
+<strong>Write at Level 0:</strong> pack.<br>
+<strong>Write at Level 1:</strong> routing recommendation on the object.<br>
+<strong>Write at Level 2:</strong> draft reminder / draft workflow assignment.<br>
+<strong>Write-never:</strong> the approval itself, posting, payment, matrix edit.</p>
+<hr>
+<h2 id="5-responsibilities">5. Responsibilities</h2>
+<ol>
+<li>Identify objects that policy says need approval (non-PO, override, new vendor spend).</li>
+<li>Resolve the <em>correct</em> approver from the matrix (amount, account, cost center, company).</li>
+<li>Detect SOD: requester / buyer cannot approve their own invoice.</li>
+<li>Detect stale substitutes and skipped steps.</li>
+<li>Age approval waits; produce <code>A07_bottleneck_pack</code>.</li>
+<li>At Level 1+, recommend routing and reminder cadence per the published reminder table.</li>
+<li>Capture the approval artefact (who, when, amount seen, matrix version) for Audit.</li>
+<li>When approval completes, notify A16 to return the object to A03 post or A02 path — A07 does not post.</li>
+<li>Never click approve.</li>
+</ol>
+<hr>
+<h2 id="6-explicit-exclusions">6. Explicit exclusions</h2>
+<ul>
+<li>Never release a payment, bank file, or positive-pay file.</li>
+<li>Never conclude fraud.</li>
+<li>Never grant itself a higher autonomy level.</li>
+<li>Never invent a tolerance, tax position, or write-off.</li>
+<li>Never use real client/employer data in shipped examples or prompts.</li>
+<li>Never approve, reject, or “auto-approve because it is under $100” unless that rule is <em>in the published matrix</em> <strong>and</strong> the approver of record is still a human or a written standing authority (standing authority is a Controller document, not a model setting).</li>
+<li>Never edit the matrix.</li>
+<li>Never skip a step to hit a close deadline.</li>
+<li>Never use the AP Manager as the universal approver to clear a queue.</li>
+<li>Never treat a Slack thumbs-up as approval unless policy names that channel and the artefact is retained (Evidence Room default: <strong>do not</strong>).</li>
+</ul>
+<hr>
+<h2 id="7-human-owner">7. Human owner</h2>
+<p><strong>AP Manager</strong> owns routing hygiene and the bottleneck pack. <strong>Assistant Controller</strong> owns matrix content and standing authorities. Backup for operations: Assistant Controller.</p>
+<p>The AP Manager is often <em>an</em> approver in the matrix. That does not make A07 allowed to impersonate her.</p>
+<hr>
+<h2 id="8-approval-requirements-by-autonomy-level">8. Approval requirements by autonomy level</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Agent may</th>
+<th>Human must approve</th>
+<th>Proof artefact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Observe</td>
+<td>Bottleneck pack</td>
+<td>AP Manager weekly review</td>
+<td><code>A07_bottleneck_pack</code></td>
+</tr>
+<tr>
+<td>1 Recommend</td>
+<td>Propose approver + reminder plan</td>
+<td>Accept routing</td>
+<td><code>approval_route_decision</code></td>
+</tr>
+<tr>
+<td>2 Prepare</td>
+<td>Draft reminder / workflow assignment</td>
+<td>Human sends / starts</td>
+<td>Workflow ID + user</td>
+</tr>
+<tr>
+<td>3 Execute within guardrails</td>
+<td>Dispatch reminders / assignments inside envelope</td>
+<td>Sample; <strong>approver click still human</strong></td>
+<td>Envelope</td>
+</tr>
+<tr>
+<td>4 Managed autonomy</td>
+<td>Named non-PO classes</td>
+<td>Recertify; still no agent approve</td>
+<td>Register + IA ack</td>
+</tr>
+</tbody>
+</table>
+<p>The approve action is human at every level.</p>
+<hr>
+<h2 id="9-escalation-criteria">9. Escalation criteria</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Escalate to</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SLA breach (illustrative: 3 operating days)</td>
+<td>Approver’s manager via A16</td>
+<td><code>APPR-PEND</code></td>
+</tr>
+<tr>
+<td>Matrix silent (no row for account/amount)</td>
+<td>Assistant Controller</td>
+<td>policy</td>
+</tr>
+<tr>
+<td>SOD conflict</td>
+<td>Controls</td>
+<td><code>CTRL-BRK</code></td>
+</tr>
+<tr>
+<td>Value ≥ materiality waiting approval</td>
+<td>AP Manager same day</td>
+<td>value</td>
+</tr>
+<tr>
+<td>Approver identity left company</td>
+<td>HR + AP Manager</td>
+<td>directory</td>
+</tr>
+<tr>
+<td>Standing-authority document expired</td>
+<td>Assistant Controller</td>
+<td>policy</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not escalate:</strong> day-one waits. Do not escalate match_ok PO invoices that are not in population.</p>
+<hr>
+<h2 id="10-output-standard">10. Output standard</h2>
+<h3 id="101-approval_case">10.1 <code>approval_case</code></h3>
+<pre><code>matrix_version
+required_steps[]
+resolved_approver_named
+sod_clear
+amount_presented
+currency
+standing_authority_ref     # if any
+reminder_plan
+state                      # waiting | approved | rejected | matrix_gap
+artefact_uri               # workflow screenshot / log
+</code></pre>
+<h3 id="102-a07_bottleneck_pack-daily-weekly">10.2 <code>A07_bottleneck_pack</code> (daily / weekly)</h3>
+<p>By approver: count, $, p90 wait, SLA misses. Matrix-gap list. SOD blocks.</p>
+<p><strong>Done at Level 0:</strong> pack reviewed. <strong>Done at Level 1:</strong> route decisions recorded.</p>
+<hr>
+<h2 id="11-control-requirements">11. Control requirements</h2>
+<ol>
+<li><strong>Matrix version stamped</strong> on every case.</li>
+<li><strong>Human identity</strong> on the approve event. Service users cannot approve.</li>
+<li><strong>SOD test</strong> before routing.</li>
+<li><strong>No informal channels</strong> unless policy and retention exist (default no).</li>
+<li><strong>Standing authorities</strong> have expiry dates.</li>
+<li><strong>Sample</strong> 15 approvals/week: correct approver? amount they saw = amount posted?</li>
+<li><strong>Change control</strong> on matrix = finance policy change, not IT tweak.</li>
+</ol>
+<hr>
+<h2 id="12-audit-evidence-to-retain">12. Audit evidence to retain</h2>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Pull from</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Workflow logs (who/when/amount)</td>
+<td>ERP / IDP</td>
+<td>Local financial-record policy</td>
+</tr>
+<tr>
+<td>Matrix versions</td>
+<td>Policy store</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Bottleneck packs</td>
+<td>A14</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>SOD blocks</td>
+<td>Work log</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Standing-authority documents</td>
+<td>Controller file</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Proof A07 user cannot approve</td>
+<td>Security</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="13-kpis">13. KPIs</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>KPI</th>
+<th>Formula</th>
+<th>Source</th>
+<th>Cadence</th>
+<th>Owner</th>
+<th>Promotion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activity</td>
+<td>Case coverage</td>
+<td>Cases / objects needing approval</td>
+<td>Work log</td>
+<td>Weekly</td>
+<td>AP Manager</td>
+<td>→ 1.00</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Wait p90</td>
+<td>Hours to approve</td>
+<td>Workflow</td>
+<td>Weekly</td>
+<td>AP Manager</td>
+<td></td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Matrix-gap count</td>
+<td>Silent routes</td>
+<td>Pack</td>
+<td>Weekly</td>
+<td>Controller</td>
+<td></td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Reminder effectiveness</td>
+<td>Approved after reminder / reminders (Level 1+)</td>
+<td>Work log</td>
+<td>Monthly</td>
+<td>AP Manager</td>
+<td>Not a vanity “reminders sent”</td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>$ waiting approval</td>
+<td>Sum</td>
+<td>Pack</td>
+<td>Daily</td>
+<td>AP Manager</td>
+<td></td>
+</tr>
+<tr>
+<td>Financial</td>
+<td>Amount-seen ≠ amount-posted</td>
+<td>Count (target 0)</td>
+<td>Sample</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Agent-as-approver events</td>
+<td>Count (0)</td>
+<td>Security</td>
+<td>Daily</td>
+<td>Controls</td>
+<td>Auto Level 0</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>SOD bypass</td>
+<td>Count</td>
+<td>Work log</td>
+<td>Daily</td>
+<td>Controls</td>
+<td></td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Informal approvals</td>
+<td>Count detected</td>
+<td>Sample</td>
+<td>Monthly</td>
+<td>Controls</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="14-performance-history-fields">14. Performance history fields</h2>
+<p>Common fields, plus:</p>
+<pre><code>waiting_count
+waiting_amount
+matrix_gaps
+sod_blocks
+reminders_proposed
+amount_mismatch_sample
+agent_approve_events
+</code></pre>
+<hr>
+<h2 id="15-starting-autonomy-level">15. Starting autonomy level</h2>
+<p><strong>Level 0 — Observe.</strong> Do not start at Level 1 just to send reminders. Earn it after the pack is trusted and the matrix has fewer silent rows than the charter band.</p>
+<hr>
+<h2 id="16-failure-handling">16. Failure handling</h2>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Detect</th>
+<th>Degrade</th>
+<th>Notify</th>
+<th>Resume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Matrix unpublished</td>
+<td>Lookup</td>
+<td>Hard stop</td>
+<td>Controller</td>
+<td>Publish</td>
+</tr>
+<tr>
+<td>Workflow API down</td>
+<td>Adapter</td>
+<td>Pack from last state; no new assignment</td>
+<td>Systems</td>
+<td>Replay</td>
+</tr>
+<tr>
+<td>Approver left</td>
+<td>HR feed</td>
+<td>Escalate directory</td>
+<td>AP Manager</td>
+<td>Re-resolve</td>
+</tr>
+<tr>
+<td>Currency not in matrix</td>
+<td>Gap</td>
+<td><code>matrix_gap</code></td>
+<td>Controller</td>
+<td>Update matrix</td>
+</tr>
+<tr>
+<td>Model picks AP Manager for everything</td>
+<td>Guardrail</td>
+<td>Reject route</td>
+<td>Controls</td>
+<td>Human route</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="17-cost-monitoring">17. Cost monitoring</h2>
+<table>
+<thead>
+<tr>
+<th>Cost object</th>
+<th>Measure</th>
+<th>Who acts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Workflow API</td>
+<td>Adapter</td>
+<td>Systems</td>
+</tr>
+<tr>
+<td>Approver minutes</td>
+<td>Wait vs active time if available</td>
+<td>AP Manager</td>
+</tr>
+<tr>
+<td>Matrix-gap workshops</td>
+<td>Controller time</td>
+<td>Assistant Controller</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="18-worked-example-northline-industrial-group">18. Worked example — Northline Industrial Group</h2>
+<p>Northline (fictional), 4,200 employees, ~18,000 invoices/month, SAP + NetSuite NPC. AP Manager: Priya Menon. Matrix <code>NL-DOA-2026-02</code> (illustrative): non-PO ≤ $2,500 cost-center owner; $2,500–$25,000 director; above that VP + Assistant Controller.</p>
+<p><strong>Observe.</strong> Veston IT invoice VI-5520, $8,400, non-PO, cost center 6410 (IT ops). Workflow sitting 9 days with an AP processor as “approver”. A07 pack flags: wrong approver (processor is not in the matrix for 6410), $8,400 in the director band, SOD if the requester were the same processor. Priya uses the pack to reroute <em>herself</em> — the agent did not.</p>
+<p><strong>Illegal.</strong> A07 approving VI-5520 because “it’s recurring”. Sending a Slack message and marking <code>approved</code>. Skipping the director because close is tomorrow.</p>
+<p><strong>Level 1 later.</strong> Agent recommends director Ana Ruiz per matrix. Priya accepts. Reminder drafts wait for Level 2.</p>
+<p><strong>Control.</strong> Sample compares $8,400 on the approval screen to $8,400 posted. Security: <code>ER_A07_S4</code> has no approve authorisation.</p>
+<hr>
+<h2 id="19-routing-algorithm-implementation">19. Routing algorithm (implementation)</h2>
+<ol>
+<li>Load <code>NL-DOA-&lt;version&gt;</code> (or local ID). If unpublished, stop.</li>
+<li>Determine population: <code>non_po</code> | <code>tolerance_override</code> | <code>new_vendor_spend</code> | <code>recurring_reapproval</code>. If none, A07 is not in path.</li>
+<li>Resolve currency to matrix currency (company code). FX conversion uses the <em>policy</em> rate source — not a model guess.</li>
+<li>Select row: company × account/cost object × amount band × vendor class.</li>
+<li>If zero rows → <code>matrix_gap</code>. If many → most specific wins (cost center beats company-wide).</li>
+<li>SOD: requester, buyer, vendor-create user ≠ approver. Fail → <code>CTRL-BRK</code>.</li>
+<li>Substitute: use HR delegate only if in date range and SOD still holds.</li>
+<li>Present <strong>the amount that will post</strong>, not a rounded “about $8k”.</li>
+<li>On approve event, snapshot amount, vendor, matrix version. If the parked invoice changes after snapshot, invalidate and re-route.</li>
+</ol>
+<p>Standing authority (Controller document) may replace a step. It must have an expiry. A07 stores the document ID. Expired = matrix-only path.</p>
+<h3 id="what-approve-is-not">What “approve” is not</h3>
+<p>A reply to A09, a Teams emoji, a verbal “just pay it”, or A16 escalation acceptance. Those may <em>unblock information</em>. They do not satisfy delegation of authority unless the matrix names that channel and the artefact is retained. Evidence Room default: they do not.</p>
+<hr>
+<h2 id="charter-conformance">Charter conformance</h2>
+<ul>
+<li>[x] Purpose is one sentence and names a boundary</li>
+<li>[x] Job description names population in / out</li>
+<li>[x] Inputs table has required/optional and “if missing”</li>
+<li>[x] Tools table covers SAP, D365, Oracle, NetSuite, Workday, Other, and read/write</li>
+<li>[x] Responsibilities are verbs at the starting level</li>
+<li>[x] Exclusions include payment release, fraud conclusion, self-promotion</li>
+<li>[x] Human owner is a role with a backup</li>
+<li>[x] Levels 0–4 approval table is present and not softer than the responsibility model</li>
+<li>[x] Escalation has hard triggers and a do-not-escalate line</li>
+<li>[x] Outputs are named artefacts with fields</li>
+<li>[x] Controls include SOD, completeness, change control, untrusted input</li>
+<li>[x] Audit evidence is pullable</li>
+<li>[x] KPIs cover activity / operational / financial / risk and name a source</li>
+<li>[x] Performance history includes the common fields</li>
+<li>[x] Starting autonomy is 0 or 1</li>
+<li>[x] Failure handling has detect / degrade / notify / resume</li>
+<li>[x] Cost monitoring is present</li>
+<li>[x] Northline example is fictional and specific</li>
+<li>[x] No guaranteed savings / fraud / compliance / ROI claim</li>
+<li>[x] Statistics cited or labelled illustrative</li>
+</ul>
+  <footer style="margin-top:36px;padding-top:12px;border-top:1px solid var(--rule-soft);font-family:var(--mono);font-size:10px;color:var(--slate);">
+    © 2026 Evidence Room · Independently authored · Not legal, tax, accounting or investment advice · Responsibility is earned.
+  </footer>
+</body>
+</html>
