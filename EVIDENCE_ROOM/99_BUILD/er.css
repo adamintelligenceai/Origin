@@ -1,0 +1,105 @@
+@page {
+  size: A4;
+  margin: 22mm 20mm 24mm 20mm;
+  background: #F6F3EC;
+  @top-left {
+    content: "EVIDENCE ROOM  ·  AP AGENT OS";
+    font-family: "Inter", "Noto Sans", sans-serif;
+    font-size: 8.5pt;
+    letter-spacing: 0.12em;
+    color: #8B6914;
+  }
+  @bottom-left {
+    content: "Proof before permission.  ·  Not a savings, fraud, compliance, or payment-safety guarantee.";
+    font-family: "Inter", "Noto Sans", sans-serif;
+    font-size: 7.5pt;
+    color: #5C6158;
+  }
+  @bottom-right {
+    content: counter(page);
+    font-family: "JetBrains Mono", "Noto Sans Mono", monospace;
+    font-size: 8.5pt;
+    color: #1A1C19;
+  }
+}
+html, body {
+  background: #F6F3EC;
+  color: #1A1C19;
+  font-family: "Inter", "Noto Sans", sans-serif;
+  font-size: 10.2pt;
+  line-height: 1.45;
+}
+h1, h2, h3, h4 {
+  font-family: "Noto Serif", "Noto Serif Display", serif;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #1A1C19;
+  page-break-after: avoid;
+}
+h1 { font-size: 22pt; margin: 0 0 8pt; }
+h2 { font-size: 14.5pt; margin: 18pt 0 6pt; border-top: 1px solid #D4CFC3; padding-top: 10pt; }
+h3 { font-size: 12pt; margin: 12pt 0 4pt; }
+h4 { font-size: 11pt; margin: 10pt 0 4pt; }
+p { margin: 0 0 8pt; }
+em { color: #5C6158; }
+strong { color: #1A1C19; }
+a { color: #6F5310; text-decoration: none; }
+hr { border: none; border-top: 1px solid #D4CFC3; margin: 14pt 0; }
+code, pre {
+  font-family: "JetBrains Mono", "Noto Sans Mono", monospace;
+  font-size: 8.6pt;
+  background: #EFE9DC;
+}
+code { padding: 0 3pt; }
+pre {
+  padding: 8pt 10pt;
+  border-left: 3px solid #8B6914;
+  white-space: pre-wrap;
+  page-break-inside: avoid;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 8.8pt;
+  margin: 8pt 0 12pt;
+  page-break-inside: auto;
+}
+th, td {
+  border: 1px solid #D4CFC3;
+  padding: 4pt 6pt;
+  vertical-align: top;
+  text-align: left;
+}
+th {
+  background: #1A1C19;
+  color: #FFFCF7;
+  font-weight: 600;
+}
+tr:nth-child(even) td { background: #EFE9DC; }
+blockquote {
+  margin: 8pt 0 12pt;
+  padding: 6pt 12pt;
+  border-left: 3px solid #8B6914;
+  color: #2C2F2A;
+  font-family: "Noto Serif", serif;
+}
+ul, ol { margin: 0 0 10pt; padding-left: 18pt; }
+li { margin: 0 0 3pt; }
+.cover {
+  page-break-after: always;
+  min-height: 230mm;
+  padding-top: 48mm;
+}
+.cover .kicker {
+  font-family: "Inter", sans-serif;
+  font-size: 9pt;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8B6914;
+  margin-bottom: 14pt;
+}
+.cover h1 { font-size: 32pt; margin-bottom: 12pt; }
+.cover .tag { font-size: 14pt; color: #2C2F2A; margin-bottom: 28pt; }
+.cover .rule { width: 42pt; height: 2pt; background: #8B6914; margin: 16pt 0; }
+.cover .foot { position: running(none); margin-top: 60pt; font-size: 9pt; color: #5C6158; }
+img { max-width: 100%; }
