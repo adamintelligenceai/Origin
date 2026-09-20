@@ -193,7 +193,7 @@ Informal buyer comments (“looks fine”) are not a tolerance.
 | 2 | Tax code inherited from PO or standing table is populated | Step 3 | EX-TAX |
 | 3 | Calculated tax from lines and code agrees to face within 1.00 entity-currency unit | Tax pass | EX-TAX |
 
-The Tax Agent flags disagreement. It does not change the tax master. Tax team resolves EX-TAX above the processor’s standing instruction.
+02 Invoice Validation flags disagreement. It does not change the tax master. Tax team resolves EX-TAX above the processor’s standing instruction.
 
 ---
 
@@ -217,7 +217,7 @@ Waivers are issued by the control owner or a named delegate, for a named invoice
 | 1 | Invoice is disputed, on legal hold, or has an unresolved EX-BNK | Hold candidate | Step 2 |
 | 2 | Supplier or AP lead has requested a hold | Hold candidate | No hold flag |
 
-Payment Pack Agent lists candidates. AP lead or controller sets the hold. Treasury remains outside this tree.
+12 Payment Proposal Review lists candidates. AP lead or controller sets the hold. Treasury remains outside this tree.
 
 ---
 

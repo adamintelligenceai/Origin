@@ -151,7 +151,7 @@ This order is an operating choice, not a universal rule. Write the local order.
 Translate actors into RACI roles and systems into interfaces.
 
 - Human roles: processor, AP lead, buyer, receiver, master-data steward, tax, controller, treasurer
-- Agents: from the 16-agent roster only
+- Agents: from the sixteen-agent stack only (`../Agent_Library/00_AGENT_STACK_OVERVIEW.md`)
 - Systems: intake, ERP, GRN source, tax table, DOA table, mailbox, supplier portal
 
 Every hand-off needs a wait state and a chase path.
@@ -188,21 +188,19 @@ Each state gets: actor, allowed agent action, forbidden action, evidence written
 
 Only after Pass 8.
 
-| State | Candidate agent | Allowed in first release | Forbidden |
+| State | Candidate agent | Allowed in first release (L0/L1) | Forbidden |
 |---|---|---|---|
-| S0–S1 | Intake, Classification | File, classify, route | Delete source mail |
-| S3 | Extraction | Propose fields | Post |
-| S4 | Quality | Raise quality exception | Override quality fail |
-| S5 | Duplicate | Flag exact and potential duplicates | Void an invoice |
-| S6–S8 | Match | Propose match / mismatch code | Change PO or GRN |
-| S9 | Coding | Propose coding on non-PO | Invent a new cost centre |
-| S10 | Tax | Flag inconsistency | Change tax master |
-| S11 | Approval | Route and chase | Approve |
-| S12 | Exception | Park with code and pack | Post without human |
-| S13 | Supplier Comms, Internal Chase | Draft and send from templates | Negotiate commercial terms |
-| S14 | Payment Pack | List hold candidates | Release payment |
+| S0–S3 | 01 Invoice Intake | File, classify, extract, register | Delete source mail; post |
+| S4 | 02 Invoice Validation | Raise completeness / identity / tax-field fail | Override a fail; change tax master |
+| S5 | 10 Duplicate & Anomaly | Flag exact and potential duplicates / patterns | Void an invoice; clear a high-value flag |
+| S6–S8 | 03 Matching; 05 Goods Receipt; 06 PO Quality | Propose match / mismatch; GR and PO defect packets | Create GR; change PO |
+| S9–S10 | 02 Invoice Validation | Propose coding inherit / tax compare flag | Invent a cost centre; write tax master |
+| S11 | 07 Approval | Route and chase packets | Approve; edit DOA |
+| S12 | 04 Exception Triage | Park with code, owner, clock | Post or waive without human |
+| S13 | 08 Supplier Resolution; 09 Internal Follow-up | Draft from templates | Negotiate; treat email as GR/approval |
+| S14 | 12 Payment Proposal Review | Annotate hold / unclear candidates | Release payment |
 
-Credit Note and Statement agents attach to their own state machines, using the same gates where they apply (entity, supplier, duplicate, quality).
+Vendor Statement (11), AP Close (13), AP Reporting (14), Root Cause (15), and Orchestrator (16) attach to periodic or cross-path objects, not to every PO-goods invoice.
 
 ---
 
@@ -219,7 +217,7 @@ A workflow is ready to map when:
 
 A workflow is not ready when:
 
-- States are named after agents (“Match Agent runs”)
+- States are named after agents (“03 Matching runs”)
 - Terminal state is “email sent”
 - Duplicate check is “processor remembers”
 - Legal entity is “obvious from the logo”
@@ -243,7 +241,7 @@ A workflow is not ready when:
 PO number is taken from the invoice face or from a buyer-confirmed reference stored on the invoice record. Processor recollection is not a source.
 
 **Agent implication:**  
-Extraction Agent proposes PO only from document text or linked message. Match Agent does not scrape the operator’s last-used PO list.
+Invoice Intake proposes PO only from document text or a linked message. Matching does not scrape the operator’s last-used PO list.
 
 ---
 

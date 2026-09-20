@@ -66,59 +66,51 @@ Add role-key columns. Mark R/A/C/I. Leave cell blank if none.
 | TX | Tax specialist | Group tax | Y for tax-code design |
 | TR | Treasurer | Hannah Reid | Y for payment execution (out of this path’s commit) |
 | IA | Internal audit | Optional reviewer | N |
-| A-IN | Intake Agent | — | N |
-| A-CL | Classification Agent | — | N |
-| A-EX | Extraction Agent | — | N |
-| A-QL | Quality Agent | — | N |
-| A-DP | Duplicate Agent | — | N |
-| A-MT | Match Agent | — | N |
-| A-CD | Coding Agent | — | N |
-| A-TX | Tax Agent | — | N |
-| A-AP | Approval Agent | — | N |
-| A-EXC | Exception Agent | — | N |
-| A-SC | Supplier Comms Agent | — | N |
-| A-IC | Internal Chase Agent | — | N |
-| A-CN | Credit Note Agent | — | N |
-| A-ST | Statement Agent | — | N |
-| A-PP | Payment Pack Agent | — | N |
-| A-EV | Evidence Agent | — | N |
+| A01 | Invoice Intake | — | N |
+| A02 | Invoice Validation | — | N |
+| A03 | Matching | — | N |
+| A04 | Exception Triage | — | N |
+| A05 | Goods Receipt | — | N |
+| A06 | PO Quality | — | N |
+| A07 | Approval | — | N |
+| A08 | Supplier Resolution | — | N |
+| A09 | Internal Follow-up | — | N |
+| A10 | Duplicate & Anomaly | — | N |
+| A11 | Vendor Statement | — | N |
+| A12 | Payment Proposal Review | — | N |
+| A13 | AP Close | — | N |
+| A14 | AP Reporting | — | N |
+| A15 | Root Cause | — | N |
+| A16 | Orchestrator | — | N |
 
-## Matrix — process activities
+## Matrix — process activities (human columns + selected agents)
 
-| Activity | PO | CO | PR | AL | BY | RC | MD | TX | TR | A-IN | A-CL | A-EX | A-QL | A-DP | A-MT | A-CD | A-TX | A-AP | A-EXC | A-SC | A-IC | A-PP | A-EV |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Accept process map and authority boundary | A | C | I | C | I | | | | | | | | | | | | | | | | | | |
-| File intake to invoice stub | A | I | R | C | | | | | | R | | | | | | | | | | | | | I |
-| Classify document type | A | I | R | C | | | | | | | R | | | | | | | | | | | | |
-| Identify entity and supplier | A | C | R | C | | | C | | | | | R | R | | | | | | | | | | |
-| Capture / extract fields | A | I | R | C | | | | | | | | R | | | | | | | | | | | |
-| Quality gate | A | C | R | C | | | | | | | | | R | | | | | | | | | | |
-| Duplicate search and flag | A | C | R | C | | | | | | | | | | R | | | | | | | | | |
-| Confirm duplicate close (X4) | C | A | I | R | | | | | | | | | | I | | | | | | | | | I |
-| Locate PO / test open and residual | A | I | R | C | C | | | | | | | | | | R | | | | | | | | |
-| Read receipt position | A | I | R | C | C | C | | | | | | | | | R | | | | | | | | |
-| Match qty / price / amount | A | C | R | C | C | | | | | | | | | | R | | | | | | | | |
-| Commercial price variance decision | C | I | I | C | A/R | | | | | | | | | | I | | | | | | | | |
-| Propose / complete coding | A | C | R | C | C | | | | | | | | | | | R | | | | | | | |
-| Tax compare | C | A | R | C | | | | C | | | | | | | | | R | | | | | | |
-| Tax-code change | I | C | I | I | | | | A/R | | | | | | | | | I | | | | | | |
-| Route / chase approval | A | C | R | C | C | | | | | | | | | | | | | R | | | | | |
-| Approve (human) | I | C | I | I | R* | | | | I | | | | | | | | | I | | | | | |
-| Park with taxonomy code | A | I | R | C | I | I | I | I | | | | | | | | | | | R | | | | I |
-| Draft supplier chase | A | I | R | C | I | | | | | | | | | | | | | | I | R | | | I |
-| Draft internal chase | A | I | R | C | C | C | | | | | | | | | | | | | I | | R | | I |
-| Set or lift payment hold | C | A | I | R | I | | | | I | | | | | | | | | | | | | I | I |
-| Input hold list to payment pack | C | A | C | R | | | | | C | | | | | | | | | | | | | R | I |
-| Release payment | I | C | I | I | | | | | A/R | | | | | | | | | | | | | I | I |
-| Bank-master change | I | A | I | I | | | R | | C | | | | | | | | | | | | | | I |
-| Assemble evidence pack | C | A | R | C | | | | | | | | | | | | | | | | | | | R |
-| Expand agent authority | A | A** | I | C | I | | I | I | I | I | I | I | I | I | I | I | I | I | I | I | I | I | I |
-| Kill-switch / incident stop | A | A | I | R | I | | | | I | | | | | | | | | | | | | | I |
+Use the stack RACI in `../Agent_Library/00_AGENT_STACK_OVERVIEW.md` for the full 16-agent view. This path matrix shows humans plus the agents that touch NIL PO-goods daily. Agents 11–15 are I on this path unless a periodic object is in scope. Agent 16 (Orchestrator) is R for routing/SLA on every object and never A.
+
+| Activity | PO | CO | PR | AL | BY | RC | MD | TX | TR | A01 | A02 | A03 | A04 | A05 | A06 | A07 | A08 | A09 | A10 | A12 | A16 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Accept process map and authority boundary | A | C | I | C | I | | | | | | | | | | | | | | | | I |
+| File intake / extract / classify | A | I | R | C | | | | | | R | C | I | I | | | | | | I | | R |
+| Identity, quality, tax-field check | A | C | R | C | | | C | C | | C | R | I | I | | | | | | C | | I |
+| Duplicate / anomaly flag | A | C | R | C | | | | | | I | C | C | I | | | | | | R | I | I |
+| Confirm duplicate close (X4) | C | A | I | R | | | | | | | | | | | | | | | I | I | I |
+| Locate PO / residual / match | A | C | R | C | C | C | | | | I | C | R | I | C | C | | | | C | | I |
+| Commercial price variance decision | C | I | I | C | A/R | | | | | | | I | I | | C | | | | | | I |
+| Missing GR packet | A | I | R | C | C | C | | | | | | C | C | R | I | | | C | | | I |
+| PO defect diagnosis | A | I | I | C | C | | | | | | | C | C | I | R | | | C | | | I |
+| Route / chase approval | A | C | R | C | C | | | | | | | | C | | | R | | C | | | I |
+| Approve (human) | I | C | I | I | R* | | | | I | | | | | | | I | | | | | I |
+| Park with taxonomy code / owner / clock | A | I | R | C | I | I | I | I | | I | C | C | R | C | C | C | C | C | C | | R |
+| Draft supplier chase | A | I | R | C | I | | | | | | | | I | | C | | R | I | | | I |
+| Draft internal chase | A | I | R | C | C | C | | | | | | | I | C | C | C | I | R | | | I |
+| Annotate payment proposal / holds | C | A | C | R | | | | | C | | | | | | | | | | C | R | I |
+| Release payment | I | C | I | I | | | | | A/R | | | | | | | | | | | — | — |
+| Bank-master change | I | A | I | I | | | R | | C | | I | | | | | | — | | I | I | I |
+| Expand agent authority | A | A** | I | C | I | | I | I | I | I | I | I | I | I | I | I | I | I | I | I | I |
+| Kill-switch / incident stop | A | A | I | R | I | | | | I | | | | | | | | | | | | I |
 
 \* Approver is the DOA incumbent, often the buyer or a budget holder, not always the buyer on the PO.  
-\** Expansion requires both process owner and control owner (dual A).
-
-Credit Note Agent and Statement Agent are R on their own paths (not shown). They remain I on PO-goods posting.
+\** Expansion requires both process owner and control owner (dual A). Dash (—) means the agent shall not participate.
 
 ## SoD notes (Northline)
 

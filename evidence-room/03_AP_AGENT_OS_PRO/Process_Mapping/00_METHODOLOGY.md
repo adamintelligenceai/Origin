@@ -158,8 +158,8 @@ This method does not certify controls, guarantee savings, or authorise autonomou
 
 - For each process step ask four questions: Can an agent **see** the data? **Propose** an action? **Execute** inside a sandbox? **Commit** to the ERP? Only the last requires a control change.
 - Default stance: propose and draft. Commit is earned in Step 10, never assumed here.
-- Use the 16-agent roster. Do not create a seventeenth agent to avoid a hard exception.
-- Write the non-goal in the same sentence as the goal. Example: “Supplier Comms Agent drafts a missing-PO enquiry; it does not negotiate price.”
+- Use the sixteen agents in `../Agent_Library/00_AGENT_STACK_OVERVIEW.md`. Do not create a seventeenth agent to avoid a hard exception.
+- Write the non-goal in the same sentence as the goal. Example: “08 Supplier Resolution drafts a missing-PO enquiry; it does not negotiate price.”
 - Payment release, bank-detail change, and legal-entity override are never agent-commitable in this method.
 
 ### Artifacts
@@ -340,7 +340,7 @@ Northline Industrials ran the method on invoice-to-pay for one legal entity, PO 
 |---|---|---|
 | Days 1–3 | Observe, start Transcribe | Two processors, shared mailbox, ERP, GRN screen |
 | Days 4–6 | Extract, Structure | Taxonomy applied; freight and intercompany left as gaps |
-| Days 7–8 | Agentise | Propose-only for Match, Duplicate, Exception, Internal Chase |
+| Days 7–8 | Agentise | L1 propose-only for 01, 02, 03, 04, 10, 16 |
 | Days 9–15 | Test | 350 historical PO invoices; 80-case hold-out |
 | Days 16–30 | Shadow | Same entity, PO only, value ≤ 25,000 entity currency |
 | Days 31–50 | Controlled Pilot | 12 named suppliers; daily stand-up |
