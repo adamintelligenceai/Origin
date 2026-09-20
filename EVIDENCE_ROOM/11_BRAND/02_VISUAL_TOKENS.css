@@ -1,0 +1,252 @@
+/**
+ * Evidence Room — Visual Tokens
+ * Document: 11_BRAND/02_VISUAL_TOKENS.css
+ * Implements 01_BRAND_SYSTEM.md
+ *
+ * Aesthetic: institutional investment research / terminal clarity.
+ * Do not introduce purple AI gradients, glow stacks, or Inter/Roboto defaults.
+ */
+
+:root {
+  /* -------------------------------------------------------------------------- */
+  /* Colour — core                                                              */
+  /* -------------------------------------------------------------------------- */
+  --er-ink: #0b1220;
+  --er-ink-muted: #3a4458;
+  --er-ink-subtle: #6b7385;
+  --er-rule: #c9ced8;
+  --er-paper: #f4f6f8;
+  --er-paper-elevated: #ffffff;
+  --er-panel: #e8edf2;
+  --er-signal: #9c2b1f;
+  --er-measure: #1f4e79;
+  --er-positive: #2f5d50;
+  --er-caution: #8a6a1f;
+  --er-chart-grid: #dde2ea;
+
+  /* Alpha helpers */
+  --er-ink-04: rgba(11, 18, 32, 0.04);
+  --er-ink-08: rgba(11, 18, 32, 0.08);
+  --er-ink-12: rgba(11, 18, 32, 0.12);
+  --er-measure-12: rgba(31, 78, 121, 0.12);
+  --er-signal-12: rgba(156, 43, 31, 0.12);
+  --er-caution-12: rgba(138, 106, 31, 0.12);
+
+  /* Semantic aliases */
+  --er-color-text: var(--er-ink);
+  --er-color-text-secondary: var(--er-ink-muted);
+  --er-color-text-tertiary: var(--er-ink-subtle);
+  --er-color-bg: var(--er-paper);
+  --er-color-bg-elevated: var(--er-paper-elevated);
+  --er-color-border: var(--er-rule);
+  --er-color-link: var(--er-measure);
+  --er-color-link-hover: var(--er-ink);
+  --er-color-focus: var(--er-measure);
+  --er-color-danger: var(--er-signal);
+  --er-color-success: var(--er-positive);
+  --er-color-warning: var(--er-caution);
+
+  /* -------------------------------------------------------------------------- */
+  /* Typography                                                                 */
+  /* -------------------------------------------------------------------------- */
+  --er-font-display: "Tiempos Headline", "Newsreader", "Source Serif 4", Georgia, "Times New Roman", serif;
+  --er-font-body: "Tiempos Text", "Newsreader", "Source Serif 4", Georgia, "Times New Roman", serif;
+  --er-font-ui: "IBM Plex Sans", "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --er-font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --er-font-weight-regular: 400;
+  --er-font-weight-medium: 500;
+  --er-font-weight-semibold: 600;
+  --er-font-weight-bold: 700;
+
+  --er-type-display-size: 2.5rem; /* 40px */
+  --er-type-display-line: 3rem; /* 48px */
+  --er-type-h1-size: 2rem; /* 32px */
+  --er-type-h1-line: 2.5rem; /* 40px */
+  --er-type-h2-size: 1.5rem; /* 24px */
+  --er-type-h2-line: 2rem; /* 32px */
+  --er-type-h3-size: 1.125rem; /* 18px */
+  --er-type-h3-line: 1.75rem; /* 28px */
+  --er-type-body-size: 1rem; /* 16px */
+  --er-type-body-line: 1.625rem; /* 26px */
+  --er-type-small-size: 0.8125rem; /* 13px */
+  --er-type-small-line: 1.25rem; /* 20px */
+  --er-type-label-size: 0.6875rem; /* 11px */
+  --er-type-label-line: 1rem; /* 16px */
+  --er-type-label-tracking: 0.06em;
+
+  /* -------------------------------------------------------------------------- */
+  /* Space & layout                                                             */
+  /* -------------------------------------------------------------------------- */
+  --er-space-1: 0.25rem;
+  --er-space-2: 0.5rem;
+  --er-space-3: 0.75rem;
+  --er-space-4: 1rem;
+  --er-space-5: 1.5rem;
+  --er-space-6: 2rem;
+  --er-space-7: 3rem;
+  --er-space-8: 4rem;
+  --er-space-9: 6rem;
+
+  --er-radius-none: 0;
+  --er-radius-sm: 2px;
+  --er-radius-md: 4px; /* institutional — avoid pill radii */
+
+  --er-max-width-prose: 42rem;
+  --er-max-width-page: 72rem;
+  --er-hairline: 1px;
+
+  /* -------------------------------------------------------------------------- */
+  /* Elevation — prefer rules over shadows                                      */
+  /* -------------------------------------------------------------------------- */
+  --er-shadow-none: none;
+  --er-shadow-soft: 0 1px 0 var(--er-ink-08);
+
+  /* -------------------------------------------------------------------------- */
+  /* Callout tokens                                                             */
+  /* -------------------------------------------------------------------------- */
+  --er-callout-note-border: var(--er-measure);
+  --er-callout-control-border: var(--er-ink);
+  --er-callout-exception-border: var(--er-signal);
+  --er-callout-nonevidence-border: var(--er-caution);
+
+  --er-callout-note-bg: var(--er-measure-12);
+  --er-callout-control-bg: var(--er-ink-04);
+  --er-callout-exception-bg: var(--er-signal-12);
+  --er-callout-nonevidence-bg: var(--er-caution-12);
+
+  /* -------------------------------------------------------------------------- */
+  /* Chart series                                                               */
+  /* -------------------------------------------------------------------------- */
+  --er-chart-series-1: var(--er-measure);
+  --er-chart-series-2: var(--er-ink-muted);
+  --er-chart-series-3: var(--er-positive);
+  --er-chart-series-4: var(--er-caution);
+  --er-chart-series-5: var(--er-signal);
+  --er-chart-grid-color: var(--er-chart-grid);
+  --er-chart-axis-color: var(--er-ink-muted);
+
+  /* -------------------------------------------------------------------------- */
+  /* Motion                                                                     */
+  /* -------------------------------------------------------------------------- */
+  --er-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --er-duration-fast: 120ms;
+  --er-duration-medium: 180ms;
+  --er-duration-cover: 200ms;
+
+  /* -------------------------------------------------------------------------- */
+  /* Cover system                                                               */
+  /* -------------------------------------------------------------------------- */
+  --er-cover-bg-ink: var(--er-ink);
+  --er-cover-bg-paper: var(--er-paper);
+  --er-cover-fg-on-ink: var(--er-paper);
+  --er-cover-fg-on-paper: var(--er-ink);
+  --er-cover-rule: var(--er-rule);
+  --er-cover-subtitle-size: var(--er-type-small-size);
+}
+
+/* Prefers-color-scheme is informational only — marketing default remains paper.
+   Product UI may opt into ink surfaces explicitly; do not auto-flip brand pages. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --er-duration-fast: 0ms;
+    --er-duration-medium: 0ms;
+    --er-duration-cover: 0ms;
+  }
+}
+
+/* Utility hooks for documents / static sites */
+.er-root {
+  color: var(--er-color-text);
+  background: var(--er-color-bg);
+  font-family: var(--er-font-body);
+  font-size: var(--er-type-body-size);
+  line-height: var(--er-type-body-line);
+}
+
+.er-display {
+  font-family: var(--er-font-display);
+  font-size: var(--er-type-display-size);
+  line-height: var(--er-type-display-line);
+  font-weight: var(--er-font-weight-semibold);
+  color: var(--er-ink);
+  letter-spacing: -0.02em;
+}
+
+.er-ui {
+  font-family: var(--er-font-ui);
+}
+
+.er-mono {
+  font-family: var(--er-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.er-label {
+  font-family: var(--er-font-ui);
+  font-size: var(--er-type-label-size);
+  line-height: var(--er-type-label-line);
+  font-weight: var(--er-font-weight-semibold);
+  letter-spacing: var(--er-type-label-tracking);
+  text-transform: uppercase;
+  color: var(--er-ink-muted);
+}
+
+.er-rule {
+  border: 0;
+  border-top: var(--er-hairline) solid var(--er-rule);
+  margin: var(--er-space-5) 0;
+}
+
+.er-callout {
+  border-left: 3px solid var(--er-callout-note-border);
+  background: var(--er-callout-note-bg);
+  padding: var(--er-space-3) var(--er-space-4);
+  font-family: var(--er-font-ui);
+  font-size: var(--er-type-small-size);
+  line-height: var(--er-type-small-line);
+}
+
+.er-callout--control {
+  border-left-color: var(--er-callout-control-border);
+  background: var(--er-callout-control-bg);
+}
+
+.er-callout--exception {
+  border-left-color: var(--er-callout-exception-border);
+  background: var(--er-callout-exception-bg);
+}
+
+.er-callout--nonevidence {
+  border-left-color: var(--er-callout-nonevidence-border);
+  background: var(--er-callout-nonevidence-bg);
+}
+
+.er-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--er-font-ui);
+  font-size: var(--er-type-small-size);
+  line-height: var(--er-type-small-line);
+}
+
+.er-table th {
+  background: var(--er-panel);
+  text-align: left;
+  font-weight: var(--er-font-weight-semibold);
+  padding: var(--er-space-2) var(--er-space-3);
+  border-bottom: var(--er-hairline) solid var(--er-rule);
+}
+
+.er-table td {
+  padding: var(--er-space-2) var(--er-space-3);
+  border-bottom: var(--er-hairline) solid var(--er-rule);
+  vertical-align: top;
+}
+
+.er-table td.er-num,
+.er-table th.er-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--er-font-mono);
+}
