@@ -114,10 +114,10 @@ Sold via Lemon Squeezy (Merchant of Record; platform fee **5% + $0.50**, plus do
 | Tier | SKU | List price (USD) | Intent |
 |---|---|---|---|
 | 01 | **AP AI Readiness** | **$0** | Lead magnet: readiness score, gap map, glossary, next-step path |
-| 02 | **AP Agent Starter** | **$297** | First governed agent design for one AP use case + basic KPI sheet |
-| 03 | **AP Agent OS Pro** | **$997** | Full OS: agent library patterns, process maps, controls, governance, KPI OS, testing, business case |
-| 04 | **AP Agent OS Team** | **$2,997** | Pro + workshop kit, training paths, change management, executive pack, multi-agent implementation guide |
-| 05 | **Custom Blueprint** | **From $15,000** | Facilitated engagement: current-state map, agent workforce design, governance charter, 90-day responsibility roadmap |
+| 02 | **AP Agent Starter** | **$79** | First governed agent design for one AP use case + basic KPI sheet |
+| 03 | **AP Agent OS Pro** | **$199** | Full OS: agent library patterns, process maps, controls, governance, KPI OS, testing, business case |
+| 04 | **AP Agent OS Team** | **$499** | Pro + workshop kit, training paths, change management, executive pack, multi-agent implementation guide |
+| 05 | **Custom Blueprint** | **$1,500–$3,000** | Facilitated engagement: current-state map, agent workforce design, governance charter, 90-day responsibility roadmap |
 
 **Upsell logic:** Free → Starter (prove one agent) → Pro (install the OS) → Team (scale people + agents) → Custom (enterprise specificity).
 

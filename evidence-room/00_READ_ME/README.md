@@ -31,10 +31,10 @@ Evidence Room does not claim these as customer results. They define the operatin
 | Folder | Product | Price (USD) | Buyer outcome |
 |---|---|---|---|
 | `01_FREE_AP_AI_READINESS` | AP AI Readiness | $0 | Score readiness; see gaps; decide where an agent may start |
-| `02_AP_AGENT_STARTER` | AP Agent Starter | $297 | Design one governed agent for a single AP use case |
-| `03_AP_AGENT_OS_PRO` | AP Agent OS Pro | $997 | Install the full OS: library patterns, controls, governance, KPI OS |
-| `04_AP_AGENT_OS_TEAM` | AP Agent OS Team | $2,997 | Scale across people and agents: workshop, training, change, executive |
-| `05_CUSTOM_BLUEPRINT` | Custom Blueprint | From $15,000 | Facilitated workforce design and 90-day responsibility roadmap |
+| `02_AP_AGENT_STARTER` | AP Agent Starter | $79 | Design one governed agent for a single AP use case |
+| `03_AP_AGENT_OS_PRO` | AP Agent OS Pro | $199 | Install the full OS: library patterns, controls, governance, KPI OS |
+| `04_AP_AGENT_OS_TEAM` | AP Agent OS Team | $499 | Scale across people and agents: workshop, training, change, executive |
+| `05_CUSTOM_BLUEPRINT` | Custom Blueprint | $1,500–$3,000 | Facilitated workforce design and 90-day responsibility roadmap |
 
 Checkout and tax handling run through Lemon Squeezy (Merchant of Record). Platform economics are documented in `09_RESEARCH/RESEARCH_LEDGER.md` (fee **5% + $0.50**, plus listed add-ons).
 
@@ -69,26 +69,26 @@ Checkout and tax handling run through Lemon Squeezy (Merchant of Record). Platfo
 3. Open `01_FREE_AP_AI_READINESS/` and run the readiness assessment.  
 4. Skim `09_RESEARCH/CUSTOMER_PROBLEM_DEFINITION.md` to confirm fit.
 
-### Buying Starter ($297)
+### Buying Starter ($79)
 
 1. Confirm one AP use case (e.g. PO-invoice match exceptions, supplier inquiry triage).  
 2. Purchase AP Agent Starter; open `02_AP_AGENT_STARTER/`.  
 3. Complete the seven product questions for that agent (see Master Prompt §5).  
 4. Instrument the Starter KPI sheet before expanding scope.
 
-### Buying Pro ($997)
+### Buying Pro ($199)
 
 1. Ensure Starter logic is understood (or buy Pro if you already run pilots).  
 2. Work `03_AP_AGENT_OS_PRO/` in order: Process Mapping → Agent Library → Controls → Governance → KPI Measurement → Testing → Business Case → Templates.  
 3. Map agents to your existing AP/ERP tools — do not plan a rip-and-replace.
 
-### Buying Team ($2,997)
+### Buying Team ($499)
 
 1. Complete or parallel-track Pro artefacts.  
 2. Use `04_AP_AGENT_OS_TEAM/` for workshop facilitation, training paths, change management, executive narrative, and multi-agent implementation.  
 3. Align Internal Audit early — governance packs are written for that conversation.
 
-### Buying Custom Blueprint (from $15,000)
+### Buying Custom Blueprint ($1,500–$3,000)
 
 1. Contact via the Custom Blueprint intake in `05_CUSTOM_BLUEPRINT/`.  
 2. Expect current-state mapping, agent workforce design, governance charter, and a 90-day responsibility roadmap.  

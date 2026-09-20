@@ -31,7 +31,7 @@ Complete file index for all commercial tiers and supporting systems. Paths are r
 
 ---
 
-## 02 — AP Agent Starter ($297)
+## 02 — AP Agent Starter ($79)
 
 | Planned artefact | Purpose |
 |---|---|
@@ -46,7 +46,7 @@ Complete file index for all commercial tiers and supporting systems. Paths are r
 
 ---
 
-## 03 — AP Agent OS Pro ($997)
+## 03 — AP Agent OS Pro ($199)
 
 ### Root
 
@@ -133,7 +133,7 @@ Complete file index for all commercial tiers and supporting systems. Paths are r
 
 ---
 
-## 04 — AP Agent OS Team ($2,997)
+## 04 — AP Agent OS Team ($499)
 
 | Path | Purpose |
 |---|---|
@@ -156,7 +156,7 @@ Complete file index for all commercial tiers and supporting systems. Paths are r
 
 ---
 
-## 05 — Custom Blueprint (from $15,000)
+## 05 — Custom Blueprint ($1,500–$3,000)
 
 | Planned artefact | Purpose |
 |---|---|

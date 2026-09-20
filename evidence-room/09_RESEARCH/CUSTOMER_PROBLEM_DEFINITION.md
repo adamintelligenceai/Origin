@@ -100,7 +100,7 @@ Industry climate (context only — ledgered): peer cost **$9.84**/invoice, cycle
 | “We’ll wait for Microsoft/SAP Copilot.” | Fear, uncertainty | Copilot ≠ AP agent workforce KPI OS; ER remains ERP-agnostic design |
 | “UiPath covers this.” | Feature fight | RPA builds bots; ER productises responsibility progression + exception/KPI OS for AP |
 | “Free is enough.” | Pressure close | Free assesses; Starter proves one agent; Pro installs the OS |
-| “Custom is expensive.” | Discount hastily | Custom starts **from $15,000** because facilitation and multi-entity design are delivery, not a PDF |
+| “Custom is expensive.” | Discount hastily | Custom is priced **$1,500–$3,000** because facilitation and multi-entity design are delivery, not a PDF |
 
 ---
 

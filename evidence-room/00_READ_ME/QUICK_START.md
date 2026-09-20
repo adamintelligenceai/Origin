@@ -61,7 +61,7 @@ Using Master Prompt §5, draft answers for the candidate agent: permitted work, 
 
 ---
 
-## Step 5 — Purchase and complete AP Agent Starter ($297)
+## Step 5 — Purchase and complete AP Agent Starter ($79)
 
 In `02_AP_AGENT_STARTER/`, turn the seven answers into a governed agent design: role card, input/output contract, exception routes, and Starter KPI sheet. Keep scope to **one** agent.
 
@@ -85,7 +85,7 @@ Use Pro `Business_Case` artefacts (or Starter economics sheet) with **your** vol
 
 ---
 
-## Step 8 — Install Pro process maps and controls ($997)
+## Step 8 — Install Pro process maps and controls ($199)
 
 In `03_AP_AGENT_OS_PRO/`, map end-to-end AP touchpoints the agent affects. Attach control objectives (segregation, approval thresholds, master-data change bans). Wire stop conditions for policy conflict.
 
@@ -109,7 +109,7 @@ Use `KPI_Measurement` definitions: STP contribution, exception rate by taxonomy 
 
 ---
 
-## Step 11 — Scale people and agents (Team, $2,997)
+## Step 11 — Scale people and agents (Team, $499)
 
 Use `04_AP_AGENT_OS_TEAM/` workshops and training so AP analysts, approvers, and auditors share one language. Run change management for role shifts. Brief executives with the Executive pack — cite industry AI intent (**44%** adoption; **>75%** expected within 12 months; **65%** hope AI increases automation — Ardent 2025) without overstating your internal state.
 
@@ -119,7 +119,7 @@ Use `04_AP_AGENT_OS_TEAM/` workshops and training so AP analysts, approvers, and
 
 ## Step 12 — Expand responsibility (Team / Custom)
 
-Promote the first agent only per charter rules. For multi-entity or complex landscapes, engage **Custom Blueprint** (from **$15,000**) for workforce design and a 90-day responsibility roadmap. Never expand scope and autonomy in the same change window.
+Promote the first agent only per charter rules. For multi-entity or complex landscapes, engage **Custom Blueprint** (**$1,500–$3,000**) for workforce design and a 90-day responsibility roadmap. Never expand scope and autonomy in the same change window.
 
 *Checkpoint:* Written promotion decision; updated agent register; next review date set.
 
