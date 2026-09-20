@@ -273,3 +273,12 @@ Commercial folders `06` and `07` are for Evidence Room’s own go-to-market. The
 | Object | Product index |
 | Review | Every edition |
 | Status | 1.0.0 complete for folders 00–05, 06, 07, 10 as listed |
+
+## Generated commercial files (v1.0.0)
+
+- Spreadsheets: `03_AP_AGENT_OS_PRO/Spreadsheets/`
+- Word templates: `03_AP_AGENT_OS_PRO/Word_Templates/`
+- Decks: `04_AP_AGENT_OS_TEAM/Decks/`
+- Website: `08_WEBSITE/`
+- PDFs: `11_GENERATED_PDF/` and copies in each tier folder
+- Brand mark: `06_SALES_AND_MARKETING/Brand_Assets/`
