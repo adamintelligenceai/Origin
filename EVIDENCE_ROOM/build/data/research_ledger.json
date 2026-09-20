@@ -1,0 +1,122 @@
+[
+  {
+    "claim": "59% of CFOs/senior finance leaders report using AI in finance (2025), up slightly from 58% in 2024",
+    "source": "Gartner 2025 AI in Finance Survey",
+    "date": "2025",
+    "url": "https://www.gartner.com/en/newsroom/press-releases/2025-ai-finance",
+    "context": "Survey of 183 CFOs and senior finance leaders, May-June 2025",
+    "type": "independent"
+  },
+  {
+    "claim": "Accounts payable process automation is the second-most common finance AI use case at 37%",
+    "source": "Gartner 2025 AI in Finance Survey (via CFO Dive)",
+    "date": "2025",
+    "url": "https://www.cfodive.com/news/cfos-ai-adoption-slows-challenges-mount-gartner/805949/",
+    "context": "Behind knowledge management (49%), ahead of error/anomaly detection (34%)",
+    "type": "independent"
+  },
+  {
+    "claim": "91% of finance leaders report low or moderate AI impact initially; impact grows with production maturity",
+    "source": "Gartner 2025 AI in Finance Survey",
+    "date": "2025",
+    "url": "https://www.cpapracticeadvisor.com/2025/11/18/gartner-survey-shows-finance-ai-adoption-remains-steady-in-2025/173371/",
+    "context": "Organizations further along in adoption 2x more likely moderate impact, 3x high impact",
+    "type": "independent"
+  },
+  {
+    "claim": "Average cost to process one invoice: $9.40 (all-inclusive)",
+    "source": "Ardent Partners AP Metrics that Matter 2025",
+    "date": "2025",
+    "url": "https://corcentric-corpsite.s3.dualstack.us-east-1.amazonaws.com/pdfs/ap-metrics-that-matter-2025.pdf",
+    "context": "Based on 212 AP professionals; covers receipt, processing, approval, salaries, benefits, technology, overhead",
+    "type": "independent"
+  },
+  {
+    "claim": "Best-in-Class AP organisations process invoices at $2.78 vs $12.88 for All Others",
+    "source": "Ardent Partners AP Metrics that Matter 2025",
+    "date": "2025",
+    "url": "https://corcentric-corpsite.s3.dualstack.us-east-1.amazonaws.com/pdfs/ap-metrics-that-matter-2025.pdf",
+    "context": "Best-in-Class = top 20% by lowest cost and shortest cycle time",
+    "type": "independent"
+  },
+  {
+    "claim": "Average invoice exception rate: 14.0%",
+    "source": "Ardent Partners State of ePayables 2024",
+    "date": "2024",
+    "url": "https://www.medius.com/media/fvzk13ia/ardent-partners-state-of-epayables-2024-medius-final.pdf",
+    "context": "Survey of 212 AP professionals",
+    "type": "independent"
+  },
+  {
+    "claim": "Straight-through processing rate: 32.6% average",
+    "source": "Ardent Partners State of ePayables 2024",
+    "date": "2024",
+    "url": "https://www.medius.com/media/fvzk13ia/ardent-partners-state-of-epayables-2024-medius-final.pdf",
+    "context": "Best-in-Class process more than twice as many invoices straight-through",
+    "type": "independent"
+  },
+  {
+    "claim": "Average time to process a single invoice: 9.15 days",
+    "source": "Ardent Partners State of ePayables 2024",
+    "date": "2024",
+    "url": "https://www.medius.com/media/fvzk13ia/ardent-partners-state-of-epayables-2024-medius-final.pdf",
+    "context": "Best-in-Class 82% faster than peers",
+    "type": "independent"
+  },
+  {
+    "claim": "61.0% of invoices linked to a purchase order on average",
+    "source": "Ardent Partners State of ePayables 2024",
+    "date": "2024",
+    "url": "https://www.medius.com/media/fvzk13ia/ardent-partners-state-of-epayables-2024-medius-final.pdf",
+    "context": "PO linkage benchmark across surveyed organisations",
+    "type": "independent"
+  },
+  {
+    "claim": "APQC median total cost to process AP per invoice: $6.00",
+    "source": "APQC Open Standards Benchmarking",
+    "date": "ongoing",
+    "url": "https://www.apqc.org/resources/benchmarking/open-standards-benchmarking/measures/total-cost-perform-process-process-19",
+    "context": "Sample size 4,821 companies; broader cost definition than Ardent",
+    "type": "independent"
+  },
+  {
+    "claim": "Gartner published first Magic Quadrant for Accounts Payable Applications, evaluating 14 vendors",
+    "source": "Gartner Magic Quadrant for AP Applications",
+    "date": "2025-03-19",
+    "url": "https://www.gartner.com/en/documents/6277583",
+    "context": "Vendors include Coupa, Basware, Medius, AvidXchange, Esker, etc.",
+    "type": "independent"
+  },
+  {
+    "claim": "Lemon Squeezy platform fee: 5% + $0.50 per transaction as merchant of record",
+    "source": "Lemon Squeezy Pricing & Fees Documentation",
+    "date": "2026",
+    "url": "https://docs.lemonsqueezy.com/help/getting-started/fees",
+    "context": "Additional fees may apply for international (+1.5%), PayPal (+1.5%), subscriptions (+0.5%)",
+    "type": "vendor"
+  },
+  {
+    "claim": "25% of finance organisations uncertain how to move from AI planning to piloting",
+    "source": "Gartner 2025 AI in Finance Survey (via CFO Dive)",
+    "date": "2025",
+    "url": "https://www.cfodive.com/news/cfos-ai-adoption-slows-challenges-mount-gartner/805949/",
+    "context": "Implementation gap cited as adoption slowdown factor",
+    "type": "independent"
+  },
+  {
+    "claim": "48.8% of suppliers submit invoices electronically on average",
+    "source": "Ardent Partners State of ePayables 2024",
+    "date": "2024",
+    "url": "https://www.medius.com/media/fvzk13ia/ardent-partners-state-of-epayables-2024-medius-final.pdf",
+    "context": "Best-in-Class have 50% more e-invoicing adoption",
+    "type": "independent"
+  },
+  {
+    "claim": "AP staff spend 21.8% of time managing supplier inquiries on average",
+    "source": "Ardent Partners State of ePayables 2024",
+    "date": "2024",
+    "url": "https://www.medius.com/media/fvzk13ia/ardent-partners-state-of-epayables-2024-medius-final.pdf",
+    "context": "Productivity benchmark",
+    "type": "independent"
+  }
+]

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evidence Room — AP Agent OS</title>
+<style>
+:root {
+  --ink: #0B1220;
+  --accent: #0F4C5C;
+  --signal: #C9A227;
+  --paper: #F8FAFC;
+  --stone: #64748B;
+  --cloud: #E2E8F0;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--paper); line-height: 1.6; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+nav { background: var(--ink); padding: 16px 0; }
+nav .container { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-family: Georgia, 'Times New Roman', serif; font-size: 1.1rem; letter-spacing: 0.15em; color: white; text-decoration: none; }
+.logo span { color: var(--signal); }
+nav a { color: var(--cloud); text-decoration: none; margin-left: 24px; font-size: 0.9rem; }
+nav a:hover { color: white; }
+.hero { padding: 80px 0; background: var(--ink); color: white; }
+.hero h1 { font-family: Georgia, 'Times New Roman', serif; font-size: 2.8rem; font-weight: 400; margin-bottom: 16px; max-width: 700px; }
+.hero p { font-size: 1.15rem; color: var(--cloud); max-width: 600px; margin-bottom: 32px; }
+.btn { display: inline-block; padding: 14px 28px; border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 0.95rem; margin-right: 12px; }
+.btn-primary { background: var(--signal); color: var(--ink); }
+.btn-secondary { background: transparent; color: white; border: 1px solid var(--stone); }
+section { padding: 64px 0; }
+section h2 { font-family: Georgia, 'Times New Roman', serif; font-size: 1.8rem; margin-bottom: 24px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.card { background: white; border: 1px solid var(--cloud); border-radius: 6px; padding: 28px; }
+.card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+.card .price { font-size: 1.5rem; font-weight: 700; color: var(--accent); margin: 12px 0; }
+.stat { text-align: center; padding: 24px; }
+.stat .num { font-size: 2.5rem; font-weight: 700; color: var(--accent); }
+.stat .label { color: var(--stone); font-size: 0.9rem; }
+footer { background: var(--ink); color: var(--stone); padding: 40px 0; font-size: 0.85rem; }
+footer a { color: var(--cloud); text-decoration: none; }
+</style>
+</head>
+<body>
+<nav><div class="container">
+  <a href="/" class="logo">EVIDENCE <span>ROOM</span></a>
+  <div><a href="#method">Method</a><a href="#products">Products</a><a href="#agents">Agents</a><a href="#faq">FAQ</a></div>
+</div></nav>
+
+<section class="hero"><div class="container">
+  <h1>The operating system for governed AI agents in Accounts Payable</h1>
+  <p>Evidence Room gives Finance leaders the frameworks, agent architectures, governance controls, and implementation toolkits to deploy AI agents that earn responsibility — not hype.</p>
+  <a href="#diagnostic" class="btn btn-primary">Assess Your AP Agent Readiness</a>
+  <a href="#products" class="btn btn-secondary">Explore the AP Agent OS</a>
+</div></section>
+
+<section><div class="container">
+  <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="stat"><div class="num">$9.40</div><div class="label">Avg cost per invoice (Ardent Partners 2025)</div></div>
+    <div class="stat"><div class="num">14%</div><div class="label">Average exception rate</div></div>
+    <div class="stat"><div class="num">37%</div><div class="label">Finance AI adoption in AP (Gartner 2025)</div></div>
+  </div>
+</div></section>
+
+<section id="method"><div class="container">
+  <h2>Evidence over hype</h2>
+  <p style="max-width:700px;margin-bottom:32px;">AP automation vendors sell software. Prompt packs sell templates. Evidence Room gives you the operating system to design, govern, and scale AI agents across your existing AP stack.</p>
+  <div class="grid">
+    <div class="card"><h3>Agents Earn Responsibility</h3><p>5-level autonomy model. Start at Observe. Prove performance. Expand only with evidence.</p></div>
+    <div class="card"><h3>Governance First</h3><p>Control matrix, segregation of duties, audit evidence, incident response — built in, not bolted on.</p></div>
+    <div class="card"><h3>Implementation Ready</h3><p>Buy on Friday. Begin redesigning your AP operating model on Monday. Templates, spreadsheets, and playbooks included.</p></div>
+  </div>
+</div></section>
+
+<section id="agents"><div class="container">
+  <h2>16-Agent AP Architecture</h2>
+  <p style="margin-bottom:24px;">From invoice intake to orchestration — a complete agent workforce specification.</p>
+  <div class="grid">
+    <div class="card"><h3>Intake & Validation</h3><p>Invoice Intake, Validation, Matching</p></div>
+    <div class="card"><h3>Exception Management</h3><p>Triage, Goods Receipt, PO Quality, Approval</p></div>
+    <div class="card"><h3>Resolution</h3><p>Supplier Resolution, Internal Follow-Up, Duplicate & Anomaly</p></div>
+    <div class="card"><h3>Control & Close</h3><p>Statement Recon, Payment Review, AP Close, Reporting</p></div>
+    <div class="card"><h3>Intelligence</h3><p>Root Cause Analysis, AP Manager Orchestrator</p></div>
+  </div>
+</div></section>
+
+<section id="products"><div class="container">
+  <h2>Product Tiers</h2>
+  <div class="grid">
+    <div class="card" id="diagnostic"><h3>AP AI Readiness Diagnostic</h3><div class="price">Free</div><p>20-question assessment, maturity model, opportunity heatmap, baseline KPI worksheet.</p></div>
+    <div class="card"><h3>AP Agent Starter Kit</h3><div class="price">$79</div><p>Top 10 agents, taxonomy, templates, operating model, implementation checklist.</p></div>
+    <div class="card"><h3>AP Agent OS Professional</h3><div class="price">$199</div><p>Full 16-agent architecture, governance, controls, ROI calculator, testing methodology.</p></div>
+    <div class="card"><h3>AP Agent OS Team Edition</h3><div class="price">$499</div><p>Workshop deck, training, change management, benefits tracker, executive packs.</p></div>
+    <div class="card"><h3>AP Transformation Blueprint</h3><div class="price">$1,500+</div><p>Custom assessment, agent architecture, business case, 90-day plan, executive presentation.</p></div>
+  </div>
+</div></section>
+
+<section id="faq"><div class="container">
+  <h2>Frequently Asked Questions</h2>
+  <div class="card" style="margin-bottom:16px;"><h3>Is this AP automation software?</h3><p>No. Evidence Room is an operating system toolkit — frameworks, templates, and methodologies for designing and governing AI agents that work across your existing AP stack.</p></div>
+  <div class="card" style="margin-bottom:16px;"><h3>Will agents replace my AP team?</h3><p>No. Agents handle repeatable analytical and administrative work under governance. Humans retain judgment, relationships, controls, and approvals.</p></div>
+  <div class="card" style="margin-bottom:16px;"><h3>What ERP systems does this work with?</h3><p>All major ERPs — SAP, Oracle, Dynamics 365, NetSuite, Workday. The methodology is ERP-agnostic.</p></div>
+  <div class="card"><h3>Do you guarantee ROI?</h3><p>No. We provide evidence-based frameworks and conservative/base/upside scenarios. Your results depend on your starting point, implementation quality, and organisational readiness.</p></div>
+</div></section>
+
+<footer><div class="container" style="display:flex;justify-content:space-between;">
+  <div>© 2026 Evidence Room · evidenceroom.ai</div>
+  <div><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/disclaimer">Disclaimer</a></div>
+</div></footer>
+</body></html>
