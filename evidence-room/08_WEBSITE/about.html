@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Evidence Room</title>
+<style>
+:root {
+  --ink: #0B1220; --slate: #1E293B; --stone: #64748B; --paper: #F8FAFC;
+  --accent: #0F4C5C; --accent-light: #1A6B7C; --gold: #B8860B;
+  --border: #E2E8F0; --white: #FFFFFF;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; color: var(--ink); background: var(--paper); line-height: 1.6; }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+nav { background: var(--ink); padding: 16px 0; position: sticky; top: 0; z-index: 100; }
+nav .container { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-family: Georgia, serif; font-size: 1.4rem; color: var(--white); font-weight: 700; letter-spacing: -0.02em; }
+.logo span { color: var(--gold); }
+nav a { color: #94A3B8; text-decoration: none; margin-left: 28px; font-size: 0.9rem; transition: color 0.2s; }
+nav a:hover { color: var(--white); }
+.hero { background: var(--ink); color: var(--white); padding: 100px 0 80px; }
+.hero h1 { font-family: Georgia, serif; font-size: 3.2rem; line-height: 1.15; margin-bottom: 20px; max-width: 700px; }
+.hero p { font-size: 1.2rem; color: #94A3B8; max-width: 560px; margin-bottom: 36px; }
+.btn { display: inline-block; padding: 14px 32px; border-radius: 6px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; }
+.btn-primary { background: var(--accent); color: var(--white); }
+.btn-primary:hover { background: var(--accent-light); }
+.btn-secondary { background: transparent; color: var(--white); border: 1px solid #475569; margin-left: 12px; }
+.btn-secondary:hover { border-color: var(--white); }
+section { padding: 80px 0; }
+section h2 { font-family: Georgia, serif; font-size: 2rem; margin-bottom: 16px; }
+section .subtitle { color: var(--stone); font-size: 1.1rem; margin-bottom: 48px; max-width: 600px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+.card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 32px; }
+.card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+.card p { color: var(--stone); font-size: 0.95rem; }
+.card .price { font-size: 2rem; font-weight: 700; color: var(--accent); margin: 16px 0 8px; }
+.card .price span { font-size: 0.9rem; color: var(--stone); font-weight: 400; }
+.stat { text-align: center; padding: 24px; }
+.stat .number { font-size: 2.4rem; font-weight: 700; color: var(--accent); }
+.stat .label { color: var(--stone); font-size: 0.9rem; margin-top: 4px; }
+.agent-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.agent-chip { background: var(--white); border: 1px solid var(--border); border-radius: 6px; padding: 12px 16px; font-size: 0.85rem; }
+.agent-chip strong { display: block; color: var(--accent); font-size: 0.75rem; margin-bottom: 2px; }
+.level-bar { display: flex; gap: 4px; margin: 24px 0; }
+.level { flex: 1; padding: 16px 12px; border-radius: 6px; text-align: center; font-size: 0.8rem; }
+.level-0 { background: #F1F5F9; } .level-1 { background: #E0F2FE; }
+.level-2 { background: #BAE6FD; } .level-3 { background: #7DD3FC; }
+.level-4 { background: var(--accent); color: white; }
+.faq { border-bottom: 1px solid var(--border); padding: 20px 0; }
+.faq h4 { margin-bottom: 8px; }
+.faq p { color: var(--stone); font-size: 0.95rem; }
+footer { background: var(--ink); color: #64748B; padding: 48px 0; font-size: 0.85rem; }
+footer a { color: #94A3B8; text-decoration: none; }
+.cta-section { background: var(--accent); color: var(--white); text-align: center; padding: 64px 0; }
+.cta-section h2 { color: var(--white); margin-bottom: 12px; }
+.cta-section p { color: #BAE6FD; margin-bottom: 28px; }
+@media (max-width: 768px) {
+  .grid-3, .grid-2, .agent-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2.2rem; }
+}
+</style>
+</head>
+<body>
+<nav><div class="container">
+  <div class="logo">Evidence <span>Room</span></div>
+  <div><a href="index.html">Home</a><a href="ap-agent-os.html">AP Agent OS</a><a href="diagnostic.html">Free Diagnostic</a><a href="pricing.html">Pricing</a><a href="method.html">Method</a><a href="about.html">About</a></div>
+</div></nav>
+<section><div class='container' style='max-width:700px'><h2>Evidence over hype</h2><p class='subtitle'>Evidence Room turns Finance AI from experimentation into measurable operating performance.</p><p>We believe AI agents in Finance should earn responsibility through demonstrated performance — not be deployed at full autonomy on day one. Our AP Agent OS provides the operating model, governance framework, and implementation tools that Finance leaders need to deploy governed agent workforces across Accounts Payable.</p><p style='margin-top:16px'>AP is the first domain. Future modules will address AR, Financial Close, Treasury, Reconciliations, Controls, and FP&A.</p></div></section>
+<footer><div class="container" style="display:flex;justify-content:space-between;">
+  <div>© 2026 Evidence Room. All rights reserved.</div>
+  <div><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="disclaimer.html">Disclaimer</a></div>
+</div></footer>
+</body></html>
