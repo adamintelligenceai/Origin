@@ -13,39 +13,39 @@ Preferred domain (verify availability): **evidenceroom.ai**
 
 | Tier | Product | Price | Folder |
 |------|---------|-------|--------|
-| 0 | AP AI Readiness Diagnostic | Free | `01_FREE_AP_AI_READINESS/` |
-| 1 | AP Agent Starter Kit | US$79 | `02_AP_AGENT_STARTER/` |
-| 2 | AP Agent OS — Professional | US$199 | `03_AP_AGENT_OS_PRO/` |
-| 3 | AP Agent OS — Team | US$499 | `04_AP_AGENT_OS_TEAM/` |
-| 4 | AP Transformation Blueprint | US$1,500–3,000 | `05_CUSTOM_BLUEPRINT/` |
+| 0 | AP AI Readiness Diagnostic | Free | `EVIDENCE_ROOM/01_FREE_AP_AI_READINESS/` |
+| 1 | AP Agent Starter Kit | US$79 | `EVIDENCE_ROOM/02_AP_AGENT_STARTER/` |
+| 2 | AP Agent OS — Professional | US$199 | `EVIDENCE_ROOM/03_AP_AGENT_OS_PRO/` |
+| 3 | AP Agent OS — Team | US$499 | `EVIDENCE_ROOM/04_AP_AGENT_OS_TEAM/` |
+| 4 | AP Transformation Blueprint | US$1,500–3,000 | `EVIDENCE_ROOM/05_CUSTOM_BLUEPRINT/` |
 
 ---
 
 ## Start here
 
-1. Read [`EVIDENCE_ROOM/00_READ_ME/01_START_HERE.md`](EVIDENCE_ROOM/00_READ_ME/01_START_HERE.md)
-2. Review the refined execution brief: [`00_REFINED_MASTER_PROMPT.md`](EVIDENCE_ROOM/00_READ_ME/00_REFINED_MASTER_PROMPT.md)
-3. Run the free diagnostic (PDF + Excel scorecard in Tier 0)
-4. Buyers of Professional: follow the Friday→Monday path in START HERE
+1. [`EVIDENCE_ROOM/00_READ_ME/01_START_HERE.md`](EVIDENCE_ROOM/00_READ_ME/01_START_HERE.md)
+2. Refined execution brief: [`EVIDENCE_ROOM/00_READ_ME/00_REFINED_MASTER_PROMPT.md`](EVIDENCE_ROOM/00_READ_ME/00_REFINED_MASTER_PROMPT.md)
+3. Free diagnostic PDF + Excel scorecard in Tier 0
+4. Professional buyers: Friday→Monday path in START HERE
 
 ---
 
-## What’s in the box
+## Package map
 
 ```
 EVIDENCE_ROOM/
-├── 00_READ_ME/          Start here, scale roadmap, financial model, QA scorecard
-├── 01_FREE_…/           Diagnostic PDF, worksheet, Excel scorecard
-├── 02_AP_AGENT_STARTER/ Starter guide PDF + templates pack
-├── 03_AP_AGENT_OS_PRO/  16 agent charters, governance, controls, KPIs, Excel + Word + PDFs
-├── 04_AP_AGENT_OS_TEAM/ Workshop/exec decks (PPTX), playbooks, change toolkit
-├── 05_CUSTOM_BLUEPRINT/ Productised service brochure + intake + fulfilment
-├── 06_SALES_AND_MARKETING/ Positioning, funnel, 7 emails, 90-day content engine
-├── 07_LEMON_SQUEEZY/    Storefront spec, listings, fulfilment (MoR)
-├── 08_WEBSITE/          Full IA + page copy + AP landing page
-├── 09_RESEARCH/         Research ledger, competitors, customer/problem
-├── 10_LEGAL_AND_LICENSING/ Licence, disclaimers, IP checklist, refund draft
-└── 11_BRAND/            Brand system (“Operating Evidence”) + visual tokens
+├── 00_READ_ME/               Start here, scale roadmap, financial model, QA
+├── 01_FREE_AP_AI_READINESS/  Diagnostic (MD+PDF), worksheet, Excel scorecard
+├── 02_AP_AGENT_STARTER/      Starter guide (MD+PDF) + templates pack
+├── 03_AP_AGENT_OS_PRO/       16 agents, governance, controls, KPIs, Excel/Word/PDF
+├── 04_AP_AGENT_OS_TEAM/      Workshop + CFO decks (PPTX), playbooks, change toolkit
+├── 05_CUSTOM_BLUEPRINT/      Productised service brochure + intake + fulfilment
+├── 06_SALES_AND_MARKETING/   Positioning, funnel, 7 emails, 90-day content engine
+├── 07_LEMON_SQUEEZY/         Storefront spec, listings, fulfilment (MoR)
+├── 08_WEBSITE/               Full IA + page copy + AP landing page
+├── 09_RESEARCH/              Research ledger, competitors, customer/problem
+├── 10_LEGAL_AND_LICENSING/   Licence, disclaimers, IP checklist, refund draft
+└── 11_BRAND/                 Brand system (“Operating Evidence”) + tokens + PDF
 ```
 
 ---
@@ -55,7 +55,7 @@ EVIDENCE_ROOM/
 - Human accountability for every agent
 - Payment authorisation stays human
 - No guaranteed savings / fraud detection / compliance claims
-- Evidence ledger for market statistics; illustrative numbers labelled as such
+- Market statistics only via research ledger; illustrative numbers labelled
 - IP-clean: independently authored frameworks and templates
 
 ---
@@ -66,13 +66,11 @@ EVIDENCE_ROOM/
 
 ---
 
-## Regenerating binaries
+## Regenerate binaries
 
 ```bash
 python3 EVIDENCE_ROOM/_build/generate_binaries.py
 ```
-
-Requires: `python-docx`, `python-pptx`, `reportlab`, `openpyxl` (for Excel generators if re-run separately).
 
 ---
 
