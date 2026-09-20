@@ -1,5 +1,6 @@
 # Long-form — Five Article Drafts
 
+**Lockup:** EVIDENCE ROOM — AP AGENT OS  
 **House style:** 1,000–1,600 words. No invented customer quotes. Northline is fictional when used. Commercial close is one short paragraph at the end.  
 **Canonical URL path:** /resources/[slug]
 
