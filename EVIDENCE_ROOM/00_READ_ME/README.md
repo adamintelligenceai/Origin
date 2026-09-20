@@ -21,8 +21,8 @@ Evidence Room publishes operating systems for accounts payable agents — not pr
 |---|---|---|---|
 | Free — AP AI Readiness | $0 | `01_FREE_AP_AI_READINESS/` | Diagnose maturity, baseline KPIs, map opportunity |
 | Starter — AP Agent Starter | $79 | `02_AP_AGENT_STARTER/` | Operating model + 10 condensed blueprints |
-| Pro — AP Agent OS Pro | (see website) | `03_AP_AGENT_OS_PRO/` | Full library, controls, KPIs, business case |
-| Team — AP Agent OS Team | (see website) | `04_AP_AGENT_OS_TEAM/` | Workshops, training, change packs |
+| Pro — AP Agent OS Pro | $199 | `03_AP_AGENT_OS_PRO/` | Full library, controls, KPIs, business case |
+| Team — AP Agent OS Team | $499 | `04_AP_AGENT_OS_TEAM/` | Workshops, training, change packs |
 | Custom Blueprint | $1,500–$3,000 | `05_CUSTOM_BLUEPRINT/` | Client-specific agent design & fulfilment |
 
 ## Benchmark citation policy

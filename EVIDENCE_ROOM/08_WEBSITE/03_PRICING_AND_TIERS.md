@@ -26,7 +26,7 @@ CTA: [Buy Starter](#checkout-starter)
 
 ### Pro — AP Agent OS Pro
 
-**See checkout** · digital library
+**$199** · one-time digital
 
 Full agent library depth, controls, KPI measurement, business-case models, templates, testing packs.
 
@@ -34,7 +34,7 @@ CTA: [Explore Pro](#checkout-pro)
 
 ### Team — AP Agent OS Team
 
-**See checkout** · digital + facilitation assets
+**$499** · multi-seat digital
 
 Executive, workshop, training, implementation, and change-management packs for rollout at scale.
 
@@ -58,7 +58,7 @@ CTA: [Start intake](/custom)
 
 | | Free | Starter | Pro | Team | Custom |
 |---|---|---|---|---|---|
-| Price | $0 | $79 | Pack | Pack | $1.5–3k |
+| Price | $0 | $79 | $199 | $499 | $1.5–3k |
 | Readiness | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Blueprints | Overview | Condensed ×10 | Full | Full + training | Tailored 1–3 |
 | Governance model | Intro | ✓ | ✓ | ✓ | Addendum |
