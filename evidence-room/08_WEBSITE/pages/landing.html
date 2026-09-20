@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Evidence Room — AP Agent OS</title>
+  <meta name="description" content="Governed AI agents for Accounts Payable. Turn Finance AI from experimentation into measurable operating performance." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0B1220;
+      --paper: #F7F5F0;
+      --bronze: #8B7355;
+      --bronze-deep: #6E5A42;
+      --mist: #E8E4DC;
+      --slate: #3A4556;
+      --line: rgba(11, 18, 32, 0.12);
+      --ok: #1F4D3A;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Source Serif 4", Georgia, serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.55;
+      font-size: 1.05rem;
+    }
+    h1, h2, h3, .brand, .nav a.logo {
+      font-family: Fraunces, Georgia, serif;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    .ui { font-family: "IBM Plex Sans", system-ui, sans-serif; }
+    a { color: var(--bronze-deep); }
+    .wrap { width: min(1120px, calc(100% - 2.5rem)); margin-inline: auto; }
+
+    /* Nav */
+    .nav {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(247, 245, 240, 0.92);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.9rem 0; gap: 1rem;
+    }
+    .nav a.logo { text-decoration: none; color: var(--ink); font-size: 1.15rem; }
+    .nav-links { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; }
+    .nav-links a { text-decoration: none; color: var(--slate); font-size: 0.92rem; }
+    .nav-links a:hover { color: var(--ink); }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.85rem 1.25rem; border-radius: 2px;
+      text-decoration: none; font-weight: 500; font-size: 0.95rem;
+      transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--ink); color: var(--paper); }
+    .btn-primary:hover { background: #162033; color: var(--paper); }
+    .btn-ghost { border: 1px solid var(--ink); color: var(--ink); background: transparent; }
+    .btn-bronze { background: var(--bronze); color: var(--paper); }
+    .btn-bronze:hover { background: var(--bronze-deep); color: var(--paper); }
+
+    /* Hero — one composition, full-bleed atmosphere */
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: grid;
+      align-items: end;
+      padding: 6rem 0 4.5rem;
+      overflow: hidden;
+      background:
+        radial-gradient(1200px 600px at 80% 10%, rgba(139, 115, 85, 0.18), transparent 60%),
+        linear-gradient(165deg, #0B1220 0%, #152036 48%, #1a2740 100%);
+      color: var(--paper);
+    }
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(247,245,240,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(247,245,240,0.04) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent 85%);
+      animation: gridDrift 28s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes gridDrift {
+      from { transform: translateY(0); }
+      to { transform: translateY(72px); }
+    }
+    .hero-brand {
+      font-size: clamp(2.8rem, 7vw, 5.2rem);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: rise 0.9s ease forwards 0.1s;
+    }
+    .hero h1 {
+      font-size: clamp(1.45rem, 2.6vw, 2rem);
+      font-weight: 500;
+      max-width: 18ch;
+      color: rgba(247,245,240,0.92);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: rise 0.9s ease forwards 0.25s;
+    }
+    .hero p.deck {
+      max-width: 36rem;
+      font-size: 1.12rem;
+      color: rgba(247,245,240,0.78);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: rise 0.9s ease forwards 0.4s;
+    }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 0.75rem; opacity: 0; animation: rise 0.9s ease forwards 0.55s; }
+    .hero .btn-primary { background: var(--paper); color: var(--ink); }
+    .hero .btn-ghost { border-color: rgba(247,245,240,0.55); color: var(--paper); }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-meta {
+      margin-top: 2.5rem;
+      font-size: 0.85rem;
+      color: rgba(247,245,240,0.55);
+      font-family: "IBM Plex Sans", sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: rise 0.9s ease forwards 0.7s;
+    }
+
+    section { padding: 5rem 0; }
+    section.alt { background: var(--mist); }
+    .eyebrow {
+      font-family: "IBM Plex Sans", sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--bronze-deep);
+      margin-bottom: 0.75rem;
+    }
+    h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); margin-bottom: 0.75rem; max-width: 18ch; }
+    .lede { max-width: 40rem; color: var(--slate); margin-bottom: 2rem; }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    @media (max-width: 840px) {
+      .split { grid-template-columns: 1fr; }
+      .nav-links a:not(.btn) { display: none; }
+    }
+
+    .principle-list { list-style: none; display: grid; gap: 1rem; }
+    .principle-list li {
+      padding: 1.1rem 0;
+      border-top: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      gap: 0.75rem;
+    }
+    .principle-list strong { display: block; font-family: Fraunces, serif; font-size: 1.15rem; }
+    .num { font-family: "IBM Plex Sans", sans-serif; color: var(--bronze); font-weight: 600; }
+
+    .ladder {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+    .ladder a {
+      display: grid;
+      grid-template-columns: 6.5rem 1fr auto;
+      gap: 1rem;
+      align-items: baseline;
+      padding: 1.15rem 0;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+      color: inherit;
+      transition: padding-left 0.25s ease, background 0.25s ease;
+    }
+    .ladder a:hover { padding-left: 0.5rem; background: rgba(139,115,85,0.06); }
+    .ladder .price { font-family: "IBM Plex Sans", sans-serif; font-weight: 600; color: var(--bronze-deep); }
+    .ladder .name { font-family: Fraunces, serif; font-size: 1.2rem; }
+    .ladder .blurb { grid-column: 2 / 3; color: var(--slate); font-size: 0.98rem; }
+
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 900px) { .stack-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 520px) { .stack-grid { grid-template-columns: 1fr; } }
+    .stack-grid article {
+      padding: 1rem 0;
+      border-top: 2px solid var(--bronze);
+    }
+    .stack-grid h3 { font-size: 1.05rem; margin-bottom: 0.35rem; }
+    .stack-grid p { font-size: 0.95rem; color: var(--slate); }
+
+    .cta-band {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 4.5rem 0;
+    }
+    .cta-band h2 { color: var(--paper); max-width: 16ch; }
+    .cta-band p { color: rgba(247,245,240,0.75); max-width: 36rem; margin: 0.75rem 0 1.75rem; }
+    .cta-band .btn-primary { background: var(--paper); color: var(--ink); }
+
+    .faq details {
+      border-bottom: 1px solid var(--line);
+      padding: 1rem 0;
+    }
+    .faq summary {
+      cursor: pointer;
+      font-family: Fraunces, serif;
+      font-size: 1.15rem;
+      list-style: none;
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq details p { margin-top: 0.6rem; color: var(--slate); max-width: 42rem; }
+
+    footer {
+      padding: 3rem 0 4rem;
+      border-top: 1px solid var(--line);
+      font-family: "IBM Plex Sans", sans-serif;
+      font-size: 0.9rem;
+      color: var(--slate);
+    }
+    footer .foot-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 700px) { footer .foot-grid { grid-template-columns: 1fr; } }
+    footer a { text-decoration: none; color: var(--slate); }
+    footer a:hover { color: var(--ink); }
+    footer ul { list-style: none; display: grid; gap: 0.4rem; margin-top: 0.5rem; }
+    footer strong { color: var(--ink); font-family: Fraunces, serif; font-size: 1.1rem; }
+  </style>
+</head>
+<body>
+  <header class="nav ui">
+    <div class="wrap nav-inner">
+      <a class="logo" href="#top">Evidence Room</a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#problem">Problem</a>
+        <a href="#method">Method</a>
+        <a href="#products">Products</a>
+        <a href="#agents">Agents</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn btn-primary" href="#diagnostic">Free diagnostic</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <p class="hero-brand">Evidence Room</p>
+        <h1>AP Agent OS for Finance leaders who refuse hype.</h1>
+        <p class="deck">Design, govern, and measure AI agents across Accounts Payable—without replacing your ERP, and without surrendering payment authority.</p>
+        <div class="hero-cta ui">
+          <a class="btn btn-primary" href="#diagnostic">Get the free diagnostic</a>
+          <a class="btn btn-ghost" href="#products">View the product ladder</a>
+        </div>
+        <p class="hero-meta">Governed agents · Measurable outcomes · Human payment authorisation</p>
+      </div>
+    </section>
+
+    <section id="problem">
+      <div class="wrap split">
+        <div>
+          <p class="eyebrow ui">The operating problem</p>
+          <h2>Finance AI is stuck in experimentation.</h2>
+          <p class="lede">Prompt packs and vendor demos create motion. Controllers need an operating system: charters, responsibility levels, controls, shadow evidence, and scorecards that separate activity from outcomes.</p>
+        </div>
+        <ul class="principle-list">
+          <li><span class="num">01</span><div><strong>Cost and cycle pressure</strong><span style="color:var(--slate)">Touch-heavy invoice flows with opaque exceptions.</span></div></li>
+          <li><span class="num">02</span><div><strong>Control evidence burden</strong><span style="color:var(--slate)">Audits ask who decided what, on which version, with what override.</span></div></li>
+          <li><span class="num">03</span><div><strong>Automation without judgement design</strong><span style="color:var(--slate)">Tools arrive before taxonomy, RACI, and promotion gates.</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="alt" id="method">
+      <div class="wrap">
+        <p class="eyebrow ui">Principles</p>
+        <h2>Non-negotiables built into the OS.</h2>
+        <p class="lede">Evidence Room turns Finance AI from experimentation into measurable operating performance. Differentiation is governance and measurement—not another capture module.</p>
+        <div class="stack-grid">
+          <article>
+            <h3>Agents earn responsibility</h3>
+            <p>Levels 0–4. Full autonomy is never the default.</p>
+          </article>
+          <article>
+            <h3>Payments stay human</h3>
+            <p>Agents may analyse proposals. Authorisation remains under human DOA.</p>
+          </article>
+          <article>
+            <h3>Four metric classes</h3>
+            <p>Activity ≠ operational ≠ financial ≠ risk. Keep them separate.</p>
+          </article>
+          <article>
+            <h3>Evidence on material actions</h3>
+            <p>Timestamp, version, inputs hash, confidence, human override.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="products">
+      <div class="wrap">
+        <p class="eyebrow ui">Product ladder</p>
+        <h2>Progressive products. Near-zero marginal delivery.</h2>
+        <p class="lede">Start with a diagnostic. Buy depth only when the programme is real.</p>
+        <div class="ladder">
+          <a href="#diagnostic">
+            <span class="price">Free</span>
+            <span class="name">AP AI Readiness Diagnostic</span>
+            <span class="ui" aria-hidden="true">→</span>
+            <span class="blurb">Score governance, data, measurement, and control readiness.</span>
+          </a>
+          <a href="#buy">
+            <span class="price">$79</span>
+            <span class="name">AP Agent Starter Kit</span>
+            <span class="ui" aria-hidden="true">→</span>
+            <span class="blurb">First governed agent pattern—charter, level, shadow posture.</span>
+          </a>
+          <a href="#buy">
+            <span class="price">$199</span>
+            <span class="name">AP Agent OS Professional</span>
+            <span class="ui" aria-hidden="true">→</span>
+            <span class="blurb">Full OS: library, mapping, governance, controls, KPIs, testing, templates.</span>
+          </a>
+          <a href="#buy">
+            <span class="price">$499</span>
+            <span class="name">AP Agent OS Team</span>
+            <span class="ui" aria-hidden="true">→</span>
+            <span class="blurb">Workshop, training, steering, change, and benefits packs.</span>
+          </a>
+          <a href="#buy">
+            <span class="price">$1.5–3k</span>
+            <span class="name">AP Transformation Blueprint</span>
+            <span class="ui" aria-hidden="true">→</span>
+            <span class="blurb">Fixed-scope facilitated design for your ERP and control environment.</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt" id="agents">
+      <div class="wrap">
+        <p class="eyebrow ui">Agent stack</p>
+        <h2>Sixteen specialists. One orchestrator.</h2>
+        <p class="lede">ERP-agnostic agents across intake, matching, exceptions, reconciliation, payment-adjacent review, close, and improvement—supervised by an AP Manager Orchestrator.</p>
+        <div class="stack-grid">
+          <article><h3>Intake &amp; validate</h3><p>Invoice Intake · Validation</p></article>
+          <article><h3>Match &amp; triage</h3><p>Matching · Exception Triage</p></article>
+          <article><h3>Resolve</h3><p>GR · PO Quality · Approval · Supplier · Follow-up · Duplicate</p></article>
+          <article><h3>Pay-prep &amp; close</h3><p>Statement Rec · Proposal Review · Close · Reporting · Root Cause</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="proof">
+      <div class="wrap split">
+        <div>
+          <p class="eyebrow ui">Proof posture</p>
+          <h2>We refuse claims we cannot evidence.</h2>
+          <p class="lede">No guaranteed savings. No fraud-detection guarantee. No compliance certificate. No autonomous payment safety story. What we sell is the operating discipline to run agents like a controlled workforce.</p>
+        </div>
+        <div>
+          <ul class="principle-list">
+            <li><span class="num">—</span><div><strong>Shadow before write access</strong><span style="color:var(--slate)">Promotion is earned with scored samples.</span></div></li>
+            <li><span class="num">—</span><div><strong>Assumption-labelled economics</strong><span style="color:var(--slate)">Realisation % required on labour “savings.”</span></div></li>
+            <li><span class="num">—</span><div><strong>Research ledger discipline</strong><span style="color:var(--slate)">Market claims tracked; customer PDFs stay selective.</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-band" id="diagnostic">
+      <div class="wrap">
+        <p class="eyebrow ui" style="color: rgba(247,245,240,0.55);">Start here</p>
+        <h2>Take the free AP AI Readiness Diagnostic.</h2>
+        <p>Score your programme in one sitting. Bring the results to your Controller conversation before you buy another AI module.</p>
+        <div class="hero-cta ui">
+          <a class="btn btn-primary" href="#">Download free diagnostic</a>
+          <a class="btn btn-ghost" href="#products">Compare paid tiers</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="faq">
+      <div class="wrap">
+        <p class="eyebrow ui">FAQ</p>
+        <h2>Straight answers.</h2>
+        <details open>
+          <summary>Does this replace our ERP or AP automation platform?</summary>
+          <p>No. Evidence Room designs and governs the agent layer that operates across Dynamics 365, SAP, Oracle, NetSuite, Workday, and adjacent tools.</p>
+        </details>
+        <details>
+          <summary>Will agents authorise payments?</summary>
+          <p>No. Payment authorisation remains human-controlled. Payment Proposal Review analyses; humans authorise under your DOA.</p>
+        </details>
+        <details>
+          <summary>Is this a ChatGPT prompt pack?</summary>
+          <p>No. You get operating artefacts: agent library, process methodology, governance, controls, KPIs, testing gates, and templates—plus Team facilitation packs at $499.</p>
+        </details>
+        <details>
+          <summary>Do you guarantee ROI or fraud detection?</summary>
+          <p>No. We provide transparent business-case models and control frameworks. Guaranteed savings or fraud claims are incompatible with our brand standard.</p>
+        </details>
+        <details>
+          <summary>How does checkout work?</summary>
+          <p>Digital products are sold via Lemon Squeezy (Merchant of Record). Ecommerce fees follow Lemon Squeezy’s published pricing (commonly cited as 5% + 50¢—confirm live at purchase time). Blueprint services may be scheduled after payment or intake.</p>
+        </details>
+      </div>
+    </section>
+
+    <div id="buy" class="wrap" style="padding-bottom: 3rem;">
+      <p class="eyebrow ui">Purchase</p>
+      <h2 style="max-width:22ch;margin-bottom:1rem;">Buy on Lemon Squeezy when store links are live.</h2>
+      <p class="lede">Until production URLs are attached, use checkout copy in <span class="ui">07_LEMON_SQUEEZY/CHECKOUT_COPY.md</span>.</p>
+      <a class="btn btn-bronze ui" href="#diagnostic">Start with the free diagnostic</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap foot-grid">
+      <div>
+        <strong>Evidence Room</strong>
+        <p style="margin-top:0.5rem;max-width:28rem;">AP Agent OS — the operating system for building, governing, and scaling AI agents across Accounts Payable.</p>
+        <p style="margin-top:1rem;">Payment authorisation remains human-controlled.</p>
+      </div>
+      <div>
+        <strong>Products</strong>
+        <ul>
+          <li><a href="#diagnostic">Diagnostic</a></li>
+          <li><a href="#products">Starter / Pro / Team</a></li>
+          <li><a href="#products">Blueprint</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Legal</strong>
+        <ul>
+          <li><a href="../10_LEGAL_AND_LICENSING/LICENCE_TERMS.md">Licence</a></li>
+          <li><a href="../10_LEGAL_AND_LICENSING/PRIVACY_LANGUAGE.md">Privacy</a></li>
+          <li><a href="../10_LEGAL_AND_LICENSING/REFUND_POLICY.md">Refunds</a></li>
+          <li><a href="../10_LEGAL_AND_LICENSING/DISCLAIMERS.md">Disclaimers</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
