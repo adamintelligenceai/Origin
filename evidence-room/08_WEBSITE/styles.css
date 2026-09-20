@@ -20,9 +20,10 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 17px;
   line-height: 1.55;
+  word-spacing: 0.02em;
 }
 
 a { color: inherit; }
@@ -108,9 +109,9 @@ img { max-width: 100%; }
   margin: 0 0 16px;
 }
 h1, h2, h3, .display {
-  font-family: Fraunces, "Times New Roman", serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   margin: 0 0 16px;
 }
 h1, .display { font-size: clamp(42px, 7vw, 84px); line-height: 0.95; }
@@ -145,7 +146,7 @@ h3 { font-size: 22px; }
   font-size: 14px;
 }
 .ladder li:last-child { border-bottom: 0; }
-.lvl { color: var(--gilt-deep); font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+.lvl { color: var(--gilt-deep); font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 12px; }
 
 .strip {
   display: grid;
@@ -158,7 +159,7 @@ h3 { font-size: 22px; }
 }
 .strip article:first-child { padding-left: 0; }
 .strip article:last-child { border-right: 0; }
-.strip h3 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--slate); font-family: "IBM Plex Sans", sans-serif; }
+.strip h3 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--slate); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 .strip p { margin: 0; font-size: 15px; }
 
 section { padding: 80px 0; }
@@ -171,7 +172,7 @@ section { padding: 80px 0; }
   padding: 24px;
 }
 .card p:last-child { margin-bottom: 0; }
-.price { font-family: Fraunces, serif; font-size: 36px; }
+.price { font-family: Georgia, "Times New Roman", serif; font-size: 36px; }
 .table-wrap { overflow: auto; border: 1px solid var(--rule); background: var(--white); }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
