@@ -168,7 +168,7 @@ Process owner issues. Control owner reviews Type 1 and Type 2 when controls or a
 
 | Use | Avoid |
 |---|---|
-| “Park as EX-MRX and start Internal Chase” | “Resolve GRN issues promptly” |
+| “Park as EX-MRX and start 09 Internal Follow-up” | “Resolve GRN issues promptly” |
 | “Apply DT-MATCH” | “Match as appropriate” |
 | “Propose fields; do not post” | “The agent processes the invoice” |
 | “AP lead sets hold” | “Payment is stopped automatically” |
@@ -192,22 +192,22 @@ Related: NL-I2P-NIL-PO-GOODS-v03, DT-CLASS…DT-HOLD, CM-INTAKE-01…CM-EVD-01
 State: S5 Duplicate gate
 Actor: AP processor
 You will need: Supplier account, invoice number, amount, date, site/group id if present
-Do: Run the standard duplicate query. Open Duplicate Agent flags if present.
+Do: Run the standard duplicate query. Open 10 Duplicate & Anomaly flags if present.
 Decision: DT-DUP
 If blocked: EX-DUP → AP lead same day. EX-PDUP → AP lead before any further matching.
 Leave behind: Query id or result set on the invoice record
 Do not: Void, delete, or post an item the agent flagged until AP lead has cleared or confirmed it.
-Agent: Duplicate Agent proposes EX-DUP / EX-PDUP. It does not close X4.
+Agent: 10 Duplicate & Anomaly proposes EX-DUP / EX-PDUP. It does not close X4.
 
 State: S7 Read receipt position
 Actor: AP processor
 You will need: PO lines, GRN enquiry
-Do: Read received quantity per required line. If missing, park EX-MRX and start Internal Chase.
+Do: Read received quantity per required line. If missing, park EX-MRX and start 09 Internal Follow-up.
 Decision: DT-GRN
 If blocked: EX-MRX or EX-PRX
 Leave behind: GRN snapshot
 Do not: Post on a buyer email that “the goods are here” without a receipt in the system of record.
-Agent: Match Agent reads receipt position. Internal Chase Agent may draft the receiver/buyer message from the template.
+Agent: 03 Matching reads receipt position. 09 Internal Follow-up may draft the receiver/buyer message from the template.
 ```
 
 The full issued SOP continues this pattern through S14 and the exception appendix. The stub above is the expected density, not a complete issue.

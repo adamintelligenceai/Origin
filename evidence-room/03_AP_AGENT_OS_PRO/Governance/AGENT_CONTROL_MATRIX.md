@@ -1,212 +1,232 @@
 # Agent Control Matrix
 
 **Product:** AP Agent OS — Evidence Room  
-**Use with:** `GOVERNANCE_FRAMEWORK.md`, `RISK_REGISTER.md`  
+**Roster:** The sixteen agents in `../Agent_Library/00_AGENT_STACK_OVERVIEW.md`  
+**Use with:** `GOVERNANCE_FRAMEWORK.md`, `RISK_REGISTER.md`, each agent charter  
 **Columns:** Agent, Risk, Control, Preventive/Detective, Human owner, Evidence, Frequency, Escalation trigger  
-**Roster:** 16 agents. Each agent has multiple risks. Agents assist; humans remain Accountable.
 
-**Northline owners (illustrative):**  
-Process owner — Marcus Chen (AP Manager)  
-Control owner — Priya Shah (Financial Controller)  
-AP lead — Elena Voss  
-Test lead — implementation designate  
-Privacy — finance ops designate  
-Systems — David Park
+Agents assist at the chartered autonomy level (default L0/L1). Humans remain Accountable. Duplicate & Anomaly flags are hypotheses, not fraud findings. Payment Proposal Review annotates; it does not authorise payment.
 
-Frequencies are operating defaults. Tighten after incidents.
+**Northline owners (illustrative, Cleveland SSC):**  
+AP Process Owner / AP Manager — Marcus Chen  
+Controller — Priya Shah  
+AP Operations Lead — Elena Voss  
+AP Controls Lead — designate under Shah  
+Exception Desk Lead — designate under Voss  
+Procurement Operations Lead — James Okonkwo  
+Treasury / Payments Lead — Hannah Reid  
+Assistant Controller — Payables — designate under Shah  
+Systems — David Park  
+Finance Transformation Lead — implementation designate  
 
----
-
-## Intake Agent
-
-| Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
-|---|---|---|---|---|---|---|---|
-| Intake | Invoice arrives and is not filed (silent drop) | CM-INTAKE-01: mailbox/portal items must map to a stub or rejection log same day | P | Chen | Intake reconciliation (channel count vs stub count) | Daily | Unfiled items overnight, or channel count gap > 0 |
-| Intake | Agent deletes or moves source mail so the trail is gone | Least privilege: no delete; dispositions are copy-and-file | P | Park | Access review of the service principal | Quarterly + on change | Any delete right detected |
-| Intake | Duplicate intake from two channels creates two stubs | Handoff to Duplicate Agent; both stubs retained until X4 | D | Voss | Paired stub ids | Continuous | Second stub posted |
-| Intake | Untrusted sender content treated as an instruction | Prompt/content separation; no arbitrary URL fetch | P | Test lead | Injection test pack results | Each release | Any successful injection in test or prod |
-| Intake | Personal data in the mailbox sent in bulk to a model | Scope prompts to the single item; privacy inventory | P | Privacy | Prompt-size and item-id logs | Weekly sample | Batch-send of a full mailbox detected |
+Frequencies are operating defaults. Tighten after incidents. First release: L0/L1 unless a signed promotion record exists.
 
 ---
 
-## Classification Agent
+## 01 — Invoice Intake
 
 | Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
 |---|---|---|---|---|---|---|---|
-| Classification | Statement or credit treated as an invoice and keyed for payment | DT-CLASS; processor accepts type | P | Chen | Type vs gold-label / shadow | Weekly | One statement posted as invoice |
-| Classification | Invoice classed as credit and closed | Human accept on type; sample of “credit” leaves | D | Voss | Accept/reject log | Weekly | False credit classification > agreed FPR |
-| Classification | Intercompany or foreign-currency item left on the domestic PO path | Path filters on entity/currency/type | P | Chen | Path-mismatch sample | Weekly | Item posted on the wrong path |
-| Classification | Hallucinated document type without face evidence | Output validation: type requires citation | P | Test lead | Validation failures | Continuous | Ready-status without citation |
+| Invoice Intake | Inbound item not registered (silent drop) | Channel count vs stub/rejection log same day | P | Voss | Intake reconciliation | Daily | Overnight unfiled items or count gap > 0 |
+| Invoice Intake | Wrong document class (statement/credit as invoice) | Classification checklist; human accept on type at L1 | P | Voss | Type vs labelled sample | Weekly | Statement or credit entered the match-ready queue |
+| Invoice Intake | Extracted amount, invoice number, or bill-to invented | Citations + confidence floors; EX-OCR / quality fail | P | Voss | Field accuracy vs gold-label | Each test cycle; weekly sample | Ready required field without citation |
+| Invoice Intake | Source mail deleted so the trail is gone | Least privilege: no delete; copy-and-file | P | Park | Service-principal access review | Quarterly + on change | Delete right present |
+| Invoice Intake | Untrusted PDF/email treated as an instruction | Content/instruction split; no arbitrary URL fetch | P | Test lead | Injection pack | Each release | Injection success |
+| Invoice Intake | Full mailbox sent to a model | Item-scoped prompts; privacy inventory | P | Privacy | Prompt-size / item-id logs | Weekly sample | Batch mailbox prompt detected |
 
 ---
 
-## Extraction Agent
+## 02 — Invoice Validation
 
 | Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
 |---|---|---|---|---|---|---|---|
-| Extraction | Wrong invoice number, amount, or date copied into the draft | Field citations; confidence floors; processor review | P | Chen | Field-level accuracy vs gold-label | Each test cycle; weekly sample in prod | Required-field accuracy below floor |
-| Extraction | Low-confidence fields posted | EX-OCR blocks ready status | P | Chen | EX-OCR rate + override log | Daily in pilot; weekly later | Override of EX-OCR without keying from face |
-| Extraction | Model invents a PO or tax amount not on the face | Grounding: copy-don’t-restate; refuse if unread | P | Test lead | Unsupported-output review | Weekly | Any invented required field in sample |
-| Extraction | Prompt injection via PDF annotation changes fields | Tool allow-list; injection tests | P | Test lead | Test pack | Each model change | Injection success |
-| Extraction | Images retained or reused for vendor training without review | Vendor contract + disable training-use | P | Privacy | Vendor attestation + config | On boarding and annually | Training-use found on |
+| Invoice Validation | Incomplete invoice marked posting-ready | Completeness checklist; no constructed invoice numbers | P | Voss | Fail packs + posted-missing-field query | Weekly | Posted invoice missing a required face field |
+| Invoice Validation | Wrong legal entity not failed | Bill-to legal name / registered number test | P | Shah | EX-ILE sample and misses | Weekly | Any posted entity miss |
+| Invoice Validation | Wrong or blocked supplier passed | Master lookup; unique unblocked account | P | Voss | EX-WSP / EX-MDI packs | Weekly | Posted to an unintended account |
+| Invoice Validation | Tax fields not compared; ambiguous tax treated as settled | Flag only; Tax decides ambiguous / cross-border | P | Shah / Tax | Compare note; tax-master change log vs agent id | Weekly | Agent id on tax master; “compliant” wording |
+| Invoice Validation | Bank details on face/message differ from master and are ignored | Face/message-to-master compare → EX-BNK; no master write | P | Shah | EX-BNK log | Continuous | Difference found after proposal annotation |
+| Invoice Validation | Excessive fails on usable invoices (noise) | FPR review; checklist versioning | D | Voss | Validation FPR | Weekly | FPR above scorecard watch |
 
 ---
 
-## Quality Agent
+## 03 — Matching
 
 | Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
 |---|---|---|---|---|---|---|---|
-| Quality | Incomplete invoice proceeds because the agent “filled gaps” | Quality checklist; no constructed invoice numbers | P | Chen | EX-IQ packs | Weekly | Posted invoice missing a required face field |
-| Quality | Wrong legal entity not flagged (logo-only match) | DT-ID requires legal name or registered number | P | Shah | EX-ILE sample and misses | Weekly | Any EX-ILE miss that posted |
-| Quality | Bank-detail difference not flagged | Face-to-master compare → EX-BNK | P | Shah | EX-BNK log | Continuous | Difference found after payment-pack input |
-| Quality | Excessive EX-IQ on usable invoices (noise) | FPR review; checklist versioning | D | Chen | Quality FPR | Weekly | FPR above scorecard threshold |
+| Matching | Invoice recommended/posted above received quantity | 3-way / GR tests; EX-MRX / EX-PRX / EX-QTM | P | Voss | GR snapshot on sample | Weekly; 100% in pilot | Qty > received on a posted or ready-to-post item |
+| Matching | Price variance outside tolerance treated as clean | Signed tolerance table; EX-PRM; agent cannot edit table | P | Shah | Match worksheet | Weekly sample | Outside-tolerance ready without waiver |
+| Matching | Closed or exhausted PO treated as open | Status and residual tests | P | Voss | PO snapshot | Weekly | Ready against closed/exhausted PO |
+| Matching | PO taken from operator memory or last-used list | PO from face or buyer-confirmed reference only | P | Voss | PO-source field | Weekly | Source = history list |
+| Matching | Agent invents a GR or rewrites a PO | No GR-create / PO-write tools; hand off to 05 / 06 | P | Park | Tool allow-list | Each release | Write attempt |
+| Matching | Clean-match post at L3 without a current promotion record | Autonomy gate; default L1 recommend only | P | Chen / Shah | Promotion record | Continuous | Post by agent principal without record |
 
 ---
 
-## Duplicate Agent
+## 04 — Exception Triage
 
 | Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
 |---|---|---|---|---|---|---|---|
-| Duplicate | Exact duplicate posts | CM-DUP-01; EX-DUP blocks post | P | Shah | X4 record + query id | 100% of flags | Duplicate posted |
-| Duplicate | Near-duplicate / other-site duplicate missed | DT-DUP secondary tests; group/site id | D | Voss | EX-PDUP packs; missed-pair reviews | Weekly | Posted pair later judged EX-PDUP |
-| Duplicate | False EX-DUP blocks a genuine invoice | AP lead confirm; reason on clear | D | Voss | Clear-reason log | Weekly | Genuine invoice aged solely on false EX-DUP > 5 days |
-| Duplicate | Agent voids or deletes an invoice | No void/delete tool | P | Park | Tool allow-list | Each release | Void tool present |
-| Duplicate | Processor self-clears their own re-key | SoD: X4 ≠ original keyer | P | Shah | User-id compare | Weekly | Same-user X4 without controller note |
+| Exception Triage | Wrong taxonomy code hides the blocking issue | Master tree order; related-code field | P | Exception Desk | Code vs gold-label | Weekly | Blocking-code accuracy below floor |
+| Exception Triage | EX-AGE replaces the original code | Ageing adds; does not replace | P | Exception Desk | Dual-code presence | Weekly | EX-AGE as sole code |
+| Exception Triage | Agent resolves, waives, or posts to clear the queue | No resolve/waive/post tool — names owner, action, clock | P | Shah | Tool allow-list | Each release | Waiver or post by agent |
+| Exception Triage | Critical codes treated as routine | Risk-level route to Controls / AP lead | P | Shah | Route log | Continuous | EX-BNK / EX-ILE / EX-DUP / EX-DOA closed by processor only |
+| Exception Triage | Oscillating codes reset the SLA clock | Reason required to reset; Orchestrator clock | D | Exception Desk | Age vs code-change log | Weekly | > 2 resets without reason |
 
 ---
 
-## Match Agent
+## 05 — Goods Receipt
 
 | Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
 |---|---|---|---|---|---|---|---|
-| Match | Invoice posts above received quantity | DT-GRN / DT-MATCH; EX-MRX / EX-PRX / EX-QTM | P | Chen | GRN snapshot on posted sample | Weekly sample; 100% in pilot | Post with invoice qty > received qty |
-| Match | Price variance outside tolerance posts | Signed tolerance table; EX-PRM | P | Shah | Match report | Weekly sample | Post outside tolerance without waiver |
-| Match | Agent widens tolerance or uses chat as acceptance | Tolerance not writable by the agent; waiver object required | P | Shah | Waiver register | Continuous | Waiver without control-owner id |
-| Match | Wrong PO attached because of supplier familiarity | PO from face or buyer-confirmed reference only | P | Chen | PO-source field | Weekly | Source = “operator memory” or last-used list |
-| Match | Exhausted or closed PO treated as open | Status and residual tests | P | Chen | PO snapshot | Weekly | Post to closed/exhausted PO |
-| Match | Match reported without citations | Output validation | P | Test lead | Validation log | Continuous | Ready match without PO/GRN pointers |
+| Goods Receipt | Missing/partial receipt not detected | Receipt-required list + qty compare | P | Plant finance liaison | EX-MRX / EX-PRX objects | Daily | Posted goods invoice with no GR |
+| Goods Receipt | Email “goods are here” used as a receipt | SOP: system GR only; packet forbids email-GRN post | P | Voss | Posted-without-GR query | Daily | Any hit |
+| Goods Receipt | Agent creates a GR | No GR-write tool | P | Park | Tool allow-list | Each release | Write attempt |
+| Goods Receipt | Chase sent to the wrong plant / leaked pricing | Recipient from PO plant/receiver table | P | Liaison | Recipient vs PO | Weekly | Off-table recipient |
+| Goods Receipt | Chase fatigue; genuine blocks ignored | Cap + escalate to Exception Desk / AP lead | D | Exception Desk | Chase vs age | Weekly | EX-AGE on EX-MRX without lead touch |
 
 ---
 
-## Coding Agent
+## 06 — PO Quality
 
 | Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
 |---|---|---|---|---|---|---|---|
-| Coding | Empty coding block posts | EX-CDM; DT-POST | P | Chen | Posted-without-coding query | Daily | Any hit |
-| Coding | Invalid or neighbour cost centre substituted | Combination validation; no neighbour fill | P | Chen | EX-ICC vs posted combinations | Weekly | Invalid combination posted |
-| Coding | Non-PO novel spend coded from “last invoice” without a rule | Standing-rule register; else unknown → EX-CDM | P | Chen | Rule-id on proposal | Weekly | Proposal cites “last invoice” only |
-| Coding | Agent creates a cost centre | No master-write tool | P | Park | Tool allow-list | Each release | Write attempt |
+| PO Quality | Defective PO silently rewritten by the agent | Read-only; buyers decide; no PO change tool | P | Okonkwo | Tool allow-list | Each release | PO write attempt |
+| PO Quality | Wrong defect class (commercial price vs UOM) | Controlled defect list `AP-POQ-001` | P | Okonkwo | Defect vs exception join | Weekly | Repeat misclass vs Agent 04 |
+| PO Quality | Prospective hints become a second approval gate buyers ignore | Wave/charter: retrospective L0 until trust evidence | P | Okonkwo | Charter autonomy level | On change | Prospective L1 without charter |
+| PO Quality | Vendor-on-PO ≠ intended payee not raised | Payee vs PO vendor compare → hand to Validation / Vendor Master | D | Okonkwo / Shah | Defect records | Weekly | Invoice later posted to unintended payee with no prior defect |
+| PO Quality | Noise to buyers (every PO flagged) | FPR by defect class; change-controlled list | D | Okonkwo | Weekly defect mix | Weekly | FPR above agreed watch |
 
 ---
 
-## Tax Agent
+## 07 — Approval
 
 | Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
 |---|---|---|---|---|---|---|---|
-| Tax | Face tax not compared before post | DT-TAX; EX-TAX | P | Shah | Tax compare note on sample | Weekly | Posted item without compare |
-| Tax | Agent changes tax master or invents a code | Read-only master; EX-TAX to specialist | P | Tax specialist | Master change log vs agent id | Continuous | Any agent-id on master change |
-| Tax | Rounding or mixed-rate invoice force-balanced | Rounding threshold signed; no force-balance | P | Shah | Break analysis | Weekly | Force-balance flag |
-| Tax | Outputs described as “tax compliant” | Language rule in SOP and UI | P | Shah | UI/SOP review | Each release | “Compliant” in user-facing text |
+| Approval | Required DOA instance missing and item marked ready | DT-POST; EX-APM | P | Shah | Approval instance on sample | Weekly | Missing instance on posted/ready item |
+| Approval | Agent approves or raises a limit | No approve / DOA-edit tool | P | Shah | Tool allow-list + approval user-id | Continuous | Agent principal on an approval |
+| Approval | Stale DOA, expired delegate, or split to evade a limit | EX-DOA tests; split heuristic | D | Shah | EX-DOA packs | Weekly | Suspected split |
+| Approval | Email/chat yes treated as the system of record | Compensating-control list or remain EX-APM | P | Shah | Approval source field | Weekly | Source = email without waiver |
+| Approval | Chase spam trains approvers to ignore packets | Frequency caps; ageing to AP lead | D | Voss | Chase counts | Weekly | > agreed chases per object |
 
 ---
 
-## Approval Agent
+## 08 — Supplier Resolution
 
 | Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
 |---|---|---|---|---|---|---|---|
-| Approval | Invoice posts without a required approval instance | DT-POST; EX-APM | P | Shah | Approval instance on sample | Weekly | Missing instance on posted item |
-| Approval | Agent approves | No approve tool; DOA incumbent only | P | Shah | Tool allow-list + approval user-id | Continuous | Agent principal on an approval |
-| Approval | Stale or evaded DOA (splits, expired delegate) | EX-DOA tests; split heuristic | D | Shah | EX-DOA packs | Weekly | Suspected split |
-| Approval | Email yes treated as the system of record | Compensating-control list or reject | P | Shah | Approval source field | Weekly | Source = email without waiver |
-| Approval | Chase spam to approvers (noise, ignored controls) | Chase frequency caps; ageing to AP lead | D | Chen | Chase counts | Weekly | > agreed chases per invoice |
+| Supplier Resolution | Draft negotiates price or promises payment | Template slots; forbidden-claims list | P | Voss | Sent-mail review | Weekly sample | Payment date or price acceptance in a draft/send |
+| Supplier Resolution | Wrong supplier contacted | Recipient from vendor master, not letterhead alone | P | Voss | Recipient vs master | Weekly | Off-master recipient |
+| Supplier Resolution | Unreviewed external send at L1 | Human release of send until a send-promotion record | P | Chen | Send-approver id | 100% until promotion | Send without human id |
+| Supplier Resolution | Injection in supplier reply alters the next draft or a tool call | Content/instruction split; templates | P | Test lead | Injection tests | Each release | Injection success |
+| Supplier Resolution | Free-text on EX-DIS / EX-BNK creates an apparent admission | Template legal review for those codes | P | Shah | Template version | On template change | Free-text send on those codes |
+| Supplier Resolution | Agent writes vendor bank details from a “please update” mail | No master-write; EX-BNK procedure | P | Shah | Master change log vs agent id | Continuous | Any agent write |
 
 ---
 
-## Exception Agent
+## 09 — Internal Follow-up
 
 | Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
 |---|---|---|---|---|---|---|---|
-| Exception | Wrong taxonomy code hides the blocking issue | Master tree order; related-code field | P | Chen | Code vs gold-label | Weekly | Blocking-code accuracy below floor |
-| Exception | EX-AGE replaces the original code | Ageing tree: add, do not replace | P | Voss | Dual-code presence | Weekly | EX-AGE as sole code |
-| Exception | Agent posts or waives to “clear the queue” | No post/waive tool | P | Shah | Tool allow-list | Each release | Waiver by agent |
-| Exception | High-risk codes (EX-BNK, EX-ILE, EX-DUP, EX-DOA) treated as routine | Risk-level routing to AP lead / controller | P | Shah | Route log | Continuous | High/Critical code with only processor close |
-| Exception | Oscillating codes reset ageing indefinitely | Ageing on first set; reason required to reset | D | Voss | Age vs code-change log | Weekly | > 2 code changes without reason |
+| Internal Follow-up | Incomplete fact pack wastes the owner’s time / gets a casual yes | Packet completeness checklist | P | Exception Desk | Packet sample | Weekly | Accept-without-packet |
+| Internal Follow-up | Casual internal yes used as GR, PO re-open, or approval | SOP forbids; source-of-record tests | P | Voss | Posted-without-GR / email-approval queries | Daily | Any hit |
+| Internal Follow-up | Wrong buyer/receiver; commercial data leaked | Recipients from PO / DOA / plant tables | P | Exception Desk | Recipient vs table | Weekly | Off-table recipient |
+| Internal Follow-up | Agent changes PO, GR, or coding | No write to those objects | P | Park | Tool allow-list | Each release | Write attempt |
+| Internal Follow-up | SLA clock runs without a named human owner | Orchestrator owner required | D | Chen | Owner-blank query | Daily | Blank owner > 1 working day |
 
 ---
 
-## Supplier Comms Agent
+## 10 — Duplicate & Anomaly
 
 | Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
 |---|---|---|---|---|---|---|---|
-| Supplier Comms | Agent negotiates price or promises payment | Template slots only; forbidden-claims list | P | Chen | Sent-mail review | Weekly sample | Any promise of payment date or price acceptance |
-| Supplier Comms | Wrong supplier contacted (privacy / commercial leak) | Recipient from master record, not from the PDF letterhead alone | P | Chen | Recipient vs master | Weekly | Off-master recipient |
-| Supplier Comms | Injection in supplier email alters the next draft | Content/instruction split; templates | P | Test lead | Injection tests | Each release | Injection success |
-| Supplier Comms | Unreviewed send in first release | Human release of send | P | Chen | Send-approver id | 100% until expansion | Send without human id |
-| Supplier Comms | Tone or content creates an apparent admission | Template legal review of high-risk codes (EX-DIS, EX-BNK) | P | Shah | Template version | On template change | Free-text send on EX-DIS / EX-BNK |
+| Duplicate & Anomaly | Exact duplicate proceeds to ready/pay | Rule book; EX-DUP / flag blocks 03 proceed and 12 proceed | P | Controls Lead | Flag + candidate ids | 100% of exact-key fires | Duplicate posted or listed clean on a proposal |
+| Duplicate & Anomaly | Near-duplicate / other-site / OCR collision missed | Secondary rules (site/group, fuzzy number) | D | Controls Lead | EX-PDUP / rule-fire review | Weekly | Posted pair later judged a miss |
+| Duplicate & Anomaly | Flag described or actioned as “fraud detected” | Language rule; flag is a hypothesis; human Clear/Confirm/Escalate/Defer | P | Shah | UI/SOP/report copy | Each release | “Fraud” in user-facing output |
+| Duplicate & Anomaly | Agent clears its own high-value flag or voids an invoice | No clear/void/delete tool; SoD on confirm | P | Shah | Tool allow-list + user-id compare | Continuous | Agent clear; or keyer = confirmer without note |
+| Duplicate & Anomaly | Model hint flags without a deterministic rule | Hint cannot flag alone at commissioning | P | Controls Lead | Rule-id required on flags | Weekly | Flag with rule-id = HINT only |
+| Duplicate & Anomaly | Noisy rules train people to Clear without reading | FPR by rule; change-controlled thresholds | D | Controls Lead | Weekly FPR | Weekly | FPR above watch on a high-volume rule |
 
 ---
 
-## Internal Chase Agent
+## 11 — Vendor Statement
 
 | Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
 |---|---|---|---|---|---|---|---|
-| Internal Chase | “Goods are here” email used as a GRN | SOP forbids post without system receipt | P | Chen | Posted-without-GRN query | Daily | Any hit |
-| Internal Chase | Wrong buyer or leaked vendor pricing to the wrong inbox | Recipient from PO owner table | P | Chen | Recipient vs PO | Weekly | Off-PO recipient |
-| Internal Chase | Chase fatigue; genuine blocks ignored | Cap + escalate to AP lead per tree | D | Voss | Chase vs age | Weekly | EX-AGE without AP-lead touch |
-| Internal Chase | Agent changes PO or creates GRN | No write to PO/GRN | P | Park | Tool allow-list | Each release | Write attempt |
+| Vendor Statement | Invoice created from a statement line | Forbidden action; pair or request the invoice | P | Reconciliations Lead | Created-from-statement query | Daily | Any hit |
+| Vendor Statement | Wrong entity open-items used | Entity filter mandatory | P | Reconciliations Lead | Entity on worksheet | Weekly | Cross-entity pair accepted |
+| Vendor Statement | Outbound pack leaks other entities’ open items | Pack scoping | P | Privacy | Outbound review | Weekly sample | Cross-entity data outbound |
+| Vendor Statement | Chronic discrepancy aged without an owner | EX-AGE + AP lead | D | Voss | Aged EX-STD list | Weekly | Past trigger, no owner |
+| Vendor Statement | Agent posts a balancing entry to “make it agree” | No GL/AP write | P | Shah | Tool allow-list | Each release | Write attempt |
 
 ---
 
-## Credit Note Agent
+## 12 — Payment Proposal Review
 
 | Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
 |---|---|---|---|---|---|---|---|
-| Credit Note | Credit allocated to the wrong original invoice | Pairing keys (supplier, entity, ref, amount); human accept | P | Chen | Allocation sample | Weekly | Mis-allocation found |
-| Credit Note | Duplicate credit posted | Duplicate gate on credit numbers | P | Voss | EX-DUP on credits | Continuous | Duplicate credit posted |
-| Credit Note | Agent silently reduces an invoice instead of waiting for a credit | EX-CNR; adjustment type only if signed | P | Shah | Adjustment report | Weekly | Unsigned adjustment |
-| Credit Note | Credit used to mask a duplicate payment situation | Link to EX-DUP / payment-pack review | D | Shah | Linked-code pack | On each such pair | Unlinked credit on a duplicate episode |
+| Payment Proposal Review | Agent releases, approves, or transmits a payment | No release/transmit tools; dual human release | P | Reid / Shah | Tool allow-list + payment log vs agent id | Continuous | Agent id on a release or file |
+| Payment Proposal Review | Hold-worthy item (EX-BNK, EX-DIS, open dup flag) omitted from annotation | Completeness vs hold-worthy query | P | Voss / Controls | Candidate vs query | Each run | Omission of EX-BNK / EX-DIS / open Confirm-dup |
+| Payment Proposal Review | Annotation worded “safe to pay” or “fraud-free” | Language: annotate / hold / unclear only | P | Shah | UI copy review | Each release | Forbidden wording |
+| Payment Proposal Review | Both legs of a duplicate listed without a note | Cross-check Agent 10 pairs | D | Controls Lead | Pair vs list | Each run | Both legs listed clean |
+| Payment Proposal Review | Hold lift by the agent | No lift tool; policy holds stay human | P | Shah | Hold log vs agent id | Continuous | Agent lift |
 
 ---
 
-## Statement Agent
+## 13 — AP Close
 
 | Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
 |---|---|---|---|---|---|---|---|
-| Statement | Invoice created from a statement line | Forbidden action; EX-STD pairing only | P | Chen | Created-from-statement query | Daily | Any hit |
-| Statement | Wrong entity open-items used | Entity filter mandatory | P | Chen | Entity on reconciliation | Weekly | Cross-entity pair accepted |
-| Statement | Chronic discrepancy aged without an owner | EX-AGE + AP lead | D | Voss | Aged EX-STD list | Weekly | Item > trigger with no owner |
-| Statement | Supplier contacted with a full open-item list containing extra entities | Pack scoping | P | Privacy | Outbound pack review | Weekly sample | Cross-entity data in outbound |
+| AP Close | Controller attests from an incomplete checklist | Controlled checklist; gaps visible; agent does not attest | P | Assistant Controller | Checklist completeness | Each close | Attestation with open Critical gap |
+| AP Close | Accrual candidates omitted or double-counted | Candidate rules + source ids; human accepts list | P | Assistant Controller | List vs source query | Each close | Material miss found after attest |
+| AP Close | Agent posts accruals or closes the period | No period-close / GL-post tool | P | Shah | Tool allow-list | Each release | Write attempt |
+| AP Close | Cut-off invoices forced into the wrong period | Cut-off calendar is an input, not agent judgement | P | Shah | Period on candidate vs calendar | Each close | Period override by agent |
+| AP Close | Close pack described as “books accurate” | Language rule | P | Shah | Cover sheet | Each close | Accuracy/compliance claim |
 
 ---
 
-## Payment Pack Agent
+## 14 — AP Reporting
 
 | Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
 |---|---|---|---|---|---|---|---|
-| Payment Pack | Agent releases a payment or lifts a hold | No release/lift tools; treasurer remains A | P | Reid / Shah | Tool allow-list + payment log vs agent id | Continuous | Agent id on a release |
-| Payment Pack | Hold candidate (EX-BNK, EX-DIS) omitted from the list | DT-HOLD completeness check | P | Voss | Candidate vs hold-worthy query | Each run | Omission of EX-BNK / EX-DIS |
-| Payment Pack | Listed item described as “safe to pay” | Language: candidate / hold / unclear only | P | Shah | UI copy review | Each release | “Safe to pay” or “fraud-free” wording |
-| Payment Pack | Duplicate open items both listed for payment input | Cross-check Duplicate Agent pairs | D | Voss | Pair vs list | Each run | Both legs listed without note |
+| AP Reporting | Vanity or forbidden tiles (ROI, fraud, guaranteed savings) | Tile catalogue from KPI framework; language filter | P | Shah | Dashboard acceptance tests | Each release | Forbidden title or D6 filled from hours |
+| AP Reporting | Formula drift mid-window | Locked formula version on the scorecard | P | Chen | Header formula version | Weekly | Unversioned number in the pack |
+| AP Reporting | Grey (unreported) shown as zero | Grey is first-class; no silent zero | P | Finance BP | Tile state | Monthly | Sav_val or Dup_pay_prev as 0 without method |
+| AP Reporting | Unmasked IBAN or EX-BNK detail on a general report | RLS + masking | P | Privacy | Access test | Monthly + on change | Processor role sees full bank numbers |
+| AP Reporting | Blended “accuracy” hides a Critical FNR | Separate detectors; no single agent score | P | Shah | P0 layout | Each release | Blended accuracy on overview |
 
 ---
 
-## Evidence Agent
+## 15 — Root Cause
 
 | Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
 |---|---|---|---|---|---|---|---|
-| Evidence | Pack omits the object that justified posting | CM-EVD-01 checklist | P | Shah | Pack completeness score | Monthly sample of 25 | Incomplete pack on a sampled posted invoice |
-| Evidence | Agent alters a source image or log | Read-and-assemble only | P | Park | Write-deny on sources | Each release | Write attempt |
-| Evidence | Pack over-collects personal data (full IBAN, unrelated mail) | Masking + scope to the invoice id | P | Privacy | Pack privacy review | Monthly sample | Unmasked bank number in a general pack |
-| Evidence | Pack presented as audit certification or “compliant” | Language rule | P | Shah | Cover-sheet text | Each release | Certification claim |
-| Evidence | Gaps quietly filled with generated narrative | Citation required on every included object | P | Shah | Unsupported-narrative review | Monthly | Narrative without object id |
+| Root Cause | Cluster presented as a decided process change | Propose only; process owner accepts/rejects | P | Transformation Lead | Decision log | Monthly | Change implemented from a cluster with no accept record |
+| Root Cause | Wrong cluster (mix mistaken for a cause) | Minimum n; mix commentary required | P | Transformation Lead | Cluster pack | Weekly / monthly | Action on n < agreed floor |
+| Root Cause | Agent edits tolerances, DOA, or templates to “fix” a cluster | No policy-write tools | P | Shah | Tool allow-list | Each release | Write attempt |
+| Root Cause | Supplier or employee named as at-fault in a wide report | Aggregation and access rules | P | Privacy / Chen | Distribution list | Monthly | Named-person blame in a general pack |
+| Root Cause | Hours or recovery in a cluster report labelled as savings | Financial language rule | P | Shah | Report copy | Monthly | “Savings delivered” without attestation |
+
+---
+
+## 16 — Orchestrator
+
+| Agent | Risk | Control | P/D | Human owner | Evidence | Frequency | Escalation trigger |
+|---|---|---|---|---|---|---|---|
+| Orchestrator | Work object has no human owner; SLA is theatre | Owner mandatory; blank-owner query | P | Chen | Owner-blank list | Daily | Blank > 1 working day |
+| Orchestrator | Routes an object to an agent action that is out of charter (e.g. pay release) | Allowed-action table per agent and autonomy level | P | Chen / Shah | Route vs charter | Continuous | Route to a forbidden action |
+| Orchestrator | Becomes a second ledger (posts, vendor changes, cash) | Explicit exclusions; ERP remains accounting SoR | P | Shah | Tool allow-list | Each release | Accounting write |
+| Orchestrator | Clock reset to hide ageing | Reset requires reason + role | D | Voss | Reset log | Weekly | Pattern of resets on Critical codes |
+| Orchestrator | Evidence URI missing so packs cannot be rebuilt | URI required before status `ready` / `closed` | P | Shah | Completeness query | Daily | Ready/closed without URI |
+| Orchestrator | Privilege to reassign ownership used to self-clear SoD | Reassign logged; SoD pairs still enforced | P | Shah | Reassign log | Weekly | Reassign that collapses X4 SoD or BNK SoD |
 
 ---
 
 ## How to use this matrix
 
-1. Every production agent must have its rows completed with **local named owners** before shadow.
-2. Add rows when a new tool is granted. Do not leave a new write path on an old row.
-3. Escalation triggers feed the weekly performance report and the incident path.
-4. Residual risks that are accepted are written on `RISK_REGISTER.md`, not implied by a blank cell.
+1. Complete **local named owners** before shadow. Role titles from the stack overview are defaults, not vacancies.  
+2. Add a row when a new tool or autonomy level is granted. Do not reuse an old row for a new write path.  
+3. Escalation triggers feed the weekly report, the risk register, and the incident path.  
+4. Accepted residual risk is written on `RISK_REGISTER.md`.  
+5. Promotion from L1 → L2/L3 uses `../Agent_Library/AUTONOMY_PROGRESSION.md` plus this matrix’s write-path rows.
 
-Northline v03 first release: all agents **propose / draft / flag / assemble** only. Rows that mention posting assume a later expansion and stay red until dual A is signed.
+Northline Wave 1 (Agents 01, 02, 03, 04, 10, 16 at L0/L1): treat any production write by an agent principal as a Critical breach until a promotion record exists.

@@ -37,7 +37,7 @@ An exception is a reason the invoice cannot move to the next signed state. It is
 | Suggested resolution | Ask supplier for the PO number; if none exists, buyer raises a PO or redirects to the non-PO path under that path’s controls. |
 | Responsible party | AP processor (chase); buyer (commercial source). |
 | Escalation | AP lead at 3 working days; process owner at 10 if still unreferenced. |
-| Potential agent | Exception Agent (code); Supplier Comms Agent (draft request); Internal Chase Agent (buyer). |
+| Potential agent | 04 Exception Triage (code); 08 Supplier Resolution (draft request); 09 Internal Follow-up (buyer). |
 | Automation potential | Medium — chase drafts are standard; deciding to waive PO is not. |
 | Risk level | Medium |
 
@@ -53,7 +53,7 @@ An exception is a reason the invoice cannot move to the next signed state. It is
 | Suggested resolution | Re-read the face; confirm with supplier or buyer; do not switch entity to make the PO valid. |
 | Responsible party | AP processor; buyer if the number was issued internally. |
 | Escalation | AP lead at 2 working days when the number is structurally valid but unmatched. |
-| Potential agent | Match Agent (lookup); Extraction Agent (re-read); Supplier Comms Agent. |
+| Potential agent | 03 Matching (lookup); 01 Invoice Intake (re-read); 08 Supplier Resolution. |
 | Automation potential | High for lookup and re-extraction; Low for commercial confirmation. |
 | Risk level | Medium |
 
@@ -69,7 +69,7 @@ An exception is a reason the invoice cannot move to the next signed state. It is
 | Suggested resolution | Buyer re-opens with a reason, or supplier issues a credit and a new PO invoice, or the invoice is returned. Processors do not re-open POs. |
 | Responsible party | Buyer (status); AP processor (park and chase). |
 | Escalation | AP lead at 5 working days; procurement lead if closure is disputed. |
-| Potential agent | Match Agent (status); Internal Chase Agent. |
+| Potential agent | 03 Matching (status); 09 Internal Follow-up. |
 | Automation potential | High for detection; Low for re-open. |
 | Risk level | Medium |
 
@@ -85,7 +85,7 @@ An exception is a reason the invoice cannot move to the next signed state. It is
 | Suggested resolution | Buyer amends PO, or supplier revises invoice, or a new PO is raised for the excess. Do not “force match” by ignoring residual. |
 | Responsible party | Buyer; AP processor. |
 | Escalation | AP lead at 5 working days; controller if value exceeds a named band. |
-| Potential agent | Match Agent; Exception Agent; Internal Chase Agent. |
+| Potential agent | 03 Matching; 04 Exception Triage; 09 Internal Follow-up. |
 | Automation potential | High for residual arithmetic; Low for amendment. |
 | Risk level | High |
 
@@ -101,7 +101,7 @@ An exception is a reason the invoice cannot move to the next signed state. It is
 | Suggested resolution | Buyer accepts and amends PO, or supplier issues a revised invoice or credit. Informal “looks fine” is not acceptance. |
 | Responsible party | Buyer (commercial); AP processor (park). |
 | Escalation | AP lead at 5 working days; procurement lead for repeat supplier variance. |
-| Potential agent | Match Agent; Internal Chase Agent; Supplier Comms Agent after buyer instruction. |
+| Potential agent | 03 Matching; 09 Internal Follow-up; 08 Supplier Resolution after buyer instruction. |
 | Automation potential | High for detection; Low for acceptance. |
 | Risk level | High |
 
@@ -117,7 +117,7 @@ An exception is a reason the invoice cannot move to the next signed state. It is
 | Suggested resolution | Align to received qty (credit / revised invoice) or complete receipt if goods are actually received and unrecorded. |
 | Responsible party | AP processor; receiver if GRN is short; buyer if PO qty is wrong. |
 | Escalation | AP lead at 5 working days. |
-| Potential agent | Match Agent; Internal Chase Agent. |
+| Potential agent | 03 Matching; 09 Internal Follow-up. |
 | Automation potential | High for detection and UoM checks; Medium for chase. |
 | Risk level | High |
 
@@ -132,8 +132,8 @@ An exception is a reason the invoice cannot move to the next signed state. It is
 | Required data | PO lines, GRN enquiry, delivery note on the invoice if any, plant/location. |
 | Suggested resolution | Receiver records the GRN if goods are in; otherwise return or hold the invoice. Do not post on an email assurance alone. |
 | Responsible party | Receiver first; buyer if receiver is silent; AP processor chases. |
-| Escalation | Internal Chase at day 0; AP lead at day 3; process owner at day 10. |
-| Potential agent | Match Agent (detect); Internal Chase Agent (draft). |
+| Escalation | 09 Internal Follow-up at day 0; AP lead at day 3; process owner at day 10. |
+| Potential agent | 03 Matching (detect); 09 Internal Follow-up (draft). |
 | Automation potential | High for detection and templated chase; Low for creating a GRN. |
 | Risk level | Medium |
 
@@ -149,7 +149,7 @@ An exception is a reason the invoice cannot move to the next signed state. It is
 | Suggested resolution | Park the excess (credit / revised invoice) or wait for remaining GRN. Local SOP may allow line-level partial post if the ERP and control owner permit — write that rule if used. |
 | Responsible party | AP processor; receiver; buyer. |
 | Escalation | Day 5 AP lead if neither GRN nor credit is moving. |
-| Potential agent | Match Agent; Exception Agent; Internal Chase Agent. |
+| Potential agent | 03 Matching; 04 Exception Triage; 09 Internal Follow-up. |
 | Automation potential | High for line arithmetic; Medium for partial-post proposals if authorised. |
 | Risk level | Medium |
 
@@ -165,7 +165,7 @@ An exception is a reason the invoice cannot move to the next signed state. It is
 | Suggested resolution | AP lead confirms and closes as X4. Do not post. If the original is wrong, that is a separate correction. |
 | Responsible party | AP lead to confirm; processor to park. |
 | Escalation | Same day to AP lead; controller if a duplicate has already posted. |
-| Potential agent | Duplicate Agent; Exception Agent. |
+| Potential agent | 10 Duplicate & Anomaly; 04 Exception Triage. |
 | Automation potential | High for exact-key detection; confirmation remains human. |
 | Risk level | Critical if a second post is possible; High at the park stage |
 
@@ -181,7 +181,7 @@ An exception is a reason the invoice cannot move to the next signed state. It is
 | Suggested resolution | AP lead inspects both faces and statuses. Promote to EX-DUP or clear with a reason on the record. |
 | Responsible party | AP lead. |
 | Escalation | Controller if the pair includes a posted item and doubt remains. |
-| Potential agent | Duplicate Agent. |
+| Potential agent | 10 Duplicate & Anomaly. |
 | Automation potential | Medium — scoring is useful; the call is human. |
 | Risk level | High |
 
@@ -197,7 +197,7 @@ An exception is a reason the invoice cannot move to the next signed state. It is
 | Suggested resolution | Recode to the correct account, or raise master-data work. Do not pay a different party to “make it match”. |
 | Responsible party | AP processor; master-data steward if a new account is required. |
 | Escalation | AP lead at 2 working days; controller if remit-to differs from supplier. |
-| Potential agent | Quality Agent; Extraction Agent; Exception Agent. |
+| Potential agent | 02 Invoice Validation; 01 Invoice Intake; 04 Exception Triage. |
 | Automation potential | Medium for name/identifier compare; Low for new-party decisions. |
 | Risk level | High |
 
@@ -213,7 +213,7 @@ An exception is a reason the invoice cannot move to the next signed state. It is
 | Suggested resolution | Recreate in the correct entity or return to supplier. Do not post in the convenient entity. |
 | Responsible party | AP processor; entity accountant if allocation is disputed. |
 | Escalation | AP lead at 2 working days; controller if intercompany is being used as a shortcut. |
-| Potential agent | Quality Agent; Classification Agent. |
+| Potential agent | 02 Invoice Validation; 01 Invoice Intake. |
 | Automation potential | High when identifiers are printed; Low when only a logo is present. |
 | Risk level | Critical |
 
@@ -229,7 +229,7 @@ An exception is a reason the invoice cannot move to the next signed state. It is
 | Suggested resolution | Processor applies the standing instruction if one exists; otherwise tax specialist sets the code. Agent does not invent a code. |
 | Responsible party | AP processor (standing cases); tax specialist (the rest). |
 | Escalation | Tax specialist same day above a named amount; AP lead for standing-instruction gaps. |
-| Potential agent | Tax Agent (flag and calculate); Extraction Agent if the face total is the issue. |
+| Potential agent | 02 Invoice Validation (flag and calculate); 01 Invoice Intake if the face total is the issue. |
 | Automation potential | Medium — compare is automatable; treatment is not always. |
 | Risk level | High |
 
@@ -245,9 +245,9 @@ This code is a process exception. It is not a tax-authority filing and not a com
 | Probable root cause | Approver not routed; email approval not transcribed; approver left; non-PO path used without a requisition. |
 | Required data | Invoice amount, DOA table, current approver, any side-channel approval (to be transcribed, not used raw). |
 | Suggested resolution | Route in the system of record. Side-channel yes becomes evidence only after the approver repeats it there, unless the control owner has a written compensating rule. |
-| Responsible party | Approval Agent routes; human approver approves; AP processor parks. |
+| Responsible party | 07 Approval routes; human approver approves; AP processor parks. |
 | Escalation | Day 3 AP lead; day 7 process owner; DOA owner if the table is wrong. |
-| Potential agent | Approval Agent; Internal Chase Agent. |
+| Potential agent | 07 Approval; 09 Internal Follow-up. |
 | Automation potential | High for routing and chase; none for the approval itself. |
 | Risk level | High |
 
@@ -263,7 +263,7 @@ This code is a process exception. It is not a tax-authority filing and not a com
 | Suggested resolution | DOA owner corrects the table or names a valid approver. Processors do not raise limits. |
 | Responsible party | Control owner / DOA owner; AP lead parks. |
 | Escalation | Immediate to control owner when evasion is suspected; otherwise day 2. |
-| Potential agent | Approval Agent (detect); Exception Agent. |
+| Potential agent | 07 Approval (detect); 04 Exception Triage. |
 | Automation potential | Medium for limit tests; Low for table repair. |
 | Risk level | Critical |
 
@@ -279,7 +279,7 @@ This code is a process exception. It is not a tax-authority filing and not a com
 | Suggested resolution | Inherit from PO; else buyer or budget holder provides coding in the system of record. |
 | Responsible party | AP processor (inherit); buyer/budget holder (non-PO). |
 | Escalation | Day 3 AP lead. |
-| Potential agent | Coding Agent (propose); Internal Chase Agent. |
+| Potential agent | 02 Invoice Validation (propose); 09 Internal Follow-up. |
 | Automation potential | High on PO inherit; Medium on standing rules; Low on novel spend. |
 | Risk level | Medium |
 
@@ -295,7 +295,7 @@ This code is a process exception. It is not a tax-authority filing and not a com
 | Suggested resolution | Budget holder supplies a valid combination. Do not substitute a neighbouring cost centre. |
 | Responsible party | Budget holder; AP processor. |
 | Escalation | Day 3 AP lead; finance ops if the master is wrong. |
-| Potential agent | Coding Agent (validate); Exception Agent. |
+| Potential agent | 02 Invoice Validation (validate); 04 Exception Triage. |
 | Automation potential | High for validation; Low for substitution. |
 | Risk level | Medium |
 
@@ -309,9 +309,9 @@ This code is a process exception. It is not a tax-authority filing and not a com
 | Probable root cause | Pro-forma sent as invoice; missing invoice number; unreadable scan from the supplier; contradictory totals. |
 | Required data | Quality checklist, face image, required-field list for the path. |
 | Suggested resolution | Return to supplier or request a reissue. Do not construct an invoice number. |
-| Responsible party | AP processor; Supplier Comms Agent drafts the return. |
+| Responsible party | AP processor; 08 Supplier Resolution drafts the return. |
 | Escalation | AP lead if the supplier disputes that the document is incomplete. |
-| Potential agent | Quality Agent; Supplier Comms Agent. |
+| Potential agent | 02 Invoice Validation; 08 Supplier Resolution. |
 | Automation potential | High for checklist; Medium for return drafts. |
 | Risk level | Medium |
 
@@ -327,7 +327,7 @@ This code is a process exception. It is not a tax-authority filing and not a com
 | Suggested resolution | Manual capture from the face; re-scan if the file is degraded; log for extraction review. Not a supplier return unless the face is also unusable (then EX-IQ). |
 | Responsible party | AP processor (capture); implementation lead (model/quality review). |
 | Escalation | Implementation lead if field-fail rate exceeds the weekly threshold. |
-| Potential agent | Extraction Agent; Quality Agent. |
+| Potential agent | 01 Invoice Intake; 02 Invoice Validation. |
 | Automation potential | Medium — re-extract and highlight; capture remains human until floors are met. |
 | Risk level | Medium |
 
@@ -343,7 +343,7 @@ This code is a process exception. It is not a tax-authority filing and not a com
 | Suggested resolution | Master-data steward amends via the master-data procedure. Processors do not edit bank or tax identifiers on the master. |
 | Responsible party | Master-data steward; AP processor parks. |
 | Escalation | Day 2 AP lead; control owner if the block is risk-related. |
-| Potential agent | Quality Agent (flag); Exception Agent. |
+| Potential agent | 02 Invoice Validation (flag); 04 Exception Triage. |
 | Automation potential | Low on writes; High on detecting empty or blocked fields. |
 | Risk level | High |
 
@@ -359,7 +359,7 @@ This code is a process exception. It is not a tax-authority filing and not a com
 | Suggested resolution | Park. Raise a master-data change request if, and only if, the steward follows the independent verification procedure. Agent never writes the bank master. Invoice may later post with a payment hold until the master is resolved. |
 | Responsible party | Master-data steward; AP lead sets hold; control owner for the procedure. |
 | Escalation | Immediate to AP lead and steward. Controller if the request arrived through an unusual channel. |
-| Potential agent | Quality Agent (flag difference); Payment Pack Agent (hold candidate). |
+| Potential agent | 02 Invoice Validation (flag difference); 12 Payment Proposal Review (hold candidate). |
 | Automation potential | High for comparison flags; none for the change. |
 | Risk level | Critical |
 
@@ -375,9 +375,9 @@ This control reduces a specific payee-data error. It is not a fraud-detection pr
 | Probable root cause | Pricing or quantity already billed in error; returns; agreed rebate; duplicate that the supplier must credit rather than AP closing locally. |
 | Required data | Original invoice, variance arithmetic, buyer or supplier agreement if any. |
 | Suggested resolution | Request the credit; match it via the credit-note path when it arrives. Do not silently reduce the invoice in the ERP unless the local SOP and control owner allow a documented adjustment type. |
-| Responsible party | AP processor; buyer if commercial; Credit Note Agent when the credit arrives. |
+| Responsible party | AP processor; buyer if commercial; 03 Matching (credit objects) when the credit arrives. |
 | Escalation | Day 5 AP lead; statement path if the credit is missing at statement time. |
-| Potential agent | Exception Agent; Supplier Comms Agent; Credit Note Agent. |
+| Potential agent | 04 Exception Triage; 08 Supplier Resolution; 03 Matching (credit objects). |
 | Automation potential | Medium for request drafts and later matching. |
 | Risk level | Medium |
 
@@ -391,9 +391,9 @@ This control reduces a specific payee-data error. It is not a fraud-detection pr
 | Probable root cause | Timing; invoices sent to another mailbox; credits not issued; wrong entity on the statement. |
 | Required data | Statement, open-item list, recent intake log, entity filter. |
 | Suggested resolution | Reconcile line by line; raise missing-invoice or credit requests; do not post from a statement line alone. |
-| Responsible party | AP processor / AP lead; Statement Agent proposes matches. |
+| Responsible party | AP processor / AP lead; 11 Vendor Statement proposes matches. |
 | Escalation | Day 7 AP lead; process owner for chronic suppliers. |
-| Potential agent | Statement Agent; Supplier Comms Agent. |
+| Potential agent | 11 Vendor Statement; 08 Supplier Resolution. |
 | Automation potential | Medium for pairing; Low for disputed balances. |
 | Risk level | Medium |
 
@@ -406,10 +406,10 @@ This control reduces a specific payee-data error. It is not a fraud-detection pr
 | Definition | Item is flagged to be excluded from AP’s input to the payment proposal, or already has a hold in the ERP. |
 | Probable root cause | Dispute, banking concern, legal request, supplier query, control-owner instruction. |
 | Required data | Hold type, setter, reason, related exception codes, expiry if any. |
-| Suggested resolution | Keep the hold until the setter or control owner lifts it. Payment Pack Agent lists; it does not lift. |
+| Suggested resolution | Keep the hold until the setter or control owner lifts it. 12 Payment Proposal Review lists; it does not lift. |
 | Responsible party | AP lead or controller (set/lift). |
 | Escalation | Treasurer informed if a due item is held into a payment run; they do not lift an AP hold. |
-| Potential agent | Payment Pack Agent; Exception Agent. |
+| Potential agent | 12 Payment Proposal Review; 04 Exception Triage. |
 | Automation potential | High for listing; none for lift. |
 | Risk level | High |
 
@@ -425,7 +425,7 @@ This control reduces a specific payee-data error. It is not a fraud-detection pr
 | Suggested resolution | Park or hold; commercial owner leads; AP does not settle the dispute. May spawn EX-CNR. |
 | Responsible party | Buyer or named dispute owner; AP processor maintains the park/hold. |
 | Escalation | Procurement lead at day 10; controller if legal correspondence appears. |
-| Potential agent | Exception Agent; Internal Chase Agent; Supplier Comms Agent (after owner instruction). |
+| Potential agent | 04 Exception Triage; 09 Internal Follow-up; 08 Supplier Resolution (after owner instruction). |
 | Automation potential | Low on the dispute; High on status and ageing. |
 | Risk level | High |
 
@@ -441,7 +441,7 @@ This control reduces a specific payee-data error. It is not a fraud-detection pr
 | Suggested resolution | Re-validate the original code; assign a single owner; escalate on the original path. Do not use EX-AGE as the first code. |
 | Responsible party | AP lead. |
 | Escalation | Process owner at first EX-AGE; controller above a named value band. |
-| Potential agent | Exception Agent (ageing); Evidence Agent (pack for review). |
+| Potential agent | 04 Exception Triage (ageing); 16 Orchestrator (pack for review). |
 | Automation potential | High for detection; Low for unblock. |
 | Risk level | High |
 
@@ -457,7 +457,7 @@ This control reduces a specific payee-data error. It is not a fraud-detection pr
 | Suggested resolution | Do not retry a posting commit without checking whether the first attempt landed. Technical owner restores the interface; AP lead decides whether to re-submit. |
 | Responsible party | Systems owner; AP lead for the business retry decision. |
 | Escalation | Immediate if the intake or posting channel is down; otherwise same day. |
-| Potential agent | Exception Agent (flag); Evidence Agent (payload). |
+| Potential agent | 04 Exception Triage (flag); 16 Orchestrator (payload). |
 | Automation potential | Medium for detection and ticket drafts; Low for retry-of-commit. |
 | Risk level | High |
 
@@ -467,33 +467,33 @@ This control reduces a specific payee-data error. It is not a fraud-detection pr
 
 | Code | Name | Typical first agent | Risk |
 |---|---|---|---|
-| EX-MPO | Missing PO | Exception, Supplier Comms | Medium |
-| EX-IPO | Invalid PO | Match, Extraction | Medium |
-| EX-POC | PO closed | Match, Internal Chase | Medium |
-| EX-POE | PO exhausted | Match | High |
-| EX-PRM | Price mismatch | Match | High |
-| EX-QTM | Quantity mismatch | Match | High |
-| EX-MRX | Missing receipt | Match, Internal Chase | Medium |
-| EX-PRX | Partial receipt | Match | Medium |
-| EX-DUP | Duplicate invoice | Duplicate | Critical / High |
-| EX-PDUP | Potential duplicate | Duplicate | High |
-| EX-WSP | Wrong supplier | Quality | High |
-| EX-ILE | Incorrect legal entity | Quality | Critical |
-| EX-TAX | Tax issue | Tax | High |
-| EX-APM | Approval missing | Approval | High |
-| EX-DOA | DOA issue | Approval | Critical |
-| EX-CDM | Coding missing | Coding | Medium |
-| EX-ICC | Invalid cost centre | Coding | Medium |
-| EX-IQ | Invoice quality | Quality | Medium |
-| EX-OCR | OCR / extraction issue | Extraction | Medium |
-| EX-MDI | Master-data issue | Quality | High |
-| EX-BNK | Banking-change concern | Quality, Payment Pack | Critical |
-| EX-CNR | Credit note required | Exception, Credit Note | Medium |
-| EX-STD | Statement discrepancy | Statement | Medium |
-| EX-HLD | Payment hold | Payment Pack | High |
-| EX-DIS | Disputed invoice | Exception | High |
-| EX-AGE | Aged unresolved item | Exception | High |
-| EX-SYS | System / interface error | Exception | High |
+| EX-MPO | Missing PO | 04 Triage; 08 Supplier Resolution | Medium |
+| EX-IPO | Invalid PO | 03 Matching; 01 Intake (re-read) | Medium |
+| EX-POC | PO closed | 03 Matching; 06 PO Quality; 09 Follow-up | Medium |
+| EX-POE | PO exhausted | 03 Matching; 06 PO Quality | High |
+| EX-PRM | Price mismatch | 03 Matching | High |
+| EX-QTM | Quantity mismatch | 03 Matching | High |
+| EX-MRX | Missing receipt | 03 Matching; 05 Goods Receipt | Medium |
+| EX-PRX | Partial receipt | 03 Matching; 05 Goods Receipt | Medium |
+| EX-DUP | Duplicate invoice | 10 Duplicate & Anomaly | Critical / High |
+| EX-PDUP | Potential duplicate | 10 Duplicate & Anomaly | High |
+| EX-WSP | Wrong supplier | 02 Invoice Validation | High |
+| EX-ILE | Incorrect legal entity | 02 Invoice Validation | Critical |
+| EX-TAX | Tax issue | 02 Invoice Validation (flag); Tax (decide) | High |
+| EX-APM | Approval missing | 07 Approval | High |
+| EX-DOA | DOA issue | 07 Approval | Critical |
+| EX-CDM | Coding missing | 02 Invoice Validation | Medium |
+| EX-ICC | Invalid cost centre | 02 Invoice Validation | Medium |
+| EX-IQ | Invoice quality | 02 Invoice Validation | Medium |
+| EX-OCR | OCR / extraction issue | 01 Invoice Intake | Medium |
+| EX-MDI | Master-data issue | 02 Invoice Validation | High |
+| EX-BNK | Banking-change concern | 02 Validation; 12 Payment Proposal Review | Critical |
+| EX-CNR | Credit note required | 04 Triage; 08 Supplier Resolution | Medium |
+| EX-STD | Statement discrepancy | 11 Vendor Statement | Medium |
+| EX-HLD | Payment hold | 12 Payment Proposal Review | High |
+| EX-DIS | Disputed invoice | 04 Exception Triage | High |
+| EX-AGE | Aged unresolved item | 04 Triage; 16 Orchestrator | High |
+| EX-SYS | System / interface error | 04 Triage; 16 Orchestrator | High |
 
 ---
 

@@ -46,7 +46,7 @@ Northline uses this order on NIL PO-goods. Other paths may lift Statement or Cre
 ```
 Was a commit attempted (post, park, status write)?
 ├─ Yes → Search ERP for a document created in the same minute with same supplier+invoice
-│         ├─ Found → Do not retry. Treat as possible success. Human confirms. Evidence Agent stores both ids.
+│         ├─ Found → Do not retry. Treat as possible success. Human confirms. 16 Orchestrator stores both ids.
 │         └─ Not found → Technical owner restores; AP lead authorises one retry
 └─ No (read/timeout only) → Retry read. If still failing, park EX-SYS, do not invent fields
 ```
@@ -59,7 +59,7 @@ Was a commit attempted (post, park, status write)?
 
 ```
 Is the face complete and readable by a trained processor?
-├─ No → EX-IQ → Supplier Comms: request reissue or clearer copy
+├─ No → EX-IQ → 08 Supplier Resolution: request reissue or clearer copy
 └─ Yes
     ├─ Extraction not used → quality pass
     └─ Extraction used
@@ -261,7 +261,7 @@ Has a named party recorded a dispute?
 │         └─ Agreed remedy is a credit → related EX-CNR
 └─ No
     Is a credit the already-agreed remedy for a variance?
-    ├─ Yes → EX-CNR → Supplier Comms request; Credit Note Agent later matches
+    ├─ Yes → EX-CNR → 08 Supplier Resolution request; 03 Matching (credit objects) later matches
     └─ No
         DT-HOLD true (dispute, EX-BNK, legal, named request)?
         ├─ Yes → EX-HLD candidate → AP lead / controller sets
@@ -307,30 +307,30 @@ Has the original code passed its signed ageing trigger?
 
 | Code | First message goes to | Template owner | Do not say |
 |---|---|---|---|
-| EX-MPO | Supplier, copy buyer | Supplier Comms | “We can post without a PO this time” |
-| EX-IPO | Supplier | Supplier Comms | “We used a similar PO” |
-| EX-POC | Buyer | Internal Chase | “We re-opened it” |
-| EX-POE | Buyer | Internal Chase | “We will exceed the PO” |
-| EX-PRM | Buyer | Internal Chase | “Please approve the higher price in this email” as the final control |
-| EX-QTM | Receiver or buyer | Internal Chase | “We will take the invoice qty” |
-| EX-MRX | Receiver | Internal Chase | “Confirm in this email and we will post” |
-| EX-PRX | Receiver | Internal Chase | “We will post the unreceived remainder” |
-| EX-DUP / EX-PDUP | AP lead (internal) | Exception | “Deleted the extra” |
-| EX-WSP / EX-MDI | Steward / supplier as directed | Exception | “We created the account” |
-| EX-ILE | AP lead | Exception | “Posted to the usual company” |
-| EX-TAX | Tax (or standing instruction) | Exception | “We picked the nearest rate” |
-| EX-APM | Approver | Approval | “Approved on your behalf” |
-| EX-DOA | Control owner | Approval | “Limit increased” |
-| EX-CDM / EX-ICC | Budget holder | Coding / Internal Chase | “Used last month’s code” |
-| EX-IQ | Supplier | Supplier Comms | “We completed the missing number” |
-| EX-OCR | Processor (internal) | Extraction | “Posted on low-confidence fields” |
-| EX-BNK | Steward + AP lead | Exception | “We updated the bank” |
-| EX-CNR | Supplier | Supplier Comms | “We reduced the invoice ourselves” (unless a signed adjustment type exists) |
-| EX-STD | Supplier (after internal pair) | Statement | “We posted from your statement” |
-| EX-HLD | Setter / AP lead | Payment Pack | “Hold lifted for this run” |
-| EX-DIS | Dispute owner | Exception | “Dispute closed” |
-| EX-AGE | AP lead | Exception | “Written off” |
-| EX-SYS | Systems owner | Exception | “Retried the post” |
+| EX-MPO | Supplier, copy buyer | 08 Supplier Resolution | “We can post without a PO this time” |
+| EX-IPO | Supplier | 08 Supplier Resolution | “We used a similar PO” |
+| EX-POC | Buyer | 09 Internal Follow-up | “We re-opened it” |
+| EX-POE | Buyer | 09 Internal Follow-up | “We will exceed the PO” |
+| EX-PRM | Buyer | 09 Internal Follow-up | “Please approve the higher price in this email” as the final control |
+| EX-QTM | Receiver or buyer | 09 Internal Follow-up | “We will take the invoice qty” |
+| EX-MRX | Receiver | 05 Goods Receipt | “Confirm in this email and we will post” |
+| EX-PRX | Receiver | 05 Goods Receipt | “We will post the unreceived remainder” |
+| EX-DUP / EX-PDUP | AP Controls Lead (internal) | 10 Duplicate & Anomaly | “Deleted the extra” / “Fraud detected” |
+| EX-WSP / EX-MDI | Steward / supplier as directed | 04 Exception Triage | “We created the account” |
+| EX-ILE | AP lead | 04 Exception Triage | “Posted to the usual company” |
+| EX-TAX | Tax (or standing instruction) | 02 Invoice Validation | “We picked the nearest rate” |
+| EX-APM | Approver | 07 Approval | “Approved on your behalf” |
+| EX-DOA | Control owner | 07 Approval | “Limit increased” |
+| EX-CDM / EX-ICC | Budget holder | 02 Validation / 09 Follow-up | “Used last month’s code” |
+| EX-IQ | Supplier | 08 Supplier Resolution | “We completed the missing number” |
+| EX-OCR | Processor (internal) | 01 Invoice Intake | “Posted on low-confidence fields” |
+| EX-BNK | Steward + AP lead | 02 Validation / 04 Triage | “We updated the bank” |
+| EX-CNR | Supplier | 08 Supplier Resolution | “We reduced the invoice ourselves” (unless a signed adjustment type exists) |
+| EX-STD | Supplier (after internal pair) | 11 Vendor Statement | “We posted from your statement” |
+| EX-HLD | Setter / AP lead | 12 Payment Proposal Review | “Hold lifted for this run” |
+| EX-DIS | Dispute owner | 04 Exception Triage | “Dispute closed” |
+| EX-AGE | AP lead | 04 Triage / 16 Orchestrator | “Written off” |
+| EX-SYS | Systems owner | 04 Triage / 16 Orchestrator | “Retried the post” |
 
 Templates live with the SOP, not in this file. This matrix only binds destination and forbidden claims.
 
@@ -340,19 +340,19 @@ Templates live with the SOP, not in this file. This matrix only binds destinatio
 
 ### Case N-17 — Partial GRN, Helion Fasteners PO 451187
 
-Invoice qty line 2 = 400. Received = 240. Master tree hits 0.10. Receipt tree → EX-PRX. Internal Chase drafts the warehouse message. Match Agent does not propose a price check yet. No partial post (v03). Risk: Medium.
+Invoice qty line 2 = 400. Received = 240. Master tree hits 0.10. Receipt tree → EX-PRX. 09 Internal Follow-up drafts the warehouse message. 03 Matching does not propose a price check yet. No partial post (v03). Risk: Medium.
 
 ### Case N-22 — Same invoice via mailbox and portal forward
 
-Supplier+number match to an in-process stub. EX-DUP. Duplicate Agent flags. Elena Voss closes X4 on the second file. First file continues. Risk at park: High.
+Supplier+number match to an in-process stub. EX-DUP. 10 Duplicate & Anomaly flags. Elena Voss closes X4 on the second file. First file continues. Risk at park: High.
 
 ### Case N-29 — Bill-to “Northline Components”
 
-Face registered number is the Components entity, not NIL. EX-ILE. Processor does not post to NIL because the PO was easier to find there. Quality Agent flags the number mismatch. Risk: Critical.
+Face registered number is the Components entity, not NIL. EX-ILE. Processor does not post to NIL because the PO was easier to find there. 02 Invoice Validation flags the number mismatch. Risk: Critical.
 
 ### Case N-31 — Remittance box shows a new IBAN
 
-Master IBAN differs. EX-BNK + hold candidate. Steward starts the independent verification procedure. Payment Pack Agent lists the item. No agent writes the master. Risk: Critical.
+Master IBAN differs. EX-BNK + hold candidate. Steward starts the independent verification procedure. 12 Payment Proposal Review lists the item. No agent writes the master. Risk: Critical.
 
 ### Case N-40 — Aged missing PO
 

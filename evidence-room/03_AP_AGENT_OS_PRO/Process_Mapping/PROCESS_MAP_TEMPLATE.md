@@ -186,8 +186,8 @@ List control IDs from the control map. Do not redefine them here.
 
 | From state | Taxonomy code | Next chase | Ageing trigger |
 |---|---|---|---|
-| S6 | EX-MPO | Supplier Comms + buyer | 3 working days |
-| S7 | EX-MRX | Internal Chase → receiver then buyer | 3 working days |
+| S6 | EX-MPO | 08 Supplier Resolution + buyer | 3 working days |
+| S7 | EX-MRX | 09 Internal Follow-up → receiver then buyer | 3 working days |
 | S8 | EX-PRM | Buyer then supplier | 5 working days |
 | S5 | EX-DUP | AP lead review | Same day |
 | S2 | EX-ILE | AP lead + entity accountant | 2 working days |
@@ -206,17 +206,16 @@ List control IDs from the control map. Do not redefine them here.
 
 CM-INTAKE-01, CM-ID-01, CM-DUP-01, CM-PO-01, CM-MATCH-01, CM-TAX-01, CM-POST-01, CM-HOLD-01
 
-## Agent annotations (post Step 5, propose-only)
+## Agent annotations (post Step 5, L0/L1)
 
 | State | Agent | Action | Human committer |
 |---|---|---|---|
-| S0–S1 | Intake, Classification | File and propose type | Processor accepts type |
-| S3 | Extraction | Propose fields | Processor |
-| S4 | Quality | Propose fail codes | Processor |
-| S5 | Duplicate | Flag EX-DUP / EX-PDUP | AP lead on confirmed duplicate |
-| S6–S8 | Match | Propose match result and code | Processor |
-| S13 | Internal Chase, Supplier Comms | Draft chases from templates | Processor sends or approves send |
-| S14 | Payment Pack | List hold candidates | AP lead sets hold |
+| S0–S3 | 01 Invoice Intake | File, classify, extract | Processor accepts type and fields |
+| S4 | 02 Invoice Validation | Propose fail codes | Processor |
+| S5 | 10 Duplicate & Anomaly | Flag EX-DUP / EX-PDUP / pattern | AP Controls Lead on confirm / X4 |
+| S6–S8 | 03 Matching; 05 GR; 06 PO Quality | Propose match result and defect packets | Processor |
+| S13 | 08 Supplier Resolution; 09 Internal Follow-up | Draft chases from templates | Processor sends or approves send |
+| S14 | 12 Payment Proposal Review | Annotate hold / unclear | AP lead or treasurer per payment policy |
 
 ## Sign-off (example)
 
