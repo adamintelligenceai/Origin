@@ -1,0 +1,12 @@
+phase,name,duration,activities,deliverables
+0,Baseline & Readiness,1-2 weeks,"Complete diagnostic, establish KPI baseline, secure sponsorship","Readiness score, baseline KPIs, sponsor commitment"
+1,Process Discovery,2-3 weeks,"Observe, transcribe, extract AP process; map exceptions and controls","Process map, exception taxonomy, control map"
+2,Agent Specification,1-2 weeks,"Select first agent; write charter, controls, KPIs","Agent charter, control matrix, test plan"
+3,Data & Tool Access,1-3 weeks,"Configure read access, APIs, historical data for testing","Integration spec, data access log"
+4,Prototype,1-2 weeks,Build agent logic; test against historical cases,"Prototype results, accuracy report"
+5,Historical Testing,1-2 weeks,Run agent against 3+ months historical data,"Test results, accuracy/confidence metrics"
+6,Shadow Mode,2-4 weeks,Agent operates without action permissions; compare to human,"Shadow report, divergence analysis"
+7,Controlled Execution,2-4 weeks,Limited users/transactions/categories at Level 2-3,"Pilot results, exception handling log"
+8,Performance Review,1 week,Evaluate KPIs against targets; decide on progression,"Performance review, go/no-go decision"
+9,Responsibility Progression,Ongoing,Earn higher autonomy through demonstrated performance,"Updated autonomy levels, evidence package"
+10,Scale,Ongoing,"Add agents, expand scope, continuous improvement","Scaled deployment plan, benefits tracker"

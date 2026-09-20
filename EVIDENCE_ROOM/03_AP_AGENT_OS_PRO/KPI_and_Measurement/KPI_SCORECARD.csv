@@ -1,0 +1,6 @@
+kpi_id,category,metric,baseline,target,current,status,review_date,owner
+OP-001,Operational,STP rate (%),,50,,Not started,,AP Manager
+OP-004,Operational,Time to posting (days),,5,,Not started,,AP Manager
+OP-002,Operational,Exception resolution rate (%),,85,,Not started,,AP Manager
+FIN-001,Financial,Cost per invoice ($),,7.00,,Not started,,AP Manager
+RISK-001,Risk,Control breaches,,0,,Not started,,AP Manager

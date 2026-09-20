@@ -1,0 +1,10 @@
+cost_component,monthly_cost,notes
+LLM API costs (per agent),200,Estimate based on volume
+Automation platform licence,500,If applicable
+Human oversight (hours × rate),2000,FTE fraction for agent management
+Training and change management,0,One-time in implementation
+Total monthly agent cost,2700,
+Cost per invoice (5000/mo),0.54,=total/volume
+Cost per exception (700/mo at 14%),3.86,=total/exceptions
+Human cost per invoice (benchmark),9.40,Ardent Partners 2024
+Human cost per exception (est),45,Minutes × rate

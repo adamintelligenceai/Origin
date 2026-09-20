@@ -1,0 +1,6 @@
+level,name,description,typical_characteristics,agent_readiness
+1,Manual,"Paper-heavy, manual entry, minimal automation","Email PDFs, spreadsheet tracking, no OCR",Not ready — stabilise process first
+2,Digitising,"Basic scanning/OCR, some workflow","OCR deployed, basic approval workflow, ERP posting",Ready for Observe-level agents
+3,Automating,"Workflow automation, partial matching","AP automation tool, PO matching, exception queues",Ready for Recommend/Prepare agents
+4,Optimising,"High STP, analytics-driven, governed AI",">50% STP, KPI dashboards, AI governance framework",Ready for Execute within guardrails
+5,Autonomous (Governed),Agent workforce with earned autonomy,">70% STP, agent orchestration, continuous improvement",Ready for Managed autonomy (selected agents)

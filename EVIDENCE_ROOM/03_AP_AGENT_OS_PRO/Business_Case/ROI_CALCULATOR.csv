@@ -1,0 +1,24 @@
+input_parameter,your_value,notes,source
+Monthly invoice volume,5000,Enter your actual volume,
+AP headcount (processing),8,FTE dedicated to invoice processing,
+Fully loaded cost per FTE (annual),75000,Salary + benefits + overhead,
+Current cost per invoice,9.40,Industry average if unknown,Ardent Partners 2024 - R001
+Current manual touch rate (%),67,100% minus STP rate,Derived from 32.6% STP - R006
+Current exception rate (%),14,Industry average if unknown,Ardent Partners 2024 - R005
+Avg minutes to resolve exception,45,Time-motion study recommended,
+Duplicate invoice rate (%),0.5,Estimate if unknown,
+AI/tool monthly cost,2000,LLM API + automation platform,
+Implementation cost (one-time),50000,Internal effort + external support,
+Expected STP improvement (pp),15,Conservative scenario,Illustrative
+Expected exception reduction (pp),3,Conservative scenario,Illustrative
+,,,
+OUTPUT,Conservative,Base,Upside
+Annual invoice volume,=B2*12,=B2*12,=B2*12
+Baseline annual AP cost,=B5*B17,=B5*B17,=B5*B17
+Processing cost savings,=B17*B11/100*B5*0.5,=B17*B11/100*B5*0.75,=B17*B11/100*B5
+Exception cost savings,=B17*B12/100*B7/60*B3*75000/1920,=B17*B12/100*B7/60*B3*75000/1920*1.5,=B17*B12/100*B7/60*B3*75000/1920*2
+Total annual savings,=B19+B20,=C19+C20,=D19+D20
+Annual AI/tool cost,=B10*12,=B10*12,=B10*12
+Net annual benefit,=B21-B22,=C21-C22,=D21-D22
+Payback period (months),=B11/(B23/12),=B11/(C23/12),=B11/(D23/12)
+3-year ROI (%),=(B23*3-B11)/(B11)*100,=(C23*3-B11)/(B11)*100,=(D23*3-B11)/(B11)*100

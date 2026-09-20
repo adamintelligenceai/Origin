@@ -1,0 +1,6 @@
+benefit_id,description,category,baseline_value,target_value,current_value,validation_method,status,owner,review_date
+BEN-001,Cost per invoice,Financial,9.40,7.00,,Monthly cost/volume calculation,Not started,AP Manager,
+BEN-002,Straight-through processing rate,Operational,32.6,50.0,,STP count / total invoices,Not started,AP Manager,
+BEN-003,Exception rate,Operational,14.0,10.0,,Exceptions / total invoices,Not started,AP Manager,
+BEN-004,Average processing time (days),Operational,9.15,5.0,,Receipt to posting timestamp,Not started,AP Manager,
+BEN-005,Human hours released per month,Financial,0,200,,Time-motion study comparison,Not started,Transformation Lead,

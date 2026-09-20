@@ -1,0 +1,11 @@
+metric,your_baseline,industry_average,industry_best_in_class,source,your_target_90_day
+Cost per invoice,,9.40,2.78,Ardent Partners 2024,
+Processing time (days),,9.15,,Ardent Partners 2024,
+Exception rate (%),,14.0,,Ardent Partners 2024,
+Straight-through processing rate (%),,32.6,,Ardent Partners 2024,
+PO compliance rate (%),,61.0,,Ardent Partners 2024,
+Supplier inquiry time (% of staff time),,21.8,,Ardent Partners 2024,
+Monthly invoice volume,,,,Your data,
+AP processing headcount (FTE),,,,Your data,
+Manual touch rate (%),,67.4,,Derived from STP,
+Average exception resolution time (minutes),,45,Illustrative,Your estimate,

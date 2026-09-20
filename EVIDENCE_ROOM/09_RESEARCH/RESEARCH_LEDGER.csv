@@ -1,0 +1,17 @@
+claim_id,claim,source,date,url,context,type
+R001,Average AP cost to process one invoice: $9.40,Ardent Partners - State of ePayables 2024,2024,https://ardentpartners.com/,"All-inclusive staff and operating costs, n=212",independent
+R002,Best-in-Class AP cost per invoice: $2.78,Ardent Partners - AP Metrics that Matter 2025,2025,https://ardentpartners.com/ap-metrics-that-matter-in-2025/,Bottom 20% by cost and cycle time,independent
+R003,All others average cost per invoice: $12.88,Ardent Partners - AP Metrics that Matter 2025,2025,https://ardentpartners.com/ap-metrics-that-matter-in-2025/,Non-Best-in-Class organisations,independent
+R004,Average invoice processing time: 9.15 days,Ardent Partners - State of ePayables 2024,2024,https://ardentpartners.com/,Receipt to posting,independent
+R005,Invoice exception rate: 14.0%,Ardent Partners - State of ePayables 2024,2024,https://ardentpartners.com/,Average across surveyed organisations,independent
+R006,Straight-through processing rate: 32.6%,Ardent Partners - State of ePayables 2024,2024,https://ardentpartners.com/,Invoices processed without manual intervention,independent
+R007,Invoices linked to PO: 61.0%,Ardent Partners - State of ePayables 2024,2024,https://ardentpartners.com/,Percentage of invoices with PO reference,independent
+R008,Staff time on supplier inquiries: 21.8%,Ardent Partners - State of ePayables 2024,2024,https://ardentpartners.com/,Average AP staff time allocation,independent
+R009,Best-in-Class: 78% lower processing cost vs peers,Ardent Partners - State of ePayables 2024,2024,https://ardentpartners.com/,Best-in-Class vs all others comparison,independent
+R010,Best-in-Class: 82% faster processing time,Ardent Partners - State of ePayables 2024,2024,https://ardentpartners.com/,Cycle time comparison,independent
+R011,Best-in-Class: 59% lower exception rate,Ardent Partners - State of ePayables 2024,2024,https://ardentpartners.com/,Exception rate comparison,independent
+R012,Lemon Squeezy platform fee: 5% + $0.50 per transaction,Lemon Squeezy Pricing,2025,https://www.lemonsqueezy.com/pricing,No monthly fee; MoR included,vendor
+R013,Lemon Squeezy acts as Merchant of Record,Lemon Squeezy MoR,2025,https://www.lemonsqueezy.com/reporting/merchant-of-record,Handles global tax collection and remittance,vendor
+R014,HighRadius claims up to 90% touchless processing,HighRadius AP Automation,2025,https://www.highradius.com/product/ap-automation/,Vendor marketing claim — not independently verified,vendor
+R015,Medius: AI auto-fills coding with 95% precision after 2 invoices,Medius Blog,2025,https://www.medius.com/blog/,Vendor claim for non-PO invoice coding,vendor
+R016,Illustrative: 4-6 weeks for one well-bounded agent pilot,Evidence Room Framework,2025,N/A — internal framework,"Depends on systems, data, governance maturity",illustrative

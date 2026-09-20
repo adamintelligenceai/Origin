@@ -1,0 +1,24 @@
+kpi_id,category,metric_name,definition,frequency,target_guidance,notes
+ACT-001,Activity,Invoices processed,Count of invoices entering AP pipeline,Daily/Weekly/Monthly,Volume trend,Higher is not always better — quality matters
+ACT-002,Activity,Exceptions created,Count of new exceptions classified,Daily/Weekly,Exception rate = exceptions/invoices,Track by category
+ACT-003,Activity,Agent recommendations generated,Count of agent outputs requiring human review,Weekly,Recommendation volume by agent,Activity metric only
+ACT-004,Activity,Human interventions,Count of manual overrides or corrections,Weekly,Intervention rate = interventions/invoices,Should decrease over time
+OP-001,Operational,Straight-through processing rate,Invoices posted without manual touch / total invoices,Monthly,Target: benchmark vs 32.6% industry avg (Ardent 2024),Independent benchmark: R006
+OP-002,Operational,Exception resolution rate,Exceptions resolved within SLA / total exceptions,Weekly,Target: >85%,
+OP-003,Operational,Average resolution time,Mean hours from exception creation to resolution,Weekly,Target: reduce 20% per quarter,
+OP-004,Operational,Time to invoice posting,Mean days from receipt to ERP posting,Monthly,Target: benchmark vs 9.15 days industry avg (Ardent 2024),Independent benchmark: R004
+OP-005,Operational,Classification accuracy,Correctly classified exceptions / total classified,Monthly,Target: >90%,Agent-specific
+OP-006,Operational,Matching accuracy,Correct auto-matches / total match attempts,Monthly,Target: >95%,Agent-specific: AGT-03
+OP-007,Operational,False-positive rate,Incorrect flags / total flags,Monthly,Target: <5%,Critical for trust
+OP-008,Operational,Repeat exception rate,Exceptions from same root cause within 90 days / total,Monthly,Target: decreasing trend,Root cause indicator
+FIN-001,Financial,Cost per invoice,Total AP cost / invoices processed,Monthly,Target: benchmark vs $9.40 industry avg (Ardent 2024),Independent benchmark: R001
+FIN-002,Financial,Cost per exception resolved,Exception resolution cost / exceptions resolved,Monthly,Target: decreasing trend,
+FIN-003,Financial,AI inference cost per invoice,Total AI/API costs / invoices processed,Monthly,Target: <$0.50/invoice illustrative,Illustrative target
+FIN-004,Financial,Cost per correct outcome,Total agent cost / verified correct outcomes,Monthly,Target: <$2.00 illustrative,Illustrative target
+FIN-005,Financial,Estimated human hours released,Baseline hours - current hours (validated),Quarterly,Requires time-motion study,Conservative estimate only
+FIN-006,Financial,Validated financial savings,Documented savings from automation (audited),Quarterly,Conservative/Base/Upside scenarios,Do not overstate
+RISK-001,Risk/Control,Control breaches,Count of SoD or control violations,Monthly,Target: zero,
+RISK-002,Risk/Control,Escalation rate,Escalated items / total exceptions,Monthly,Monitor trend,
+RISK-003,Risk/Control,Audit exceptions,Findings related to AP automation,Per audit,Target: zero material findings,
+RISK-004,Risk/Control,Rework rate,Invoices reprocessed / total processed,Monthly,Target: <2%,
+RISK-005,Risk/Control,Duplicate payments prevented,Duplicates caught pre-payment,Monthly,Track value where measurable,Not a fraud guarantee
