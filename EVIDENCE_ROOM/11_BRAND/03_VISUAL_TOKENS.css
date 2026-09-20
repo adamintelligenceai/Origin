@@ -1,0 +1,229 @@
+/**
+ * Evidence Room — Visual Design Tokens
+ * Brand platform: "Agents that earn responsibility."
+ * Institutional finance aesthetic — not AI-cliché.
+ *
+ * Display: Fraunces (preferred) or Source Serif 4
+ * UI/Body: IBM Plex Sans
+ * Mono: IBM Plex Mono
+ *
+ * DO NOT substitute Inter, Roboto, or Arial as brand defaults.
+ */
+
+:root {
+  /* —— Color: core —— */
+  --er-ink: #0b1f2a;
+  --er-ink-muted: #3d4f5a;
+  --er-paper: #f7f4ee;
+  --er-paper-elevated: #fffcf7;
+  --er-amber: #c47a2c;
+  --er-amber-hover: #a86524;
+  --er-teal: #1f5c5c;
+  --er-teal-hover: #184848;
+  --er-rule: #8a8580;
+  --er-hairline: #d9d2c7;
+  --er-danger: #8b2e2e;
+  --er-success: #1f5c5c;
+  --er-warning: #c47a2c;
+  --er-white: #ffffff;
+
+  /* —— Color: semantic aliases —— */
+  --er-color-bg: var(--er-paper);
+  --er-color-bg-inverse: var(--er-ink);
+  --er-color-text: var(--er-ink);
+  --er-color-text-secondary: var(--er-ink-muted);
+  --er-color-text-inverse: var(--er-paper);
+  --er-color-text-subtle: var(--er-rule);
+  --er-color-border: var(--er-hairline);
+  --er-color-border-strong: var(--er-rule);
+  --er-color-accent: var(--er-amber);
+  --er-color-accent-secondary: var(--er-teal);
+  --er-color-link: var(--er-teal);
+  --er-color-link-hover: var(--er-teal-hover);
+  --er-color-cta-bg: var(--er-amber);
+  --er-color-cta-bg-hover: var(--er-amber-hover);
+  --er-color-cta-text: var(--er-ink);
+  --er-color-focus-ring: var(--er-teal);
+
+  /* —— Earn-up stage accents (diagrams) —— */
+  --er-stage-observe: var(--er-rule);
+  --er-stage-recommend: var(--er-teal);
+  --er-stage-draft: #2a6f6f;
+  --er-stage-execute: var(--er-amber);
+  --er-stage-expand: var(--er-ink);
+
+  /* —— Typography: families —— */
+  --er-font-display: "Fraunces", "Source Serif 4", "Source Serif Pro", "Georgia", serif;
+  --er-font-serif-fallback: "Source Serif 4", "Source Serif Pro", "Georgia", serif;
+  --er-font-sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --er-font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* —— Typography: sizes (rem @ 16px root) —— */
+  --er-text-xs: 0.75rem; /* 12px captions */
+  --er-text-sm: 0.875rem; /* 14px UI */
+  --er-text-base: 1rem; /* 16px body */
+  --er-text-md: 1.125rem; /* 18px lead */
+  --er-text-lg: 1.25rem; /* 20px */
+  --er-text-xl: 1.5rem; /* 24px H3 */
+  --er-text-2xl: 2rem; /* 32px H2 */
+  --er-text-3xl: 2.75rem; /* 44px H1 */
+  --er-text-display: 3.5rem; /* 56px cover */
+  --er-text-hero: clamp(2.5rem, 5vw, 4rem);
+
+  /* —— Typography: weights —— */
+  --er-weight-regular: 400;
+  --er-weight-medium: 500;
+  --er-weight-semibold: 600;
+  --er-weight-bold: 700;
+
+  /* —— Typography: leading & tracking —— */
+  --er-leading-tight: 1.15;
+  --er-leading-snug: 1.3;
+  --er-leading-normal: 1.5;
+  --er-leading-relaxed: 1.65;
+  --er-tracking-display: -0.02em;
+  --er-tracking-caps: 0.08em;
+  --er-tracking-label: 0.06em;
+
+  /* —— Space scale —— */
+  --er-space-3xs: 0.125rem;
+  --er-space-2xs: 0.25rem;
+  --er-space-xs: 0.5rem;
+  --er-space-sm: 0.75rem;
+  --er-space-md: 1rem;
+  --er-space-lg: 1.5rem;
+  --er-space-xl: 2rem;
+  --er-space-2xl: 3rem;
+  --er-space-3xl: 4rem;
+  --er-space-4xl: 6rem;
+
+  /* —— Layout —— */
+  --er-measure: 40rem; /* ~65ch body */
+  --er-measure-wide: 48rem;
+  --er-page-max: 72rem;
+  --er-gutter: clamp(1rem, 4vw, 2rem);
+
+  /* —— Radius: restrained —— */
+  --er-radius-none: 0;
+  --er-radius-sm: 2px;
+  --er-radius-md: 4px;
+  --er-radius-lg: 6px; /* max for interactive containers */
+
+  /* —— Rules / borders —— */
+  --er-rule-thin: 1px;
+  --er-rule-accent: 2px;
+  --er-rule-cover: 2px;
+
+  /* —— Shadows: minimal, print-like —— */
+  --er-shadow-none: none;
+  --er-shadow-soft: 0 1px 2px rgba(11, 31, 42, 0.06);
+  --er-shadow-lift: 0 2px 8px rgba(11, 31, 42, 0.08);
+
+  /* —— Motion: intentional, few —— */
+  --er-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --er-duration-fast: 150ms;
+  --er-duration-mid: 280ms;
+  --er-duration-slow: 480ms; /* rule draw-on, stage fade */
+
+  /* —— Cover system —— */
+  --er-cover-bg: var(--er-ink);
+  --er-cover-fg: var(--er-paper);
+  --er-cover-accent: var(--er-amber);
+  --er-cover-meta: var(--er-rule);
+
+  /* —— Z-index —— */
+  --er-z-base: 0;
+  --er-z-sticky: 100;
+  --er-z-overlay: 200;
+  --er-z-modal: 300;
+}
+
+/* —— Dark inverse surfaces (covers, footers) —— */
+.er-surface-inverse {
+  --er-color-bg: var(--er-ink);
+  --er-color-text: var(--er-paper);
+  --er-color-text-secondary: #b7c0c6;
+  --er-color-border: #2a3d48;
+  color: var(--er-color-text);
+  background: var(--er-color-bg);
+}
+
+/* —— Utility primitives —— */
+.er-display {
+  font-family: var(--er-font-display);
+  font-weight: var(--er-weight-semibold);
+  letter-spacing: var(--er-tracking-display);
+  line-height: var(--er-leading-tight);
+  color: var(--er-color-text);
+}
+
+.er-body {
+  font-family: var(--er-font-sans);
+  font-size: var(--er-text-base);
+  line-height: var(--er-leading-normal);
+  color: var(--er-color-text);
+}
+
+.er-mono {
+  font-family: var(--er-font-mono);
+  font-size: var(--er-text-sm);
+}
+
+.er-label-caps {
+  font-family: var(--er-font-sans);
+  font-size: var(--er-text-xs);
+  font-weight: var(--er-weight-medium);
+  letter-spacing: var(--er-tracking-caps);
+  text-transform: uppercase;
+  color: var(--er-color-text-subtle);
+}
+
+.er-rule-amber {
+  border: none;
+  border-top: var(--er-rule-accent) solid var(--er-amber);
+  margin: var(--er-space-lg) 0;
+}
+
+.er-btn-primary {
+  font-family: var(--er-font-sans);
+  font-weight: var(--er-weight-medium);
+  background: var(--er-color-cta-bg);
+  color: var(--er-color-cta-text);
+  border: var(--er-rule-thin) solid var(--er-color-cta-bg);
+  border-radius: var(--er-radius-md);
+  padding: var(--er-space-sm) var(--er-space-lg);
+  transition: background var(--er-duration-fast) var(--er-ease-out);
+}
+
+.er-btn-primary:hover {
+  background: var(--er-color-cta-bg-hover);
+}
+
+.er-btn-secondary {
+  font-family: var(--er-font-sans);
+  font-weight: var(--er-weight-medium);
+  background: transparent;
+  color: var(--er-ink);
+  border: var(--er-rule-thin) solid var(--er-ink);
+  border-radius: var(--er-radius-md);
+  padding: var(--er-space-sm) var(--er-space-lg);
+}
+
+.er-link {
+  color: var(--er-color-link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+.er-link:hover {
+  color: var(--er-color-link-hover);
+}
+
+/* —— Reduced motion —— */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --er-duration-fast: 0ms;
+    --er-duration-mid: 0ms;
+    --er-duration-slow: 0ms;
+  }
+}
