@@ -3,8 +3,6 @@
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>AP Agent Readiness Diagnostic | Free</title>
 <meta name="description" content="36 questions. Six dimensions. No invoice upload."/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=IBM+Plex+Mono:wght@400&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="styles.css"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 </head><body>
@@ -36,32 +34,7 @@
           <div class="results" id="results"></div>
           <p class="quiet">Scores never leave this browser in this static demo. Production capture would be email-only, no invoice files.</p>
         </section>
-        <script>
-        const dims = {Process:['A1','A2','A3','A4','A5','A6'], Data:['B1','B2','B3','B4','B5','B6'], Controls:['C1','C2','C3','C4','C5','C6'], Technology:['T1','T2','T3','T4','T5','T6'], Talent:['P1','P2','P3','P4','P5','P6'], Economics:['E1','E2','E3','E4','E5','E6']};
-        document.getElementById('scoreBtn').onclick = () => {
-          const avg = {}, miss = [];
-          let html = '<h2>Dimension averages</h2><p class="quiet">Not a certificate. Not a composite grade.</p>';
-          let a5 = null;
-          for (const [dim, ids] of Object.entries(dims)) {
-            const vals = ids.map(id => {
-              const el = document.querySelector('input[name="'+id+'"]:checked');
-              if (!el) { miss.push(id); return null; }
-              if (id==='A5') a5 = Number(el.value);
-              return Number(el.value);
-            }).filter(v => v!==null);
-            const a = vals.length ? vals.reduce((x,y)=>x+y,0)/vals.length : null;
-            avg[dim] = a;
-            const pct = a===null ? 0 : (a/4)*100;
-            html += '<p><strong>'+dim+'</strong> '+(a===null?'unscored':a.toFixed(2))+'</p><div class="bar"><span style="width:'+pct+'%"></span></div>';
-          }
-          if (a5 !== null && a5 <= 1) html += '<p class="note">Veto: A5 is 0 or 1. Do not place maturity above L2 until the payment procedure is written.</p>';
-          if (miss.length) html += '<p class="quiet">Unscored: '+miss.join(', ')+'</p>';
-          html += '<p>Next: read Method, then charter Wave 1. Do not paste vendor cost-per-invoice figures as targets.</p>';
-          const box = document.getElementById('results');
-          box.style.display = 'block';
-          box.innerHTML = html;
-        };
-        </script>
+        <script src="diagnostic.js"></script>
         </main>
 
   <footer class="site-footer"><div class="wrap footer-grid">

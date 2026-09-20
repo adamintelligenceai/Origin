@@ -8,6 +8,25 @@ This log records editions of the licensed toolkit. It is not a software changelo
 
 ---
 
+## 1.1.0 — 20 September 2026 — Sellable artefact edition
+
+**Status:** Working edition. Typeset SKU books and Office files added so a purchaser can work without living in Markdown.
+
+### Added
+
+- Full SKU PDFs (Diagnostic, Starter, Professional 217pp, Team, Blueprint, Overview, legal drafts).
+- Word templates generated from the working Markdown (charter, SOP, discovery, RACI, governance, UAT, risk, meeting, plan).
+- Workshop / CFO / steering / business-case decks with institutional chrome.
+- Registry example + blank, control matrix full sheet, exception examples, publisher financial model workbook.
+- `00_READ_ME/START_HERE.html` and thickened product pages on the static site.
+- Generator split: workbook seeds in `build/generate_artifacts.py`; books/Office in `build/thicken_commercial.py`.
+
+### Unchanged rules
+
+Payment stays human. Default L0/L1. No invented statistics. Northline remains fictional. Legal files remain drafts.
+
+---
+
 ## 1.0.0 — 20 September 2026 — First public edition
 
 **Status:** Working edition.  
@@ -87,5 +106,5 @@ Northline figures may be edited only when labelled illustrative. They must never
 |---|---|
 | Toolkit | Evidence Room — AP Agent OS |
 | Object | Version history |
-| Current | 1.0.0 · 20 September 2026 |
+| Current | 1.1.0 · 20 September 2026 |
 | Next | Only if published; no committed date |

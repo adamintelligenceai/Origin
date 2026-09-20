@@ -1,16 +1,21 @@
 # Generated commercial PDFs
 
-Printable covers and overviews. The working system lives in the markdown, Excel, Word, and PowerPoint files.
+Typeset from the working Markdown. The Markdown, Excel, Word, and PowerPoint files remain the editable system.
 
-| File | Tier |
-|---|---|
-| `ER_Product_Overview.pdf` | Brand / suite cover |
-| `ER_Free_Diagnostic.pdf` | Tier 0 |
-| `ER_Starter_Guide.pdf` | Tier 1 · $79 |
-| `ER_Professional_OS.pdf` | Tier 2 · $199 |
-| `ER_Team_Playbook.pdf` | Tier 3 · $499 |
-| `ER_Custom_Blueprint.pdf` | Tier 4 |
+Regenerate with:
 
-Landing and diagnostic page captures may exist from the build script; treat the designed covers above as the ship set.
+```
+python3 evidence-room/build/thicken_commercial.py
+```
 
-Regenerate with `python3 evidence-room/build/generate_artifacts.py` and the WeasyPrint block in that workflow.
+| File | Tier | Pages (1.1.0) |
+|---|---|---|
+| `ER_Product_Overview.pdf` | Brand / suite | 28 |
+| `ER_Free_Diagnostic.pdf` | Tier 0 | 26 |
+| `ER_Starter_Guide.pdf` | Tier 1 · $79 | 30 |
+| `ER_Professional_OS.pdf` | Tier 2 · $199 | 217 |
+| `ER_Team_Playbook.pdf` | Tier 3 · $499 | 31 |
+| `ER_Custom_Blueprint.pdf` | Tier 4 | 17 |
+| `ER_Legal_Drafts.pdf` | Counsel drafts | 23 |
+
+Copies also sit in the corresponding SKU folders. Intermediate `.html` next to a PDF is a typesetting source, not a customer SKU.

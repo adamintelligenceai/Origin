@@ -1155,6 +1155,12 @@ Institutional investment-research tone. Cover system: ivory field, gilt rule, fr
 
 
 def main() -> None:
+    """Workbook seeds only.
+
+    Word templates, decks, SKU PDFs, and product-page HTML are produced by
+    ``thicken_commercial.py`` and ``08_WEBSITE/_chrome.py``. Calling the stub
+    writers here would overwrite the sellable artefacts with covers.
+    """
     write_roi()
     write_scorecard()
     write_registry()
@@ -1163,35 +1169,8 @@ def main() -> None:
     write_roadmap()
     write_benefits()
     write_maturity()
-    write_word()
-    write_pptx()
-    write_site_pages()
-    write_diagnostic_page()
     write_brand_svg()
-    src = write_pdf_html()
-    dest = PDF / "ER_Product_Overview.pdf"
-    try:
-        html_to_pdf(src, dest)
-    except Exception as exc:  # noqa: BLE001
-        print("PDF via Chrome failed:", exc)
-        try:
-            subprocess.run(
-                ["python3", "-m", "weasyprint", str(src), str(dest)],
-                check=True,
-                timeout=60,
-            )
-        except Exception as exc2:  # noqa: BLE001
-            print("PDF via WeasyPrint failed:", exc2)
-    # extra PDFs from key site pages
-    for page_name, pdf_name in [
-        ("index.html", "ER_Landing_Page.pdf"),
-        ("diagnostic.html", "ER_Diagnostic_Page.pdf"),
-    ]:
-        try:
-            html_to_pdf(SITE / page_name, PDF / pdf_name)
-        except Exception as exc:  # noqa: BLE001
-            print("page pdf failed", page_name, exc)
-    print("Artifacts written.")
+    print("Workbook seeds written. Run thicken_commercial.py for SKU books / Office.")
 
 
 if __name__ == "__main__":

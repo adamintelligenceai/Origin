@@ -1,7 +1,7 @@
 # Product index
 
 **Product:** Evidence Room — AP Agent OS  
-**Edition:** 1.0.0 · 20 September 2026  
+**Edition:** 1.1.0 · 20 September 2026  
 **Purpose:** Every folder and file in the licensed archive, with one-line jobs.
 
 Licence determines which folders you may use. Publisher-only folders (`06`, `07`, `10` drafts) are not a customer entitlement unless included in the zip you received.
@@ -18,6 +18,8 @@ Licence determines which folders you may use. Publisher-only folders (`06`, `07`
 | `VERSION_HISTORY.md` | Edition log |
 | `SCALE_ROADMAP.md` | AP-first path: digital product → services → subscription → platform; future modules not built |
 | `REFINED_MASTER_PROMPT.md` | Build specification used to author and extend the suite |
+| `START_HERE.html` | Buyer navigation for the 12-step Monday path |
+| `ER_Product_Overview.pdf` | Typeset suite overview |
 
 ---
 
@@ -272,13 +274,15 @@ Commercial folders `06` and `07` are for Evidence Room’s own go-to-market. The
 | Toolkit | Evidence Room — AP Agent OS |
 | Object | Product index |
 | Review | Every edition |
-| Status | 1.0.0 complete for folders 00–05, 06, 07, 10 as listed |
+| Status | 1.1.0 complete for folders 00–10 plus typeset SKU books |
 
-## Generated commercial files (v1.0.0)
+## Generated commercial files (v1.1.0)
 
-- Spreadsheets: `03_AP_AGENT_OS_PRO/Spreadsheets/`
+- Spreadsheets: `03_AP_AGENT_OS_PRO/Spreadsheets/` plus `07_LEMON_SQUEEZY/ER_Publisher_Financial_Model.xlsx`
 - Word templates: `03_AP_AGENT_OS_PRO/Word_Templates/`
 - Decks: `04_AP_AGENT_OS_TEAM/Decks/`
-- Website: `08_WEBSITE/`
-- PDFs: `11_GENERATED_PDF/` and copies in each tier folder
+- Website: `08_WEBSITE/` (13 pages; system fonts)
+- SKU PDFs: `11_GENERATED_PDF/` and copies in each tier folder, including `10_LEGAL_AND_LICENSING/ER_Legal_Drafts.pdf`
+- Buyer START HERE: `00_READ_ME/START_HERE.html`
 - Brand mark: `06_SALES_AND_MARKETING/Brand_Assets/`
+- Regenerators: `build/thicken_commercial.py`, `08_WEBSITE/_chrome.py`

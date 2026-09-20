@@ -4,7 +4,7 @@
 **Domain:** evidenceroom.ai  
 **Brand idea:** Proof before permission.  
 **Category:** Finance Agent Operating System for Accounts Payable  
-**Version:** 1.0.0 · 20 September 2026  
+**Version:** 1.1.0 · 20 September 2026  
 **Stance:** Design the layer. Keep the stack.
 
 This archive is a licensed digital method and toolkit. It is not an ERP, a payment service, an audit engagement, or hosted software. It does not authorise payments, detect fraud, certify compliance, guarantee accounting accuracy, or promise savings or ROI.
@@ -140,6 +140,6 @@ A forensic-animation firm, Evidence Room LLC, operates at evidence-room.net. We 
 |---|---|
 | Toolkit | Evidence Room — AP Agent OS |
 | Object | Suite navigation |
-| Status | Working edition 1.0.0 |
+| Status | Working edition 1.1.0 |
 | Related | All folders in this archive |
 | Not | Legal advice, implementation consulting, or a hosted product |
