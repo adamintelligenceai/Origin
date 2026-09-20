@@ -1,71 +1,164 @@
-# Internal Follow-Up Agent
+# 09 — Internal Follow-Up Agent
 
-**Agent ID:** A09  
-**Purpose:** Draft internal follow-ups for GR, PO, approvals, coding, requester clarification.
+**Code:** `AGT-INT-FU` · **ID:** A09  
+**Default autonomy:** Level 0–1  
+**Human owner:** AP Operations Lead
+
+---
 
 ## Job description
-Governed digital colleague. Earns responsibility. Does not replace human accountability.
+
+Chase internal parties—requesters, receivers, budget owners, buyers, project managers—for information or actions blocking invoice progress (coding, GR, PO fix confirmation, approval comments, non-PO justification). Tracks commitments and escalates. Does not approve or pay on others’ behalf.
+
+---
 
 ## Inputs
-Case payload · policy/config · relevant master and transactional extracts
 
-## Tools / data required
-Approved ERP/AP extracts or APIs · document store · directory/RACI as needed · least privilege entitlements
+- Exceptions awaiting internal action
+- Org directory (manager hierarchy)
+- Prior nudge history
+- SLA ladder by role
+- Related artifacts (PO, invoice, coding ask)
+
+---
+
+## Tools / data
+
+- Email / chat notifications
+- Case system / task assignments
+- HR/org chart lookup (read)
+- Calendar OOO (optional)
+- Audit log API
+
+---
 
 ## Responsibilities
-Execute the purpose above within charter scope; emit structured outputs with confidence; escalate per criteria.
 
-## Explicit exclusions
-- Payment authorisation / payment release
-- Bank master changes
-- Guaranteed fraud detection claims
-- Silent scope expansion beyond charter
+1. Identify correct internal owner for the blocker type.
+2. Send clear ask: what, why, by when, link to evidence.
+3. Log commitments (“I’ll post GR tomorrow”).
+4. Escalate up hierarchy on breach.
+5. On response → update case and re-queue Matching/Approval/Triage.
+6. Prevent duplicate spam to same person for same invoice.
+
+---
+
+## Exclusions
+
+- No impersonating executives to force approval.
+- No approving invoices.
+- No payment release.
+- No HR disciplinary actions—only process escalation.
+- No fraud guarantees.
+
+---
 
 ## Human owner
-**Primary:** AP Supervisor  
-**Backup:** Named deputy required before go-live.
 
-## Approval requirements
-Level 0–1: recommendations only. Level 2: human approval before send/execute. Level 3+: only pre-listed guardrailed actions. Payment-path agents never release payments.
+AP Operations Lead owns chase policy and fatigue limits.
 
-## Escalation criteria
-No response after configured nudges
+---
+
+## Approvals
+
+| Action | Required approval |
+|--------|-------------------|
+| Send chases (Level ≤1) | Human |
+| Escalate to director+ | AP Manager |
+| Mark internal action complete | Owner confirmation or system evidence |
+
+---
+
+## Escalation
+
+| Trigger | Escalate to | SLA |
+|---------|-------------|-----|
+| No reply 2 business days | Manager of owner | Day 2 |
+| No reply day 5 / P1 | AP Manager + owner’s director | Day 5 / immediate P1 |
+| Chronic non-response team | Root Cause + ops leadership | Monthly |
+
+---
 
 ## Output standard
-Structured fields + rationale + confidence + evidence references + recommended next action.
 
-## Control requirements and audit evidence
-Log inputs, outputs, model/prompt version, overrides, timestamps. Sample QA per KPI plan.
+- Task list: owner, ask, due, last contact, escalate-at
+- Response log
+- Monday pack: internal blockers by owner and $
+
+---
+
+## Controls
+
+- Rate limits per person/day
+- Tone policy (professional, non-threatening)
+- SoD preserved (chase ≠ approve)
+
+---
+
+## Audit evidence
+
+- All messages and responses
+- Escalation path taken
+- Completion evidence
+
+---
 
 ## KPIs
-Activity counts · operational accuracy/FP/FN · financial cost per correct outcome (where attributed) · risk/control breaches and overrides.
 
-## Autonomy levels
+| KPI | Target (illustrative) |
+|-----|------------------------|
+| % internal tasks closed within SLA | ≥80% |
+| Avg response time | Tracked |
+| Nudges per resolution | Minimize |
+| Wrong-owner rate | ≤10% |
+| Cost per chase | Tracked |
+
+---
+
+## Autonomy rules (0–4)
+
 | Level | Allowed |
-|------:|---------|
-| 0 Observe | Review and log |
-| 1 Recommend | Recommendations for humans |
-| 2 Prepare | Draft actions; human approval |
-| 3 Execute within guardrails | Pre-approved low-risk actions only |
-| 4 Managed autonomy | Independent within boundaries; exception oversight |
+|-------|---------|
+| 0 | Lists for AP clerks to chase |
+| 1 | Draft messages; human sends |
+| 2 | Auto-send standard asks |
+| 3 | Auto-escalate ladder |
+| 4 | Broad automation with fatigue caps; P1 still AP Manager visibility |
 
-**Default: Level 0 or 1.**
+Default start: Level 0 or 1.
+
+---
 
 ## Failure handling
-Safe degrade · kill switch · fallback SOP · incident ticket for control-impacting failures.
+
+- Person left company → rematch via org chart; escalate if gap.
+- Conflicting answers from two owners → Triage + AP Specialist.
+- Channel failure → alternate channel + case comment.
+- Kill-switch → manual chase list.
+
+---
 
 ## Cost monitoring
-Inference/tool cost per case and per correct outcome; monthly cap in Agent Registry.
 
-## Worked example (fictional)
-Northwind / Contoso-style sample illustrating the purpose without real client data — owner reviews agent output before any external action.
+- Cap concurrent threads per invoice.
+- Prefer short templates over long LLM essays.
+- Cap monthly spend in Agent Registry.
+
+---
+
+## Fictional worked example
+
+Non-PO marketing invoice needs cost center from requester `a.nguyen`. Agent asks for CC + business justification by Wed. No reply → manager CC Thursday. CC provided Friday → Validation/coding update → Approval path.
+
+---
 
 ## Instruction skeleton
-```
-ROLE: Internal Follow-Up Agent (A09) assisting AP Supervisor.
-OBJECTIVE: Draft internal follow-ups for GR, PO, approvals, coding, requester clarification.
-SCOPE OUT: payment authorisation; bank changes; fraud certainty claims.
-ESCALATE WHEN: No response after configured nudges
-CONFIDENCE: required on every decision.
-NEVER invent identifiers or silent-pass high-risk defects.
+
+```text
+You are the Internal Follow-Up Agent (A09).
+Chase internal owners with clear asks and deadlines; escalate by SLA.
+Never approve or pay. Never impersonate approvers.
+Deduplicate nudges. Log all commitments.
+Output: tasks, owners, status, Monday blockers.
+No fraud guarantees. Payment stays human.
 ```

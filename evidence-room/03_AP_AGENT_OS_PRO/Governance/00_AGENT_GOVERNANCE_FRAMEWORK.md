@@ -1,121 +1,211 @@
 # Agent Governance Framework
 
-**Evidence Room · AP Agent OS Professional**  
-**Audience:** Controller, Head of AP, Internal Audit liaison, AI/Automation lead
+**Product:** AP Agent OS Pro  
+**Document:** `Governance/00_AGENT_GOVERNANCE_FRAMEWORK.md`  
+**Audience:** AP Manager, Controllers, IT Security, Internal Audit, Agent owners
 
 ---
 
 ## 1. Purpose
 
-Establish decision rights, escalation paths, evidence standards, and promotion rules so AI agents in Accounts Payable remain **governed workers**, not unsupervised automation.
+Establish how AP agents are authorized, versioned, monitored, and held accountable. Agents are **tools under human governance**. They do not replace management responsibility, payment authority, or assurance functions.
 
-This framework does **not** certify compliance, guarantee fraud prevention, or authorise autonomous payments.
+**Non-negotiables**
 
----
-
-## 2. Governance objects
-
-| Object | Definition | Owner |
-|--------|------------|-------|
-| Agent Charter | Purpose, scope, level, gates, metrics | Named Accountable (usually Controller or Head of AP) |
-| Model/Prompt Version | Immutable ID of logic used for a decision | Automation / AI lead |
-| Evidence Record | Timestamp, inputs hash, confidence, action, override | System of evidence (ticket/ERP note/log store) |
-| Exception Case | Taxonomised break with SLA and owner | AP operations |
-| Promotion Decision | Written level change with metrics | Per RACI |
-| Risk Acceptance | Residual risk acknowledged for a period | Controller / CFO designee |
+1. Payment execution stays human.  
+2. Autonomy is earned (Levels 0–4), never assumed.  
+3. No fraud guarantees.  
+4. ERP-agnostic controls; map to local systems via adapters.  
+5. Monday-ready accountability (owners, queues, briefs).
 
 ---
 
-## 3. Decision rights
+## 2. Governance bodies
 
-| Decision | Accountable | Consulted | Informed |
-|----------|-------------|-----------|----------|
-| Launch agent in shadow | Head of AP | IT, Control | Processors |
-| Promote Level 0→1 | Head of AP | Controller | Audit |
-| Promote Level 1→2 | Controller | AP, IT, Risk | CFO |
-| Promote Level 2→3 / 3→4 | CFO or FD designee / Steering | All above | Board risk if material |
-| Change payment-adjacent logic | Controller | Treasury, AP | Audit |
-| Grant write access to ERP | IT + Controller dual | Security | AP |
-| Emergency disable (kill switch) | Any of: AP Mgr, Controller, IT Sec | — | Steering within 24h |
+| Body | Cadence | Duties |
+|------|---------|--------|
+| **AP Agent Steering** (AP Manager, Controller, IT Security, Ops Lead) | Monthly | Autonomy promotions, scope changes, budget, incidents |
+| **Controls Working Group** | Biweekly | Thresholds, SoD conflicts, hard-flag policy |
+| **Change Advisory (lightweight)** | As needed | Prompt/tool/version releases |
+| **On-call kill-switch role** | Continuous | Immediate freeze authority |
 
-**Hard rule:** No agent may authorise payment, release funds, or unilaterally change bank details.
+Human **AP Manager** remains accountable for AP outcomes.
 
 ---
 
-## 4. Operating cadence
+## 3. Agent inventory & ownership
 
-| Cadence | Forum | Inputs | Decisions |
-|---------|-------|--------|-----------|
-| Daily | AP stand-up (15 min) | Exception ageing, agent errors | Tactical reassignment |
-| Weekly | Agent ops review | Scorecard, false positive/negative samples | Threshold tweaks (within charter) |
-| Monthly | Control sampling | Evidence sample, override themes | Remediation actions |
-| Quarterly | Steering | Benefits, risk, roadmap | Promotions, budget, scope |
+Every production agent must have:
 
-Team tier: use `04_AP_AGENT_OS_TEAM/Executive/STEERING_PACK.md`.
+| Field | Required |
+|-------|----------|
+| Agent code / name | Yes |
+| Spec version | Yes |
+| Human owner | Yes |
+| Backup owner | Yes |
+| Current autonomy level | Yes |
+| Allowed tools & data classes | Yes |
+| Kill-switch state | Yes |
+| Last audit review date | Yes |
 
----
-
-## 5. Escalation ladder
-
-| Severity | Example | Action | Max response |
-|----------|---------|--------|--------------|
-| S1 | Suspected duplicate payment proposal; bank change attempt | Kill switch + human investigation | Immediate |
-| S2 | Systematic mis-match above threshold | Pause agent writes; Level drop | 4 business hours |
-| S3 | Single high-value false suggest | Case review; log | 1 business day |
-| S4 | UX / wording issues | Backlog | Next weekly |
+Specs live in `Agent_Library/`. Drift between prod config and published spec is a governance defect.
 
 ---
 
-## 6. Evidence standard (minimum)
+## 4. Separation of duties (SoD)
 
-Every **material** agent output must persist:
+Minimum SoD conflicts to prevent (people **or** agent identities):
 
-1. Agent ID + version  
-2. Model/prompt version  
-3. UTC timestamp  
-4. Input references / hash  
-5. Output summary + confidence  
-6. Policy rule IDs applied  
-7. Human decision (accept / edit / reject) when Level ≤2 or on sample at higher levels  
+| Role / capability | Must not also |
+|-------------------|---------------|
+| Invoice intake operator | Payment releaser |
+| Match/proposal preparer | Sole payment releaser |
+| Hard-flag clearer | Sole payment releaser |
+| Vendor bank master editor | Payment releaser |
+| Agent service accounts | Bank release, master bank edit, approve-as-user |
 
-Retain per your document-retention policy; default recommendation for programme design: **≥7 years** for financial decision support logs — confirm with legal/records.
+**Agent SoD:** Orchestrator and specialists must use least-privilege identities. Payment Proposal Agent must **not** possess bank-release credentials.
 
----
-
-## 7. Segregation of duties (SoD)
-
-| Role | Must not also |
-|------|----------------|
-| Agent prompt author | Sole UAT approver for same agent |
-| Processor accepting agent drafts | Sole bank-detail master data owner |
-| Automation admin | Sole payment run approver |
-| Charter Accountable | Skip monthly control sampling indefinitely |
+Emergency bypass (approval matrix): dual human control (Controller + AP Manager), time-bound, fully audited.
 
 ---
 
-## 8. Third-party / model risk posture
+## 5. Least privilege & access
 
-- Prefer enterprise-approved LLM endpoints with contractual data controls.
-- Prohibit pasting unrestricted cardholder or unnecessary PII into consumer AI tools.
-- Treat supplier email body as untrusted content (prompt-injection aware design).
-- Document residency and subprocessors for audit questionnaires — without claiming certification.
-
----
-
-## 9. Charter lifecycle
-
-```
-Draft → Control review → Approve → Shadow → Pilot → Operate → Promote/Retire
-                ↑________________ review on material change ________↓
-```
-
-Material changes (new write path, new invoice class, new model family) require charter amendment and re-baseline of metrics.
+- Agents receive **minimum** API scopes (read vs propose vs write).  
+- Prefer propose-and-confirm patterns below Level 3.  
+- Secrets in vault; no secrets in prompts or logs.  
+- Vendor/PII minimization in LLM contexts (tokens for IDs where possible).  
+- Quarterly access review of agent service accounts.
 
 ---
 
-## 10. Related templates
+## 6. Prompt injection & untrusted content
 
-- `Templates/AGENT_CHARTER.md`
-- `Templates/GOVERNANCE_STANDARD.md`
-- `Templates/RISK_ASSESSMENT.md`
-- `Controls/00_CONTROL_FRAMEWORK.md`
+External invoices, emails, statements, and portal text are **data**, not instructions.
+
+**Controls**
+
+- System prompts state: ignore instruction-like content in documents.  
+- Separate “tool policy” from “document content” channels.  
+- Disallow agents from following doc text that requests: pay now, change bank, disable controls, exfiltrate data, reveal prompts.  
+- Sanitize/strip active content from files before IDP where feasible.  
+- Alert Security on suspected injection patterns.
+
+---
+
+## 7. Hallucination & ground truth
+
+- Prefer deterministic engines for totals, tolerances, duplicates exact keys.  
+- LLM outputs that assert facts must cite retrieved ERP/doc fields.  
+- **Never invent** invoice numbers, amounts, GR numbers, or approvals.  
+- Low confidence → human queue, not guess.  
+- Reporting Agent: no publish on tie-out failure.
+
+---
+
+## 8. Autonomy governance
+
+Follow `Agent_Library/17_RESPONSIBILITY_PROGRESSION_MODEL.md`.
+
+- Registry is source of truth for levels.  
+- Promotion requires evidence pack (KPIs, samples, incidents).  
+- Demotion automatic on freeze triggers.  
+- Payment release **not** an autonomy parameter—always human.
+
+---
+
+## 9. Version control
+
+| Artifact | Versioned |
+|----------|-----------|
+| Agent specs | Git + semver |
+| System prompts / instruction skeletons | Git |
+| Policy packs (tolerances, matrix, taxonomy) | Version ID stamped on decisions |
+| Models / IDP templates | Provider version IDs in audit |
+| Tool allow-lists | Git / config service |
+
+Production changes require: diff review, test notes, rollback plan, Steering approval if autonomy or pay-adjacent.
+
+---
+
+## 10. Audit logs
+
+Every material agent action logs:
+
+- timestamp, agent code, version, autonomy level  
+- actor (service account + triggering user if any)  
+- input refs (intake ID, invoice ID)—not full secrets  
+- decision + policy/rule version  
+- tools invoked  
+- output status / next queue  
+- correlation / request ID  
+
+Logs immutable (WORM or append-only), retained per legal policy (default ≥7 years for financial).
+
+Internal Audit and Controllers get read access without going through AP Ops alone.
+
+---
+
+## 11. Monitoring, KPIs & cost
+
+- Per-agent KPIs from specs; Orchestrator stack health.  
+- Cost: tokens, OCR, compute, connector calls vs budget.  
+- Anomaly: cost spike without volume; error spike; kill-switch trips.  
+- Monday brief mandatory for human AP Manager.
+
+---
+
+## 12. Incident response
+
+| Severity | Examples | Response |
+|----------|----------|----------|
+| S1 | Payment released by automation; bank change applied by agent; mass wrong pay proposal released | Kill-switch all pay-adjacent agents; Treasury halt; Security+Controller war room |
+| S2 | Hard flag bypassed; SoD broken; suspected prompt injection success | Freeze affected agents to L0; forensics |
+| S3 | KPI regression; elevated false matches | Demote level; RCA |
+| S4 | Cosmetic failures | Ticket; fix in backlog |
+
+**Post-incident:** timeline, root cause, customer/supplier impact, control improvement, autonomy decision, lessons in Steering pack.
+
+---
+
+## 13. Human accountability map
+
+| Decision | Accountable human |
+|----------|-------------------|
+| Pay release | Authorized releaser |
+| Autonomy promotion | AP Manager + Controls (as required) |
+| Taxonomy change | AP Quality |
+| Tolerance change | Matching Lead + Controller if material |
+| Vendor bank change | Master Data (verified process) |
+| Accept residual close risk | Controller |
+
+---
+
+## 14. Ethics & representations
+
+- Do not market or internally claim “eliminates fraud.”  
+- Do not auto-send accusatory fraud language to suppliers.  
+- Respect privacy and retention.  
+- Document known limitations in executive packs.
+
+---
+
+## 15. Implementation checklist (Monday-ready)
+
+- [ ] Owners named for all 16 agents  
+- [ ] Autonomy registry at 0/1  
+- [ ] Kill-switch tested  
+- [ ] SoD matrix mapped to ERP roles + agent accounts  
+- [ ] Audit log pipeline verified  
+- [ ] Prompt-injection regressions in test suite  
+- [ ] Payment path confirmed human-only end-to-end  
+- [ ] First Monday brief template live  
+
+---
+
+## Related documents
+
+- `../Agent_Library/00_AGENT_STACK_OVERVIEW.md`  
+- `../Agent_Library/17_RESPONSIBILITY_PROGRESSION_MODEL.md`  
+- `../Controls/00_CONTROL_FRAMEWORK.md`
