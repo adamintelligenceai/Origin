@@ -1,65 +1,275 @@
-/* Local-only AP Agent Readiness scorer. No network. No invoice upload. */
-(function () {
-  const dims = {
-    Process: ["A1", "A2", "A3", "A4", "A5", "A6"],
-    Data: ["B1", "B2", "B3", "B4", "B5", "B6"],
-    Controls: ["C1", "C2", "C3", "C4", "C5", "C6"],
-    Technology: ["T1", "T2", "T3", "T4", "T5", "T6"],
-    Talent: ["P1", "P2", "P3", "P4", "P5", "P6"],
-    Economics: ["E1", "E2", "E3", "E4", "E5", "E6"],
-  };
+import {
+  DIMENSIONS,
+  QUESTIONS,
+  SCORE_LABELS,
+  getProgress,
+  scoreDiagnostic,
+} from "./diagnostic-core.js";
 
-  function el(tag, className, text) {
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (text !== undefined) node.textContent = text;
-    return node;
+const STORAGE_KEY = "evidence-room-readiness-v2";
+const state = {
+  answers: loadAnswers(),
+  activeIndex: 0,
+};
+
+const app = document.querySelector("#diagnostic-app");
+const progressBar = document.querySelector("#progress-bar");
+const progressText = document.querySelector("#progress-text");
+const xpText = document.querySelector("#xp-text");
+const result = document.querySelector("#results");
+
+function loadAnswers() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}");
+    return typeof saved === "object" && saved !== null ? saved : {};
+  } catch {
+    return {};
   }
+}
 
-  const btn = document.getElementById("scoreBtn");
-  if (!btn) return;
+function saveAnswers() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.answers));
+}
 
-  btn.addEventListener("click", function () {
-    const miss = [];
-    let a5 = null;
-    const box = document.getElementById("results");
-    box.replaceChildren();
-    box.appendChild(el("h2", "", "Dimension averages"));
-    box.appendChild(el("p", "quiet", "Not a certificate. Not a composite grade."));
+function element(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
 
-    Object.keys(dims).forEach(function (dim) {
-      const ids = dims[dim];
-      const vals = [];
-      ids.forEach(function (id) {
-        const checked = document.querySelector('input[name="' + id + '"]:checked');
-        if (!checked) {
-          miss.push(id);
-          return;
-        }
-        const n = Number(checked.value);
-        if (id === "A5") a5 = n;
-        vals.push(n);
-      });
-      const avg = vals.length ? vals.reduce(function (x, y) { return x + y; }, 0) / vals.length : null;
-      const line = el("p", "");
-      const strong = el("strong", "", dim);
-      line.appendChild(strong);
-      line.appendChild(document.createTextNode(" " + (avg === null ? "unscored" : avg.toFixed(2))));
-      box.appendChild(line);
-      const bar = el("div", "bar");
-      const span = el("span", "");
-      span.style.width = (avg === null ? 0 : (avg / 4) * 100) + "%";
-      bar.appendChild(span);
-      box.appendChild(bar);
+function updateProgress() {
+  const progress = getProgress(state.answers);
+  progressBar.style.width = `${progress.percent}%`;
+  progressText.textContent = `${progress.answered} of ${progress.total} evidence checks`;
+  xpText.textContent = `${progress.xp} / 360 XP`;
+
+  DIMENSIONS.forEach((dimension) => {
+    const badge = document.querySelector(`[data-badge="${dimension.id}"]`);
+    const complete = dimension.questions.every(([id]) =>
+      Number.isInteger(state.answers[id]),
+    );
+    badge.classList.toggle("earned", complete);
+    badge.setAttribute(
+      "aria-label",
+      `${dimension.id} ${complete ? "badge earned" : "badge locked"}`,
+    );
+  });
+}
+
+function goTo(index) {
+  state.activeIndex = Math.max(0, Math.min(index, QUESTIONS.length - 1));
+  document.querySelectorAll(".mission-card").forEach((card, cardIndex) => {
+    card.hidden = cardIndex !== state.activeIndex;
+  });
+  document.querySelector(`[data-card-index="${state.activeIndex}"]`)?.focus();
+  document.querySelector("#mission-position").textContent =
+    `Mission ${state.activeIndex + 1} / ${QUESTIONS.length}`;
+}
+
+function buildMission(question, index) {
+  const card = element("article", "mission-card");
+  card.dataset.cardIndex = String(index);
+  card.tabIndex = -1;
+  card.hidden = index !== 0;
+
+  const dimension = DIMENSIONS.find((item) => item.id === question.dimension);
+  const meta = element("div", "mission-meta");
+  meta.append(
+    element("span", "mission-code", question.id),
+    element("span", "", `${question.dimension} · ${dimension.description}`),
+  );
+
+  card.append(
+    meta,
+    element("h2", "mission-title", question.title),
+    element("p", "mission-prompt", question.prompt),
+    element(
+      "p",
+      "quiet",
+      "Choose the lowest score that is fully true. Evidence beats confidence.",
+    ),
+  );
+
+  const options = element("div", "score-options");
+  options.setAttribute("role", "radiogroup");
+  options.setAttribute("aria-label", `Score ${question.id}`);
+
+  SCORE_LABELS.forEach((label, score) => {
+    const option = element("label", "score-option");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = question.id;
+    input.value = String(score);
+    input.checked = state.answers[question.id] === score;
+    input.addEventListener("change", () => {
+      state.answers[question.id] = score;
+      saveAnswers();
+      updateProgress();
+      option.closest(".mission-card").classList.add("answered");
+      window.setTimeout(() => {
+        if (index < QUESTIONS.length - 1) goTo(index + 1);
+      }, 220);
     });
 
-    if (a5 !== null && a5 <= 1) {
-      box.appendChild(el("p", "note", "Veto: A5 is 0 or 1. Do not place maturity above L2 until the payment procedure is written."));
-    }
-    if (miss.length) {
-      box.appendChild(el("p", "quiet", "Unscored: " + miss.join(", ")));
-    }
-    box.appendChild(el("p", "", "Next: read Method, then charter Wave 1. Do not paste vendor cost-per-invoice figures as targets."));
-    box.style.display = "block";
+    const scoreNumber = element("strong", "score-number", String(score));
+    const scoreLabel = element("span", "score-label", label);
+    option.append(input, scoreNumber, scoreLabel);
+    options.append(option);
   });
-})();
+
+  const controls = element("div", "mission-controls");
+  const previous = element("button", "btn secondary", "Previous");
+  previous.type = "button";
+  previous.disabled = index === 0;
+  previous.addEventListener("click", () => goTo(index - 1));
+
+  const next = element(
+    "button",
+    "btn secondary",
+    index === QUESTIONS.length - 1 ? "Review score" : "Skip for now",
+  );
+  next.type = "button";
+  next.addEventListener("click", () => {
+    if (index === QUESTIONS.length - 1) showResults();
+    else goTo(index + 1);
+  });
+  controls.append(previous, next);
+
+  card.append(options, controls);
+  return card;
+}
+
+function renderMissions() {
+  const fragment = document.createDocumentFragment();
+  QUESTIONS.forEach((question, index) =>
+    fragment.append(buildMission(question, index)),
+  );
+  app.replaceChildren(fragment);
+
+  const firstMissing = QUESTIONS.findIndex(
+    (question) => !Number.isInteger(state.answers[question.id]),
+  );
+  goTo(firstMissing === -1 ? QUESTIONS.length - 1 : firstMissing);
+  updateProgress();
+}
+
+function heatLabel(average) {
+  if (average < 1.5) return "Cold · path or evidence is mostly informal";
+  if (average < 3) return "Warm · documented with operating gaps";
+  return "Hot · used and sampled";
+}
+
+function showResults() {
+  const scored = scoreDiagnostic(state.answers);
+  result.replaceChildren();
+
+  if (!scored.complete) {
+    result.append(
+      element("p", "eyebrow", "Debrief locked"),
+      element("h2", "", `${scored.missing.length} evidence checks remain`),
+      element(
+        "p",
+        "",
+        "Complete every mission to unlock the readiness debrief. Your progress is saved only in this browser.",
+      ),
+    );
+    const resume = element("button", "btn", "Resume assessment");
+    resume.type = "button";
+    resume.addEventListener("click", () => {
+      const firstMissing = QUESTIONS.findIndex((question) =>
+        scored.missing.includes(question.id),
+      );
+      goTo(firstMissing);
+      document
+        .querySelector("#assessment")
+        ?.scrollIntoView({ behavior: "smooth" });
+    });
+    result.append(resume);
+    result.hidden = false;
+    result.scrollIntoView({ behavior: "smooth" });
+    return;
+  }
+
+  const heading = element("div", "result-heading");
+  const level = element("div", "level-seal", `L${scored.maturity.level}`);
+  const summary = element("div", "");
+  summary.append(
+    element("p", "eyebrow", "Provisional quantitative placement"),
+    element("h2", "", scored.maturity.name),
+    element("p", "lede", scored.maturity.statement),
+  );
+  heading.append(level, summary);
+  result.append(heading);
+
+  const grid = element("div", "result-grid");
+  scored.dimensions.forEach((dimension) => {
+    const card = element("article", "dimension-result");
+    const top = element("div", "dimension-top");
+    top.append(
+      element("strong", "", dimension.id),
+      element("span", "dimension-score", dimension.average.toFixed(1)),
+    );
+    const bar = element("div", "bar");
+    const fill = element("span", "");
+    fill.style.width = `${(dimension.average / 4) * 100}%`;
+    bar.append(fill);
+    card.append(top, bar, element("p", "quiet", heatLabel(dimension.average)));
+    grid.append(card);
+  });
+  result.append(grid);
+
+  if (scored.holds.length) {
+    const holds = element("section", "holds-panel");
+    holds.append(element("p", "eyebrow", "Control holds"));
+    const list = document.createElement("ul");
+    scored.holds.forEach((hold) => list.append(element("li", "", hold)));
+    holds.append(list);
+    result.append(holds);
+  }
+
+  const nextStep = element("section", "next-step-card");
+  nextStep.append(
+    element("p", "eyebrow", "Your next move"),
+    element(
+      "h3",
+      "",
+      `Strengthen ${scored.weakest.id} before expanding autonomy`,
+    ),
+    element(
+      "p",
+      "",
+      "Use the Professional OS to turn this heatmap into named Wave 1 charters, evidence gates, controls, and a two-week shadow plan.",
+    ),
+  );
+  const actions = element("div", "hero-actions");
+  const buy = element("a", "btn gilt", "Get Professional · $199");
+  buy.href = "professional.html#buy";
+  const print = element("button", "btn secondary", "Print / save PDF");
+  print.type = "button";
+  print.addEventListener("click", () => window.print());
+  actions.append(buy, print);
+  nextStep.append(actions);
+  result.append(nextStep);
+
+  result.append(
+    element(
+      "p",
+      "quiet result-disclaimer",
+      "This is not a certificate, audit, fraud assessment, financial advice, or permission to automate. Confirm the qualitative maturity tests and use the lower band when in doubt.",
+    ),
+  );
+  result.hidden = false;
+  result.scrollIntoView({ behavior: "smooth" });
+}
+
+document.querySelector("#scoreBtn")?.addEventListener("click", showResults);
+document.querySelector("#resetBtn")?.addEventListener("click", () => {
+  if (!window.confirm("Clear all locally saved answers and restart?")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state.answers = {};
+  result.hidden = true;
+  renderMissions();
+});
+
+renderMissions();

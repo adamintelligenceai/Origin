@@ -15,7 +15,9 @@
     "start": "cross-env NODE_ENV=production tsx server/index.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "test": "vitest run"
+    "test": "vitest run && npm run test:diagnostic",
+    "test:diagnostic": "node --test evidence-room/08_WEBSITE/diagnostic-core.test.js",
+    "release:evidence-room": "python3 evidence-room/build/build_sellable_releases.py"
   },
   "dependencies": {
     "cors": "^2.8.5",

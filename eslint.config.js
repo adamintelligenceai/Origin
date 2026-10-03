@@ -21,6 +21,19 @@ export default tseslint.config(
     },
   },
   {
+    files: ["evidence-room/08_WEBSITE/*.js"],
+    ignores: ["evidence-room/08_WEBSITE/*.test.js"],
+    languageOptions: {
+      globals: { ...globals.browser },
+    },
+  },
+  {
+    files: ["evidence-room/08_WEBSITE/*.test.js"],
+    languageOptions: {
+      globals: { ...globals.node },
+    },
+  },
+  {
     rules: {
       "@typescript-eslint/no-unused-vars": [
         "error",
