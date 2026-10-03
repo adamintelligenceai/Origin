@@ -14,6 +14,7 @@
     "@project-chief/connectors-google": "workspace:*",
     "@project-chief/connectors-social": "workspace:*",
     "@project-chief/core": "workspace:*",
+    "@project-chief/gamification": "workspace:*",
     "@project-chief/ledger": "workspace:*",
     "@project-chief/permissions": "workspace:*",
     "@project-chief/store": "workspace:*",

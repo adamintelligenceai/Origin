@@ -18,6 +18,7 @@ import {
   type PkceChallenge as SocialPkce
 } from "@project-chief/connectors-social";
 import { runObservedPipeline, type NormalizedObservation } from "@project-chief/core";
+import { computeGamification, type GamificationProfile } from "@project-chief/gamification";
 import { MemoryLedger, classifyVerification } from "@project-chief/ledger";
 import { hashActionPlan, issueApproval, PermissionEngine } from "@project-chief/permissions";
 import {
@@ -113,6 +114,7 @@ export interface ChiefSnapshot {
   companionCode?: string;
   online: boolean;
   storeCorrupt: boolean;
+  gamification: GamificationProfile;
 }
 
 export class ChiefRuntime {
@@ -211,6 +213,12 @@ export class ChiefRuntime {
       routines: this.routines,
       briefing: this.briefing,
       timeSavedMinutes: minutesSaved(this.receipts, this.plans),
+      gamification: computeGamification({
+        receipts: this.receipts,
+        plans: this.plans,
+        workItems: this.workItems,
+        timeSavedMinutes: minutesSaved(this.receipts, this.plans)
+      }),
       connections: this.connections,
       wiped: this.wiped,
       oauthMode: this.oauth.mode,

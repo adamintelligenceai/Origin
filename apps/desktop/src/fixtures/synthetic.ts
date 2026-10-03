@@ -2,6 +2,7 @@ export type RouteName =
   | "today"
   | "decisions"
   | "chief"
+  | "progress"
   | "commitments"
   | "activity"
   | "people"

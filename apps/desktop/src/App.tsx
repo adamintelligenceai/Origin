@@ -8,16 +8,20 @@ import type {
   SyntheticReceipt
 } from "./fixtures/synthetic.js";
 import {
+  ACHIEVEMENTS,
   CONNECTION_CATALOG,
   CONNECTION_GROUPS,
   connectActionLabel,
   connectionStatusLabel,
   fixtureConnections,
+  formatXp,
   isOAuthConnection,
   LOOPBACK_REDIRECT,
+  streakLabel,
   type ChiefSnapshot,
   type ConnectionId,
   type ConnectionStatus,
+  type GamificationProfile,
   type MeetingPrepView,
   type WrittenRoutine
 } from "@project-chief/runtime";
@@ -47,6 +51,7 @@ const ROUTES: { id: RouteName; label: string }[] = [
   { id: "today", label: "Today" },
   { id: "decisions", label: "Decisions" },
   { id: "chief", label: "Chief" },
+  { id: "progress", label: "Progress" },
   { id: "commitments", label: "Commitments" },
   { id: "activity", label: "Activity" },
   { id: "people", label: "People" },
@@ -73,6 +78,8 @@ export default function App() {
   const [routines, setRoutines] = useState<WrittenRoutine[]>([]);
   const [meetingPrep, setMeetingPrep] = useState<MeetingPrepView[]>([]);
   const [timeSavedMinutes, setTimeSavedMinutes] = useState(0);
+  const [gamification, setGamification] = useState<GamificationProfile | undefined>();
+  const [achievementToast, setAchievementToast] = useState<string | undefined>();
   const [openReceipt, setOpenReceipt] = useState<SyntheticReceipt | undefined>();
   const [filter, setFilter] = useState<DecisionFilter>("today");
   const [chief, setChief] = useState("");
@@ -107,6 +114,7 @@ export default function App() {
     setRoutines(snapshot.routines);
     setMeetingPrep(snapshot.meetingPrep);
     setTimeSavedMinutes(snapshot.timeSavedMinutes);
+    setGamification(snapshot.gamification);
     setConnections(snapshot.connections);
     setExportNote(snapshot.exportNote);
     setWiped(snapshot.wiped);
@@ -173,11 +181,21 @@ export default function App() {
         setOpenReceipt(nextReceipts[0]);
         const next = decisionsFromSnapshot(snapshot).find((item) => item.id === id);
         setStatus(next?.state === "verified" ? "Verified" : "Needs attention");
+        const latest = getRuntime().snapshot().gamification;
+        const previousIds = new Set(gamification?.achievements.map((item) => item.id) ?? []);
+        const unlocked = latest.achievements.find((item) => !previousIds.has(item.id));
+        if (unlocked) {
+          setAchievementToast(`${unlocked.icon} ${unlocked.title} unlocked`);
+          window.setTimeout(() => {
+            setAchievementToast(undefined);
+          }, 4200);
+        }
+        setGamification(latest);
       } catch (caught) {
         setError(caught instanceof Error ? caught.message : "Approval failed");
       }
     },
-    [apply, decisions]
+    [apply, decisions, gamification]
   );
 
   const onDismiss = useCallback(
@@ -318,6 +336,18 @@ export default function App() {
             <span className="nav-label">{item.label}</span>
           </button>
         ))}
+        {gamification ? (
+          <div className="level-card">
+            <p className="level-kicker">Chief level {gamification.level}</p>
+            <strong>{gamification.levelTitle}</strong>
+            <div className="level-bar" aria-hidden="true">
+              <span style={{ width: `${Math.round(gamification.xpProgress * 100)}%` }} />
+            </div>
+            <p className="level-meta">
+              {formatXp(gamification.xp)} XP · {streakLabel(gamification.streakDays)} streak
+            </p>
+          </div>
+        ) : null}
         <div className="local">● {status}</div>
       </aside>
       <main id="content">
@@ -325,6 +355,7 @@ export default function App() {
           {status}
         </p>
         {error ? <p className="banner">{error}</p> : null}
+        {achievementToast ? <p className="achievement-toast">{achievementToast}</p> : null}
         {offline ? (
           <p className="banner">You're offline. The personal node keeps working on this device.</p>
         ) : null}
@@ -388,6 +419,9 @@ export default function App() {
             }}
             onPrompt={askChief}
           />
+        ) : null}
+        {!loading && route === "progress" && gamification ? (
+          <ProgressView profile={gamification} timeSaved={formatTimeSaved(timeSavedMinutes)} />
         ) : null}
         {!loading && route === "commitments" ? (
           <Commitments wiped={wiped} commitments={commitments} />
@@ -563,6 +597,9 @@ function Today({
           </div>
         ))}
       </section>
+      <p className="progress-hint">
+        Every verified action earns XP. Open Progress to track streaks and achievements.
+      </p>
       <section className="meetings">
         {meetings.map((meeting) => (
           <article className="row" key={meeting.id}>
@@ -1341,6 +1378,96 @@ function Onboarding({ onAccept }: { onAccept: () => void }) {
         </button>
       </section>
     </div>
+  );
+}
+
+function ProgressView({ profile, timeSaved }: { profile: GamificationProfile; timeSaved: string }) {
+  const unlockedIds = new Set(profile.achievements.map((item) => item.id));
+  return (
+    <>
+      <header>
+        <div>
+          <p className="eyebrow">Chief progression</p>
+          <h1>Progress.</h1>
+          <p className="summary">
+            Verified work earns XP. Streaks compound. Achievements unlock as Chief proves outcomes,
+            not intentions.
+          </p>
+        </div>
+      </header>
+      <section className="metrics">
+        {[
+          ["Level", `${profile.level} · ${profile.levelTitle}`],
+          ["XP", formatXp(profile.xp)],
+          ["Streak", streakLabel(profile.streakDays)],
+          ["Time saved", timeSaved]
+        ].map(([label, value]) => (
+          <div className="metric" key={label}>
+            <span>{label}</span>
+            <strong>{value}</strong>
+          </div>
+        ))}
+      </section>
+      <section className="progress-panel">
+        <div className="section-title">
+          <h2>Weekly goal</h2>
+          <span>
+            {profile.weeklyProgress} / {profile.weeklyGoal} verified actions
+          </span>
+        </div>
+        <div className="level-bar wide" aria-hidden="true">
+          <span
+            style={{
+              width: `${Math.round((profile.weeklyProgress / profile.weeklyGoal) * 100)}%`
+            }}
+          />
+        </div>
+        <div className="section-title">
+          <h2>Next level</h2>
+          <span>
+            {profile.xpInLevel} / {profile.xpToNextLevel} XP in tier
+          </span>
+        </div>
+        <div className="level-bar wide" aria-hidden="true">
+          <span style={{ width: `${Math.round(profile.xpProgress * 100)}%` }} />
+        </div>
+      </section>
+      <section>
+        <div className="section-title">
+          <h2>Achievements</h2>
+          <span>{profile.achievements.length} unlocked</span>
+        </div>
+        <div className="achievement-grid">
+          {ACHIEVEMENTS.map((item) => {
+            const unlocked = profile.achievements.find((entry) => entry.id === item.id);
+            return (
+              <article
+                className={unlocked ? "card achievement unlocked" : "card achievement locked"}
+                key={item.id}
+              >
+                <p className="achievement-icon">{item.icon}</p>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <p className="achievement-state">
+                  {unlocked
+                    ? `Unlocked ${new Date(unlocked.unlockedAt).toLocaleDateString()}`
+                    : "Locked"}
+                </p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+      {profile.nextAchievement && !unlockedIds.has(profile.nextAchievement.id) ? (
+        <section className="next-achievement">
+          <p className="eyebrow">Next up</p>
+          <h2>
+            {profile.nextAchievement.icon} {profile.nextAchievement.title}
+          </h2>
+          <p>{profile.nextAchievement.description}</p>
+        </section>
+      ) : null}
+    </>
   );
 }
 

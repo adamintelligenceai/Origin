@@ -26,6 +26,7 @@ Personal email content, documents, Life Graph, commitments, preferences, prompts
 - `docs/AI_TEAM_PROMPTS.md` — Grok / Claude / Gemini / ChatGPT review roles
 - `docs/LAUNCH_RUNBOOK.md` — dogfood → alpha → paid launch
 - `docs/MARKETING_TOOLKIT.md` — positioning, landing page, demos, acquisition
+- `docs/commercial/` — **sellable outputs**: one-pager, sales deck, GTM playbook, launch package, pricing
 - `docs/ECONOMICS.md` — bootstrap economics and guardrails
 - `docs/NAME_LAST.md` — naming process deliberately deferred
 - `apps/*` — starter application shells

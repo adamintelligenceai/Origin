@@ -123,6 +123,16 @@ describe("desktop product loop", () => {
     expect(await screen.findByText("This device is empty.")).toBeTruthy();
   });
 
+  it("shows the Progress route with Chief levels and achievements", async () => {
+    render(<App />);
+    await screen.findByText("Good morning.");
+    fireEvent.click(screen.getByRole("button", { name: /Progress/ }));
+    expect(screen.getByRole("heading", { name: "Progress." })).toBeTruthy();
+    expect(screen.getByText(/Chief progression/)).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "Achievements" })).toBeTruthy();
+    expect(screen.getAllByText(/Associate/).length).toBeGreaterThan(0);
+  });
+
   it("exports a local diagnostic bundle from privacy", async () => {
     render(<App />);
     await screen.findByText("Good morning.");

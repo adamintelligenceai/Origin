@@ -25,6 +25,32 @@ export default function ProductPage() {
           <p>Meeting conflicts and the three documents you need are waiting on Today.</p>
         </article>
       </section>
+      <section className="trust">
+        <article>
+          <span>Progress</span>
+          <h2>Work that feels like winning</h2>
+          <p>
+            Verified actions earn XP. Daily streaks compound. Ten achievements unlock as Chief
+            proves outcomes — not chat replies.
+          </p>
+        </article>
+        <article>
+          <span>Levels</span>
+          <h2>Associate → Master Chief</h2>
+          <p>
+            Five Chief levels track real delegation muscle: from first verified move to five hours
+            reclaimed.
+          </p>
+        </article>
+        <article>
+          <span>Sell</span>
+          <h2>Built to charge from day one</h2>
+          <p>
+            Founding plan at A$69/month. Stripe billing on a content-blind control plane. No
+            permanent free tier.
+          </p>
+        </article>
+      </section>
     </main>
   );
 }

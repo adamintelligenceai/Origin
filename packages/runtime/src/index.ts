@@ -46,3 +46,11 @@ export {
   SOCIAL_OAUTH
 } from "@project-chief/connectors-social";
 export { isGoogleWorkNetwork } from "@project-chief/connectors-google";
+export {
+  ACHIEVEMENTS,
+  CHIEF_LEVELS,
+  computeGamification,
+  formatXp,
+  streakLabel,
+  type GamificationProfile
+} from "@project-chief/gamification";

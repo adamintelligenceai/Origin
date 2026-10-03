@@ -33,6 +33,10 @@ await page.getByRole("button", { name: /Connections/ }).click();
 await page.getByRole("heading", { name: "Connections." }).waitFor();
 await page.screenshot({ path: `${out}/connections_final.png`, fullPage: true });
 
+await page.getByRole("button", { name: /Progress/ }).click();
+await page.getByRole("heading", { name: "Progress." }).waitFor();
+await page.screenshot({ path: `${out}/progress_final.png`, fullPage: true });
+
 const web = await browser.newPage({ viewport: { width: 1440, height: 920 } });
 await web.goto("http://localhost:3000/", { waitUntil: "networkidle" });
 await web.getByText("Wake up with less to do.").waitFor();
@@ -43,6 +47,9 @@ await web.screenshot({ path: `${out}/web_trust_final.png`, fullPage: true });
 await web.goto("http://localhost:3000/product", { waitUntil: "networkidle" });
 await web.getByText("Not another chatbot.").waitFor();
 await web.screenshot({ path: `${out}/web_product_final.png`, fullPage: true });
+await web.goto("http://localhost:3000/progress", { waitUntil: "networkidle" });
+await web.getByText("Verified work compounds.").waitFor();
+await web.screenshot({ path: `${out}/web_progress_final.png`, fullPage: true });
 
 await browser.close();
 console.log(`wrote screenshots to ${out}`);

@@ -14,5 +14,6 @@
   { "phase": 12, "name": "web-control-plane", "status": "complete" },
   { "phase": 13, "name": "dogfood", "status": "complete" },
   { "phase": 14, "name": "alpha-hardening", "status": "complete" },
-  { "phase": 15, "name": "paid-launch", "status": "code-complete" }
+  { "phase": 15, "name": "paid-launch", "status": "complete" },
+  { "phase": 16, "name": "gamified-sellable-product", "status": "complete" }
 ]

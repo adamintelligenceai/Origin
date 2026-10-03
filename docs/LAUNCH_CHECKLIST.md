@@ -1,8 +1,11 @@
 # Paid founding launch checklist
 
-Code-complete on this branch. Remaining items are external gates, not product gaps.
+Code-complete including gamified sellable product (Phase 16).
 
 - [x] Billing and cancellation routes exist against Stripe test mode (fail closed without keys)
+- [x] Chief progression: XP, levels, streaks, achievements (local-only)
+- [x] Progress tab on desktop + `/progress` marketing page
+- [x] Commercial pack in `docs/commercial/` (one-pager, deck, GTM, launch package)
 - [x] Rate and cost protection on model calls
 - [x] Customer export / delete / revoke works on-device
 - [x] Rollback plan for desktop releases (`docs/ROLLBACK.md`)

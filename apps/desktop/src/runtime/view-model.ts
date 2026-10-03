@@ -21,6 +21,26 @@ export function emptySnapshot(): ChiefSnapshot {
     routines: [],
     briefing: "",
     timeSavedMinutes: 0,
+    gamification: {
+      xp: 0,
+      level: 1,
+      levelTitle: "Associate",
+      xpInLevel: 0,
+      xpToNextLevel: 100,
+      xpProgress: 0,
+      streakDays: 0,
+      longestStreak: 0,
+      weeklyGoal: 7,
+      weeklyProgress: 0,
+      verifiedTotal: 0,
+      achievements: [],
+      nextAchievement: {
+        id: "first_verified",
+        title: "First Move",
+        description: "Complete your first verified action.",
+        icon: "◆"
+      }
+    },
     connections: revokedConnections(),
     wiped: false,
     oauthMode: "fixture",

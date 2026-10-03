@@ -4,8 +4,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import {
   CONNECTION_CATALOG,
   CONNECTION_GROUPS,
+  formatXp,
+  streakLabel,
   type ChiefSnapshot,
-  type ConnectionStatus
+  type ConnectionStatus,
+  type GamificationProfile
 } from "@project-chief/runtime";
 import { resetRuntime } from "../src/session.js";
 import { styles } from "./theme.js";
@@ -17,10 +20,13 @@ export default function Screen() {
     void resetRuntime().boot().then(setSnapshot);
   }, []);
 
+  const profile = snapshot?.gamification;
+
   return (
     <SafeAreaView style={styles.root}>
       <Text style={styles.eyebrow}>YOU</Text>
       <Text style={styles.title}>This device.</Text>
+      {profile ? <GamificationCard profile={profile} /> : null}
       <View style={styles.card}>
         <Text style={styles.headline}>On device</Text>
         <Text style={styles.body}>
@@ -47,6 +53,25 @@ export default function Screen() {
         </Text>
       </View>
     </SafeAreaView>
+  );
+}
+
+function GamificationCard({ profile }: { profile: GamificationProfile }) {
+  return (
+    <View style={styles.card}>
+      <Text style={styles.kicker}>CHIEF PROGRESS</Text>
+      <Text style={styles.headline}>
+        Level {profile.level} · {profile.levelTitle}
+      </Text>
+      <Text style={styles.body}>
+        {formatXp(profile.xp)} XP · {streakLabel(profile.streakDays)} streak ·{" "}
+        {profile.weeklyProgress}/{profile.weeklyGoal} this week
+      </Text>
+      <Text style={styles.body}>
+        {profile.achievements.length} achievements unlocked
+        {profile.nextAchievement ? ` · Next: ${profile.nextAchievement.title}` : ""}
+      </Text>
+    </View>
   );
 }
 

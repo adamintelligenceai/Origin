@@ -8,12 +8,13 @@ export default function HomePage() {
         <h1>Wake up with less to do.</h1>
         <p className="lede">
           A private Chief of Staff that finds what needs attention, prepares the decision, and
-          carries approved work through.
+          carries approved work through — then proves it with verified receipts and Chief
+          progression.
         </p>
         <div className="actions">
           <Link href="/waitlist">Join founding access</Link>
-          <Link href="/trust" className="secondary">
-            See how it works
+          <Link href="/progress" className="secondary">
+            See Chief progression
           </Link>
         </div>
       </section>
@@ -39,9 +40,12 @@ export default function HomePage() {
       </section>
       <section className="trust">
         <article>
-          <span>Not a chat</span>
-          <h2>Work, not a prompt box</h2>
-          <p>The morning opens on Today. Chief answers become structured work items.</p>
+          <span>Progress</span>
+          <h2>Gamified delegation</h2>
+          <p>
+            XP, streaks, and ten achievements turn verified work into visible momentum — without
+            turning privacy into a leaderboard.
+          </p>
         </article>
         <article>
           <span>Demo</span>
@@ -49,9 +53,12 @@ export default function HomePage() {
           <p>Today → Decision → Approve → Executing → Verified → Receipt. Never sooner.</p>
         </article>
         <article>
-          <span>Trust</span>
-          <h2>Give yourself a Chief of Staff</h2>
-          <p>Founding access is limited. The service cloud stays useless to an attacker.</p>
+          <span>Buy</span>
+          <h2>Ready to sell today</h2>
+          <p>
+            Founding cohort pricing, Stripe checkout, and a complete commercial pack in{" "}
+            <Link href="/pricing">/pricing</Link>.
+          </p>
         </article>
       </section>
     </main>
